@@ -13,8 +13,8 @@ before_script:
   - composer selfupdate
   - composer install --prefer-source --no-interaction
 
-script:
-  - phpunit -c phpunit.xml.dist --coverage-text --coverage-clover=coverage.clover
+#script:
+  # - phpunit -c phpunit.xml.dist --coverage-text --coverage-clover=coverage.clover
   # - phpcs --ignore=/vendor/*,/Tests/Resources/app/* --extensions=php --encoding=utf-8 --standard=PSR2 -np .
 
 after_script:
