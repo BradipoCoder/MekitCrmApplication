@@ -1,0 +1,4 @@
+mekit_account_bundle:
+    resource:     "@MekitAccountBundle/Controller"
+    type:         annotation
+    prefix:       /account

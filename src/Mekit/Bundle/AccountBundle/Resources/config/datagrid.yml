@@ -1,0 +1,124 @@
+datagrid:
+    accounts-grid:
+        extended_entity_name: %mekit_account.account.entity.class%
+        source:
+            type:           orm
+            acl_resource:   mekit_account_account_view
+            query:
+                select:
+                    - a.id
+                    - a.name
+                    - a.createdAt
+                    - a.updatedAt
+                    - CONCAT(accountOwner.firstName, CONCAT(' ', accountOwner.lastName)) as ownerName
+                from:
+                    - { table: %mekit_account.account.entity.class%, alias: a }
+                join:
+                    left:
+                        - { join: a.owner, alias: accountOwner }
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      mekit_account_view
+                params:     [ id ]
+            update_link:
+                type:       url
+                route:      mekit_account_update
+                params:     [ id ]
+        columns:
+            name:
+                label:         mekit.account.name.label
+            ownerName:
+                label:         mekit.account.owner.label
+            createdAt:
+                label:         oro.ui.created_at
+                frontend_type: datetime
+            updatedAt:
+                label:         oro.ui.updated_at
+                frontend_type: datetime
+        sorters:
+            columns:
+                name:
+                    data_name: a.name
+                ownerName:
+                    data_name: ownerName
+                createdAt:
+                    data_name: a.createdAt
+                updatedAt:
+                    data_name: a.updatedAt
+        filters:
+            columns:
+                name:
+                    type:      string
+                    data_name: a.name
+                ownerName:
+                    type:      string
+                    data_name: ownerName
+                createdAt:
+                    type:      datetime
+                    data_name: a.createdAt
+                updatedAt:
+                    type:      datetime
+                    data_name: a.updatedAt
+        actions:
+            view:
+                type:          navigate
+                acl_resource:  mekit_account_account_view
+                label:         oro.grid.action.view
+                icon:          eye-open
+                link:          view_link
+                rowAction:     true
+            update:
+                type:          navigate
+                acl_resource:  mekit_account_account_update
+                label:         oro.grid.action.update
+                icon:          edit
+                link:          update_link
+        mass_actions:
+            merge:
+                type: merge
+                entity_name: %mekit_account.account.entity.class%
+                data_identifier: a.id
+        options:
+            entityHint: account
+            export: true
+
+    accounts-select-grid:
+        extended_entity_name: %mekit_account.account.entity.class%
+        source:
+            type:           orm
+            acl_resource:   mekit_account_account_view
+            query:
+                select:
+                    - a.id
+                    - a.name
+                    - CONCAT(accountOwner.firstName, CONCAT(' ', accountOwner.lastName)) as ownerName
+                from:
+                    - { table: %mekit_account.account.entity.class%, alias: a }
+                join:
+                    left:
+                        - { join: a.owner, alias: accountOwner }
+        properties:
+            id: ~
+        columns:
+            name:
+                label:   mekit.account.name.label
+            ownerName:
+                label:   mekit.account.owner.label
+        sorters:
+            columns:
+                name:
+                    data_name: a.name
+                ownerName:
+                    data_name: ownerName
+        filters:
+            columns:
+                name:
+                    type:      string
+                    data_name: a.name
+                ownerName:
+                    type:      string
+                    data_name: ownerName
+        options:
+            entityHint: account

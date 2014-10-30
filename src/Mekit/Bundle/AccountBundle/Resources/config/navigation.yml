@@ -1,0 +1,29 @@
+oro_menu_config:
+    items:
+        customers_tab:
+            label: 'mekit.account.menu.customers_tab.label'
+            uri: '#'
+            extras:
+                icon: icon-group
+                position: 11
+
+        account_list:
+            label: 'mekit.account.entity_plural_label'
+            route: 'mekit_account_index'
+            extras:
+                position: 5
+                routes: ['mekit_account_*']
+                description: 'mekit.account.menu.account_list.description'
+
+    tree:
+        application_menu:
+            children:
+                customers_tab:
+                    children:
+                        account_list: ~
+
+oro_titles:
+    mekit_account_index: ~
+    mekit_account_view: '%%account.name%%'
+    mekit_account_create: 'Create Account'
+    mekit_account_update: '%%account.name%% - Edit'

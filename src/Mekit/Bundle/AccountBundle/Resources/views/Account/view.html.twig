@@ -1,0 +1,41 @@
+{% extends 'OroUIBundle:actions:view.html.twig' %}
+
+{% oro_title_set({params : {"%account.name%": entity.name|default('N/A')} }) %}
+
+{% block pageHeader %}
+	{% set breadcrumbs = {
+	'entity': entity,
+	'indexPath': path('mekit_account_index'),
+	'indexLabel': 'mekit.account.entity_plural_label'|trans,
+	'entityTitle': entity.name|default('N/A')
+	} %}
+	{{ parent() }}
+{% endblock pageHeader %}
+
+
+{% block content_data %}
+	{% set accountInformationWidget %}
+		{{ oro_widget_render({
+		'widgetType': 'block',
+		'title': 'mekit.account.widgets.account_information'|trans,
+		'url': path('mekit_account_widget_info', {id: entity.id})
+		}) }}
+	{% endset %}
+
+	{% set generalSectionBlocks = [{'data' : [accountInformationWidget]}]%}
+
+
+
+	{% set dataBlocks = [
+		{
+		'title': 'mekit.account.sections.general'|trans,
+		'class': 'active',
+		'subblocks': generalSectionBlocks
+		}
+	] %}
+
+	{% set id = 'accountView' %}
+	{% set data = {'dataBlocks': dataBlocks} %}
+
+	{{ parent() }}
+{% endblock content_data %}
