@@ -1,0 +1,27 @@
+{
+    "name": "mekit/crm",
+    "description": "Mekit CRM Application",
+    "homepage": "https://github.com/adamjakab/mekit-crm-application.git",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mekit",
+            "homepage": "http://www.mekit.it"
+        }
+    ],
+    "require": {
+        "oro/platform": "1.4.x-dev"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        }
+    },
+    "autoload": {
+        "psr-0": {
+            "Mekit\\Bundle": "src/"
+        }
+    }
+}
