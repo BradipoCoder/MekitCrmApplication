@@ -1,6 +1,5 @@
 {
     "name": "mekit/crm",
-    "type": "symfony-bundle",
     "description": "Mekit CRM Application",
     "homepage": "https://github.com/adamjakab/mekit-crm-application.git",
     "license": "MIT",
