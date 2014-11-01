@@ -19,3 +19,10 @@ checks:
 build:
   environment:
     php: 5.5.12
+  dependencies:
+    before:
+    override:
+      - { command: 'composer install --prefer-source --no-interaction', idle_timeout: 1800 }
+    after:
+  project_setup:
+  tests:
