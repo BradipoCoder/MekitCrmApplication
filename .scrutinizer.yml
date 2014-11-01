@@ -10,6 +10,7 @@ tools:
   php_pdepend: true
   sensiolabs_security_checker: true
   php_changetracking: true
+  external_code_coverage: false
 
 checks:
     php:

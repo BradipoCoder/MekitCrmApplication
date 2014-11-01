@@ -3,7 +3,6 @@
 /.project
 /.idea
 /composer.phar
-composer.lock
 /vendor
 phpunit.xml
 .directory
