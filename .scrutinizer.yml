@@ -10,6 +10,9 @@ tools:
   php_pdepend: true
   sensiolabs_security_checker: true
   php_changetracking: true
+  php_mess_detector: true
+  php_cs_fixer: true
+  php_code_sniffer: true
   php_code_coverage: false
   external_code_coverage:
       timeout: 900
@@ -25,7 +28,8 @@ build:
   dependencies:
     before:
     override:
-      - { command: 'composer install --prefer-source --no-interaction', idle_timeout: 1800 }
+      - { command: 'true' }
+      #- { command: 'composer install --prefer-source --no-interaction', idle_timeout: 1800 }
     after:
   project_setup:
   tests:
