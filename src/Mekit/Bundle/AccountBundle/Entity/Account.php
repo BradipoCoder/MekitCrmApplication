@@ -175,8 +175,7 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	protected $organization;
 
 	public function __construct() {
-		parent::__construct();
-
+		//parent::__construct();
 	}
 
 	/**
