@@ -1,9 +1,10 @@
 language: php
 php:
   - 5.5
+  - hhvm
 
-env:
-  - SYMFONY_VERSION=2.3.*
+allow_failures:
+    - php: hhvm
 
 before_script:
   - composer selfupdate
@@ -16,6 +17,6 @@ after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 
-matrix:
-  allow_failures:
-    - env: SYMFONY_VERSION=dev-master
+cache:
+  directories:
+    - $COMPOSER_CACHE_DIR

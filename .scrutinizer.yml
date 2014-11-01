@@ -13,6 +13,8 @@ tools:
   php_mess_detector: true
   php_cs_fixer: true
   php_code_sniffer: true
+  php_loc: true
+  php_cpd: true
   php_code_coverage: false
   external_code_coverage:
       timeout: 900
@@ -28,8 +30,9 @@ build:
   dependencies:
     before:
     override:
+      # skip dependency check - it takes a lot of time and it will be done on travis anyways
+      # - { command: 'composer install --prefer-source --no-interaction', idle_timeout: 1800 }
       - { command: 'true' }
-      #- { command: 'composer install --prefer-source --no-interaction', idle_timeout: 1800 }
     after:
   project_setup:
   tests:
