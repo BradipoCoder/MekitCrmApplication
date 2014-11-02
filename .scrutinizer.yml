@@ -36,3 +36,5 @@ build:
     after:
   project_setup:
   tests:
+      # skip phpunit tests - will be done on travis anyways
+      - { command: 'true' }
