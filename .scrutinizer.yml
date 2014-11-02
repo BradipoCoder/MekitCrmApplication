@@ -29,7 +29,6 @@ build:
     php: 5.5.12
   dependencies:
     before:
-      - { command: 'mkdir vendor' }
     override:
       # skip dependency check - it takes a lot of time and it will be done on travis anyways
       # - { command: 'composer install --prefer-source --no-interaction', idle_timeout: 1800 }
@@ -37,8 +36,3 @@ build:
     after:
   project_setup:
   tests:
-    before:
-    override:
-      # skip phpunit tests - will be done on travis anyways
-      - { command: 'true' }
-    after:
