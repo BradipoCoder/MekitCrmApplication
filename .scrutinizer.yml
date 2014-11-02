@@ -36,5 +36,8 @@ build:
     after:
   project_setup:
   tests:
+    before:
+    override:
       # skip phpunit tests - will be done on travis anyways
       - { command: 'true' }
+    after:
