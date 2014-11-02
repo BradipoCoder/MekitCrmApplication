@@ -29,10 +29,10 @@ build:
     php: 5.5.12
   dependencies:
     before:
+      - { command: 'cp tests/composer.lock ./, only_if: 'test -e tests/composer.lock' }
     override:
       # skip dependency check - it takes a lot of time and it will be done on travis anyways
-      - { command: 'composer install --prefer-source --no-interaction', idle_timeout: 1800, only_if: 'test -e composer.lock' }
-      # - { command: 'true' }
+      - { command: 'composer install --prefer-source --no-interaction', idle_timeout: 1800 }
     after:
   project_setup:
   tests:
