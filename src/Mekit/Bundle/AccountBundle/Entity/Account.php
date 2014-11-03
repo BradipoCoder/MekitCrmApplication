@@ -231,7 +231,7 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	 *
 	 * @return Account
 	 */
-	public function setCreatedAt($created) {
+	public function setCreatedAt(\DateTime $created) {
 		$this->createdAt = $created;
 
 		return $this;
@@ -251,7 +251,7 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	 *
 	 * @return Account
 	 */
-	public function setUpdatedAt($updated) {
+	public function setUpdatedAt(\DateTime $updated) {
 		$this->updatedAt = $updated;
 
 		return $this;
@@ -274,7 +274,8 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * @param ArrayCollection $tags
+	 * @return $this
 	 */
 	public function setTags($tags) {
 		$this->tags = $tags;
@@ -294,7 +295,7 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	 *
 	 * @return Account
 	 */
-	public function setOwner($owningUser) {
+	public function setOwner(User $owningUser) {
 		$this->owner = $owningUser;
 
 		return $this;
