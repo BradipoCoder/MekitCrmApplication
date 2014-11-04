@@ -3,3 +3,12 @@
 {% set gridName = 'accounts-grid' %}
 {% set pageTitle = 'mekit.account.entity_plural_label'|trans %}
 
+
+{% block navButtons %}
+	<div class="btn-group">
+		{{ UI.addButton({
+		'path' : path('mekit_account_create'),
+		'entity_label': 'mekit.account.entity_label'|trans
+		}) }}
+	</div>
+{% endblock %}
