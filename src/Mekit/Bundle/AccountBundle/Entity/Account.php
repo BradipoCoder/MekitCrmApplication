@@ -21,7 +21,15 @@ use Mekit\Bundle\AccountBundle\Model\ExtendAccount;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="mekit_account", indexes={@ORM\Index(name="account_name_idx", columns={"name"})})
+ * @ORM\Table(name="mekit_account",
+ *      indexes={
+ *          @ORM\Index(name="idx_account_owner", columns={"owner_id"}),
+ *          @ORM\Index(name="idx_account_organization", columns={"organization_id"}),
+ *          @ORM\Index(name="idx_account_created_at", columns={"createdAt"}),
+ *          @ORM\Index(name="idx_account_updated_at", columns={"updatedAt"}),
+ *          @ORM\Index(name="idx_account_name", columns={"name"})
+ *      }
+ * )
  * @ORM\HasLifecycleCallbacks()
  * @Oro\Loggable
  * @Config(
@@ -94,10 +102,13 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	 */
 	protected $name;
 
+
+
+
 	/**
 	 * @var User
 	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
-	 * @ORM\JoinColumn(name="user_owner_id", referencedColumnName="id", onDelete="SET NULL")
+	 * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="SET NULL")
 	 * @Soap\ComplexType("string", nillable=true)
 	 * @Oro\Versioned
 	 * @ConfigField(
@@ -117,6 +128,13 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	 */
 	protected $owner;
 
+	/**
+	 * @var Organization
+	 *
+	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\OrganizationBundle\Entity\Organization")
+	 * @ORM\JoinColumn(name="organization_id", referencedColumnName="id", onDelete="SET NULL")
+	 */
+	protected $organization;
 
 	/**
 	 * @var \DateTime
@@ -166,13 +184,7 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	 */
 	protected $tags;
 
-	/**
-	 * @var Organization
-	 *
-	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\OrganizationBundle\Entity\Organization")
-	 * @ORM\JoinColumn(name="organization_id", referencedColumnName="id", onDelete="SET NULL")
-	 */
-	protected $organization;
+
 
 	public function __construct() {
 		//parent::__construct();
