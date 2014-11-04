@@ -27,7 +27,8 @@ use Mekit\Bundle\AccountBundle\Model\ExtendAccount;
  *          @ORM\Index(name="idx_account_organization", columns={"organization_id"}),
  *          @ORM\Index(name="idx_account_created_at", columns={"createdAt"}),
  *          @ORM\Index(name="idx_account_updated_at", columns={"updatedAt"}),
- *          @ORM\Index(name="idx_account_name", columns={"name"})
+ *          @ORM\Index(name="idx_account_name", columns={"name"}),
+ *          @ORM\Index(name="idx_account_vatid", columns={"vatid"})
  *      }
  * )
  * @ORM\HasLifecycleCallbacks()
@@ -102,7 +103,98 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	 */
 	protected $name;
 
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(type="string", length=16, nullable=true)
+	 * @Soap\ComplexType("string", nillable=true)
+	 * @Oro\Versioned
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "dataaudit"={
+	 *              "auditable"=true
+	 *          },
+	 *          "importexport"={
+	 *              "identity"=true,
+	 *              "order"=30
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $vatid;
 
+	/**
+	 * @var string - National Insurance Number (in Italy it can be associated to an Account)
+	 *
+	 * @ORM\Column(type="string", length=24, nullable=true)
+	 * @Soap\ComplexType("string", nillable=true)
+	 * @Oro\Versioned
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "dataaudit"={
+	 *              "auditable"=true
+	 *          },
+	 *          "importexport"={
+	 *              "order"=40
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $nin;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(type="string", length=128, nullable=true)
+	 * @Soap\ComplexType("string", nillable=true)
+	 * @Oro\Versioned
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "dataaudit"={
+	 *              "auditable"=true
+	 *          },
+	 *          "importexport"={
+	 *              "order"=50
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $website;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(type="string", length=16, nullable=true)
+	 * @Soap\ComplexType("string", nillable=true)
+	 * @Oro\Versioned
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "dataaudit"={
+	 *              "auditable"=true
+	 *          },
+	 *          "importexport"={
+	 *              "order"=60
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $fax;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(type="text", length=65535, nullable=true)
+	 * @Soap\ComplexType("string", nillable=true)
+	 * @Oro\Versioned
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "importexport"={
+	 *              "order"=70
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $description;
 
 
 	/**
@@ -113,14 +205,11 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	 * @Oro\Versioned
 	 * @ConfigField(
 	 *      defaultValues={
-	 *          "merge"={
-	 *              "display"=true
-	 *          },
 	 *          "dataaudit"={
 	 *              "auditable"=true
 	 *          },
 	 *          "importexport"={
-	 *              "order"=30,
+	 *              "order"=80,
 	 *              "short"=true
 	 *          }
 	 *      }
@@ -157,7 +246,7 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	/**
 	 * @var \DateTime
 	 *
-	 * @ORM\Column(type="datetime")
+	 * @ORM\Column(type="datetime", nullable=true)
 	 * @Soap\ComplexType("dateTime", nillable=true)
 	 * @ConfigField(
 	 *      defaultValues={
@@ -183,7 +272,6 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	 * )
 	 */
 	protected $tags;
-
 
 
 	public function __construct() {
@@ -226,6 +314,86 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	public function setName($name) {
 		$this->name = $name;
 
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getVatid() {
+		return $this->vatid;
+	}
+
+	/**
+	 * @param string $vatid
+	 * @return Account
+	 */
+	public function setVatid($vatid) {
+		$this->vatid = $vatid;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getNin() {
+		return $this->nin;
+	}
+
+	/**
+	 * @param string $nin
+	 * @return Account
+	 */
+	public function setNin($nin) {
+		$this->nin = $nin;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getWebsite() {
+		return $this->website;
+	}
+
+	/**
+	 * @param string $website
+	 * @return Account
+	 */
+	public function setWebsite($website) {
+		$this->website = $website;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getFax() {
+		return $this->fax;
+	}
+
+	/**
+	 * @param string $fax
+	 * @return Account
+	 */
+	public function setFax($fax) {
+		$this->fax = $fax;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDescription() {
+		return $this->description;
+	}
+
+	/**
+	 * @param string $description
+	 * @return Account
+	 */
+	public function setDescription($description) {
+		$this->description = $description;
 		return $this;
 	}
 
@@ -339,7 +507,7 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	 *
 	 * @return string
 	 */
-	public function getEmail(){
+	public function getEmail() {
 		return "Undefined";
 	}
 

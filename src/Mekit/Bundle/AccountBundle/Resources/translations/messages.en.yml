@@ -28,6 +28,13 @@ mekit:
         entity_description:         Represent account
         id.label:                   Id
         name.label:                 Account name
+        vatid.label:                VAT Id
+        nin.label:                  NIN
+
+        fax.label:                  Fax
+        website.label:              Web Site
+        description.label:          Description
+
         owner.label:                Owner
         contacts.label:             Contacts
         default_contact.label:      Default Contact

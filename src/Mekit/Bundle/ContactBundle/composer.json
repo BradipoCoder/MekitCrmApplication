@@ -1,13 +1,13 @@
 {
-    "name": "mekit/account-bundle",
+    "name": "mekit/contact-bundle",
     "type": "symfony-bundle",
-    "description": "Mekit Account Bundle",
+    "description": "Mekit Contact Bundle",
     "license": "MIT",
     "require": {},
     "autoload": {
         "psr-0": { "": "src/" }
     },
-    "target-dir": "Mekit/Bundle/AccountBundle",
+    "target-dir": "Mekit/Bundle/ContactBundle",
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {

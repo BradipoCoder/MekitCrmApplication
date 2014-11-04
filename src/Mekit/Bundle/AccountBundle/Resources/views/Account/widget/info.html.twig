@@ -6,6 +6,13 @@
 	<div class="row-fluid form-horizontal">
 		<div class="responsive-block">
 			{{ UI.renderProperty('mekit.account.name.label'|trans, account.name) }}
+			{{ UI.renderProperty('mekit.account.vatid.label'|trans, account.vatid) }}
+			{{ UI.renderProperty('mekit.account.nin.label'|trans, account.nin) }}
+			{{ UI.renderProperty('mekit.account.fax.label'|trans, account.fax) }}
+			{{ UI.renderProperty('mekit.account.website.label'|trans, account.website) }}
+
+			{{ UI.renderProperty('mekit.account.description.label'|trans, account.description) }}
+
 
 			{% if resource_granted('oro_tag_view_tag_cloud') %}
 				{{ UI.renderHtmlProperty('oro.tag.entity_plural_label'|trans, tag.renderView(account)) }}

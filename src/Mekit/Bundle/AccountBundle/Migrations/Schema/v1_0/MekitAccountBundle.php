@@ -40,7 +40,11 @@ class MekitAccountBundle implements Migration {
 		$table->addColumn('updatedAt', 'datetime', ['notnull' => false]);
 		//
 		$table->addColumn('name', 'string', ['length' => 255]);
-
+		$table->addColumn('vatid', 'string', ['length' => 16]);
+		$table->addColumn('nin', 'string', ['length' => 24]);
+		$table->addColumn('website', 'string', ['length' => 128]);
+		$table->addColumn('fax', 'string', ['length' => 16]);
+		$table->addColumn('description', '65535', ['length' => 65535]);
 
 		//INDEXES
 		$table->setPrimaryKey(['id']);
@@ -49,6 +53,8 @@ class MekitAccountBundle implements Migration {
 		$table->addIndex(['createdAt'], 'idx_account_created_at', []);
 		$table->addIndex(['updatedAt'], 'idx_account_updated_at', []);
 		$table->addIndex(['name'], 'idx_account_name', []);
+		$table->addIndex(['vatid'], 'idx_account_vatid', []);
+
 
 
 		//FOREIGN KEYS
