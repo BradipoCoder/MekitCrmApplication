@@ -6,10 +6,12 @@ parameters:
     mekit_account.type.account.class:                           Mekit\Bundle\AccountBundle\Form\Type\AccountType
     mekit_account.handler.account.class:                        Mekit\Bundle\AccountBundle\Form\Handler\AccountHandler
 
+    mekit_account.provider.state.class:                         Mekit\Bundle\AccountBundle\Provider\StateProvider
+
+    mekit_account.acl.twig.class:                               Mekit\Bundle\AccountBundle\Twig\MekitAccountExtension
+
 services:
-
-
-# Account API
+    # Account API
     mekit_account.account.manager.api:
         class: %mekit_account.account.manager.api.class%
         parent: oro_soap.manager.entity_manager.abstract
@@ -42,3 +44,14 @@ services:
         tags:
             - { name: oro_tag.tag_manager }
 
+
+    mekit_account.twig.account_extension:
+            class:                        %mekit_account.acl.twig.class%
+            arguments:                    ["@mekit_account.state_provider"]
+            tags:
+                - { name: twig.extension }
+
+    mekit_account.state_provider:
+            class: %mekit_account.provider.state.class%
+            arguments:
+                - @translator

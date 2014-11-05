@@ -196,6 +196,26 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	 */
 	protected $description;
 
+	/**
+	 * @var integer
+	 *
+	 * @ORM\Column(name="state_id", type="integer")
+	 * @Soap\ComplexType("integer")
+	 * @Oro\Versioned
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "dataaudit"={
+	 *              "auditable"=true
+	 *          },
+	 *          "importexport"={
+	 *              "order"=80,
+	 *              "short"=true
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $state;
+
 
 	/**
 	 * @var User
@@ -209,7 +229,7 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	 *              "auditable"=true
 	 *          },
 	 *          "importexport"={
-	 *              "order"=80,
+	 *              "order"=90,
 	 *              "short"=true
 	 *          }
 	 *      }
@@ -396,6 +416,24 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 		$this->description = $description;
 		return $this;
 	}
+
+	/**
+	 * @return int
+	 */
+	public function getState() {
+		return $this->state;
+	}
+
+	/**
+	 * @param int $state
+	 * @return $this
+	 */
+	public function setState($state) {
+		$this->state = $state;
+		return $this;
+	}
+
+
 
 	/**
 	 * Get created date/time

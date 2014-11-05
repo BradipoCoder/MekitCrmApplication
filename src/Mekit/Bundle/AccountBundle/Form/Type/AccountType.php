@@ -70,6 +70,8 @@ class AccountType extends AbstractType {
 			->add('website', 'text', ['required' => false, 'label' => 'mekit.account.website.label'])
 			->add('description', 'textarea', ['required' => false, 'label' => 'mekit.account.description.label'])
 
+			->add('state', 'mekit_account_state', array('required' => true, 'label' => 'mekit.account.state.label', 'data' => 7))
+
             ->add('tags', 'oro_tag_select', ['label' => 'oro.tag.entity_plural_label']);
 	}
 

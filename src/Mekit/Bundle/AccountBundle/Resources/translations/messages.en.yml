@@ -34,6 +34,7 @@ mekit:
         fax.label:                  Fax
         website.label:              Web Site
         description.label:          Description
+        state.label:                Stato
 
         owner.label:                Owner
         contacts.label:             Contacts

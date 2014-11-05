@@ -1,0 +1,10 @@
+parameters:
+    mekit_account.form.type.state.class:                        Mekit\Bundle\AccountBundle\Form\Type\StateType
+
+services:
+    mekit_account.form.type.state:
+        class: %mekit_account.form.type.state.class%
+        arguments:
+            - @mekit_account.state_provider
+        tags:
+            - { name: form.type, alias: mekit_account_state }
