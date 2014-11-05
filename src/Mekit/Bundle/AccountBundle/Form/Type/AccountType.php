@@ -68,7 +68,7 @@ class AccountType extends AbstractType {
 			->add('nin', 'text', ['required' => false, 'label' => 'mekit.account.nin.label'])
 			->add('fax', 'text', ['required' => false, 'label' => 'mekit.account.fax.label'])
 			->add('website', 'text', ['required' => false, 'label' => 'mekit.account.website.label'])
-			->add('description', 'text', ['required' => false, 'label' => 'mekit.account.description.label'])
+			->add('description', 'textarea', ['required' => false, 'label' => 'mekit.account.description.label'])
 
             ->add('tags', 'oro_tag_select', ['label' => 'oro.tag.entity_plural_label']);
 	}

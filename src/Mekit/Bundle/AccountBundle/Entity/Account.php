@@ -275,7 +275,7 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 
 
 	public function __construct() {
-		//parent::__construct();
+		parent::__construct();
 	}
 
 	/**
@@ -438,32 +438,6 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
-	public function getTaggableId() {
-		return $this->getId();
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getTags() {
-		$this->tags = $this->tags ?: new ArrayCollection();
-
-		return $this->tags;
-	}
-
-	/**
-	 * @param ArrayCollection $tags
-	 * @return $this
-	 */
-	public function setTags($tags) {
-		$this->tags = $tags;
-
-		return $this;
-	}
-
-	/**
 	 * @return User
 	 */
 	public function getOwner() {
@@ -500,6 +474,32 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	 */
 	public function getOrganization() {
 		return $this->organization;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getTaggableId() {
+		return $this->getId();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getTags() {
+		$this->tags = $this->tags ?: new ArrayCollection();
+
+		return $this->tags;
+	}
+
+	/**
+	 * @param ArrayCollection $tags
+	 * @return $this
+	 */
+	public function setTags($tags) {
+		$this->tags = $tags;
+
+		return $this;
 	}
 
 	/**
