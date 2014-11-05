@@ -23,7 +23,7 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
 /**
  * Class ListController
  */
-class ListController extends Controller{
+class ListController extends Controller {
 
 	/**
 	 * @Route(
@@ -60,6 +60,66 @@ class ListController extends Controller{
 		];
 	}
 
+	/**
+	 * @Route("/create", name="mekit_list_create")
+	 * @Acl(
+	 *      id="mekit_list_create",
+	 *      type="entity",
+	 *      permission="CREATE",
+	 *      class="MekitListBundle:ListGroup"
+	 * )
+	 * @Template("MekitListBundle:List:update.html.twig")
+	 * @return array
+	 */
+	public function createAction() {
+		return $this->update();
+	}
+
+	/**
+	 * @Route("/update/{id}", name="mekit_list_update", requirements={"id"="\d+"})
+	 * @Acl(
+	 *      id="mekit_list_update",
+	 *      type="entity",
+	 *      permission="EDIT",
+	 *      class="MekitListBundle:ListGroup"
+	 * )
+	 * @Template()
+	 * @param ListGroup $listGroup
+	 * @return array
+	 */
+	public function updateAction(ListGroup $listGroup) {
+		return $this->update($listGroup);
+	}
+
+	/**
+	 * @param ListGroup $entity
+	 * @return array
+	 */
+	protected function update(ListGroup $entity = null) {
+		if (!$entity) {
+			$entity = $this->getListGroupManager()->createEntity();
+		}
+
+		return $this->get('oro_form.model.update_handler')->handleUpdate(
+			$entity,
+			$this->get('mekit_list.form.listgroup'),
+			function (ListGroup $entity) {
+				return array(
+					'route' => 'mekit_list_update',
+					'parameters' => array('id' => $entity->getId())
+				);
+			},
+			function (ListGroup $entity) {
+				return array(
+					'route' => 'mekit_list_view',
+					'parameters' => array('id' => $entity->getId())
+				);
+			},
+			$this->get('translator')->trans('mekit.list.controller.list.saved.message'),
+			$this->get('mekit_list.form.handler.listgroup')
+		);
+	}
+
 
 	/**
 	 * @Route("/widget/info/{id}", name="mekit_list_widget_info", requirements={"id"="\d+"})
@@ -87,4 +147,17 @@ class ListController extends Controller{
 		];
 	}
 
+	/**
+	 * @return ApiEntityManager
+	 */
+	protected function getListGroupManager() {
+		return $this->get('mekit_list.listgroup.manager.api');
+	}
+
+	/**
+	 * @return ApiEntityManager
+	 */
+	protected function getListItemManager() {
+		return $this->get('mekit_list.listitem.manager.api');
+	}
 }

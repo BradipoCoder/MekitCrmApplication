@@ -1,6 +1,6 @@
 <?php
 
-namespace Mekit\Bundle\AccountBundle\Form\Type;
+namespace Mekit\Bundle\ListBundle\Form\Type;
 
 use Doctrine\Common\Collections\Collection;
 
@@ -15,15 +15,11 @@ use Symfony\Component\Form\FormView;
 use Oro\Bundle\LocaleBundle\Formatter\NameFormatter;
 use Oro\Bundle\SecurityBundle\SecurityFacade;
 
-use Mekit\Bundle\AccountBundle\Entity\Account;
-
-//use Mekit\Bundle\ContactBundle\Entity\Contact;
 
 /**
- * Class AccountType
+ * Class ListGroupType
  */
-class AccountType extends AbstractType {
-
+class ListGroupType extends AbstractType {
 	/**
 	 * @var Router
 	 */
@@ -39,10 +35,6 @@ class AccountType extends AbstractType {
 	 */
 	protected $securityFacade;
 
-	/**
-	 * @var boolean
-	 */
-	private $canViewContact;
 
 	/**
 	 * @param Router         $router
@@ -53,7 +45,6 @@ class AccountType extends AbstractType {
 		$this->nameFormatter = $nameFormatter;
 		$this->router = $router;
 		$this->securityFacade = $securityFacade;
-		$this->canViewContact = $this->securityFacade->isGranted('mekit_contact_view');
 	}
 
 	/**
@@ -62,16 +53,9 @@ class AccountType extends AbstractType {
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-			->add('name', 'text', ['required' => true, 'label' => 'mekit.account.name.label'])
-			->add('vatid', 'text', ['required' => false, 'label' => 'mekit.account.vatid.label'])
-			->add('nin', 'text', ['required' => false, 'label' => 'mekit.account.nin.label'])
-			->add('fax', 'text', ['required' => false, 'label' => 'mekit.account.fax.label'])
-			->add('website', 'text', ['required' => false, 'label' => 'mekit.account.website.label'])
-			->add('description', 'textarea', ['required' => false, 'label' => 'mekit.account.description.label'])
-
-			->add('state', 'mekit_account_state', array('required' => true, 'label' => 'mekit.account.state.label', 'data' => 7))
-
-            ->add('tags', 'oro_tag_select', ['label' => 'oro.tag.entity_plural_label']);
+			->add('name', 'text', ['required' => true, 'label' => 'mekit.list.name.label'])
+			->add('label', 'text', ['required' => true, 'label' => 'mekit.list.label.label'])
+			->add('description', 'textarea', ['required' => false, 'label' => 'mekit.list.description.label']);
 	}
 
 	/**
@@ -80,8 +64,8 @@ class AccountType extends AbstractType {
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(
 			array(
-				'data_class' => 'Mekit\Bundle\AccountBundle\Entity\Account',
-				'intention' => 'account',
+				'data_class' => 'Mekit\Bundle\ListBundle\Entity\ListGroup',
+				'intention' => 'listgroup',
 				'extra_fields_message' => 'This form should not contain extra fields: "{{ extra_fields }}"',
 				'cascade_validation' => true
 			)
@@ -92,6 +76,6 @@ class AccountType extends AbstractType {
 	 * @return string
 	 */
 	public function getName() {
-		return 'mekit_account';
+		return 'mekit_listgroup';
 	}
 }

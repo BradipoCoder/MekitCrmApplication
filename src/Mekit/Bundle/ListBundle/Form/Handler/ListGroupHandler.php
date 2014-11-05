@@ -1,21 +1,18 @@
 <?php
 
-namespace Mekit\Bundle\AccountBundle\Form\Handler;
+namespace Mekit\Bundle\ListBundle\Form\Handler;
 
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 
-use Mekit\Bundle\AccountBundle\Entity\Account;
-//use Mekit\Bundle\ContactBundle\Entity\Contact;
+use Mekit\Bundle\ListBundle\Entity\ListGroup;
 
-use Oro\Bundle\TagBundle\Entity\TagManager;
-use Oro\Bundle\TagBundle\Form\Handler\TagHandlerInterface;
 
 /**
- * Class AccountHandler
+ * Class ListGroupHandler
  */
-class AccountHandler implements TagHandlerInterface {
+class ListGroupHandler {
 	/**
 	 * @var FormInterface
 	 */
@@ -32,11 +29,6 @@ class AccountHandler implements TagHandlerInterface {
 	protected $manager;
 
 	/**
-	 * @var TagManager
-	 */
-	protected $tagManager;
-
-	/**
 	 *
 	 * @param FormInterface $form
 	 * @param Request       $request
@@ -51,10 +43,10 @@ class AccountHandler implements TagHandlerInterface {
 	/**
 	 * Process form
 	 *
-	 * @param  Account $entity
+	 * @param  ListGroup $entity
 	 * @return bool True on successful processing, false otherwise
 	 */
-	public function process(Account $entity) {
+	public function process(ListGroup $entity) {
 		$this->form->setData($entity);
 		if (in_array($this->request->getMethod(), array('POST', 'PUT'))) {
 			$this->form->submit($this->request);
@@ -69,18 +61,11 @@ class AccountHandler implements TagHandlerInterface {
 	/**
 	 * "Success" form handler
 	 *
-	 * @param Account $entity
+	 * @param ListGroup $entity
 	 */
-	protected function onSuccess(Account $entity) {
+	protected function onSuccess(ListGroup $entity) {
 		$this->manager->persist($entity);
 		$this->manager->flush();
-		$this->tagManager->saveTagging($entity);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function setTagManager(TagManager $tagManager) {
-		$this->tagManager = $tagManager;
-	}
 }

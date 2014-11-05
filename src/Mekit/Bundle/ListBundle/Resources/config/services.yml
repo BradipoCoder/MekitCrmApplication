@@ -2,6 +2,49 @@ parameters:
     mekit_list.listgroup.entity.class:                         Mekit\Bundle\ListBundle\Entity\ListGroup
     mekit_list.listitem.entity.class:                          Mekit\Bundle\ListBundle\Entity\ListItem
 
+    mekit_list.manager.api.class:                              Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
+
+    mekit_list.type.listgroup.class:                           Mekit\Bundle\ListBundle\Form\Type\ListGroupType
+    mekit_list.handler.listgroup.class:                        Mekit\Bundle\ListBundle\Form\Handler\ListGroupHandler
 
 services:
+    # ListGroup API
+    mekit_list.listgroup.manager.api:
+        class: %mekit_list.manager.api.class%
+        parent: oro_soap.manager.entity_manager.abstract
+        arguments:
+            - %mekit_list.listgroup.entity.class%
+            - @doctrine.orm.entity_manager
+
+    # ListItem API
+    mekit_list.listitem.manager.api:
+        class: %mekit_list.manager.api.class%
+        parent: oro_soap.manager.entity_manager.abstract
+        arguments:
+            - %mekit_list.listitem.entity.class%
+            - @doctrine.orm.entity_manager
+
+    mekit_list.form.listgroup:
+        class: Symfony\Component\Form\Form
+        factory_method: createNamed
+        factory_service: form.factory
+        arguments: ["mekit_listgroup_form", "mekit_listgroup", null]
+
+    mekit_list.form.type.listgroup:
+            class: %mekit_list.type.listgroup.class%
+            arguments:
+                - @router
+                - @oro_locale.formatter.name
+                - @oro_security.security_facade
+            tags:
+                - { name: form.type, alias: mekit_listgroup }
+
+    mekit_list.form.handler.listgroup:
+            class: %mekit_list.handler.listgroup.class%
+            scope: request
+            arguments:
+                - @mekit_list.form.listgroup
+                - @request
+                - @doctrine.orm.entity_manager
+
 

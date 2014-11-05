@@ -1,5 +1,6 @@
 {% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
 
 <div class="widget-content">
+	ID: {{ entity.id }}
 	{{ dataGrid.renderGrid('listitems-grid', {entityId: entity.id}) }}
 </div>

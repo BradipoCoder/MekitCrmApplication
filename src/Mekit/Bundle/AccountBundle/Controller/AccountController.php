@@ -70,8 +70,7 @@ class AccountController extends Controller {
 	 * @Template("MekitAccountBundle:Account:update.html.twig")
 	 * @return array
 	 */
-	public function createAction()
-	{
+	public function createAction() {
 		return $this->update();
 	}
 
@@ -87,32 +86,15 @@ class AccountController extends Controller {
 	 * @param Account $account
 	 * @return array
 	 */
-	public function updateAction(Account $account)
-	{
+	public function updateAction(Account $account) {
 		return $this->update($account);
 	}
-
-	/**
-	 * @Route("/widget/info/{id}", name="mekit_account_widget_info", requirements={"id"="\d+"})
-	 * @AclAncestor("mekit_account_account_view")
-	 * @Template(template="MekitAccountBundle:Account/widget:info.html.twig")
-	 * @param Account $account
-	 * @return array
-	 */
-	public function infoAction(Account $account) {
-		return [
-			'account' => $account
-		];
-	}
-
-
 
 	/**
 	 * @param Account $entity
 	 * @return array
 	 */
-	protected function update(Account $entity = null)
-	{
+	protected function update(Account $entity = null) {
 		if (!$entity) {
 			$entity = $this->getManager()->createEntity();
 		}
@@ -137,12 +119,24 @@ class AccountController extends Controller {
 		);
 	}
 
+	/**
+	 * @Route("/widget/info/{id}", name="mekit_account_widget_info", requirements={"id"="\d+"})
+	 * @AclAncestor("mekit_account_account_view")
+	 * @Template(template="MekitAccountBundle:Account/widget:info.html.twig")
+	 * @param Account $account
+	 * @return array
+	 */
+	public function infoAction(Account $account) {
+		return [
+			'account' => $account
+		];
+	}
+
 
 	/**
 	 * @return ApiEntityManager
 	 */
-	protected function getManager()
-	{
+	protected function getManager() {
 		return $this->get('mekit_account.account.manager.api');
 	}
 }

@@ -25,6 +25,7 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          @ORM\Index(name="idx_listgroup_name", columns={"name"})
  *      }
  * )
+ * @ORM\HasLifecycleCallbacks()
  * @Oro\Loggable
  * @Config(
  *      routeName="mekit_list_index",
@@ -332,6 +333,33 @@ class ListGroup {
 	 */
 	public function getOrganization() {
 		return $this->organization;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function __toString() {
+		return (string)$this->getName();
+	}
+
+	/**
+	 * Pre persist event listener
+	 *
+	 * @ORM\PrePersist
+	 */
+	public function beforeSave() {
+		$this->createdAt = new \DateTime('now', new \DateTimeZone('UTC'));
+		$this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
+	}
+
+	/**
+	 * Pre update event handler
+	 *
+	 * @ORM\PreUpdate
+	 */
+	public function doPreUpdate() {
+		$this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
 	}
 
 }

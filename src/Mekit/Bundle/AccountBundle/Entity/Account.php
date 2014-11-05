@@ -549,7 +549,9 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 		return "Undefined";
 	}
 
-
+	/**
+	 * @return string
+	 */
 	public function __toString() {
 		return (string)$this->getName();
 	}

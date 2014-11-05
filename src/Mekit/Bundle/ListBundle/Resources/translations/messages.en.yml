@@ -11,7 +11,7 @@ mekit:
             listgroup_information:  "List Group Info"
 
         controller:
-            account.saved.message:  "Account saved"
+            list.saved.message:     "List Group saved"
 
         sections.general:           "General"
         sections.items:             "Items"

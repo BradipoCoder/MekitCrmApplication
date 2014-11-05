@@ -45,6 +45,9 @@ services:
             - { name: oro_tag.tag_manager }
 
 
+
+
+    #temporary static state fix - @todo: remove all this stuff pls
     mekit_account.twig.account_extension:
             class:                        %mekit_account.acl.twig.class%
             arguments:                    ["@mekit_account.state_provider"]
