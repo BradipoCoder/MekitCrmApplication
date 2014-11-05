@@ -1,0 +1,34 @@
+mekit:
+    list:
+        form:
+            choose_account:         Choose an account...
+            select_contacts:        Select contacts
+
+        menu:
+            list.description:       "List Group listing"
+
+        widgets:
+            listgroup_information:  "List Group Info"
+
+        controller:
+            account.saved.message:  "Account saved"
+
+        sections.general:           "General"
+        sections.items:             "Items"
+        #
+        # Mekit/Bundle/ListBundle/Entity/ListGroup
+        #
+        entity_label:               List Group
+        entity_plural_label:        List Groups
+        entity_description:         A group of list items
+        id.label:                   Id
+        name.label:                 List Group Name
+        label.label:                Label
+        value.label:                Value
+        description.label:          Description
+        owner.label:                Owner
+
+
+        #
+        # Mekit/Bundle/ListBundle/Entity/ListGroup
+        #

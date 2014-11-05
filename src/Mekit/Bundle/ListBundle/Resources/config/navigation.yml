@@ -1,0 +1,21 @@
+oro_menu_config:
+    items:
+        oro_list_list:
+            label: 'mekit.list.entity_plural_label'
+            route: 'mekit_list_index'
+            extras:
+                position:    91
+                routes:      ['mekit_list_*']
+                description: 'mekit.list.menu.list.description'
+    tree:
+        application_menu:
+            children:
+                system_tab:
+                    children:
+                        oro_list_list: ~
+
+oro_titles:
+    oro_list_index:  ~
+    oro_list_update: '%%tag.name%% List Group - Edit'
+    oro_list_create: 'Create Tag'
+

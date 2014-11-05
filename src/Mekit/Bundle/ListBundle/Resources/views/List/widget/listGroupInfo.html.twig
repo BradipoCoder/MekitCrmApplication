@@ -1,0 +1,13 @@
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+{% import 'OroTagBundle::macros.html.twig' as tag %}
+{% import 'OroEntityConfigBundle::macros.html.twig' as entityConfig %}
+
+<div class="widget-content">
+	<div class="row-fluid form-horizontal">
+		<div class="responsive-block">
+			{{ UI.renderProperty('mekit.list.name.label'|trans, entity.name) }}
+			{{ UI.renderProperty('mekit.list.label.label'|trans, entity.label|trans) }}
+			{{ UI.renderProperty('mekit.list.description.label'|trans, entity.description) }}
+		</div>
+	</div>
+</div>

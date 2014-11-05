@@ -1,0 +1,4 @@
+mekit_list_bundle:
+    resource:     "@MekitListBundle/Controller"
+    type:         annotation
+    prefix:       /list

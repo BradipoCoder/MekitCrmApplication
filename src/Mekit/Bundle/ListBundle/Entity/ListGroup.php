@@ -22,14 +22,13 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          @ORM\Index(name="idx_listgroup_organization", columns={"organization_id"}),
  *          @ORM\Index(name="idx_listgroup_created_at", columns={"createdAt"}),
  *          @ORM\Index(name="idx_listgroup_updated_at", columns={"updatedAt"}),
- *          @ORM\Index(name="idx_listgroup_name", columns={"name"}),
+ *          @ORM\Index(name="idx_listgroup_name", columns={"name"})
  *      }
  * )
- * @ORM\HasLifecycleCallbacks()
  * @Oro\Loggable
  * @Config(
- *      routeName="mekit_listgroup_index",
- *      routeView="mekit_listgroup_view",
+ *      routeName="mekit_list_index",
+ *      routeView="mekit_list_view",
  *      defaultValues={
  *          "entity"={
  *              "icon"="icon-suitcase"
@@ -78,6 +77,18 @@ class ListGroup {
 	/**
 	 * @var string
 	 *
+	 * @ORM\Column(type="string", length=64)
+	 * @Soap\ComplexType("string")
+	 * @Oro\Versioned
+	 * @ConfigField(
+	 *      defaultValues={}
+	 * )
+	 */
+	protected $label;
+
+	/**
+	 * @var string
+	 *
 	 * @ORM\Column(type="text", length=65535, nullable=true)
 	 * @Soap\ComplexType("string", nillable=true)
 	 * @Oro\Versioned
@@ -86,6 +97,20 @@ class ListGroup {
 	 * )
 	 */
 	protected $description;
+
+	/**
+	 * @var Collection
+	 *
+	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ListBundle\Entity\ListItem",
+	 *    mappedBy="listGroup", cascade={"all"}, orphanRemoval=true
+	 * )
+	 * @ORM\OrderBy({"id" = "ASC"})
+	 * @Soap\ComplexType("Mekit\Bundle\ListBundle\Entity\ListItem[]", nillable=true)
+	 * @ConfigField(
+	 *      defaultValues={}
+	 * )
+	 */
+	protected $items;
 
 
 	/**
@@ -138,6 +163,14 @@ class ListGroup {
 	 */
 	protected $updatedAt;
 
+
+	/**
+	 * Constructor
+	 */
+	public function __construct() {
+		$this->items = new ArrayCollection();
+	}
+
 	/**
 	 * @return mixed
 	 */
@@ -173,6 +206,22 @@ class ListGroup {
 	/**
 	 * @return string
 	 */
+	public function getLabel() {
+		return $this->label;
+	}
+
+	/**
+	 * @param string $label
+	 * @return $this
+	 */
+	public function setLabel($label) {
+		$this->label = $label;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
 	public function getDescription() {
 		return $this->description;
 	}
@@ -185,6 +234,27 @@ class ListGroup {
 		$this->description = $description;
 		return $this;
 	}
+
+	/**
+	 * @return Collection
+	 */
+	public function getItems() {
+		if (null === $this->items) {
+			$this->items = new ArrayCollection();
+		}
+		return $this->items;
+	}
+
+	/**
+	 * @param Collection $items
+	 * @return $this
+	 */
+	public function setItems($items) {
+		$this->items = $items;
+		return $this;
+	}
+
+
 
 	/**
 	 * Get created date/time

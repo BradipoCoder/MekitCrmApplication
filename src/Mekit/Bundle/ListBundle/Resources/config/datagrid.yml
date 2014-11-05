@@ -1,0 +1,103 @@
+datagrid:
+    lists-grid:
+        extended_entity_name: %mekit_list.listgroup.entity.class%
+        source:
+            type:           orm
+            acl_resource:   mekit_list_view
+            query:
+                select:
+                    - lg.id
+                    - lg.name
+                    - lg.label
+                    - lg.description
+                from:
+                    - { table: %mekit_list.listgroup.entity.class%, alias: lg }
+                join:
+                    left:
+                        - { join: lg.owner, alias: accountOwner }
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      mekit_list_view
+                params:     [ id ]
+            update_link:
+                type:       url
+                route:      mekit_list_view
+                params:     [ id ]
+        columns:
+            id:
+                label:      mekit.list.id.label
+            name:
+                label:      mekit.list.name.label
+            label:
+                label:          mekit.list.label.label
+                type:           twig
+                frontend_type:  html
+                template:       MekitListBundle:List:Datagrid/Property/translatedLabel.html.twig
+            description:
+                label:      mekit.list.description.label
+
+        sorters:
+            columns:
+                id:
+                    data_name: lg.id
+                name:
+                    data_name: lg.name
+
+        filters:
+            columns:
+                name:
+                    type:      string
+                    data_name: lg.name
+
+        actions:
+            view:
+                type:          navigate
+                acl_resource:  mekit_list_view
+                label:         oro.grid.action.view
+                icon:          eye-open
+                link:          view_link
+                rowAction:     true
+            update:
+                type:          navigate
+                acl_resource:  mekit_list_update
+                label:         oro.grid.action.update
+                icon:          edit
+                link:          update_link
+
+        mass_actions:
+        options:
+
+    listitems-grid:
+        options:
+            toolbarOptions:
+                pageSize:
+                    default_per_page: 50
+        extended_entity_name: %mekit_list.listitem.entity.class%
+        source:
+            type:           orm
+            acl_resource:   mekit_list_view
+            query:
+                select:
+                    - li.id
+                    - li.label
+                    - li.value
+                from:
+                    - { table: %mekit_list.listitem.entity.class%, alias: li }
+#                join:
+#                    inner:
+#                        - { join: li.listGroup, alias: lg }
+#                where:
+#                    and:
+#                        - lg.id = :entity_id
+
+        columns:
+            value:
+                label:          mekit.list.value.label
+            label:
+                label:          mekit.list.label.label
+                type:           twig
+                frontend_type:  html
+                template:       MekitListBundle:List:Datagrid/Property/translatedLabel.html.twig
+
