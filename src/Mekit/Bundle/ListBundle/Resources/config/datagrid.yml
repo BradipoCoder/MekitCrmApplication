@@ -85,12 +85,14 @@ datagrid:
                     - li.value
                 from:
                     - { table: %mekit_list.listitem.entity.class%, alias: li }
-#                join:
-#                    inner:
-#                        - { join: li.listGroup, alias: lg }
-#                where:
-#                    and:
-#                        - lg.id = :entity_id
+                join:
+                    inner:
+                        - { join: li.listGroup, alias: lg }
+                where:
+                    and:
+                        - lg.id = :entity_id
+            bind_parameters:
+                - entity_id
 
         columns:
             value:

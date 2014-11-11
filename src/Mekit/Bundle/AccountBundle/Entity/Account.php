@@ -216,6 +216,26 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	 */
 	protected $state;
 
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="type", type="string", length=32, nullable=false)
+	 * @Soap\ComplexType("string", nillable=false)
+	 * @Oro\Versioned
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "dataaudit"={
+	 *              "auditable"=true
+	 *          },
+	 *          "importexport"={
+	 *              "order"=90,
+	 *              "short"=true
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $type;
+
 
 	/**
 	 * @var User
@@ -229,7 +249,7 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	 *              "auditable"=true
 	 *          },
 	 *          "importexport"={
-	 *              "order"=90,
+	 *              "order"=100,
 	 *              "short"=true
 	 *          }
 	 *      }

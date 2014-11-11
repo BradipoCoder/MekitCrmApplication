@@ -71,6 +71,9 @@ class AccountType extends AbstractType {
 
 			->add('state', 'mekit_account_state', array('required' => true, 'label' => 'mekit.account.state.label', 'data' => 7))
 
+			//dynamic list group item from ListBundle
+			->add('type', 'mekit_listitem_select', array('required' => true, 'label' => 'mekit.account.type.label'))
+
             ->add('tags', 'oro_tag_select', ['label' => 'oro.tag.entity_plural_label']);
 	}
 

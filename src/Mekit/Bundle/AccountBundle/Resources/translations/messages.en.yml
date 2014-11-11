@@ -35,6 +35,7 @@ mekit:
         website.label:              Web Site
         description.label:          Description
         state.label:                Stato
+        type.label:                 Type
 
         owner.label:                Owner
         contacts.label:             Contacts
