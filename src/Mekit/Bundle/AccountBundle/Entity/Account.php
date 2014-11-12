@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Mekit\Bundle\ListBundle\Entity\ListItem;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
 use Oro\Bundle\EmailBundle\Model\EmailHolderInterface;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
@@ -217,10 +218,10 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	protected $state;
 
 	/**
-	 * @var string
+	 * @var ListItem
 	 *
-	 * @ORM\Column(name="type", type="string", length=32, nullable=false)
-	 * @Soap\ComplexType("string", nillable=false)
+	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ListBundle\Entity\ListItem")
+	 * @ORM\JoinColumn(name="type", referencedColumnName="id")
 	 * @Oro\Versioned
 	 * @ConfigField(
 	 *      defaultValues={
@@ -452,6 +453,25 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 		$this->state = $state;
 		return $this;
 	}
+
+	/**
+	 * @return ListItem
+	 */
+	public function getType() {
+		return $this->type;
+	}
+
+	/**
+	 * @param ListItem $type
+	 * @return $this
+	 */
+	public function setType($type) {
+		$this->type = $type;
+		return $this;
+	}
+
+
+
 
 
 

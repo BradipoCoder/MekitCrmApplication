@@ -21,8 +21,10 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          @ORM\Index(name="idx_listgroup_owner", columns={"owner_id"}),
  *          @ORM\Index(name="idx_listgroup_organization", columns={"organization_id"}),
  *          @ORM\Index(name="idx_listgroup_created_at", columns={"createdAt"}),
- *          @ORM\Index(name="idx_listgroup_updated_at", columns={"updatedAt"}),
- *          @ORM\Index(name="idx_listgroup_name", columns={"name"})
+ *          @ORM\Index(name="idx_listgroup_updated_at", columns={"updatedAt"})
+ *      },
+ *      uniqueConstraints={
+ *          @ORM\UniqueConstraint(name="idx_listgroup_name", columns={"name"})
  *      }
  * )
  * @ORM\HasLifecycleCallbacks()

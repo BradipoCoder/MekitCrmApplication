@@ -8,9 +8,6 @@ parameters:
     mekit_list.handler.listgroup.class:                        Mekit\Bundle\ListBundle\Form\Handler\ListGroupHandler
 
 
-    mekit_list.form.type.listitem_select.class:                Mekit\Bundle\ListBundle\Form\Type\ListItemSelectType
-
-
 services:
     # ListGroup API
     mekit_list.listgroup.manager.api:
@@ -52,18 +49,5 @@ services:
                 - @doctrine.orm.entity_manager
 
 
-    # ListItem select type
-    mekit_list.form.type.listitem_select:
-        class: %mekit_list.form.type.listitem_select.class%
-        tags:
-            - { name: form.type, alias: mekit_listitem_select }
 
-    # ListItem select handler
-    mekit_list.form.autocomplete.listitem.search_handler:
-            parent: oro_form.autocomplete.full_name.search_handler
-            arguments:
-                - %orocrm_contact.entity.class%
-                - ["namePrefix", "firstName", "middleName", "lastName", "nameSuffix"]
-            tags:
-                - { name: oro_form.autocomplete.search_handler, alias: listitems, acl_resource: mekit_listitem_view }
 

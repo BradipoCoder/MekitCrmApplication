@@ -15,7 +15,7 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Mekit\Bundle\ListBundle\Entity\ListItemRepository")
  * @ORM\Table(name="mekit_list_item",
  *      indexes={
  *          @ORM\Index(name="idx_listitem_owner", columns={"owner_id"}),
@@ -24,7 +24,7 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          @ORM\Index(name="idx_listitem_updated_at", columns={"updatedAt"})
  *      },
  *      uniqueConstraints={
- *          @ORM\UniqueConstraint(name="idx_listitem_listgroup_value", columns={"listgroup_id", "value"})
+ *          @ORM\UniqueConstraint(name="idx_listitem_listgroup_label", columns={"listgroup_id", "label"})
  *      }
  * )
  * @Oro\Loggable
@@ -88,18 +88,6 @@ class ListItem {
 	 * )
 	 */
 	protected $label;
-
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(type="string", length=32)
-	 * @Soap\ComplexType("string")
-	 * @Oro\Versioned
-	 * @ConfigField(
-	 *      defaultValues={}
-	 * )
-	 */
-	protected $value;
 
 	/**
 	 * @var User
@@ -200,23 +188,6 @@ class ListItem {
 		$this->listGroup = $listGroup;
 		return $this;
 	}
-
-	/**
-	 * @return string
-	 */
-	public function getValue() {
-		return $this->value;
-	}
-
-	/**
-	 * @param string $value
-	 * @return $this
-	 */
-	public function setValue($value) {
-		$this->value = $value;
-		return $this;
-	}
-
 
 
 	/**
