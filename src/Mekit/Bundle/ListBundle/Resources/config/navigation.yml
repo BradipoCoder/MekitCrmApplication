@@ -16,6 +16,6 @@ oro_menu_config:
 
 oro_titles:
     oro_list_index:  ~
-    oro_list_update: '%%tag.name%% List Group - Edit'
+    oro_list_update: '%%list.name%% List Group - Edit'
     oro_list_create: 'Create Tag'
 

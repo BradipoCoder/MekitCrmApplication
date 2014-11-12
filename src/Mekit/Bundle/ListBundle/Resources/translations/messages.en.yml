@@ -9,31 +9,33 @@ mekit:
 
         widgets:
             listgroup_information:  "List Group Info"
+            listitem_add:           "Add new item"
 
         controller:
             list.saved.message:     "List Group saved"
+            item.saved.message:     "List Item saved"
 
         sections.general:           "General"
         sections.items:             "Items"
+
         #
-        # Mekit/Bundle/ListBundle/Entity/ListGroup
+        # ListGroup
         #
         entity_label:               List Group
         entity_plural_label:        List Groups
         entity_description:         A group of list items
 
-        entity_item_label:          List Item
-        entity_item_plural_label:   List Items
-        entity_item_description:    A list item
-
         id.label:                   Id
         name.label:                 List Group Name
         label.label:                Label
-        value.label:                Value
         description.label:          Description
         owner.label:                Owner
 
 
         #
-        # Mekit/Bundle/ListBundle/Entity/ListGroup
+        # ListItem
         #
+        entity_item_label:          List Item
+        entity_item_plural_label:   List Items
+        entity_item_description:    A list item
+

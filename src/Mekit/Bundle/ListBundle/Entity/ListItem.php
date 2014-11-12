@@ -27,6 +27,7 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          @ORM\UniqueConstraint(name="idx_listitem_listgroup_label", columns={"listgroup_id", "label"})
  *      }
  * )
+ * @ORM\HasLifecycleCallbacks()
  * @Oro\Loggable
  * @Config(
  *      routeName="mekit_listitem_index",
@@ -38,7 +39,7 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          "ownership"={
  *              "owner_type"="USER",
  *              "owner_field_name"="owner",
- *              "owner_column_name"="user_owner_id",
+ *              "owner_column_name"="owner_id",
  *              "organization_field_name"="organization",
  *              "organization_column_name"="organization_id"
  *          },
@@ -225,7 +226,6 @@ class ListItem {
 	 */
 	public function setUpdatedAt(\DateTime $updated) {
 		$this->updatedAt = $updated;
-
 		return $this;
 	}
 
@@ -243,7 +243,6 @@ class ListItem {
 	 */
 	public function setOwner(User $owningUser) {
 		$this->owner = $owningUser;
-
 		return $this;
 	}
 
@@ -268,6 +267,30 @@ class ListItem {
 		return $this->organization;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function __toString() {
+		return (string)$this->getLabel();
+	}
 
+	/**
+	 * Pre persist event listener
+	 *
+	 * @ORM\PrePersist
+	 */
+	public function beforeSave() {
+		$this->createdAt = new \DateTime('now', new \DateTimeZone('UTC'));
+		$this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
+	}
+
+	/**
+	 * Pre update event handler
+	 *
+	 * @ORM\PreUpdate
+	 */
+	public function doPreUpdate() {
+		$this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
+	}
 
 }

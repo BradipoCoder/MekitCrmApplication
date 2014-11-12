@@ -4,6 +4,34 @@
 
 {% block navButtons %}
 
+	{% if resource_granted('mekit_listitem_create') %}
+		{% set addListItemTitle = 'mekit.list.widgets.listitem_add'|trans %}
+		{{ UI.clientButton({
+			'dataUrl': path('mekit_listitem_create', { 'listGroupId': entity.id }),
+			'aCss': 'no-hash',
+			'iCss': 'icon-plus-sign',
+			'dataId': entity.id,
+			'title' : addListItemTitle,
+			'label' : addListItemTitle,
+			'widget' : {
+				'type' : 'dialog',
+				'multiple' : false,
+				'reload-grid-name' : 'listitems-grid',
+				'options' : {
+				'alias': 'list-dialog',
+				'dialogOptions' : {
+					'title' : addListItemTitle,
+					'allowMaximize': true,
+					'allowMinimize': true,
+					'dblclick': 'maximize',
+					'maximizedHeightDecreaseBy': 'minimize-bar',
+					'width': 600
+					}
+				}
+			}
+		}) }}
+	{% endif %}
+
 	{% if resource_granted('EDIT', entity) %}
 		{{ UI.editButton({
 		'path': path('mekit_list_update', {'id': entity.id}),

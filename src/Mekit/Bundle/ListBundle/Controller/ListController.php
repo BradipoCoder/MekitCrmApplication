@@ -147,6 +147,114 @@ class ListController extends Controller {
 		];
 	}
 
+
+
+
+	/**
+	 * @Route("/item/create", name="mekit_listitem_create")
+	 * @Acl(
+	 *      id="mekit_listitem_create",
+	 *      type="entity",
+	 *      permission="CREATE",
+	 *      class="MekitListBundle:ListItem"
+	 * )
+	 * @Template("MekitListBundle:Item:update.html.twig")
+	 * @return array
+	 */
+	public function listItemCreateAction() {
+		$listGroupId = $this->getRequest()->get('listGroupId');
+		$redirect = ($this->getRequest()->get('no_redirect')) ? false : true;
+		$entity = $this->initListItemEntity($listGroupId);
+		return $this->listitem_update($entity, $redirect);
+	}
+
+	/**
+	 * @param integer $listGroupId
+	 * @return ListItem
+	 */
+	protected function initListItemEntity($listGroupId = null) {
+		$entity = new ListItem();
+
+		return($entity);
+	}
+
+	/**
+	 * @Route("/item/update/{id}", name="mekit_listitem_update", requirements={"id"="\d+"})
+	 * @Acl(
+	 *      id="mekit_listitem_update",
+	 *      type="entity",
+	 *      permission="EDIT",
+	 *      class="MekitListBundle:ListItem"
+	 * )
+	 * @Template("MekitListBundle:Item:update.html.twig")
+	 * @param ListItem $listItem
+	 * @return array
+	 */
+	public function listItemUpdateAction(ListItem $listItem) {
+		return $this->listitem_update($listItem);
+	}
+
+	/**
+	 * @param ListItem $entity
+	 * @param boolean $redirect
+	 * @return array
+	 */
+	protected function listitem_update(ListItem $entity = null, $redirect = true) {
+		$saved = false;
+
+		if (!$entity) {
+			$entity = $this->getListItemManager()->createEntity();
+		}
+
+		/*
+		if ($this->get('mekit_list.form.handler.listitem')->process($entity)) {
+			if ($redirect) {
+				$this->get('session')->getFlashBag()->add(
+					'success',
+					$this->get('translator')->trans('mekit.list.controller.item.saved.message')
+				);
+				return $this->get('oro_ui.router')->redirectAfterSave(
+					['route' => 'mekit_list_view', 'parameters' => ['id' => $entity->getListGroup()->getId()]],
+					['route' => 'mekit_list_view', 'parameters' => ['id' => $entity->getListGroup()->getId()]],
+					$entity
+				);
+			}
+			$saved = true;
+		}
+
+		return array(
+			'entity' => $entity,
+			'saved' => $saved,
+			'form' => $this->get('mekit_list.form.listitem')->createView()
+		);
+		*/
+
+
+		return $this->get('oro_form.model.update_handler')->handleUpdate(
+			$entity,
+			$this->get('mekit_list.form.listitem'),
+			function (ListItem $entity) {
+				return array(
+					'route' => 'mekit_list_view',
+					'parameters' => array('id' => $entity->getListGroup()->getId())
+				);
+			},
+			function (ListItem $entity) {
+				return array(
+					'route' => 'mekit_list_view',
+					'parameters' => array('id' => $entity->getListGroup()->getId())
+				);
+			},
+			$this->get('translator')->trans('mekit.list.controller.item.saved.message'),
+			$this->get('mekit_list.form.handler.listitem')
+		);
+	}
+
+
+
+
+
+
 	/**
 	 * @return ApiEntityManager
 	 */
