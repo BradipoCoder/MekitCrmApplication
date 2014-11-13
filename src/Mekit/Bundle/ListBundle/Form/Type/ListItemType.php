@@ -70,7 +70,7 @@ class ListItemType extends AbstractType {
 				'data_class' => 'Mekit\Bundle\ListBundle\Entity\ListItem',
 				'intention' => 'listitem',
 				'extra_fields_message' => 'This form should not contain extra fields: "{{ extra_fields }}"',
-				'cascade_validation' => true
+				'cascade_validation' => false
 			)
 		);
 	}

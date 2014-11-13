@@ -18,8 +18,6 @@ use Oro\Bundle\UserBundle\Entity\User;
  * @ORM\Entity()
  * @ORM\Table(name="mekit_list_group",
  *      indexes={
- *          @ORM\Index(name="idx_listgroup_owner", columns={"owner_id"}),
- *          @ORM\Index(name="idx_listgroup_organization", columns={"organization_id"}),
  *          @ORM\Index(name="idx_listgroup_created_at", columns={"createdAt"}),
  *          @ORM\Index(name="idx_listgroup_updated_at", columns={"updatedAt"})
  *      },
@@ -35,13 +33,6 @@ use Oro\Bundle\UserBundle\Entity\User;
  *      defaultValues={
  *          "entity"={
  *              "icon"="icon-suitcase"
- *          },
- *          "ownership"={
- *              "owner_type"="USER",
- *              "owner_field_name"="owner",
- *              "owner_column_name"="owner_id",
- *              "organization_field_name"="organization",
- *              "organization_column_name"="organization_id"
  *          },
  *          "security"={
  *              "type"="ACL",
@@ -114,27 +105,6 @@ class ListGroup {
 	 * )
 	 */
 	protected $items;
-
-
-	/**
-	 * @var User
-	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
-	 * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="SET NULL")
-	 * @Soap\ComplexType("string", nillable=true)
-	 * @Oro\Versioned
-	 * @ConfigField(
-	 *      defaultValues={}
-	 * )
-	 */
-	protected $owner;
-
-	/**
-	 * @var Organization
-	 *
-	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\OrganizationBundle\Entity\Organization")
-	 * @ORM\JoinColumn(name="organization_id", referencedColumnName="id", onDelete="SET NULL")
-	 */
-	protected $organization;
 
 	/**
 	 * @var \DateTime
@@ -296,45 +266,6 @@ class ListGroup {
 		$this->updatedAt = $updated;
 
 		return $this;
-	}
-
-	/**
-	 * @return User
-	 */
-	public function getOwner() {
-		return $this->owner;
-	}
-
-	/**
-	 * @param User $owningUser
-	 *
-	 * @return $this
-	 */
-	public function setOwner(User $owningUser) {
-		$this->owner = $owningUser;
-
-		return $this;
-	}
-
-	/**
-	 * Set organization
-	 *
-	 * @param Organization $organization
-	 * @return $this
-	 */
-	public function setOrganization(Organization $organization = null) {
-		$this->organization = $organization;
-
-		return $this;
-	}
-
-	/**
-	 * Get organization
-	 *
-	 * @return Organization
-	 */
-	public function getOrganization() {
-		return $this->organization;
 	}
 
 

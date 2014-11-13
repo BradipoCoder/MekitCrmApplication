@@ -12,9 +12,6 @@ datagrid:
                     - lg.description
                 from:
                     - { table: %mekit_list.listgroup.entity.class%, alias: lg }
-                join:
-                    left:
-                        - { join: lg.owner, alias: accountOwner }
         properties:
             id: ~
             view_link:
@@ -23,7 +20,7 @@ datagrid:
                 params:     [ id ]
             update_link:
                 type:       url
-                route:      mekit_list_view
+                route:      mekit_list_update
                 params:     [ id ]
         columns:
             id:

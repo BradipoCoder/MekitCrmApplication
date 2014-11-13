@@ -44,7 +44,7 @@ class MekitAccountBundle implements Migration {
 		$table->addColumn('nin', 'string', ['length' => 24]);
 		$table->addColumn('website', 'string', ['length' => 128]);
 		$table->addColumn('fax', 'string', ['length' => 16]);
-		$table->addColumn('description', '65535', ['length' => 65535]);
+		$table->addColumn('description', 'string', ['length' => 65535]);
 
 		//INDEXES
 		$table->setPrimaryKey(['id']);

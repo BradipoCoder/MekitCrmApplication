@@ -163,8 +163,10 @@ class ListController extends Controller {
 	 */
 	public function listItemCreateAction() {
 		$listGroupId = $this->getRequest()->get('listGroupId');
+		//die("LGID: " . $listGroupId);
 		$redirect = ($this->getRequest()->get('no_redirect')) ? false : true;
 		$entity = $this->initListItemEntity($listGroupId);
+		//die("LGID: " . $listGroupId);
 		return $this->listitem_update($entity, $redirect);
 	}
 
@@ -173,8 +175,17 @@ class ListController extends Controller {
 	 * @return ListItem
 	 */
 	protected function initListItemEntity($listGroupId = null) {
+		if(!$listGroupId) {
+			throw new \LogicException("No list group id defined in parameters!");
+		}
+		$listGroup = $this->getDoctrine()
+			->getRepository('MekitListBundle:ListGroup')
+			->find($listGroupId);
+		if(!$listGroup) {
+			throw new \LogicException("There is no list group with the defined id($listGroupId)!");
+		}
 		$entity = new ListItem();
-
+		$entity->setListGroup($listGroup);
 		return($entity);
 	}
 
@@ -201,35 +212,31 @@ class ListController extends Controller {
 	 */
 	protected function listitem_update(ListItem $entity = null, $redirect = true) {
 		$saved = false;
-
 		if (!$entity) {
-			$entity = $this->getListItemManager()->createEntity();
+			throw new \LogicException("No entity defined!");
 		}
 
-		/*
+		$listGroupId = $entity->getListGroup()->getId();
+		$formAction = ($entity->getId() ?
+			$this->get('router')->generate('mekit_listitem_update', ['id' => $entity->getId()]) :
+			$this->get('router')->generate('mekit_listitem_create', ['listGroupId' => $listGroupId])
+		);
+
+
 		if ($this->get('mekit_list.form.handler.listitem')->process($entity)) {
-			if ($redirect) {
-				$this->get('session')->getFlashBag()->add(
-					'success',
-					$this->get('translator')->trans('mekit.list.controller.item.saved.message')
-				);
-				return $this->get('oro_ui.router')->redirectAfterSave(
-					['route' => 'mekit_list_view', 'parameters' => ['id' => $entity->getListGroup()->getId()]],
-					['route' => 'mekit_list_view', 'parameters' => ['id' => $entity->getListGroup()->getId()]],
-					$entity
-				);
-			}
 			$saved = true;
 		}
 
+
 		return array(
 			'entity' => $entity,
+			'formAction' => $formAction,
 			'saved' => $saved,
 			'form' => $this->get('mekit_list.form.listitem')->createView()
 		);
-		*/
 
 
+		/*
 		return $this->get('oro_form.model.update_handler')->handleUpdate(
 			$entity,
 			$this->get('mekit_list.form.listitem'),
@@ -247,7 +254,7 @@ class ListController extends Controller {
 			},
 			$this->get('translator')->trans('mekit.list.controller.item.saved.message'),
 			$this->get('mekit_list.form.handler.listitem')
-		);
+		);*/
 	}
 
 

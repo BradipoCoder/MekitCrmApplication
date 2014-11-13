@@ -1,4 +1,5 @@
 {% extends 'OroUIBundle:actions:view.html.twig' %}
+{% import 'OroUIBundle::macros.html.twig' as macros %}
 
 {% oro_title_set({params : {"%list.name%": entity.name | default('N/A')} }) %}
 
@@ -18,7 +19,8 @@
 				'multiple' : false,
 				'reload-grid-name' : 'listitems-grid',
 				'options' : {
-				'alias': 'list-dialog',
+				'alias': 'listitem-dialog',
+				'stateEnabled': false,
 				'dialogOptions' : {
 					'title' : addListItemTitle,
 					'allowMaximize': true,
@@ -49,16 +51,6 @@
 	{#'entity_label': 'mekit.account.entity_label'|trans#}
 	{#}) }}#}
 	{#{% endif %}#}
-
-
-	{#{% set html %}#}
-	{#{% placeholder orocrm_account_action_dropdown with {'entity': entity} %}#}
-	{#{% endset %}#}
-	{#{{ UI.dropdownButton({#}
-	{#'label': 'orocrm.account.account_actions'|trans,#}
-	{#'aCss': 'pull-right',#}
-	{#'html': html#}
-	{#}) }}#}
 
 {% endblock navButtons %}
 
