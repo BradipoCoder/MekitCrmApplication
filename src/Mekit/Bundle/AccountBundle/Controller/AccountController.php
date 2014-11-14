@@ -2,6 +2,7 @@
 
 namespace Mekit\Bundle\AccountBundle\Controller;
 
+use Mekit\Bundle\ListBundle\Entity\ListItem;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -96,7 +97,17 @@ class AccountController extends Controller {
 	 */
 	protected function update(Account $entity = null) {
 		if (!$entity) {
+			/** @var Account $entity */
 			$entity = $this->getManager()->createEntity();
+
+			/** @var ListItem $defListItemType */
+			$defListItemType = $this->getDoctrine()->getRepository('MekitListBundle:ListItem')->getItemFromGroupByLabel("ACCOUNT_TYPE", "Cliente");
+			if($defListItemType) {
+				$entity->setType($defListItemType);
+			}
+
+
+
 		}
 
 		return $this->get('oro_form.model.update_handler')->handleUpdate(

@@ -70,21 +70,17 @@ class AccountType extends AbstractType {
 			->add('website', 'text', ['required' => false, 'label' => 'mekit.account.website.label'])
 			->add('description', 'textarea', ['required' => false, 'label' => 'mekit.account.description.label'])
 
-			->add('state', 'mekit_account_state', array('required' => true, 'label' => 'mekit.account.state.label', 'data' => 7))
-
 			//Type - dynamic list group item from ListBundle
 	        ->add(
 		        'type',
 		        'entity',
 		        array(
+			        'required'    => true,
 			        'label'       => 'mekit.account.type.label',
 			        'class'       => 'MekitListBundle:ListItem',
 			        'query_builder' => function(ListItemRepository $er) {
 				        return $er->getListItemQueryBuilder('ACCOUNT_TYPE');
-			        },
-			        'property'    => 'label',
-			        'required'    => true,
-			        'data'        => "SUP"
+			        }
 		        )
 	        )
 

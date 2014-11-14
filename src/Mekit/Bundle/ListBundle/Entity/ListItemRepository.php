@@ -28,4 +28,17 @@ class ListItemRepository extends EntityRepository {
 		$query = $this->getListItemQueryBuilder($ListGroupName)->getQuery();
 		return $query->execute();
 	}
+
+	/**
+	 * Returnd a specific ListItem given the group name and the item label
+	 * @param string $groupName
+	 * @param string $itemLabel
+	 * @return null|ListItem
+	 */
+	public function getItemFromGroupByLabel($groupName, $itemLabel) {
+		/** @var ListGroup $listGroup */
+		$listGroup = $this->getEntityManager()->getRepository('MekitListBundle:ListGroup')->findOneBy(["name"=>$groupName]);
+		$listItem = $this->findOneBy(["listGroup"=>$listGroup, "label"=>$itemLabel]);
+		return($listItem);
+	}
 }

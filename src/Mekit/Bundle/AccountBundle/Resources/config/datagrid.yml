@@ -9,6 +9,7 @@ datagrid:
                     - a.id
                     - a.name
                     - a.vatid
+                    - accountType.label as type
                     - a.createdAt
                     - a.updatedAt
                     - CONCAT(accountOwner.firstName, CONCAT(' ', accountOwner.lastName)) as ownerName
@@ -17,6 +18,34 @@ datagrid:
                 join:
                     left:
                         - { join: a.owner, alias: accountOwner }
+                        - { join: a.type, alias: accountType }
+
+        columns:
+            name:
+                label:         mekit.account.name.label
+            vatid:
+                label:         mekit.account.vatid.label
+            type:
+                label:         mekit.account.type.label
+            ownerName:
+                label:         mekit.account.owner.label
+
+        sorters:
+            columns:
+                name:
+                    data_name: a.name
+                ownerName:
+                    data_name: ownerName
+
+        filters:
+            columns:
+                name:
+                    type:      string
+                    data_name: a.name
+                ownerName:
+                    type:      string
+                    data_name: ownerName
+
         properties:
             id: ~
             view_link:
@@ -27,34 +56,7 @@ datagrid:
                 type:       url
                 route:      mekit_account_update
                 params:     [ id ]
-        columns:
-            name:
-                label:         mekit.account.name.label
-            vatid:
-                label:         mekit.account.vatid.label
-            ownerName:
-                label:         mekit.account.owner.label
 
-        sorters:
-            columns:
-                name:
-                    data_name: a.name
-                ownerName:
-                    data_name: ownerName
-        filters:
-            columns:
-                name:
-                    type:      string
-                    data_name: a.name
-                ownerName:
-                    type:      string
-                    data_name: ownerName
-                createdAt:
-                    type:      datetime
-                    data_name: a.createdAt
-                updatedAt:
-                    type:      datetime
-                    data_name: a.updatedAt
         actions:
             view:
                 type:          navigate

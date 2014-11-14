@@ -198,26 +198,6 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	protected $description;
 
 	/**
-	 * @var integer
-	 *
-	 * @ORM\Column(name="state_id", type="integer")
-	 * @Soap\ComplexType("integer")
-	 * @Oro\Versioned
-	 * @ConfigField(
-	 *      defaultValues={
-	 *          "dataaudit"={
-	 *              "auditable"=true
-	 *          },
-	 *          "importexport"={
-	 *              "order"=80,
-	 *              "short"=true
-	 *          }
-	 *      }
-	 * )
-	 */
-	protected $state;
-
-	/**
 	 * @var ListItem
 	 *
 	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ListBundle\Entity\ListItem")
@@ -439,22 +419,6 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	}
 
 	/**
-	 * @return int
-	 */
-	public function getState() {
-		return $this->state;
-	}
-
-	/**
-	 * @param int $state
-	 * @return $this
-	 */
-	public function setState($state) {
-		$this->state = $state;
-		return $this;
-	}
-
-	/**
 	 * @return ListItem
 	 */
 	public function getType() {
@@ -465,7 +429,7 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	 * @param ListItem $type
 	 * @return $this
 	 */
-	public function setType($type) {
+	public function setType(ListItem $type) {
 		$this->type = $type;
 		return $this;
 	}
