@@ -71,7 +71,7 @@ class ListGroup {
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(type="string", length=64)
+	 * @ORM\Column(type="string", length=255)
 	 * @Soap\ComplexType("string")
 	 * @Oro\Versioned
 	 * @ConfigField(

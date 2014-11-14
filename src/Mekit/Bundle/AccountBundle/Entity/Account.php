@@ -201,7 +201,7 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	 * @var ListItem
 	 *
 	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ListBundle\Entity\ListItem")
-	 * @ORM\JoinColumn(name="type", referencedColumnName="id")
+	 * @ORM\JoinColumn(name="type", referencedColumnName="value")
 	 * @Oro\Versioned
 	 * @ConfigField(
 	 *      defaultValues={
@@ -433,11 +433,6 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 		$this->type = $type;
 		return $this;
 	}
-
-
-
-
-
 
 	/**
 	 * Get created date/time

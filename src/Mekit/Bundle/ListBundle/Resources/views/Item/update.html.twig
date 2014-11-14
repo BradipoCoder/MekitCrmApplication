@@ -25,6 +25,7 @@
 			<form id="{{ form.vars.name }}" action="{{ formAction }}" method="post" class="listitem-form">
 				<fieldset class="form-horizontal">
 					{{ form_row(form.label) }}
+					{{ form_row(form.value) }}
 					{{ form_rest(form) }}
 					<div class="widget-actions form-actions" style="display: none;">
 						<button class="btn" type="reset">{{ 'Cancel'|trans }}</button>

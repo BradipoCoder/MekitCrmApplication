@@ -58,7 +58,8 @@ class ListItemType extends AbstractType {
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-			->add('label', 'text', ['required' => true, 'label' => 'mekit.list.label.label']);
+			->add('label', 'text', ['required' => true, 'label' => 'mekit.list.label.label'])
+			->add('value', 'text', ['required' => true, 'label' => 'mekit.list.value.label']);
 	}
 
 	/**

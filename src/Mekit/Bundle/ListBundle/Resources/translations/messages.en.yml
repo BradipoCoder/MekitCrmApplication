@@ -41,6 +41,8 @@ mekit:
         entity_item_description:    A list item
         editaction.label:           Edit
 
+        value.label:                Value
+
 
         #
         # System Lists

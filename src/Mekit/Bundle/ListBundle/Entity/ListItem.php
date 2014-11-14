@@ -22,7 +22,7 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          @ORM\Index(name="idx_listitem_updated_at", columns={"updatedAt"})
  *      },
  *      uniqueConstraints={
- *          @ORM\UniqueConstraint(name="idx_listitem_listgroup_label", columns={"listgroup_id", "label"})
+ *          @ORM\UniqueConstraint(name="idx_listitem_value", columns={"value"})
  *      }
  * )
  * @ORM\HasLifecycleCallbacks()
@@ -70,9 +70,24 @@ class ListItem {
 	protected $listGroup;
 
 	/**
+	 *
+	 * All referencing tables will connect to this entity through "value" instead of the identity column (id)
+	 *
 	 * @var string
 	 *
-	 * @ORM\Column(type="string", length=64)
+	 * @ORM\Column(type="string", length=32)
+	 * @Soap\ComplexType("string")
+	 * @Oro\Versioned
+	 * @ConfigField(
+	 *      defaultValues={}
+	 * )
+	 */
+	protected $value;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(type="string", length=255)
 	 * @Soap\ComplexType("string")
 	 * @Oro\Versioned
 	 * @ConfigField(
@@ -126,6 +141,22 @@ class ListItem {
 	 */
 	public function setId($id) {
 		$this->id = $id;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getValue() {
+		return $this->value;
+	}
+
+	/**
+	 * @param string $value
+	 * @return $this
+	 */
+	public function setValue($value) {
+		$this->value = $value;
 		return $this;
 	}
 
