@@ -16,10 +16,10 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @RouteResource("list")
+ * @RouteResource("listitem")
  * @NamePrefix("mekit_api_")
  */
-class ListController extends RestController implements ClassResourceInterface {
+class ListItemController extends RestController implements ClassResourceInterface {
 
 	/**
 	 * REST GET list

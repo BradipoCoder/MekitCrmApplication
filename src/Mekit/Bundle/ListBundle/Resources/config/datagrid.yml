@@ -102,18 +102,25 @@ datagrid:
             id: ~
             update_link:
                 type:       url
-                route:      mekit_listitem_update
+                route:      mekit_api_put_listitem
                 params:     [ id ]
-#            delete_link:
-#                type:       url
-#                route:      mekit_listitem_delete
-#                params:     [ id ]
+            delete_link:
+                type:       url
+                route:      mekit_api_delete_listitem
+                params:     [ id ]
 
         actions:
-#            update:
-#                type:          navigate
-#                acl_resource:  mekit_listitem_update
-#                label:         oro.grid.action.update
-#                icon:          edit
-#                link:          update_link
-#                rowAction:     true
+            update:
+                type:          ajax
+                acl_resource:  mekit_listitem_update
+                label:         oro.grid.action.update
+                icon:          edit
+                link:          update_link
+                rowAction:     true
+            delete:
+                  type:          delete
+                  acl_resource:  mekit_listitem_delete
+                  label:         oro.grid.action.delete
+                  icon:          trash
+                  link:          delete_link
+                  rowAction:     false
