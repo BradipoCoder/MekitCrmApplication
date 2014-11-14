@@ -16,7 +16,7 @@ class ListItemRepository extends EntityRepository {
 		return $this->createQueryBuilder('li')
 			->innerJoin("li.listGroup", "lg")
 			->where('lg.name = :list_group_name')
-			->orderBy('li.id', 'ASC')
+			->orderBy('li.label', 'ASC')
 			->setParameter('list_group_name', $ListGroupName);
 	}
 

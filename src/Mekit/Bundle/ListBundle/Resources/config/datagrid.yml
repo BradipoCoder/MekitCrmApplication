@@ -12,6 +12,9 @@ datagrid:
                     - lg.description
                 from:
                     - { table: %mekit_list.listgroup.entity.class%, alias: lg }
+#            hints:
+#                - { name: HINT_CUSTOM_OUTPUT_WALKER, value: %oro_translation.translation_walker.class%}
+
         columns:
             id:
                 label:      mekit.list.id.label
@@ -21,9 +24,12 @@ datagrid:
                 label:          mekit.list.label.label
                 type:           twig
                 frontend_type:  html
-                template:       MekitListBundle:List:Datagrid/Property/translatedLabel.html.twig
+                template:       MekitListBundle:List:Datagrid/Property/translatedValue.html.twig
             description:
                 label:      mekit.list.description.label
+                type:           twig
+                frontend_type:  html
+                template:       MekitListBundle:List:Datagrid/Property/translatedValue.html.twig
 
         sorters:
             columns:
@@ -96,31 +102,35 @@ datagrid:
                 label:          mekit.list.label.label
                 type:           twig
                 frontend_type:  html
-                template:       MekitListBundle:List:Datagrid/Property/translatedLabel.html.twig
+                template:       MekitListBundle:Item:Datagrid/Property/editButton.html.twig
+                editable:       false
+
 
         properties:
             id: ~
-            update_link:
-                type:       url
-                route:      mekit_api_put_listitem
-                params:     [ id ]
+#            update_link:
+#                type:       url
+#                route:      mekit_listitem_update
+#                params:     [ id ]
             delete_link:
                 type:       url
                 route:      mekit_api_delete_listitem
                 params:     [ id ]
 
         actions:
-            update:
-                type:          ajax
-                acl_resource:  mekit_listitem_update
-                label:         oro.grid.action.update
-                icon:          edit
-                link:          update_link
-                rowAction:     true
+#            update:
+#                type:             ajax
+#                frontend_handle:  dialog
+#                frontend_options:
+#                    title:          "Some popup"
+#                    width:          600
+#                label:         oro.grid.action.update
+#                acl_resource:  mekit_listitem_update
+#                icon:          edit
+#                link:          update_link
             delete:
                   type:          delete
                   acl_resource:  mekit_listitem_delete
                   label:         oro.grid.action.delete
                   icon:          trash
                   link:          delete_link
-                  rowAction:     false

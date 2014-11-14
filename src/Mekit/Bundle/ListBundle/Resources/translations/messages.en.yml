@@ -10,6 +10,7 @@ mekit:
         widgets:
             listgroup_information:  "List Group Info"
             listitem_add:           "Add new item"
+            listitem_update:        "Modify item"
 
         controller:
             list.saved.message:     "List Group saved"
@@ -38,4 +39,17 @@ mekit:
         entity_item_label:          List Item
         entity_item_plural_label:   List Items
         entity_item_description:    A list item
+        editaction.label:           Edit
 
+
+        #
+        # System Lists
+        #
+
+        ### ACCOUNT_TYPE ###
+        systemlist.account_type:
+            label:          Type
+            description:    Account types
+        systemlist.account_source:
+            label:          Source
+            description:    Account sources

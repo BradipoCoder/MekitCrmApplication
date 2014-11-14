@@ -1,0 +1,29 @@
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+{#{{- value|trans -}}#}
+
+{% if resource_granted('mekit_listitem_update') %}
+	{% set updateListItemTitle = 'mekit.list.widgets.listitem_update'|trans %}
+	{{ UI.clientLink({
+		'dataUrl': path('mekit_listitem_update', { 'id': record.getValue('id') }),
+		'aCss': 'no-hash',
+		'iCss': 'icon-edit',
+		'dataId': record.getValue('id'),
+		'title' : updateListItemTitle,
+		'label' : value|trans,
+		'widget' : {
+			'type' : 'dialog',
+			'multiple' : false,
+			'reload-grid-name' : 'listitems-grid',
+			'options' : {
+			'alias': 'listitem-dialog',
+			'stateEnabled': false,
+			'dialogOptions' : {
+				'title' : updateListItemTitle,
+				'allowMaximize': false,
+				'allowMinimize': false,
+				'width': 600
+				}
+			}
+		}
+	}) }}
+{% endif %}
