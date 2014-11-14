@@ -1,4 +1,5 @@
 <?php
+
 namespace Mekit\Bundle\ListBundle\Controller\Api\Rest;
 
 use FOS\RestBundle\Controller\Annotations\NamePrefix;

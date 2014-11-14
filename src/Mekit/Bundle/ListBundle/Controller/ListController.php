@@ -234,27 +234,6 @@ class ListController extends Controller {
 			'saved' => $saved,
 			'form' => $this->get('mekit_list.form.listitem')->createView()
 		);
-
-
-		/*
-		return $this->get('oro_form.model.update_handler')->handleUpdate(
-			$entity,
-			$this->get('mekit_list.form.listitem'),
-			function (ListItem $entity) {
-				return array(
-					'route' => 'mekit_list_view',
-					'parameters' => array('id' => $entity->getListGroup()->getId())
-				);
-			},
-			function (ListItem $entity) {
-				return array(
-					'route' => 'mekit_list_view',
-					'parameters' => array('id' => $entity->getListGroup()->getId())
-				);
-			},
-			$this->get('translator')->trans('mekit.list.controller.item.saved.message'),
-			$this->get('mekit_list.form.handler.listitem')
-		);*/
 	}
 
 
@@ -263,14 +242,14 @@ class ListController extends Controller {
 
 
 	/**
-	 * @return ApiEntityManager
+	 * @return ApiEntityManager - ListGroup
 	 */
 	protected function getListGroupManager() {
 		return $this->get('mekit_list.listgroup.manager.api');
 	}
 
 	/**
-	 * @return ApiEntityManager
+	 * @return ApiEntityManager - ListItem
 	 */
 	protected function getListItemManager() {
 		return $this->get('mekit_list.listitem.manager.api');

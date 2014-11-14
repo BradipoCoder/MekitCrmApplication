@@ -12,16 +12,6 @@ datagrid:
                     - lg.description
                 from:
                     - { table: %mekit_list.listgroup.entity.class%, alias: lg }
-        properties:
-            id: ~
-            view_link:
-                type:       url
-                route:      mekit_list_view
-                params:     [ id ]
-            update_link:
-                type:       url
-                route:      mekit_list_update
-                params:     [ id ]
         columns:
             id:
                 label:      mekit.list.id.label
@@ -47,6 +37,17 @@ datagrid:
                 name:
                     type:      string
                     data_name: lg.name
+
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      mekit_list_view
+                params:     [ id ]
+            update_link:
+                type:       url
+                route:      mekit_list_update
+                params:     [ id ]
 
         actions:
             view:
@@ -97,3 +98,22 @@ datagrid:
                 frontend_type:  html
                 template:       MekitListBundle:List:Datagrid/Property/translatedLabel.html.twig
 
+        properties:
+            id: ~
+            update_link:
+                type:       url
+                route:      mekit_listitem_update
+                params:     [ id ]
+#            delete_link:
+#                type:       url
+#                route:      mekit_listitem_delete
+#                params:     [ id ]
+
+        actions:
+#            update:
+#                type:          navigate
+#                acl_resource:  mekit_listitem_update
+#                label:         oro.grid.action.update
+#                icon:          edit
+#                link:          update_link
+#                rowAction:     true
