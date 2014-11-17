@@ -190,8 +190,8 @@ class ListController extends Controller {
 	}
 
 	/**
-	 * @Route("/item/update/{id}", name="mekit_listitem_update", requirements={"id"="\d+"})
-	 * @Acl(
+	 * @Route("/item/update/{id}", name="mekit_listitem_update", requirements={"id"="\w+"})
+	 *  @Acl(
 	 *      id="mekit_listitem_update",
 	 *      type="entity",
 	 *      permission="EDIT",

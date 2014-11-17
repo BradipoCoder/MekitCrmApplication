@@ -201,7 +201,7 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	 * @var ListItem
 	 *
 	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ListBundle\Entity\ListItem")
-	 * @ORM\JoinColumn(name="type", referencedColumnName="value")
+	 * @ORM\JoinColumn(name="type", referencedColumnName="id")
 	 * @Oro\Versioned
 	 * @ConfigField(
 	 *      defaultValues={
@@ -329,12 +329,10 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	 * Set account name
 	 *
 	 * @param string $name New name
-	 *
-	 * @return Account
+	 * @return $this
 	 */
 	public function setName($name) {
 		$this->name = $name;
-
 		return $this;
 	}
 
@@ -347,7 +345,7 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 
 	/**
 	 * @param string $vatid
-	 * @return Account
+	 * @return $this
 	 */
 	public function setVatid($vatid) {
 		$this->vatid = $vatid;
@@ -363,7 +361,7 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 
 	/**
 	 * @param string $nin
-	 * @return Account
+	 * @return $this
 	 */
 	public function setNin($nin) {
 		$this->nin = $nin;
@@ -379,7 +377,7 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 
 	/**
 	 * @param string $website
-	 * @return Account
+	 * @return $this
 	 */
 	public function setWebsite($website) {
 		$this->website = $website;
@@ -395,7 +393,7 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 
 	/**
 	 * @param string $fax
-	 * @return Account
+	 * @return $this
 	 */
 	public function setFax($fax) {
 		$this->fax = $fax;
@@ -411,7 +409,7 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 
 	/**
 	 * @param string $description
-	 * @return Account
+	 * @return $this
 	 */
 	public function setDescription($description) {
 		$this->description = $description;
@@ -445,12 +443,10 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 
 	/**
 	 * @param \DateTime
-	 *
-	 * @return Account
+	 * @return $this
 	 */
 	public function setCreatedAt(\DateTime $created) {
 		$this->createdAt = $created;
-
 		return $this;
 	}
 
@@ -465,12 +461,10 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 
 	/**
 	 * @param \DateTime
-	 *
-	 * @return Account
+	 * @return $this
 	 */
 	public function setUpdatedAt(\DateTime $updated) {
 		$this->updatedAt = $updated;
-
 		return $this;
 	}
 
@@ -483,12 +477,10 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 
 	/**
 	 * @param User $owningUser
-	 *
-	 * @return Account
+	 * @return $this
 	 */
 	public function setOwner(User $owningUser) {
 		$this->owner = $owningUser;
-
 		return $this;
 	}
 
@@ -496,11 +488,10 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	 * Set organization
 	 *
 	 * @param Organization $organization
-	 * @return Account
+	 * @return $this
 	 */
 	public function setOrganization(Organization $organization = null) {
 		$this->organization = $organization;
-
 		return $this;
 	}
 
@@ -535,7 +526,6 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	 */
 	public function setTags($tags) {
 		$this->tags = $tags;
-
 		return $this;
 	}
 

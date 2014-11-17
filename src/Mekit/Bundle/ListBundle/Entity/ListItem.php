@@ -20,9 +20,6 @@ use Oro\Bundle\UserBundle\Entity\User;
  *      indexes={
  *          @ORM\Index(name="idx_listitem_created_at", columns={"createdAt"}),
  *          @ORM\Index(name="idx_listitem_updated_at", columns={"updatedAt"})
- *      },
- *      uniqueConstraints={
- *          @ORM\UniqueConstraint(name="idx_listitem_value", columns={"value"})
  *      }
  * )
  * @ORM\HasLifecycleCallbacks()
@@ -46,10 +43,13 @@ use Oro\Bundle\UserBundle\Entity\User;
  */
 class ListItem {
 	/**
+	 * @var string
+	 *
 	 * @ORM\Id
-	 * @ORM\Column(type="integer")
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 * @Soap\ComplexType("int", nillable=true)
+	 * @ORM\GeneratedValue(strategy="NONE")
+	 * @ORM\Column(type="string", length=32)
+	 * @Soap\ComplexType("string")
+	 * @Oro\Versioned
 	 * @ConfigField(
 	 *      defaultValues={}
 	 * )
@@ -68,21 +68,6 @@ class ListItem {
 	 * )
 	 */
 	protected $listGroup;
-
-	/**
-	 *
-	 * All referencing tables will connect to this entity through "value" instead of the identity column (id)
-	 *
-	 * @var string
-	 *
-	 * @ORM\Column(type="string", length=32)
-	 * @Soap\ComplexType("string")
-	 * @Oro\Versioned
-	 * @ConfigField(
-	 *      defaultValues={}
-	 * )
-	 */
-	protected $value;
 
 	/**
 	 * @var string
@@ -126,37 +111,19 @@ class ListItem {
 	 */
 	protected $updatedAt;
 
-
-
 	/**
-	 * @return mixed
+	 * @return string
 	 */
 	public function getId() {
 		return $this->id;
 	}
 
 	/**
-	 * @param mixed $id
+	 * @param string $id
 	 * @return $this
 	 */
 	public function setId($id) {
 		$this->id = $id;
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getValue() {
-		return $this->value;
-	}
-
-	/**
-	 * @param string $value
-	 * @return $this
-	 */
-	public function setValue($value) {
-		$this->value = $value;
 		return $this;
 	}
 
@@ -223,7 +190,6 @@ class ListItem {
 
 	/**
 	 * @param \DateTime
-	 *
 	 * @return $this
 	 */
 	public function setUpdatedAt(\DateTime $updated) {

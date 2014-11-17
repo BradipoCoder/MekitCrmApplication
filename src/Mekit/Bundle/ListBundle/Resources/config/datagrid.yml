@@ -85,7 +85,6 @@ datagrid:
             query:
                 select:
                     - li.id
-                    - li.value
                     - li.label
                 from:
                     - { table: %mekit_list.listitem.entity.class%, alias: li }
@@ -99,14 +98,13 @@ datagrid:
                 - entity_id
 
         columns:
+            id:
+                label:          mekit.list.id.label
             label:
                 label:          mekit.list.label.label
                 type:           twig
                 frontend_type:  html
                 template:       MekitListBundle:Item:Datagrid/Property/editButton.html.twig
-                editable:       false
-            value:
-                label:          mekit.list.value.label
 
 
         properties:

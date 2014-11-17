@@ -201,7 +201,7 @@ class ListGroup {
 
 	/**
 	 * @param string $description
-	 * @return $this;
+	 * @return $this
 	 */
 	public function setDescription($description) {
 		$this->description = $description;
@@ -240,7 +240,6 @@ class ListGroup {
 
 	/**
 	 * @param \DateTime
-	 *
 	 * @return $this
 	 */
 	public function setCreatedAt(\DateTime $created) {
@@ -259,7 +258,6 @@ class ListGroup {
 
 	/**
 	 * @param \DateTime
-	 *
 	 * @return $this
 	 */
 	public function setUpdatedAt(\DateTime $updated) {
