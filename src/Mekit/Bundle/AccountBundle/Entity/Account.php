@@ -217,6 +217,46 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	 */
 	protected $type;
 
+	/**
+	 * @var ListItem
+	 *
+	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ListBundle\Entity\ListItem")
+	 * @ORM\JoinColumn(name="state", referencedColumnName="id")
+	 * @Oro\Versioned
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "dataaudit"={
+	 *              "auditable"=true
+	 *          },
+	 *          "importexport"={
+	 *              "order"=91,
+	 *              "short"=true
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $state;
+
+	/**
+	 * @var ListItem
+	 *
+	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ListBundle\Entity\ListItem")
+	 * @ORM\JoinColumn(name="industry", referencedColumnName="id")
+	 * @Oro\Versioned
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "dataaudit"={
+	 *              "auditable"=true
+	 *          },
+	 *          "importexport"={
+	 *              "order"=92,
+	 *              "short"=true
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $industry;
+
 
 	/**
 	 * @var User
@@ -429,6 +469,38 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	 */
 	public function setType(ListItem $type) {
 		$this->type = $type;
+		return $this;
+	}
+
+	/**
+	 * @return ListItem
+	 */
+	public function getState() {
+		return $this->state;
+	}
+
+	/**
+	 * @param ListItem $state
+	 * @return $this
+	 */
+	public function setState($state) {
+		$this->state = $state;
+		return $this;
+	}
+
+	/**
+	 * @return ListItem
+	 */
+	public function getIndustry() {
+		return $this->industry;
+	}
+
+	/**
+	 * @param ListItem $industry
+	 * @return $this
+	 */
+	public function setIndustry($industry) {
+		$this->industry = $industry;
 		return $this;
 	}
 

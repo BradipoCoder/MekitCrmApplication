@@ -2,4 +2,11 @@ parameters:
     mekit_list.listgroup.entity.class:                         Mekit\Bundle\ListBundle\Entity\ListGroup
     mekit_list.listitem.entity.class:                          Mekit\Bundle\ListBundle\Entity\ListItem
 
+    mekit_list.datagrid_helper.class:                          Mekit\Bundle\ListBundle\Datagrid\ListDatagridHelper
+
 services:
+    mekit_list.datagrid_helper:
+        class: %mekit_list.datagrid_helper.class%
+
+
+

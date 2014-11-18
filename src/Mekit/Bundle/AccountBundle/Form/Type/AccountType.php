@@ -84,6 +84,35 @@ class AccountType extends AbstractType {
 		        )
 	        )
 
+			//State - dynamic list group item from ListBundle
+			->add(
+				'state',
+				'entity',
+				array(
+					'required'    => true,
+					'label'       => 'mekit.account.state.label',
+					'class'       => 'MekitListBundle:ListItem',
+					'query_builder' => function(ListItemRepository $er) {
+						return $er->getListItemQueryBuilder('ACCOUNT_STATE');
+					}
+				)
+			)
+
+			//Industry - dynamic list group item from ListBundle
+			->add(
+				'industry',
+				'entity',
+				array(
+					'required'    => true,
+					'label'       => 'mekit.account.industry.label',
+					'class'       => 'MekitListBundle:ListItem',
+					'query_builder' => function(ListItemRepository $er) {
+						return $er->getListItemQueryBuilder('ACCOUNT_INDUSTRY');
+					}
+				)
+			)
+
+
             ->add('tags', 'oro_tag_select', ['label' => 'oro.tag.entity_plural_label']);
 	}
 
