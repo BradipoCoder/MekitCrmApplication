@@ -15,11 +15,13 @@ datagrid:
                     - a.createdAt
                     - a.updatedAt
                     - CONCAT(accountOwner.firstName, CONCAT(' ', accountOwner.lastName)) as ownerName
+                    - CONCAT(accountAssignee.firstName, CONCAT(' ', accountAssignee.lastName)) as AssigneeName
                 from:
                     - { table: %mekit_account.account.entity.class%, alias: a }
                 join:
                     left:
                         - { join: a.owner, alias: accountOwner }
+                        - { join: a.assignedTo, alias: accountAssignee }
                         - { join: a.type, alias: accountType }
                         - { join: a.state, alias: accountState }
                         - { join: a.industry, alias: accountIndustry }
@@ -35,26 +37,31 @@ datagrid:
                 label:         mekit.account.state.label
             industry:
                 label:         mekit.account.industry.label
-            ownerName:
-                label:         mekit.account.owner.label
+            AssigneeName:
+                label:         mekit.account.assigned_to.label
 
         sorters:
             columns:
                 name:
                     data_name: a.name
-                ownerName:
-                    data_name: ownerName
                 type:
                     data_name: type
+                state:
+                    data_name: state
+                industry:
+                    data_name: industry
+                AssigneeName:
+                    data_name: AssigneeName
+
 
         filters:
             columns:
                 name:
                     type:      string
                     data_name: a.name
-                ownerName:
+                AssigneeName:
                     type:      string
-                    data_name: ownerName
+                    data_name: AssigneeName
                 type:
                     type:      entity
                     data_name: accountType.id

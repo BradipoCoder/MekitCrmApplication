@@ -2,6 +2,45 @@
 {% import 'OroTagBundle::macros.html.twig' as tag %}
 {% import 'OroEntityConfigBundle::macros.html.twig' as entityConfig %}
 
+{% macro renderCollectionWithPrimaryElement(collection, isEmail) %}
+	{% import 'OroUIBundle::macros.html.twig' as ui %}
+	{% import 'OroEmailBundle::macros.html.twig' as email %}
+
+	{% set primaryElement = null %}
+	{% set secondaryElements = [] %}
+
+	{% for element in collection %}
+		{% if element.primary %}
+			{% set primaryElement = element %}
+		{% else %}
+			{% set secondaryElements = secondaryElements|merge([element]) %}
+		{% endif %}
+	{% endfor %}
+
+	<ul class="extra-list">
+		{% if primaryElement %}
+			<li class="contact-collection-element">
+				<strong>
+					{% if isEmail %}
+						{{ email.email_address_simple(primaryElement) }}
+					{% else %}
+						{{ ui.renderPhone(primaryElement) }}
+					{% endif %}
+				</strong>
+			</li>
+		{% endif %}
+		{% for secondaryElement in secondaryElements %}
+			<li class="contact-collection-element">
+				{% if isEmail %}
+					{{ email.email_address_simple(secondaryElement) }}
+				{% else %}
+					{{ ui.renderPhone(secondaryElement) }}
+				{% endif %}
+			</li>
+		{% endfor %}
+	</ul>
+{% endmacro %}
+
 <div class="widget-content">
 	<div class="row-fluid form-horizontal">
 		<div class="responsive-block">
@@ -13,11 +52,11 @@
 
 			{{ UI.renderProperty('mekit.account.vatid.label'|trans, account.vatid) }}
 			{{ UI.renderProperty('mekit.account.nin.label'|trans, account.nin) }}
+
+			{{ UI.renderHtmlProperty('mekit.account.phones.label'|trans, account.phones.count ? _self.renderCollectionWithPrimaryElement(account.phones, false) : null) }}
+
 			{{ UI.renderProperty('mekit.account.fax.label'|trans, account.fax) }}
 			{{ UI.renderProperty('mekit.account.website.label'|trans, account.website) }}
-
-			{{ UI.renderProperty('mekit.account.website.label'|trans, account.website) }}
-
 			{{ UI.renderProperty('mekit.account.description.label'|trans, account.description) }}
 
 

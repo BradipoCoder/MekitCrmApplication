@@ -26,29 +26,31 @@ mekit:
         entity_label:               Account
         entity_plural_label:        Accounts
         entity_description:         Represent account
+
         id.label:                   Id
         name.label:                 Account name
         vatid.label:                VAT Id
         nin.label:                  NIN
-
         fax.label:                  Fax
         website.label:              Web Site
         description.label:          Description
+
         type.label:                 Type
         state.label:                Stato
         industry.label:             Settore
-
+        assigned_to.label:          Assigned To
+        phones.label:               Phone
 
         owner.label:                Owner
+
         contacts.label:             Contacts
         default_contact.label:      Default Contact
-        phone.label:                Phone
         email.label:                Email
-        assigned.label:             Assigned
+
 
         extend_description.label:   Description
 
-        lifetime_value.label:       Lifetime sales value
+
 
         contact:
             name:                   Contact name

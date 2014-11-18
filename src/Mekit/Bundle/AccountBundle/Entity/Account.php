@@ -3,11 +3,10 @@
 namespace Mekit\Bundle\AccountBundle\Entity;
 
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
-
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Mekit\Bundle\AccountBundle\Model\ExtendAccount;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
 use Oro\Bundle\EmailBundle\Model\EmailHolderInterface;
@@ -16,8 +15,6 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\TagBundle\Entity\Taggable;
 use Oro\Bundle\UserBundle\Entity\User;
-
-use Mekit\Bundle\AccountBundle\Model\ExtendAccount;
 
 
 /**
@@ -163,6 +160,24 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	protected $website;
 
 	/**
+	 * @var Collection
+	 *
+	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\AccountBundle\Entity\AccountPhone", mappedBy="owner",
+	 *    cascade={"all"}, orphanRemoval=true
+	 * ))
+	 * @ORM\OrderBy({"primary" = "DESC"})
+	 * @Soap\ComplexType("Mekit\Bundle\AccountBundle\Entity\AccountPhone[]", nillable=true)
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "importexport"={
+	 *              "order"=220
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $phones;
+
+	/**
 	 * @var string
 	 *
 	 * @ORM\Column(type="string", length=16, nullable=true)
@@ -257,6 +272,26 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	 */
 	protected $industry;
 
+	/**
+	 * @var User
+	 *
+	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
+	 * @ORM\JoinColumn(name="assigned_to", referencedColumnName="id", onDelete="SET NULL")
+	 * @Oro\Versioned
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "dataaudit"={
+	 *              "auditable"=true
+	 *          },
+	 *          "importexport"={
+	 *              "order"=200,
+	 *              "short"=true
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $assignedTo;
+
 
 	/**
 	 * @var User
@@ -337,6 +372,8 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 
 	public function __construct() {
 		parent::__construct();
+		$this->phones   = new ArrayCollection();
+		$this->tags     = new ArrayCollection();
 	}
 
 	/**
@@ -425,6 +462,97 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	}
 
 	/**
+	 * Set phones.
+	 * This method could not be named setPhones because of bug CRM-253.
+	 *
+	 * @param Collection|AccountPhone[] $phones
+	 * @return $this
+	 */
+	public function resetPhones($phones) {
+		$this->phones->clear();
+		foreach ($phones as $phone) {
+			$this->addPhone($phone);
+		}
+		return $this;
+	}
+
+	/**
+	 * Add phone
+	 *
+	 * @param AccountPhone $phone
+	 * @return $this
+	 */
+	public function addPhone(AccountPhone $phone) {
+		if (!$this->phones->contains($phone)) {
+			$this->phones->add($phone);
+			$phone->setOwner($this);
+		}
+		return $this;
+	}
+
+	/**
+	 * Remove phone
+	 *
+	 * @param AccountPhone $phone
+	 * @return $this
+	 */
+	public function removePhone(AccountPhone $phone) {
+		if ($this->phones->contains($phone)) {
+			$this->phones->removeElement($phone);
+		}
+		return $this;
+	}
+
+	/**
+	 * Get phones
+	 *
+	 * @return Collection|AccountPhone[]
+	 */
+	public function getPhones() {
+		return $this->phones;
+	}
+
+	/**
+	 * @param AccountPhone $phone
+	 * @return bool
+	 */
+	public function hasPhone(AccountPhone $phone) {
+		return $this->getPhones()->contains($phone);
+	}
+
+	/**
+	 * Gets primary phone if it's available.
+	 *
+	 * @return AccountPhone|null
+	 */
+	public function getPrimaryPhone() {
+		$result = null;
+		foreach ($this->getPhones() as $phone) {
+			if ($phone->isPrimary()) {
+				$result = $phone;
+				break;
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * @param AccountPhone $phone
+	 * @return $this
+	 */
+	public function setPrimaryPhone(AccountPhone $phone) {
+		if ($this->hasPhone($phone)) {
+			$phone->setPrimary(true);
+			foreach ($this->getPhones() as $otherPhone) {
+				if (!$phone->isEqual($otherPhone)) {
+					$otherPhone->setPrimary(false);
+				}
+			}
+		}
+		return $this;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getFax() {
@@ -503,6 +631,23 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 		$this->industry = $industry;
 		return $this;
 	}
+
+	/**
+	 * @return User
+	 */
+	public function getAssignedTo() {
+		return $this->assignedTo;
+	}
+
+	/**
+	 * @param User $assignedTo
+	 * @return $this
+	 */
+	public function setAssignedTo($assignedTo) {
+		$this->assignedTo = $assignedTo;
+		return $this;
+	}
+
 
 	/**
 	 * Get created date/time

@@ -1,5 +1,7 @@
 {% extends 'OroUIBundle:actions:update.html.twig' %}
+
 {% form_theme form with ['OroFormBundle:Form:fields.html.twig', 'OroTagBundle:Form:fields.html.twig'] %}
+
 {% oro_title_set({params : {"%account.name%": form.vars.value.name|default('N/A')} }) %}
 
 {% set formAction = form.vars.value.id ? path('mekit_account_update', { 'id': form.vars.value.id }) : path('mekit_account_create')  %}
@@ -64,9 +66,11 @@
                     form_row(form.industry),
                     form_row(form.vatid),
 				    form_row(form.nin),
+                    form_row(form.phones),
 				    form_row(form.fax),
 				    form_row(form.website),
 				    form_row(form.description),
+                    form_row(form.assignedTo),
                     form_row(form.tags)
                 ]
             }

@@ -112,6 +112,25 @@ class AccountType extends AbstractType {
 				)
 			)
 
+			// assigned to (user)
+	        ->add(
+		        'assignedTo',
+		        'oro_user_select',
+		        array('required' => false, 'label' => 'mekit.account.assigned_to.label')
+	        )
+
+			//phones
+			->add(
+				'phones',
+				'oro_phone_collection',
+				array(
+					'label'    => 'mekit.account.phones.label',
+					'type'     => 'oro_phone',
+					'required' => false,
+					'options'  => array('data_class' => 'Mekit\Bundle\AccountBundle\Entity\AccountPhone')
+				)
+			)
+
 
             ->add('tags', 'oro_tag_select', ['label' => 'oro.tag.entity_plural_label']);
 	}
