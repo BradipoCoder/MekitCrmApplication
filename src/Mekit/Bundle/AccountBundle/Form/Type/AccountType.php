@@ -112,6 +112,32 @@ class AccountType extends AbstractType {
 				)
 			)
 
+			//Source - dynamic list group item from ListBundle
+			->add(
+				'source',
+				'entity',
+				array(
+					'required'    => true,
+					'label'       => 'mekit.account.source.label',
+					'class'       => 'MekitListBundle:ListItem',
+					'query_builder' => function(ListItemRepository $er) {
+						return $er->getListItemQueryBuilder('ACCOUNT_SOURCE');
+					}
+				)
+			)
+
+			//email
+			->add(
+				'emails',
+				'oro_email_collection',
+				array(
+					'label'    => 'mekit.account.emails.label',
+					'type'     => 'oro_email',
+					'required' => false,
+					'options'  => array('data_class' => 'Mekit\Bundle\AccountBundle\Entity\AccountEmail')
+				)
+			)
+
 			// assigned to (user)
 	        ->add(
 		        'assignedTo',

@@ -38,14 +38,15 @@ mekit:
         type.label:                 Type
         state.label:                Stato
         industry.label:             Settore
+        source.label:               Provenienza
         assigned_to.label:          Assigned To
         phones.label:               Phone
-
+        emails.label:                Email
         owner.label:                Owner
 
         contacts.label:             Contacts
         default_contact.label:      Default Contact
-        email.label:                Email
+
 
 
         extend_description.label:   Description

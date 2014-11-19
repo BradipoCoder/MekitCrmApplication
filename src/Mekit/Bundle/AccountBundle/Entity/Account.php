@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Mekit\Bundle\AccountBundle\Model\ExtendAccount;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
-use Oro\Bundle\EmailBundle\Model\EmailHolderInterface;
+use Oro\Bundle\EmailBundle\Entity\EmailOwnerInterface;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
@@ -62,7 +62,7 @@ use Oro\Bundle\UserBundle\Entity\User;
  *      }
  * )
  */
-class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
+class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	/**
 	 * @ORM\Id
 	 * @ORM\Column(type="integer")
@@ -273,6 +273,60 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	protected $industry;
 
 	/**
+	 * @var ListItem
+	 *
+	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ListBundle\Entity\ListItem")
+	 * @ORM\JoinColumn(name="source", referencedColumnName="id")
+	 * @Oro\Versioned
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "dataaudit"={
+	 *              "auditable"=true
+	 *          },
+	 *          "importexport"={
+	 *              "order"=93,
+	 *              "short"=true
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $source;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="email", type="string", length=255, nullable=true)
+	 * @Oro\Versioned
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "dataaudit"={
+	 *              "auditable"=true
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $email;
+
+	/**
+	 * @var Collection
+	 *
+	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\AccountBundle\Entity\AccountEmail",
+	 *    mappedBy="owner", cascade={"all"}, orphanRemoval=true
+	 * )
+	 * @ORM\OrderBy({"primary" = "DESC"})
+	 * @Soap\ComplexType("Mekit\Bundle\AccountBundle\Entity\AccountEmail[]", nillable=true)
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "importexport"={
+	 *              "order"=210
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $emails;
+
+
+	/**
 	 * @var User
 	 *
 	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
@@ -372,8 +426,9 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 
 	public function __construct() {
 		parent::__construct();
-		$this->phones   = new ArrayCollection();
-		$this->tags     = new ArrayCollection();
+		$this->emails = new ArrayCollection();
+		$this->phones = new ArrayCollection();
+		$this->tags = new ArrayCollection();
 	}
 
 	/**
@@ -633,6 +688,160 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	}
 
 	/**
+	 * @return ListItem
+	 */
+	public function getSource() {
+		return $this->source;
+	}
+
+	/**
+	 * @param ListItem $source
+	 * @return $this
+	 */
+	public function setSource($source) {
+		$this->source = $source;
+		return $this;
+	}
+
+	/**
+	 * Set emails
+	 *
+	 * @param Collection|AccountEmail[] $emails
+	 * @return $this
+	 */
+	public function resetEmails($emails) {
+		$this->emails->clear();
+		foreach ($emails as $email) {
+			$this->addEmail($email);
+		}
+		return $this;
+	}
+
+	/**
+	 * Add email
+	 *
+	 * @param AccountEmail $email
+	 * @return $this
+	 */
+	public function addEmail(AccountEmail $email) {
+		if (!$this->emails->contains($email)) {
+			$this->emails->add($email);
+			$email->setOwner($this);
+		}
+		return $this;
+	}
+
+	/**
+	 * Remove email
+	 *
+	 * @param AccountEmail $email
+	 * @return $this
+	 */
+	public function removeEmail(AccountEmail $email) {
+		if ($this->emails->contains($email)) {
+			$this->emails->removeElement($email);
+		}
+		return $this;
+	}
+
+	/**
+	 * Get emails
+	 *
+	 * @return Collection|AccountEmail[]
+	 */
+	public function getEmails() {
+		return $this->emails;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getEmail() {
+		$primaryEmail = $this->getPrimaryEmail();
+		if (!$primaryEmail) {
+			return null;
+		}
+		return $primaryEmail->getEmail();
+	}
+
+	/**
+	 * @param AccountEmail $email
+	 * @return bool
+	 */
+	public function hasEmail(AccountEmail $email) {
+		return $this->getEmails()->contains($email);
+	}
+
+	/**
+	 * Gets primary email if it's available.
+	 *
+	 * @return AccountEmail|null
+	 */
+	public function getPrimaryEmail() {
+		$result = null;
+		foreach ($this->getEmails() as $email) {
+			if ($email->isPrimary()) {
+				$result = $email;
+				break;
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * @param AccountEmail $email
+	 * @return $this
+	 */
+	public function setPrimaryEmail(AccountEmail $email) {
+		if ($this->hasEmail($email)) {
+			$email->setPrimary(true);
+			foreach ($this->getEmails() as $otherEmail) {
+				if (!$email->isEqual($otherEmail)) {
+					$otherEmail->setPrimary(false);
+				}
+			}
+		}
+		return $this;
+	}
+
+	/**
+	 * Get names of fields contain email addresses
+	 *
+	 * @return string[]|null
+	 */
+	public function getEmailFields() {
+		return null;
+	}
+
+	/**
+	 * Get entity class name. - This is an EmailOwnerInterface requirement
+	 * TODO: Remove this temporary solution for get 'view' route in twig after EntityConfigBundle is finished
+	 * @return string
+	 */
+	public function getClass() {
+		return 'Mekit\Bundle\AccountBundle\Entity\Account';
+	}
+
+	/**
+	 * This is an EmailOwnerInterface requirement
+	 *
+	 * @return string
+	 */
+	public function getFirstName() {
+		return $this->getName();
+	}
+
+	/**
+	 * This is an EmailOwnerInterface requirement
+	 *
+	 * @return string
+	 */
+	public function getLastName() {
+		return $this->getName();
+	}
+
+
+	/**
 	 * @return User
 	 */
 	public function getAssignedTo() {
@@ -744,15 +953,6 @@ class Account extends ExtendAccount implements Taggable, EmailHolderInterface {
 	public function setTags($tags) {
 		$this->tags = $tags;
 		return $this;
-	}
-
-	/**
-	 * Get the primary email address of the default contact
-	 *
-	 * @return string
-	 */
-	public function getEmail() {
-		return "Undefined";
 	}
 
 	/**

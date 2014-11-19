@@ -8,10 +8,10 @@ datagrid:
                 select:
                     - a.id
                     - a.name
-                    - a.vatid
                     - accountType.label as type
                     - accountState.label as state
                     - accountIndustry.label as industry
+                    - accountSource.label as source
                     - a.createdAt
                     - a.updatedAt
                     - CONCAT(accountOwner.firstName, CONCAT(' ', accountOwner.lastName)) as ownerName
@@ -25,18 +25,19 @@ datagrid:
                         - { join: a.type, alias: accountType }
                         - { join: a.state, alias: accountState }
                         - { join: a.industry, alias: accountIndustry }
+                        - { join: a.source, alias: accountSource }
 
         columns:
             name:
                 label:         mekit.account.name.label
-            vatid:
-                label:         mekit.account.vatid.label
             type:
                 label:         mekit.account.type.label
             state:
                 label:         mekit.account.state.label
             industry:
                 label:         mekit.account.industry.label
+            source:
+                label:         mekit.account.source.label
             AssigneeName:
                 label:         mekit.account.assigned_to.label
 
@@ -50,6 +51,8 @@ datagrid:
                     data_name: state
                 industry:
                     data_name: industry
+                source:
+                    data_name: source
                 AssigneeName:
                     data_name: AssigneeName
 
@@ -88,6 +91,15 @@ datagrid:
                         class:     MekitListBundle:ListItem
                         property:  label
                         query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilder_ACCOUNT_INDUSTRY
+                        multiple: true
+                source:
+                    type:      entity
+                    data_name: accountSource.id
+                    options:
+                      field_options:
+                        class:     MekitListBundle:ListItem
+                        property:  label
+                        query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilder_ACCOUNT_SOURCE
                         multiple: true
 
         properties:
