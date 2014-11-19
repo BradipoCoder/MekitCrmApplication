@@ -138,6 +138,18 @@ class AccountType extends AbstractType {
 				)
 			)
 
+			//addresses
+			->add(
+				'addresses',
+				'oro_address_collection',
+				array(
+					'label'    => '',
+					'type'     => 'oro_typed_address',
+					'required' => true,
+					'options'  => array('data_class' => 'Mekit\Bundle\AccountBundle\Entity\AccountAddress')
+				)
+			)
+
 			// assigned to (user)
 	        ->add(
 		        'assignedTo',

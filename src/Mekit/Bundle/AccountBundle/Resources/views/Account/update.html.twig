@@ -77,7 +77,19 @@
                 ]
             }
         ]
-    }] %}
+    },
+    {
+	    'title': 'Addresses'|trans,
+        'subblocks': [
+	        {
+                'title': 'orocrm.contact.addresses.label'|trans,
+                'data': [
+                    form_widget(form.addresses),
+                ]
+            },
+        ]
+    }
+    ] %}
 
     {% if form.additional is defined and form.additional.children|length > 0 %}
         {% set additionalData = [] %}

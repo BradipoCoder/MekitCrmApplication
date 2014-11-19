@@ -53,8 +53,19 @@
 		}) }}
 	{% endset %}
 
-	{% set generalSectionBlocks = [{'data' : [accountInformationWidget]}]%}
+	{% set addressBookWidget %}
+        {{ oro_widget_render({
+            'widgetType': 'block',
+            'contentClasses': [],
+            'url': path('mekit_account_address_book', {id: entity.id}),
+            'title': 'Address Book'|trans
+        }) }}
+    {% endset %}
 
+	{% set generalSectionBlocks = [
+		{'data' : [accountInformationWidget]},
+		{'data' : [addressBookWidget]}
+	] %}
 
 
 	{% set dataBlocks = [

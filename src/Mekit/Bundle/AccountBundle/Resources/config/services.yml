@@ -1,4 +1,5 @@
 parameters:
     mekit_account.account.entity.class:                         Mekit\Bundle\AccountBundle\Entity\Account
+    mekit_account.account_address.entity.class:                 Mekit\Bundle\AccountBundle\Entity\AccountAddress
 
 services:
