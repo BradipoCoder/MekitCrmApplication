@@ -25,7 +25,7 @@ use Oro\Bundle\UserBundle\Entity\User;
  * @ORM\HasLifecycleCallbacks()
  * @Oro\Loggable
  * @Config(
- *      routeName="mekit_listitem_index",
+ *      routeName="",
  *      routeView="mekit_listitem_view",
  *      defaultValues={
  *          "entity"={

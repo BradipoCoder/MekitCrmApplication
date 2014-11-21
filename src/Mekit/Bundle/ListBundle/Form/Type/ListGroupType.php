@@ -53,9 +53,9 @@ class ListGroupType extends AbstractType {
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-			->add('name', 'text', ['required' => true, 'label' => 'mekit.list.name.label'])
-			->add('label', 'text', ['required' => true, 'label' => 'mekit.list.label.label'])
-			->add('description', 'textarea', ['required' => false, 'label' => 'mekit.list.description.label']);
+			->add('name', 'text', ['required' => true, 'label' => 'mekit.list.listgroup.name.label'])
+			->add('label', 'text', ['required' => true, 'label' => 'mekit.list.listgroup.label.label'])
+			->add('description', 'textarea', ['required' => false, 'label' => 'mekit.list.listgroup.description.label']);
 	}
 
 	/**

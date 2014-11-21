@@ -57,8 +57,8 @@ class ListItemType extends AbstractType {
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-			->add('id', 'text', ['required' => true, 'label' => 'mekit.list.id.label'])
-			->add('label', 'text', ['required' => true, 'label' => 'mekit.list.label.label']);
+			->add('id', 'text', ['required' => true, 'label' => 'mekit.list.listitem.id.label'])
+			->add('label', 'text', ['required' => true, 'label' => 'mekit.list.listitem.label.label']);
 	}
 
 	/**
@@ -73,7 +73,7 @@ class ListItemType extends AbstractType {
 			if ($entity instanceof ListItem) {
 				//if ID is defined (existing item) - you cannot modify it anymore - so it will be hidden
 				if(!$entity->getID()) {
-					$form->add('id', 'text', ['required' => true, 'label' => 'mekit.list.id.label']);
+					$form->add('id', 'text', ['required' => true, 'label' => 'mekit.list.listitem.id.label']);
 				} else {
 					$form->add('id', 'hidden');
 				}

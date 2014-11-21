@@ -1,12 +1,12 @@
 oro_menu_config:
     items:
         oro_list_list:
-            label: 'mekit.list.entity_plural_label'
+            label: 'mekit.list.menu.title'
             route: 'mekit_list_index'
             extras:
                 position:    91
                 routes:      ['mekit_list_*']
-                description: 'mekit.list.menu.list.description'
+                description: 'mekit.list.menu.description'
     tree:
         application_menu:
             children:

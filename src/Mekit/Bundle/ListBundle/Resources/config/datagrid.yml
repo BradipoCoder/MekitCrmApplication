@@ -16,25 +16,20 @@ datagrid:
 #                - { name: HINT_CUSTOM_OUTPUT_WALKER, value: %oro_translation.translation_walker.class%}
 
         columns:
-            id:
-                label:      mekit.list.id.label
             name:
-                label:      mekit.list.name.label
+                label:          mekit.list.listgroup.name.label
             label:
-                label:          mekit.list.label.label
+                label:          mekit.list.listgroup.label.label
                 type:           twig
                 frontend_type:  html
                 template:       MekitListBundle:List:Datagrid/Property/translatedValue.html.twig
             description:
-                label:      mekit.list.description.label
+                label:          mekit.list.listgroup.description.label
                 type:           twig
                 frontend_type:  html
                 template:       MekitListBundle:List:Datagrid/Property/translatedValue.html.twig
 
         sorters:
-            columns:
-                id:
-                    data_name: lg.id
                 name:
                     data_name: lg.name
 
@@ -99,9 +94,9 @@ datagrid:
 
         columns:
             id:
-                label:          mekit.list.id.label
+                label:          mekit.list.listitem.id.label
             label:
-                label:          mekit.list.label.label
+                label:          mekit.list.listitem.label.label
                 type:           twig
                 frontend_type:  html
                 template:       MekitListBundle:Item:Datagrid/Property/editButton.html.twig

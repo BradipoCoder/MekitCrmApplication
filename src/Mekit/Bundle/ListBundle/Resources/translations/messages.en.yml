@@ -5,7 +5,8 @@ mekit:
             select_contacts:        Select contacts
 
         menu:
-            list.description:       "List Group listing"
+            title:             "Lists"
+            description:       "List Group listing"
 
         widgets:
             listgroup_information:  "List Group Info"
@@ -16,42 +17,31 @@ mekit:
             list.saved.message:     "List Group saved"
             item.saved.message:     "List Item saved"
 
-        sections.general:           "General"
-        sections.items:             "Items"
+        sections:
+          general:                  "General"
+          items:                    "Items"
 
-        #
-        # ListGroup
-        #
-        entity_label:               List Group
-        entity_plural_label:        List Groups
-        entity_description:         A group of list items
+        listgroup:
+          entity_label:               List
+          entity_plural_label:        Lists
+          entity_description:         A list items to be used as options for entities
 
-        id.label:                   Id
-        name.label:                 List Group Name
-        label.label:                Label
-        description.label:          Description
-        owner.label:                Owner
-
-
-        #
-        # ListItem
-        #
-        entity_item_label:          List Item
-        entity_item_plural_label:   List Items
-        entity_item_description:    A list item
-        editaction.label:           Edit
-
-        value.label:                Value
+          id.label:                   Id
+          name.label:                 List Name
+          label.label:                Label
+          description.label:          Description
+          items.label:                Items
 
 
-        #
-        # System Lists
-        #
+        listitem:
+          entity_label:               List Item
+          entity_plural_label:        List Items
+          entity_description:         A list of items
 
-        ### ACCOUNT_TYPE ###
-        systemlist.account_type:
-            label:          Type
-            description:    Account types
-        systemlist.account_source:
-            label:          Source
-            description:    Account sources
+          id.label:                   Id
+          value.label:                Value
+          label.label:                Label
+
+
+
+          editaction.label:           Edit
