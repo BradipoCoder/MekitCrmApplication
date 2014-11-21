@@ -3,6 +3,7 @@
 namespace Mekit\Bundle\AccountBundle\Controller;
 
 use Mekit\Bundle\ListBundle\Entity\ListItem;
+use Mekit\Bundle\ListBundle\Entity\ListItemRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -100,12 +101,13 @@ class AccountController extends Controller {
 			/** @var Account $entity */
 			$entity = $this->getManager()->createEntity();
 
-			/** @var ListItem $defListItemType */
-			$defListItemType = $this->getDoctrine()->getRepository('MekitListBundle:ListItem')->getItemFromGroupByLabel("ACCOUNT_TYPE", "Cliente");
-			if($defListItemType) {
-				$entity->setType($defListItemType);
-			}
+			/** @var ListItemRepository $listItemRepo */
+			$listItemRepo = $this->getDoctrine()->getRepository('MekitListBundle:ListItem');
 
+			//todo: we need default List Items for each list
+			/** @var ListItem $defListItemType */
+			$defListItemType = $listItemRepo->find("ACCT_CLNT");
+			if($defListItemType) { $entity->setType($defListItemType); }
 
 
 		}
