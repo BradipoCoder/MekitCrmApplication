@@ -448,6 +448,7 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 		parent::__construct();
 		$this->emails = new ArrayCollection();
 		$this->phones = new ArrayCollection();
+		$this->addresses = new ArrayCollection();
 		$this->tags = new ArrayCollection();
 	}
 
@@ -1113,7 +1114,7 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	}
 
 	/**
-	 * @param ArrayCollection $tags
+	 * @param $tags
 	 * @return $this
 	 */
 	public function setTags($tags) {
