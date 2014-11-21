@@ -17,14 +17,14 @@
             /** @type oroaddress.AddressBook */
             var addressBook = new AddressBook({
                 el: '#address-book',
-                addressListUrl: {{ path('oro_api_get_contact_addresses', {'contactId': entity.id})|json_encode|raw }},
-                addressCreateUrl: {{ path('orocrm_contact_address_create', {'contactId': entity.id})|json_encode|raw }},
+                addressListUrl: {{ path('mekit_api_get_account_addresses', {'accountId': entity.id})|json_encode|raw }},
+                addressCreateUrl: {{ path('mekit_account_address_create', {'accountId': entity.id})|json_encode|raw }},
                 addressUpdateUrl: function() {
                     var address = arguments[0];
                     return routing.generate(
-                        'orocrm_contact_address_update',
+                        'mekit_account_address_update',
                         {
-                            'contactId': {{ entity.id|json_encode|raw }},
+                            'accountId': {{ entity.id|json_encode|raw }},
                             'id': address.get('id')
                         }
                     )
@@ -33,9 +33,10 @@
             widget.getAction('add_address', 'adopted', function(action) {
                 action.on('click', _.bind(addressBook.createAddress, addressBook));
             });
+
             addressBook
                 .getCollection()
-                .reset({{ render(path('oro_api_get_contact_addresses', {contactId: entity.id})) }});
+                .reset({{ render(path('mekit_api_get_account_addresses', {accountId: entity.id})) }});
         });
     });
     </script>

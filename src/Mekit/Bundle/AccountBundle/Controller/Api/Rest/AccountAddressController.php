@@ -170,7 +170,7 @@ class AccountAddressController extends RestController implements ClassResourceIn
 	 * {@inheritdoc}
 	 */
 	public function getManager() {
-		return $this->get('orocrm_contact.contact_address.manager.api');
+		return $this->get('mekit_account.account_address.manager.api');
 	}
 
 	/**

@@ -2,3 +2,12 @@ mekit_account_bundle:
     resource:     "@MekitAccountBundle/Controller"
     type:         annotation
     prefix:       /account
+
+mekit_account_bundle_api:
+    resource: "@MekitAccountBundle/Resources/config/oro/routing_api.yml"
+    type: rest
+    prefix:       api/rest/{version}
+    requirements:
+        version:  latest|v1
+    defaults:
+        version:  latest
