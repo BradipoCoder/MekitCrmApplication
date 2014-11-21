@@ -2,45 +2,50 @@
 
 namespace Mekit\Bundle\AccountBundle\Tests\Unit\Entity;
 
+use Mekit\Bundle\TestBundle\Tests\Helpers\MekitEntityTests;
+
 use Doctrine\Common\Collections\ArrayCollection;
-use Mekit\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
 
-class AccountTest extends \PHPUnit_Framework_TestCase {
+use Mekit\Bundle\AccountBundle\Entity\Account;
+use Mekit\Bundle\ListBundle\Entity\ListItem;
+
+class AccountTest extends MekitEntityTests {
+
+	protected $entityName = 'Mekit\Bundle\AccountBundle\Entity\Account';
 
 
-	/**
-	 * @dataProvider provider
-	 * @param string $property
-	 */
-	public function testSettersAndGetters($property, $value) {
-		$obj = new Account();
-		call_user_func_array(array($obj, 'set' . ucfirst($property)), array($value));
-		$this->assertEquals($value, call_user_func_array(array($obj, 'get' . ucfirst($property)), array()));
-	}
 
 	/**
-	 * Data provider
+	 * Data provider for simple get/set tests executed in MekitEntityTests::testSettersAndGetters(prop, value, expected)
+	 * Properties must follow getter/setter naming convention
 	 *
 	 * @return array
 	 */
-	public function provider() {
+	public function propertyTestsProvider() {
+		$now = new \DateTime('now');
+		$listItem = $this->getMock('Mekit\Bundle\ListBundle\Entity\ListItem');
+		$user = $this->getMock('Oro\Bundle\UserBundle\Entity\User');
+		$organization = $this->getMock('Oro\Bundle\OrganizationBundle\Entity\Organization');
+
 		return array(
 			array('id', '123'),
 			array('name', 'MEKIT'),
-			array('owner', new User()),
-			array('organization', new Organization()),
-			array('createdAt', new \DateTime()),
-			array('updatedAt', new \DateTime()),
-			array('tags', new ArrayCollection())
+			array('vatid', '123'),
+			array('nin', '123'),
+			array('website', 'www.test.com'),
+			array('fax', '123'),
+			array('description', 'test'),
+			array('type', $listItem),
+			array('state', $listItem),
+			array('industry', $listItem),
+			array('source', $listItem),
+			array('assignedTo', $user),
+			array('owner', $user),
+			array('organization', $organization),
+			array('createdAt', $now),
+			array('updatedAt', $now)
 		);
 	}
-
-	public function testToString() {
-		$obj = new Account();
-		$obj->setName('name');
-		$this->assertEquals('name', $obj->__toString());
-	}
-
 }

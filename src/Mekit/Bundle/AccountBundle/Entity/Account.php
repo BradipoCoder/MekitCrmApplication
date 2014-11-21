@@ -774,7 +774,7 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * @return null|string
 	 */
 	public function getEmail() {
 		$primaryEmail = $this->getPrimaryEmail();
@@ -867,7 +867,9 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 * @return $this
 	 */
 	public function resetAddresses($addresses) {
-		$this->addresses->clear();
+		if($this->addresses) {
+			$this->addresses->clear();
+		}
 		foreach ($addresses as $address) {
 			$this->addAddress($address);
 		}
@@ -1016,7 +1018,7 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 * @param User $assignedTo
 	 * @return $this
 	 */
-	public function setAssignedTo($assignedTo) {
+	public function setAssignedTo(User $assignedTo) {
 		$this->assignedTo = $assignedTo;
 		return $this;
 	}
