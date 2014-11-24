@@ -3,7 +3,7 @@
 namespace Mekit\Bundle\AccountBundle\Controller;
 
 use Mekit\Bundle\ListBundle\Entity\ListItem;
-use Mekit\Bundle\ListBundle\Entity\ListItemRepository;
+use Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 

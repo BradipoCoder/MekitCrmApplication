@@ -1,9 +1,11 @@
 <?php
-namespace Mekit\Bundle\ListBundle\Entity;
+namespace Mekit\Bundle\ListBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Mekit\Bundle\ListBundle\Entity\ListGroup;
+use Mekit\Bundle\ListBundle\Entity\ListItem;
 
 
 class ListItemRepository extends EntityRepository {

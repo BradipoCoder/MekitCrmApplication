@@ -17,7 +17,7 @@ use Oro\Bundle\SecurityBundle\SecurityFacade;
 
 use Mekit\Bundle\AccountBundle\Entity\Account;
 //use Mekit\Bundle\ContactBundle\Entity\Contact;
-use Mekit\Bundle\ListBundle\Entity\ListItemRepository;
+use Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository;
 
 
 /**

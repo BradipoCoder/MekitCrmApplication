@@ -15,7 +15,7 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
 
 /**
- * @ORM\Entity(repositoryClass="Mekit\Bundle\ListBundle\Entity\ListItemRepository")
+ * @ORM\Entity(repositoryClass="Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository")
  * @ORM\Table(name="mekit_list_item",
  *      indexes={
  *          @ORM\Index(name="idx_listitem_created_at", columns={"createdAt"}),
