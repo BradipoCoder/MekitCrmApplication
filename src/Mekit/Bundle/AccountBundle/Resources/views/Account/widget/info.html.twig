@@ -46,11 +46,6 @@
 		<div class="responsive-block">
 			{{ UI.renderProperty('mekit.account.name.label'|trans, account.name) }}
 
-			{{ UI.renderProperty('mekit.account.type.label'|trans, account.type.label) }}
-			{{ UI.renderProperty('mekit.account.state.label'|trans, account.state.label) }}
-			{{ UI.renderProperty('mekit.account.industry.label'|trans, account.industry.label) }}
-			{{ UI.renderProperty('mekit.account.source.label'|trans, account.source.label) }}
-
 			{{ UI.renderProperty('mekit.account.vatid.label'|trans, account.vatid) }}
 			{{ UI.renderProperty('mekit.account.nin.label'|trans, account.nin) }}
 
@@ -58,17 +53,20 @@
 			{{ UI.renderHtmlProperty('mekit.account.phones.label'|trans, account.phones.count ? _self.renderCollectionWithPrimaryElement(account.phones, false) : null) }}
 
 			{{ UI.renderProperty('mekit.account.fax.label'|trans, account.fax) }}
-			{{ UI.renderProperty('mekit.account.website.label'|trans, account.website) }}
+			{{ UI.renderHtmlProperty('mekit.account.website.label'|trans, UI.renderUrl('http://'~account.website, account.website) ) }}
 			{{ UI.renderProperty('mekit.account.description.label'|trans, account.description) }}
 
-
-			{% if resource_granted('oro_tag_view_tag_cloud') %}
-				{{ UI.renderHtmlProperty('oro.tag.entity_plural_label'|trans, tag.renderView(account)) }}
-			{% endif %}
 		</div>
 
 		<div class="responsive-block">
+			{{ UI.renderProperty('mekit.account.type.label'|trans, account.type.label) }}
+			{{ UI.renderProperty('mekit.account.state.label'|trans, account.state.label) }}
+			{{ UI.renderProperty('mekit.account.industry.label'|trans, account.industry.label) }}
+			{{ UI.renderProperty('mekit.account.source.label'|trans, account.source.label) }}
 			{{ entityConfig.renderDynamicFields(account) }}
+			{% if resource_granted('oro_tag_view_tag_cloud') %}
+				{{ UI.renderHtmlProperty('oro.tag.entity_plural_label'|trans, tag.renderView(account)) }}
+			{% endif %}
 		</div>
 	</div>
 </div>

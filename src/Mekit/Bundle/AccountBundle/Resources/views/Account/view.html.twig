@@ -48,22 +48,20 @@
             'widgetType': 'block',
             'contentClasses': [],
             'url': path('mekit_account_address_book', {id: entity.id}),
-            'title': 'Address Book'|trans
+            'title': 'mekit.account.widgets.account_addresses'|trans
         }) }}
     {% endset %}
-
-	{% set generalSectionBlocks = [
-		{'data' : [accountInformationWidget]},
-		{'data' : [addressBookWidget]}
-	] %}
-
 
 	{% set dataBlocks = [
 		{
 		'title': 'mekit.account.sections.general'|trans,
 		'class': 'active',
-		'subblocks': generalSectionBlocks
-		}
+		'subblocks': [ {'data' : [accountInformationWidget]} ]
+		},
+		{
+		'title': 'mekit.account.sections.addresses'|trans,
+		'subblocks': [ {'data' : [addressBookWidget]} ]
+		},
 	] %}
 
 	{% set id = 'accountView' %}
