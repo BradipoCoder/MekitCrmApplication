@@ -227,7 +227,19 @@ class ListGroup {
 		return $this;
 	}
 
-
+	/**
+	 * Add ListItem
+	 *
+	 * @param ListItem $item
+	 * @return $this
+	 */
+	public function addItem(ListItem $item) {
+		if (!$this->items->contains($item)) {
+			$this->items->add($item);
+			$item->setListGroup($this);
+		}
+		return $this;
+	}
 
 	/**
 	 * Get created date/time
