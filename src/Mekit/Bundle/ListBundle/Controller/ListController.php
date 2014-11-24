@@ -22,6 +22,7 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
 
 /**
  * Class ListController
+ * todo: this controller should be split into two
  */
 class ListController extends Controller {
 

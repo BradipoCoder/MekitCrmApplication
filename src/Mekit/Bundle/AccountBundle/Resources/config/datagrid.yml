@@ -112,6 +112,10 @@ datagrid:
                 type:       url
                 route:      mekit_account_update
                 params:     [ id ]
+            delete_link:
+                type:       url
+                route:      mekit_api_delete_account
+                params:     [ id ]
 
         actions:
             view:
@@ -127,11 +131,19 @@ datagrid:
                 label:         oro.grid.action.update
                 icon:          edit
                 link:          update_link
+            delete:
+                type:          delete
+                acl_resource:  mekit_account_account_delete
+                label:         oro.grid.action.delete
+                icon:          trash
+                link:          delete_link
+
         mass_actions:
             merge:
                 type: merge
                 entity_name: %mekit_account.account.entity.class%
                 data_identifier: a.id
+
         options:
             entityHint: account
             export: true

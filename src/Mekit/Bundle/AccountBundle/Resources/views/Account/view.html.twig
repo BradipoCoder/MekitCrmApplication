@@ -10,26 +10,16 @@
 		}) }}
 	{% endif %}
 
-	{#{% if resource_granted('DELETE', entity) %}#}
-		{#{{ UI.deleteButton({#}
-		{#'dataUrl': path('mekit_api_delete_account', {'id': entity.id}),#}
-		{#'dataRedirect': path('mekit_account_index'),#}
-		{#'aCss': 'no-hash remove-button',#}
-		{#'dataId': entity.id,#}
-		{#'id': 'btn-remove-account',#}
-		{#'entity_label': 'mekit.account.entity_label'|trans#}
-		{#}) }}#}
-	{#{% endif %}#}
-
-
-	{#{% set html %}#}
-	{#{% placeholder orocrm_account_action_dropdown with {'entity': entity} %}#}
-	{#{% endset %}#}
-	{#{{ UI.dropdownButton({#}
-	{#'label': 'orocrm.account.account_actions'|trans,#}
-	{#'aCss': 'pull-right',#}
-	{#'html': html#}
-	{#}) }}#}
+	{% if resource_granted('DELETE', entity) %}
+		{{ UI.deleteButton({
+		'dataUrl': path('mekit_api_delete_account', {'id': entity.id}),
+		'dataRedirect': path('mekit_account_index'),
+		'aCss': 'no-hash remove-button',
+		'dataId': entity.id,
+		'id': 'btn-remove-account',
+		'entity_label': 'mekit.account.entity_label'|trans
+		}) }}
+	{% endif %}
 
 {% endblock navButtons %}
 
