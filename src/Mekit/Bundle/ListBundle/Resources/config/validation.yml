@@ -1,0 +1,38 @@
+Mekit\Bundle\ListBundle\Entity\ListGroup:
+    properties:
+        name:
+            - NotBlank: ~
+            - Length:
+                max: 32
+            - Regex:
+                pattern: '/^[A-Z][A-Z0-9_]*$/'
+                message: Only uppercase letters, numbers and underscore(_)!
+        label:
+            - NotBlank: ~
+            - Length:
+                max: 255
+        itemPrefix:
+            - NotBlank: ~
+            - Regex:
+                pattern: '/^[A-Z][A-Z0-9]{1,6}_$/'
+                message: Only 2-7 uppercase letters, numbers and final underscore(_)!
+
+    constraints:
+        - Callback: [validate]
+
+Mekit\Bundle\ListBundle\Entity\ListItem:
+    properties:
+        id:
+            - NotBlank: ~
+            - Length:
+                max: 24
+            - Regex:
+                pattern: '/^[A-Z0-9_]*$/'
+                message: Only uppercase letters, numbers and underscore(_)!
+        label:
+            - NotBlank: ~
+            - Length:
+                max: 255
+
+    constraints:
+        - Callback: [validate]

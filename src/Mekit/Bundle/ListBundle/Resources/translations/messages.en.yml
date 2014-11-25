@@ -5,8 +5,8 @@ mekit:
             select_contacts:        Select contacts
 
         menu:
-            title:             "Lists"
-            description:       "List Group listing"
+            title:                  "Lists"
+            description:            "List Group listing"
 
         widgets:
             listgroup_information:  "List Group Info"
@@ -21,6 +21,10 @@ mekit:
           general:                  "General"
           items:                    "Items"
 
+        generic:
+          yes:                      Yes
+          no:                       No
+
         listgroup:
           entity_label:               List
           entity_plural_label:        Lists
@@ -29,6 +33,11 @@ mekit:
           id.label:                   Id
           name.label:                 List Name
           label.label:                Label
+          item_prefix.label:          Item Prefix
+          empty_value.label:          Empty Value
+          required.label:             Required
+          system.label:               System
+
           description.label:          Description
           items.label:                Items
 
@@ -39,9 +48,9 @@ mekit:
           entity_description:         A list of items
 
           id.label:                   Id
-          value.label:                Value
+          list_group.label:           List
           label.label:                Label
-
+          default_item.label:         Default
 
 
           editaction.label:           Edit

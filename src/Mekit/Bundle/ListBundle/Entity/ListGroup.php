@@ -1,48 +1,28 @@
 <?php
-
 namespace Mekit\Bundle\ListBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 
-use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
-use Oro\Bundle\OrganizationBundle\Entity\Organization;
-use Oro\Bundle\UserBundle\Entity\User;
+use Symfony\Component\Validator\ExecutionContext;
 
 /**
  * @ORM\Entity()
  * @ORM\Table(name="mekit_list_group",
  *      indexes={
- *          @ORM\Index(name="idx_listgroup_created_at", columns={"createdAt"}),
- *          @ORM\Index(name="idx_listgroup_updated_at", columns={"updatedAt"})
+ *          @ORM\Index(name="idx_listgroup_system", columns={"system"})
  *      },
  *      uniqueConstraints={
- *          @ORM\UniqueConstraint(name="idx_listgroup_name", columns={"name"})
+ *          @ORM\UniqueConstraint(name="idx_listgroup_name", columns={"name"}),
+ *          @ORM\UniqueConstraint(name="idx_listgroup_item_prefix", columns={"itemPrefix"})
  *      }
  * )
- * @ORM\HasLifecycleCallbacks()
+ * @ORM\HasLifecycleCallbacks
  * @Oro\Loggable
- * @Config(
- *      routeName="mekit_list_index",
- *      routeView="mekit_list_view",
- *      defaultValues={
- *          "entity"={
- *              "icon"="icon-suitcase"
- *          },
- *          "security"={
- *              "type"="ACL",
- *              "group_name"=""
- *          },
- *          "dataaudit"={
- *              "auditable"=false
- *          }
- *      }
- * )
  */
 class ListGroup {
 	/**
@@ -50,9 +30,6 @@ class ListGroup {
 	 * @ORM\Column(type="integer")
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 * @Soap\ComplexType("int", nillable=true)
-	 * @ConfigField(
-	 *      defaultValues={}
-	 * )
 	 */
 	protected $id;
 
@@ -61,10 +38,6 @@ class ListGroup {
 	 *
 	 * @ORM\Column(type="string", length=32)
 	 * @Soap\ComplexType("string")
-	 * @Oro\Versioned
-	 * @ConfigField(
-	 *      defaultValues={}
-	 * )
 	 */
 	protected $name;
 
@@ -73,22 +46,46 @@ class ListGroup {
 	 *
 	 * @ORM\Column(type="string", length=255)
 	 * @Soap\ComplexType("string")
-	 * @Oro\Versioned
-	 * @ConfigField(
-	 *      defaultValues={}
-	 * )
 	 */
 	protected $label;
 
 	/**
 	 * @var string
 	 *
+	 * @ORM\Column(type="string", length=8)
+	 * @Soap\ComplexType("string")
+	 */
+	protected $itemPrefix;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(type="string", length=64, nullable=true)
+	 * @Soap\ComplexType("string", nillable=true)
+	 */
+	protected $emptyValue;
+
+	/**
+	 * @var boolean
+	 *
+	 * @ORM\Column(type="boolean", options={"default"=0})
+	 * @Soap\ComplexType("boolean")
+	 */
+	protected $required;
+
+	/**
+	 * @var boolean
+	 *
+	 * @ORM\Column(type="boolean", options={"default"=0})
+	 * @Soap\ComplexType("boolean")
+	 */
+	protected $system;
+
+	/**
+	 * @var string
+	 *
 	 * @ORM\Column(type="text", length=65535, nullable=true)
 	 * @Soap\ComplexType("string", nillable=true)
-	 * @Oro\Versioned
-	 * @ConfigField(
-	 *      defaultValues={}
-	 * )
 	 */
 	protected $description;
 
@@ -100,41 +97,8 @@ class ListGroup {
 	 * )
 	 * @ORM\OrderBy({"id" = "ASC"})
 	 * @Soap\ComplexType("Mekit\Bundle\ListBundle\Entity\ListItem[]", nillable=true)
-	 * @ConfigField(
-	 *      defaultValues={}
-	 * )
 	 */
 	protected $items;
-
-	/**
-	 * @var \DateTime
-	 *
-	 * @ORM\Column(type="datetime")
-	 * @Soap\ComplexType("dateTime", nillable=true)
-	 * @ConfigField(
-	 *      defaultValues={
-	 *          "entity"={
-	 *              "label"="oro.ui.created_at"
-	 *          }
-	 *      }
-	 * )
-	 */
-	protected $createdAt;
-
-	/**
-	 * @var \DateTime
-	 *
-	 * @ORM\Column(type="datetime", nullable=true)
-	 * @Soap\ComplexType("dateTime", nillable=true)
-	 * @ConfigField(
-	 *      defaultValues={
-	 *          "entity"={
-	 *              "label"="oro.ui.updated_at"
-	 *          }
-	 *      }
-	 * )
-	 */
-	protected $updatedAt;
 
 
 	/**
@@ -195,6 +159,79 @@ class ListGroup {
 	/**
 	 * @return string
 	 */
+	public function getItemPrefix() {
+		return $this->itemPrefix;
+	}
+
+	/**
+	 * @param string $itemPrefix
+	 * @return $this
+	 */
+	public function setItemPrefix($itemPrefix) {
+		//change prefixes on all items
+		if($this->getItemPrefix() != $itemPrefix) {
+			/** @var ListItem $item */
+			foreach ($this->getItems() as $item) {
+				$newItemId = str_replace($this->getItemPrefix(), $itemPrefix, $item->getId());
+				$item->setId($newItemId);
+			}
+		}
+
+		$this->itemPrefix = $itemPrefix;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getEmptyValue() {
+		return $this->emptyValue;
+	}
+
+	/**
+	 * @param string $emptyValue
+	 * @return $this
+	 */
+	public function setEmptyValue($emptyValue) {
+		$this->emptyValue = $emptyValue;
+		return $this;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isRequired() {
+		return $this->required;
+	}
+
+	/**
+	 * @param boolean $required
+	 * @return $this
+	 */
+	public function setRequired($required) {
+		$this->required = $required;
+		return $this;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isSystem() {
+		return $this->system;
+	}
+
+	/**
+	 * @param boolean $system
+	 * @return $this
+	 */
+	public function setSystem($system) {
+		$this->system = $system;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
 	public function getDescription() {
 		return $this->description;
 	}
@@ -241,68 +278,22 @@ class ListGroup {
 		return $this;
 	}
 
-	/**
-	 * Get created date/time
-	 *
-	 * @return \DateTime
-	 */
-	public function getCreatedAt() {
-		return $this->createdAt;
-	}
+
 
 	/**
-	 * @param \DateTime
-	 * @return $this
+	 * @param ExecutionContext $context
 	 */
-	public function setCreatedAt(\DateTime $created) {
-		$this->createdAt = $created;
-		return $this;
+	public function validate(ExecutionContext $context)	{
+		if ($this->isSystem() !== true) {
+			$this->setSystem(false);
+		}
 	}
-
-	/**
-	 * Get last update date/time
-	 *
-	 * @return \DateTime
-	 */
-	public function getUpdatedAt() {
-		return $this->updatedAt;
-	}
-
-	/**
-	 * @param \DateTime
-	 * @return $this
-	 */
-	public function setUpdatedAt(\DateTime $updated) {
-		$this->updatedAt = $updated;
-
-		return $this;
-	}
-
 
 	/**
 	 * @return string
 	 */
 	public function __toString() {
 		return (string)$this->getName();
-	}
-
-	/**
-	 * Pre persist event listener
-	 *
-	 * @ORM\PrePersist
-	 */
-	public function beforeSave() {
-		$this->createdAt = new \DateTime('now', new \DateTimeZone('UTC'));
-		$this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
-	}
-
-	/**
-	 * Pre update event handler
-	 *
-	 * @ORM\PreUpdate
-	 */
-	public function doPreUpdate() {
-		$this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
 	}
 
 }

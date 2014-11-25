@@ -2,44 +2,16 @@
 
 namespace Mekit\Bundle\ListBundle\Entity;
 
-use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
-
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
-use Oro\Bundle\OrganizationBundle\Entity\Organization;
-use Oro\Bundle\UserBundle\Entity\User;
+use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
+use Symfony\Component\Validator\ExecutionContext;
 
 /**
  * @ORM\Entity(repositoryClass="Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository")
- * @ORM\Table(name="mekit_list_item",
- *      indexes={
- *          @ORM\Index(name="idx_listitem_created_at", columns={"createdAt"}),
- *          @ORM\Index(name="idx_listitem_updated_at", columns={"updatedAt"})
- *      }
- * )
+ * @ORM\Table(name="mekit_list_item")
  * @ORM\HasLifecycleCallbacks()
  * @Oro\Loggable
- * @Config(
- *      routeName="",
- *      routeView="mekit_listitem_view",
- *      defaultValues={
- *          "entity"={
- *              "icon"="icon-suitcase"
- *          },
- *          "security"={
- *              "type"="ACL",
- *              "group_name"=""
- *          },
- *          "dataaudit"={
- *              "auditable"=false
- *          }
- *      }
- * )
  */
 class ListItem {
 	/**
@@ -49,10 +21,6 @@ class ListItem {
 	 * @ORM\GeneratedValue(strategy="NONE")
 	 * @ORM\Column(type="string", length=32)
 	 * @Soap\ComplexType("string")
-	 * @Oro\Versioned
-	 * @ConfigField(
-	 *      defaultValues={}
-	 * )
 	 */
 	protected $id;
 
@@ -62,10 +30,6 @@ class ListItem {
 	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ListBundle\Entity\ListGroup", inversedBy="items")
 	 * @ORM\JoinColumn(name="listgroup_id", referencedColumnName="id", onDelete="SET NULL")
 	 * @Soap\ComplexType("integer", nillable=true)
-	 * @Oro\Versioned
-	 * @ConfigField(
-	 *      defaultValues={}
-	 * )
 	 */
 	protected $listGroup;
 
@@ -74,42 +38,17 @@ class ListItem {
 	 *
 	 * @ORM\Column(type="string", length=255)
 	 * @Soap\ComplexType("string")
-	 * @Oro\Versioned
-	 * @ConfigField(
-	 *      defaultValues={}
-	 * )
 	 */
 	protected $label;
 
 	/**
-	 * @var \DateTime
+	 * @var boolean
 	 *
-	 * @ORM\Column(type="datetime")
-	 * @Soap\ComplexType("dateTime", nillable=true)
-	 * @ConfigField(
-	 *      defaultValues={
-	 *          "entity"={
-	 *              "label"="oro.ui.created_at"
-	 *          }
-	 *      }
-	 * )
+	 * @ORM\Column(type="boolean", options={"default"=0})
+	 * @Soap\ComplexType("boolean")
 	 */
-	protected $createdAt;
+	protected $default_item;
 
-	/**
-	 * @var \DateTime
-	 *
-	 * @ORM\Column(type="datetime", nullable=true)
-	 * @Soap\ComplexType("dateTime", nillable=true)
-	 * @ConfigField(
-	 *      defaultValues={
-	 *          "entity"={
-	 *              "label"="oro.ui.updated_at"
-	 *          }
-	 *      }
-	 * )
-	 */
-	protected $updatedAt;
 
 	/**
 	 * @return string
@@ -159,42 +98,37 @@ class ListItem {
 		return $this;
 	}
 
-
 	/**
-	 * Get created date/time
-	 *
-	 * @return \DateTime
+	 * @return boolean
 	 */
-	public function getCreatedAt() {
-		return $this->createdAt;
+	public function isDefaultItem() {
+		return $this->default_item;
 	}
 
 	/**
-	 * @param \DateTime
-	 *
+	 * @param boolean $default_item
 	 * @return $this
 	 */
-	public function setCreatedAt(\DateTime $created) {
-		$this->createdAt = $created;
+	public function setDefaultItem($default_item) {
+		if ($default_item) {
+			$listGroup = $this->getListGroup();
+			/** @var ListItem $item */
+			foreach ($listGroup->getItems() as $item) {
+				$item->setDefaultItem(false);
+			}
+		}
+		$this->default_item = $default_item;
 		return $this;
 	}
 
-	/**
-	 * Get last update date/time
-	 *
-	 * @return \DateTime
-	 */
-	public function getUpdatedAt() {
-		return $this->updatedAt;
-	}
+
+
 
 	/**
-	 * @param \DateTime
-	 * @return $this
+	 * @param ExecutionContext $context
 	 */
-	public function setUpdatedAt(\DateTime $updated) {
-		$this->updatedAt = $updated;
-		return $this;
+	public function validate(ExecutionContext $context)	{
+
 	}
 
 
@@ -210,18 +144,11 @@ class ListItem {
 	 *
 	 * @ORM\PrePersist
 	 */
-	public function beforeSave() {
-		$this->createdAt = new \DateTime('now', new \DateTimeZone('UTC'));
-		$this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
-	}
-
-	/**
-	 * Pre update event handler
-	 *
-	 * @ORM\PreUpdate
-	 */
-	public function doPreUpdate() {
-		$this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
+	public function PrePersist() {
+		//forcing id to use prefix set for ListGroup
+		$listGroup = $this->getListGroup();
+		$prefix = $listGroup->getItemPrefix();
+		$this->setId($prefix.$this->getId());
 	}
 
 }

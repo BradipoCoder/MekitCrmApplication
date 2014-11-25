@@ -10,6 +10,8 @@ datagrid:
                     - lg.name
                     - lg.label
                     - lg.description
+                    - CASE lg.required WHEN 1 THEN 'mekit.list.generic.yes' ELSE 'mekit.list.generic.no' as required
+                    - CASE lg.system WHEN 1 THEN 'mekit.list.generic.yes' ELSE 'mekit.list.generic.no' as system
                 from:
                     - { table: %mekit_list.listgroup.entity.class%, alias: lg }
 #            hints:
@@ -25,6 +27,16 @@ datagrid:
                 template:       MekitListBundle:List:Datagrid/Property/translatedValue.html.twig
             description:
                 label:          mekit.list.listgroup.description.label
+                type:           twig
+                frontend_type:  html
+                template:       MekitListBundle:List:Datagrid/Property/translatedValue.html.twig
+            required:
+                label:          mekit.list.listgroup.required.label
+                type:           twig
+                frontend_type:  html
+                template:       MekitListBundle:List:Datagrid/Property/translatedValue.html.twig
+            system:
+                label:          mekit.list.listgroup.system.label
                 type:           twig
                 frontend_type:  html
                 template:       MekitListBundle:List:Datagrid/Property/translatedValue.html.twig
@@ -81,6 +93,7 @@ datagrid:
                 select:
                     - li.id
                     - li.label
+                    - CASE li.default_item WHEN 1 THEN 'mekit.list.generic.yes' ELSE 'mekit.list.generic.no' as default_item
                 from:
                     - { table: %mekit_list.listitem.entity.class%, alias: li }
                 join:
@@ -93,37 +106,28 @@ datagrid:
                 - entity_id
 
         columns:
-            id:
-                label:          mekit.list.listitem.id.label
             label:
                 label:          mekit.list.listitem.label.label
                 type:           twig
                 frontend_type:  html
                 template:       MekitListBundle:Item:Datagrid/Property/editButton.html.twig
+            id:
+                label:          mekit.list.listitem.id.label
+            default_item:
+                label:          mekit.list.listitem.default_item.label
+                type:           twig
+                frontend_type:  html
+                template:       MekitListBundle:List:Datagrid/Property/translatedValue.html.twig
 
 
         properties:
             id: ~
-#            update_link:
-#                type:       url
-#                route:      mekit_listitem_update
-#                params:     [ id ]
             delete_link:
                 type:       url
                 route:      mekit_api_delete_listitem
                 params:     [ id ]
 
         actions:
-#            update:
-#                type:             ajax
-#                frontend_handle:  dialog
-#                frontend_options:
-#                    title:          "Some popup"
-#                    width:          600
-#                label:         oro.grid.action.update
-#                acl_resource:  mekit_listitem_update
-#                icon:          edit
-#                link:          update_link
             delete:
                   type:          delete
                   acl_resource:  mekit_listitem_delete

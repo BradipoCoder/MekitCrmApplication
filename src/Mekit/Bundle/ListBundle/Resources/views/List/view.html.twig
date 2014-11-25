@@ -1,6 +1,10 @@
 {% extends 'OroUIBundle:actions:view.html.twig' %}
 {% import 'OroUIBundle::macros.html.twig' as macros %}
 
+{% block stats %}
+	{#NO DATES#}
+{% endblock %}
+
 {% oro_title_set({params : {"%list.name%": entity.name | default('N/A')} }) %}
 
 {% block navButtons %}
