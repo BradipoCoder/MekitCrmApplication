@@ -14,4 +14,4 @@ services:
     mekit_list.form_helper:
         class: %mekit_list.form_helper.class%
         arguments:
-              - @doctrine
+              - @doctrine.orm.entity_manager

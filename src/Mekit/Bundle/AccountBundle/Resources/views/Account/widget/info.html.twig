@@ -72,10 +72,10 @@
 		</div>
 
 		<div class="responsive-block">
-			{{ UI.renderProperty('mekit.account.type.label'|trans, account.type.label) }}
-			{{ UI.renderProperty('mekit.account.state.label'|trans, account.state.label) }}
-			{{ UI.renderProperty('mekit.account.industry.label'|trans, account.industry.label) }}
-			{{ UI.renderProperty('mekit.account.source.label'|trans, account.source.label) }}
+			{{ UI.renderProperty('mekit.account.type.label'|trans, account.type ? account.type.label : null) }}
+			{{ UI.renderProperty('mekit.account.state.label'|trans, account.state ? account.state.label : null) }}
+			{{ UI.renderProperty('mekit.account.industry.label'|trans, account.industry ? account.industry.label : null) }}
+			{{ UI.renderProperty('mekit.account.source.label'|trans, account.source ? account.source.label : null) }}
 			{{ UI.renderHtmlProperty('mekit.account.assigned_to.label'|trans, assignedToData) }}
 			{{ entityConfig.renderDynamicFields(account) }}
 			{% if resource_granted('oro_tag_view_tag_cloud') %}

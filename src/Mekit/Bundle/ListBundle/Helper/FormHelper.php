@@ -5,8 +5,7 @@ use Doctrine\ORM\EntityRepository;
 use Mekit\Bundle\ListBundle\Entity\ListGroup;
 use Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository;
 use Symfony\Component\Form\FormBuilderInterface;
-use Doctrine\Bundle\DoctrineBundle\Registry as Doctrine;
-use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
@@ -20,13 +19,13 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  */
 class FormHelper {
 	/**
-	 * @var EntityManager
+	 * @var ObjectManager
 	 */
-	protected $em;
+	protected $manager;
 
 
-	public function __construct(Doctrine $doctrine) {
-		$this->em = $doctrine->getManager();
+	public function __construct(ObjectManager $manager) {
+		$this->manager = $manager;
 	}
 
 	/**
@@ -37,9 +36,9 @@ class FormHelper {
 	 */
 	public function addListSelectorToFormBuilder(FormBuilderInterface $builder, $propertyName, $listGroupName, $label) {
 		/** @var EntityRepository $listGroupRepo */
-		$listGroupRepo = $this->em->getRepository('MekitListBundle:ListGroup');
+		$listGroupRepo = $this->manager->getRepository('MekitListBundle:ListGroup');
 		/** @var ListItemRepository $listItemRepo */
-		$listItemRepo = $this->em->getRepository('MekitListBundle:ListItem');
+		$listItemRepo = $this->manager->getRepository('MekitListBundle:ListItem');
 
 		/** @var ListGroup $listGroup */
 		$listGroup = $listGroupRepo->findOneBy(["name" => $listGroupName]);

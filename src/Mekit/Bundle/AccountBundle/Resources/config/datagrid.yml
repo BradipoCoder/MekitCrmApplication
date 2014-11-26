@@ -13,13 +13,13 @@ datagrid:
                     - accountIndustry.label as industry
                     - accountSource.label as source
                     - CONCAT(accountOwner.firstName, CONCAT(' ', accountOwner.lastName)) as ownerName
-                    - CONCAT(accountAssignee.firstName, CONCAT(' ', accountAssignee.lastName)) as AssigneeName
+                    - CONCAT(assignee.firstName, CONCAT(' ', assignee.lastName)) as AssigneeName
                 from:
                     - { table: %mekit_account.account.entity.class%, alias: a }
                 join:
                     left:
                         - { join: a.owner, alias: accountOwner }
-                        - { join: a.assignedTo, alias: accountAssignee }
+                        - { join: a.assignedTo, alias: assignee }
                         - { join: a.type, alias: accountType }
                         - { join: a.state, alias: accountState }
                         - { join: a.industry, alias: accountIndustry }

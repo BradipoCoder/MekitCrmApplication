@@ -94,6 +94,9 @@ class AccountController extends Controller {
 			/** @var Account $entity */
 			$entity = $this->getManager()->createEntity();
 
+			//assign to current user
+			$entity->setAssignedTo($this->getUser());
+
 			/** @var ListItemRepository $listItemRepo */
 			$listItemRepo = $this->getDoctrine()->getRepository('MekitListBundle:ListItem');
 

@@ -5,6 +5,8 @@ parameters:
     mekit_account.type.account.class:                           Mekit\Bundle\AccountBundle\Form\Type\AccountType
     mekit_account.handler.account.class:                        Mekit\Bundle\AccountBundle\Form\Handler\AccountHandler
 
+    mekit_account.type.account_select.class:                    Mekit\Bundle\AccountBundle\Form\Type\AccountSelectType
+
 services:
     # Account
     mekit_account.account.manager.api:
@@ -39,6 +41,11 @@ services:
             - @doctrine.orm.entity_manager
         tags:
             - { name: oro_tag.tag_manager }
+
+    mekit_account.form.type.account_select:
+        class: %mekit_account.type.account_select.class%
+        tags:
+            - { name: form.type, alias: mekit_account_select }
 
     # AccountAddress
     mekit_account.account_address.manager.api:

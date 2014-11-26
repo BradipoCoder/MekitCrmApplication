@@ -295,6 +295,17 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	protected $source;
 
 	/**
+	 * @var Collection
+	 *
+	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ContactBundle\Entity\Contact", mappedBy="account",
+	 *      cascade={"all"}, orphanRemoval=true
+	 * )
+	 * @ORM\OrderBy({"id" = "ASC"})
+	 * @Soap\ComplexType("Mekit\Bundle\ContactBundle\Entity\Contact[]", nillable=true)
+	 */
+	protected $contacts;
+
+	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="email", type="string", length=255, nullable=true)
@@ -721,6 +732,22 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 */
 	public function setSource($source) {
 		$this->source = $source;
+		return $this;
+	}
+
+	/**
+	 * @return Collection
+	 */
+	public function getContacts() {
+		return $this->contacts;
+	}
+
+	/**
+	 * @param Collection $contacts
+	 * @return $this
+	 */
+	public function setContacts($contacts) {
+		$this->contacts = $contacts;
 		return $this;
 	}
 

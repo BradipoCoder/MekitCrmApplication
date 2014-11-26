@@ -4,7 +4,9 @@ namespace Mekit\Bundle\ContactBundle\Entity;
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Mekit\Bundle\AccountBundle\Entity\Account;
 use Mekit\Bundle\ContactBundle\Model\ExtendContact;
+use Mekit\Bundle\ListBundle\Entity\ListItem;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
@@ -175,6 +177,15 @@ class Contact extends ExtendContact implements Taggable {/*EmailOwnerInterface*/
 	protected $nameSuffix;
 
 	/**
+	 * @var Account
+	 *
+	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\AccountBundle\Entity\Account", inversedBy="contacts")
+	 * @ORM\JoinColumn(name="account_id", referencedColumnName="id", onDelete="SET NULL")
+	 * @Soap\ComplexType("integer", nillable=true)
+	 */
+	protected $account;
+
+	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="gender", type="string", length=8, nullable=true)
@@ -326,10 +337,27 @@ class Contact extends ExtendContact implements Taggable {/*EmailOwnerInterface*/
 	 */
 	protected $linkedIn;
 
-
 	//$reportsTo
 
-	//$jobTitle - use lists
+	/**
+	 * @var ListItem
+	 *
+	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ListBundle\Entity\ListItem")
+	 * @ORM\JoinColumn(name="job_title", referencedColumnName="id", nullable=true)
+	 * @Oro\Versioned
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "dataaudit"={
+	 *              "auditable"=true
+	 *          },
+	 *          "importexport"={
+	 *              "order"=93,
+	 *              "short"=true
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $jobTitle;
 
 	//emails
 
@@ -438,15 +466,28 @@ class Contact extends ExtendContact implements Taggable {/*EmailOwnerInterface*/
 		$this->tags = new ArrayCollection();
 	}
 
+	/**
+	 * @return Account
+	 */
+	public function getAccount() {
+		return $this->account;
+	}
+
+	/**
+	 * @param Account $account
+	 * @return $this
+	 */
+	public function setAccount($account) {
+		$this->account = $account;
+		return $this;
+	}
 
 	/**
 	 * @param User $assignedTo
-	 *
-	 * @return Contact
+	 * @return $this
 	 */
 	public function setAssignedTo($assignedTo) {
 		$this->assignedTo = $assignedTo;
-
 		return $this;
 	}
 
@@ -459,12 +500,10 @@ class Contact extends ExtendContact implements Taggable {/*EmailOwnerInterface*/
 
 	/**
 	 * @param string $description
-	 *
-	 * @return Contact
+	 * @return $this
 	 */
 	public function setDescription($description) {
 		$this->description = $description;
-
 		return $this;
 	}
 
@@ -477,12 +516,10 @@ class Contact extends ExtendContact implements Taggable {/*EmailOwnerInterface*/
 
 	/**
 	 * @param string $skype
-	 *
-	 * @return Contact
+	 * @return $this
 	 */
 	public function setSkype($skype) {
 		$this->skype = $skype;
-
 		return $this;
 	}
 
@@ -495,12 +532,10 @@ class Contact extends ExtendContact implements Taggable {/*EmailOwnerInterface*/
 
 	/**
 	 * @param string $facebookUrl
-	 *
-	 * @return Contact
+	 * @return $this
 	 */
 	public function setFacebook($facebookUrl) {
 		$this->facebook = $facebookUrl;
-
 		return $this;
 	}
 
@@ -513,12 +548,10 @@ class Contact extends ExtendContact implements Taggable {/*EmailOwnerInterface*/
 
 	/**
 	 * @param string $googlePlusUrl
-	 *
-	 * @return Contact
+	 * @return $this
 	 */
 	public function setGooglePlus($googlePlusUrl) {
 		$this->googlePlus = $googlePlusUrl;
-
 		return $this;
 	}
 
@@ -531,12 +564,10 @@ class Contact extends ExtendContact implements Taggable {/*EmailOwnerInterface*/
 
 	/**
 	 * @param string $linkedInUrl
-	 *
-	 * @return Contact
+	 * @return $this
 	 */
 	public function setLinkedIn($linkedInUrl) {
 		$this->linkedIn = $linkedInUrl;
-
 		return $this;
 	}
 
@@ -549,12 +580,10 @@ class Contact extends ExtendContact implements Taggable {/*EmailOwnerInterface*/
 
 	/**
 	 * @param string $twitterUrl
-	 *
-	 * @return Contact
+	 * @return $this
 	 */
 	public function setTwitter($twitterUrl) {
 		$this->twitter = $twitterUrl;
-
 		return $this;
 	}
 
@@ -564,6 +593,24 @@ class Contact extends ExtendContact implements Taggable {/*EmailOwnerInterface*/
 	public function getTwitter() {
 		return $this->twitter;
 	}
+
+	/**
+	 * @return ListItem
+	 */
+	public function getJobTitle() {
+		return $this->jobTitle;
+	}
+
+	/**
+	 * @param ListItem $jobTitle
+	 * @return $this
+	 */
+	public function setJobTitle($jobTitle) {
+		$this->jobTitle = $jobTitle;
+		return $this;
+	}
+
+
 
 	/**
 	 * @return User
@@ -647,5 +694,24 @@ class Contact extends ExtendContact implements Taggable {/*EmailOwnerInterface*/
 	 */
 	public function getClass() {
 		return 'OroCRM\Bundle\ContactBundle\Entity\Contact';
+	}
+
+	/**
+	 * Pre persist event listener
+	 *
+	 * @ORM\PrePersist
+	 */
+	public function beforeSave() {
+		$this->createdAt = new \DateTime('now', new \DateTimeZone('UTC'));
+		$this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
+	}
+
+	/**
+	 * Pre update event handler
+	 *
+	 * @ORM\PreUpdate
+	 */
+	public function doPreUpdate() {
+		$this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
 	}
 }

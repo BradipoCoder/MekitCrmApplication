@@ -1,5 +1,11 @@
 parameters:
     mekit_contact.contact.entity.class:                       Mekit\Bundle\ContactBundle\Entity\Contact
 
+    mekit_contact.social_url_formatter.class:                 Mekit\Bundle\ContactBundle\Formatter\SocialUrlFormatter
+
 services:
 
+    mekit_contact.social_url_formatter:
+        class: %mekit_contact.social_url_formatter.class%
+        arguments:
+            - %mekit_contact.social_url_format%

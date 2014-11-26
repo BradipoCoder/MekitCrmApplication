@@ -3,3 +3,11 @@ parameters:
     mekit_account.account_address.entity.class:                 Mekit\Bundle\AccountBundle\Entity\AccountAddress
 
 services:
+    mekit_account.autocomplete.account.search_handler:
+        parent: oro_form.autocomplete.search_handler
+        arguments:
+            - %mekit_account.account.entity.class%
+            - ["name"]
+        tags:
+            - { name: oro_form.autocomplete.search_handler, alias: accounts, acl_resource: mekit_account_account_view }
+

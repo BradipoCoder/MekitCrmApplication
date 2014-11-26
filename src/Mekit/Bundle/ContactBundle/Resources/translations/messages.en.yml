@@ -36,6 +36,7 @@ mekit:
         emails.label:        Emails
         facebook.label:      Facebook
         first_name.label:    First name
+        full_name.label:     Name
         gender.label:        Gender
         google_plus.label:   Google+
         id.label:            Id
