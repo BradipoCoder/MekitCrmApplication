@@ -4,6 +4,7 @@ namespace Mekit\Bundle\ListBundle\Form\Type;
 
 use Doctrine\Common\Collections\Collection;
 
+use Mekit\Bundle\ListBundle\Entity\ListGroup;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -61,6 +62,26 @@ class ListGroupType extends AbstractType {
 			->add('required', 'choice', ['required' => true, 'label' => 'mekit.list.listgroup.required.label',
 				'choices' => [0 => 'mekit.list.generic.no', 1 => 'mekit.list.generic.yes']]
 			);
+	}
+
+	/**
+	 * @param FormView      $view
+	 * @param FormInterface $form
+	 * @param array         $options
+	 */
+	public function buildView(FormView $view, FormInterface $form, array $options) {
+		if(!$form->isSubmitted()) {
+			/** @var ListGroup $entity */
+			$entity = $form->getData();
+			if ($entity instanceof ListGroup) {
+				//if ListGroup already has items, you cannot modify the itemPrefix anymore
+				if(!$entity->hasItems()) {
+					$form->add('itemPrefix', 'text', ['required' => true, 'label' => 'mekit.list.listgroup.item_prefix.label']);
+				} else {
+					$form->add('itemPrefix', 'hidden');
+				}
+			}
+		}
 	}
 
 	/**

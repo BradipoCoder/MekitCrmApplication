@@ -104,11 +104,11 @@ class AccountController extends Controller {
 			/** @var ListItemRepository $listItemRepo */
 			$listItemRepo = $this->getDoctrine()->getRepository('MekitListBundle:ListItem');
 
-			//todo: we need default List Items for each list
-			/** @var ListItem $defListItemType */
-			$defListItemType = $listItemRepo->find("ACCT_CLNT");
-			if($defListItemType) { $entity->setType($defListItemType); }
-
+			//set defaults for list items
+			$entity->setType($listItemRepo->getDefaultItemForGroup("ACCOUNT_TYPE"));
+			$entity->setState($listItemRepo->getDefaultItemForGroup("ACCOUNT_STATE"));
+			$entity->setIndustry($listItemRepo->getDefaultItemForGroup("ACCOUNT_INDUSTRY"));
+			$entity->setSource($listItemRepo->getDefaultItemForGroup("ACCOUNT_SOURCE"));
 
 		}
 

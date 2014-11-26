@@ -40,6 +40,7 @@ mekit:
 
           description.label:          Description
           items.label:                Items
+          default_item.label:         Default Item
 
 
         listitem:

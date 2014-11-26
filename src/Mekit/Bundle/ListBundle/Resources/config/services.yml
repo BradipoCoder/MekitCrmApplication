@@ -4,9 +4,14 @@ parameters:
 
     mekit_list.datagrid_helper.class:                          Mekit\Bundle\ListBundle\Datagrid\ListDatagridHelper
 
+    mekit_list.form_helper.class:                              Mekit\Bundle\ListBundle\Helper\FormHelper
+
 services:
     mekit_list.datagrid_helper:
         class: %mekit_list.datagrid_helper.class%
 
 
-
+    mekit_list.form_helper:
+        class: %mekit_list.form_helper.class%
+        arguments:
+              - @doctrine

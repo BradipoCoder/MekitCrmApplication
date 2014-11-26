@@ -218,7 +218,7 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 * @var ListItem
 	 *
 	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ListBundle\Entity\ListItem")
-	 * @ORM\JoinColumn(name="type", referencedColumnName="id")
+	 * @ORM\JoinColumn(name="type", referencedColumnName="id", nullable=false)
 	 * @Oro\Versioned
 	 * @ConfigField(
 	 *      defaultValues={
@@ -238,7 +238,7 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 * @var ListItem
 	 *
 	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ListBundle\Entity\ListItem")
-	 * @ORM\JoinColumn(name="state", referencedColumnName="id")
+	 * @ORM\JoinColumn(name="state", referencedColumnName="id", nullable=false)
 	 * @Oro\Versioned
 	 * @ConfigField(
 	 *      defaultValues={
@@ -258,7 +258,7 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 * @var ListItem
 	 *
 	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ListBundle\Entity\ListItem")
-	 * @ORM\JoinColumn(name="industry", referencedColumnName="id")
+	 * @ORM\JoinColumn(name="industry", referencedColumnName="id", nullable=false)
 	 * @Oro\Versioned
 	 * @ConfigField(
 	 *      defaultValues={
@@ -278,7 +278,7 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 * @var ListItem
 	 *
 	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ListBundle\Entity\ListItem")
-	 * @ORM\JoinColumn(name="source", referencedColumnName="id")
+	 * @ORM\JoinColumn(name="source", referencedColumnName="id", nullable=false)
 	 * @Oro\Versioned
 	 * @ConfigField(
 	 *      defaultValues={
@@ -671,7 +671,7 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 * @param ListItem $type
 	 * @return $this
 	 */
-	public function setType(ListItem $type) {
+	public function setType($type) {
 		$this->type = $type;
 		return $this;
 	}

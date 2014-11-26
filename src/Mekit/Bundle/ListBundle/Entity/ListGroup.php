@@ -168,15 +168,6 @@ class ListGroup {
 	 * @return $this
 	 */
 	public function setItemPrefix($itemPrefix) {
-		//change prefixes on all items
-		if($this->getItemPrefix() != $itemPrefix) {
-			/** @var ListItem $item */
-			foreach ($this->getItems() as $item) {
-				$newItemId = str_replace($this->getItemPrefix(), $itemPrefix, $item->getId());
-				$item->setId($newItemId);
-			}
-		}
-
 		$this->itemPrefix = $itemPrefix;
 		return $this;
 	}
@@ -256,6 +247,13 @@ class ListGroup {
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function hasItems() {
+		return(!$this->items->isEmpty());
+	}
+
+	/**
 	 * @param Collection $items
 	 * @return $this
 	 */
@@ -277,8 +275,6 @@ class ListGroup {
 		}
 		return $this;
 	}
-
-
 
 	/**
 	 * @param ExecutionContext $context

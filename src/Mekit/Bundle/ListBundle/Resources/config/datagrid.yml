@@ -12,8 +12,12 @@ datagrid:
                     - lg.description
                     - CASE lg.required WHEN 1 THEN 'mekit.list.generic.yes' ELSE 'mekit.list.generic.no' as required
                     - CASE lg.system WHEN 1 THEN 'mekit.list.generic.yes' ELSE 'mekit.list.generic.no' as system
+                    - defaultItem.label as defItemLabel
                 from:
                     - { table: %mekit_list.listgroup.entity.class%, alias: lg }
+                join:
+                    left:
+                        - { join: lg.items, alias: defaultItem, conditionType: 'WITH', condition: 'defaultItem.default_item = true' }
 #            hints:
 #                - { name: HINT_CUSTOM_OUTPUT_WALKER, value: %oro_translation.translation_walker.class%}
 
@@ -25,6 +29,8 @@ datagrid:
                 type:           twig
                 frontend_type:  html
                 template:       MekitListBundle:List:Datagrid/Property/translatedValue.html.twig
+            defItemLabel:
+                label:          mekit.list.listgroup.default_item.label
             description:
                 label:          mekit.list.listgroup.description.label
                 type:           twig

@@ -32,7 +32,19 @@ class ListItemRepository extends EntityRepository {
 	}
 
 	/**
-	 * Returnd a specific ListItem given the group name and the item label
+	 * Returns default item for a specific list
+	 * @param $groupName
+	 * @return null|ListItem
+	 */
+	public function getDefaultItemForGroup($groupName) {
+		/** @var ListGroup $listGroup */
+		$listGroup = $this->getEntityManager()->getRepository('MekitListBundle:ListGroup')->findOneBy(["name"=>$groupName]);
+		$listItem = $this->findOneBy(["listGroup"=>$listGroup, "default_item"=>true]);
+		return($listItem);
+	}
+
+	/**
+	 * Returns a specific ListItem given the group name and the item label
 	 * @param string $groupName
 	 * @param string $itemLabel
 	 * @return null|ListItem
