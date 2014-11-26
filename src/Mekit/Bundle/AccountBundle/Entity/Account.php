@@ -835,15 +835,6 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	}
 
 	/**
-	 * Get entity class name. - This is an EmailOwnerInterface requirement
-	 * TODO: Remove this temporary solution for get 'view' route in twig after EntityConfigBundle is finished
-	 * @return string
-	 */
-	public function getClass() {
-		return 'Mekit\Bundle\AccountBundle\Entity\Account';
-	}
-
-	/**
 	 * This is an EmailOwnerInterface requirement
 	 *
 	 * @return string
@@ -1127,6 +1118,15 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 */
 	public function __toString() {
 		return (string)$this->getName();
+	}
+
+	/**
+	 * Get entity class name. - This is an EmailOwnerInterface requirement
+	 * TODO: Remove this temporary solution for get 'view' route in twig after EntityConfigBundle is finished
+	 * @return string
+	 */
+	public function getClass() {
+		return 'Mekit\Bundle\AccountBundle\Entity\Account';
 	}
 
 	/**

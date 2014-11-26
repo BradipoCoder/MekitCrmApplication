@@ -1,0 +1,59 @@
+mekit:
+    contact:
+        menu:
+            contact_list.description: List of contacts
+            shortcut_new_contact.label: Create new contact
+            shortcut_new_contact.description: Create new contact instance
+            shortcut_list_contacts.label: Show contacts list
+            shortcut_list_contacts.description: List of contacts
+        widgets:
+            contact_information:    Contact Information
+
+        contact_actions:            Contact actions
+
+        sections:
+            general:                General
+
+        form:
+            choose_account:         Choose an account...
+
+        controller:
+            contact.saved.message:  "Contact saved"
+
+        #
+        # Mekit/Bundle/ContactBundle/Entity/Contact
+        #
+        entity_label:               Contact
+        entity_plural_label:        Contacts
+        entity_description:         Account contacts
+
+        account.label:       Account
+        addresses.label:     Addresses
+        assigned_to.label:   Assigned to
+        birthday.label:      Birthday
+        description.label:   Description
+        email.label:         Email
+        emails.label:        Emails
+        facebook.label:      Facebook
+        first_name.label:    First name
+        gender.label:        Gender
+        google_plus.label:   Google+
+        id.label:            Id
+        job_title.label:     Job Title
+        last_name.label:     Last name
+        linked_in.label:     LinkedIn
+        middle_name.label:   Middle name
+        name_prefix.label:   Name prefix
+        name_suffix.label:   Name suffix
+        organization.label:  Organization
+        owner.label:         Owner
+        phones.label:        Phones
+        picture.label:       Picture
+        primary_email.label: Primary Email
+        primary_phone.label: Primary Phone
+        reports_to.label:    Reports to
+        skype.label:         Skype
+        social.label:        Social
+        twitter.label:       Twitter
+
+

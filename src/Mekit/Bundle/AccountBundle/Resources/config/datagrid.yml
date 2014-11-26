@@ -12,8 +12,6 @@ datagrid:
                     - accountState.label as state
                     - accountIndustry.label as industry
                     - accountSource.label as source
-                    - a.createdAt
-                    - a.updatedAt
                     - CONCAT(accountOwner.firstName, CONCAT(' ', accountOwner.lastName)) as ownerName
                     - CONCAT(accountAssignee.firstName, CONCAT(' ', accountAssignee.lastName)) as AssigneeName
                 from:

@@ -1,25 +1,18 @@
 <?php
-
 namespace Mekit\Bundle\AccountBundle\Controller;
-
-use Mekit\Bundle\ListBundle\Entity\ListItem;
-use Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
+use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager;
 
-use Oro\Bundle\UserBundle\Entity\User;
-use Oro\Bundle\UserBundle\Entity\UserApi;
 use Mekit\Bundle\AccountBundle\Entity\Account;
+use Mekit\Bundle\ListBundle\Entity\ListItem;
+use Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository;
 
-use Oro\Bundle\OrganizationBundle\Entity\Manager\BusinessUnitManager;
-use Oro\Bundle\OrganizationBundle\Entity\Organization;
 
 /**
  * Class AccountController
