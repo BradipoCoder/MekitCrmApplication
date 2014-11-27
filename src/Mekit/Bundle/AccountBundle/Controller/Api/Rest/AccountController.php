@@ -21,7 +21,6 @@ use Symfony\Component\HttpFoundation\Response;
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class AccountController extends RestController implements ClassResourceInterface {
-
 	/**
 	 * REST GET list
 	 *
@@ -38,7 +37,7 @@ class AccountController extends RestController implements ClassResourceInterface
 	 *      description="Number of items per page. defaults to 10."
 	 * )
 	 * @ApiDoc(
-	 *      description="Get all account items",
+	 *      description="Get all items",
 	 *      resource=true
 	 * )
 	 * @AclAncestor("mekit_account_account_view")
@@ -54,7 +53,7 @@ class AccountController extends RestController implements ClassResourceInterface
 	 * @param string $id
 	 *
 	 * @ApiDoc(
-	 *      description="Get account item",
+	 *      description="Get a single item",
 	 *      resource=true
 	 * )
 	 * @AclAncestor("mekit_account_account_view")
@@ -67,10 +66,10 @@ class AccountController extends RestController implements ClassResourceInterface
 	/**
 	 * REST PUT
 	 *
-	 * @param int $id Account item id
+	 * @param int $id
 	 *
 	 * @ApiDoc(
-	 *      description="Update account",
+	 *      description="Update item",
 	 *      resource=true
 	 * )
 	 * @AclAncestor("mekit_account_account_update")
@@ -81,10 +80,10 @@ class AccountController extends RestController implements ClassResourceInterface
 	}
 
 	/**
-	 * Create new account
+	 * Create new item
 	 *
 	 * @ApiDoc(
-	 *      description="Create new account",
+	 *      description="Create new item",
 	 *      resource=true
 	 * )
 	 * @AclAncestor("mekit_account_account_create")
@@ -99,7 +98,7 @@ class AccountController extends RestController implements ClassResourceInterface
 	 * @param int $id
 	 *
 	 * @ApiDoc(
-	 *      description="Delete Account",
+	 *      description="Delete item",
 	 *      resource=true
 	 * )
 	 * @Acl(
@@ -114,7 +113,6 @@ class AccountController extends RestController implements ClassResourceInterface
 		return $this->handleDeleteRequest($id);
 	}
 
-
 	/**
 	 * Get entity Manager
 	 *
@@ -127,7 +125,6 @@ class AccountController extends RestController implements ClassResourceInterface
 	/**
 	 * @return FormInterface
 	 */
-	//todo: missing api service
 	public function getForm() {
 		return $this->get('mekit_account.form.account.api');
 	}
@@ -135,9 +132,7 @@ class AccountController extends RestController implements ClassResourceInterface
 	/**
 	 * @return ApiFormHandler
 	 */
-	//todo: missing api service
 	public function getFormHandler() {
 		return $this->get('mekit_account.form.handler.account.api');
 	}
-
 }
