@@ -29,7 +29,7 @@ datagrid:
             accountName:
                  label:        mekit.contact.account.label
             AssigneeName:
-                 label:         mekit.account.assigned_to.label
+                 label:        mekit.account.assigned_to.label
 
         sorters:
             columns:
@@ -97,3 +97,55 @@ datagrid:
         options:
             entityHint: contact
             export: true
+
+    contacts-of-account-grid:
+        extended_entity_name: %mekit_contact.contact.entity.class%
+        source:
+            type:           orm
+            acl_resource:   mekit_contact_view
+            query:
+                select:
+                    - c.id
+                    - c.firstName
+                    - c.lastName
+                    - contactJobTitle.label as jobTitle
+                    - CONCAT(assignee.firstName, CONCAT(' ', assignee.lastName)) as AssigneeName
+                from:
+                    - { table: %mekit_contact.contact.entity.class%, alias: c }
+                join:
+                    left:
+                        - { join: c.account, alias: Account }
+                        - { join: c.assignedTo, alias: assignee }
+                        - { join: c.jobTitle, alias: contactJobTitle }
+                where:
+                    and:
+                        - Account.id = :entity_id
+
+            bind_parameters:
+                - entity_id
+
+        columns:
+            lastName:
+                label:         mekit.contact.last_name.label
+            firstName:
+                label:         mekit.contact.first_name.label
+            jobTitle:
+                label:         mekit.contact.job_title.label
+            AssigneeName:
+                 label:        mekit.account.assigned_to.label
+
+        properties:
+                    id: ~
+                    view_link:
+                        type:       url
+                        route:      mekit_contact_view
+                        params:     [ id ]
+
+        actions:
+            view:
+                type:          navigate
+                acl_resource:  mekit_contact_view
+                label:         oro.grid.action.view
+                icon:          eye-open
+                link:          view_link
+                rowAction:     true

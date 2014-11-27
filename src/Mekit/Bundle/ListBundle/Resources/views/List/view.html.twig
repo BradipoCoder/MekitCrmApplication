@@ -69,18 +69,18 @@
 
 {% block content_data %}
 	{% set listGroupInformationWidget %}
-	{{ oro_widget_render({
-	'widgetType': 'block',
-	'title': 'mekit.list.widgets.listgroup_information'|trans,
-	'url': path('mekit_list_widget_info', {id: entity.id})
-	}) }}
+		{{ oro_widget_render({
+		'widgetType': 'block',
+		'title': 'mekit.list.widgets.listgroup_information'|trans,
+		'url': path('mekit_list_widget_info', {id: entity.id})
+		}) }}
 	{% endset %}
 
 	{% set listItemsWidget %}
-	{{ oro_widget_render({
-	'widgetType': 'block',
-	'url': path('mekit_list_widget_listitems', {id: entity.id})
-	}) }}
+		{{ oro_widget_render({
+		'widgetType': 'block',
+		'url': path('mekit_list_widget_listitems', {id: entity.id})
+		}) }}
 	{% endset %}
 
 	{% set dataBlocks = [

@@ -1,5 +1,5 @@
 <?php
-namespace Mekit\Bundle\AccountBundle\Entity;
+namespace Mekit\Bundle\ContactBundle\Entity;
 
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\Common\Collections\Collection;
@@ -9,7 +9,7 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 
 /**
- * @ORM\Table("mekit_account_address")
+ * @ORM\Table("mekit_contact_address")
  * @ORM\HasLifecycleCallbacks()
  * @Config(
  *       defaultValues={
@@ -29,9 +29,9 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
  * )
  * @ORM\Entity
  */
-class AccountAddress extends AbstractTypedAddress {
+class ContactAddress extends AbstractTypedAddress {
 	/**
-	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\AccountBundle\Entity\Account", inversedBy="addresses", cascade={"persist"})
+	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ContactBundle\Entity\Contact", inversedBy="addresses", cascade={"persist"})
 	 * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="CASCADE")
 	 * @ConfigField(
 	 *      defaultValues={
@@ -48,8 +48,8 @@ class AccountAddress extends AbstractTypedAddress {
 	 *
 	 * @ORM\ManyToMany(targetEntity="Oro\Bundle\AddressBundle\Entity\AddressType", cascade={"persist"})
 	 * @ORM\JoinTable(
-	 *     name="mekit_account_adr_to_adr_type",
-	 *     joinColumns={@ORM\JoinColumn(name="account_address_id", referencedColumnName="id", onDelete="CASCADE")},
+	 *     name="mekit_contact_adr_to_adr_type",
+	 *     joinColumns={@ORM\JoinColumn(name="contact_address_id", referencedColumnName="id", onDelete="CASCADE")},
 	 *     inverseJoinColumns={@ORM\JoinColumn(name="type_name", referencedColumnName="name")}
 	 * )
 	 * @Soap\ComplexType("string[]", nillable=true)
@@ -65,17 +65,17 @@ class AccountAddress extends AbstractTypedAddress {
 	protected $types;
 
 	/**
-	 * Set Account as owner.
-	 * @param Account $owner
+	 * Set Contact as owner.
+	 * @param Contact $owner
 	 */
-	public function setOwner(Account $owner = null) {
+	public function setOwner(Contact $owner = null) {
 		$this->owner = $owner;
 	}
 
 	/**
-	 * Get owner account.
+	 * Get owner contact.
 	 *
-	 * @return Account
+	 * @return Contact
 	 */
 	public function getOwner() {
 		return $this->owner;
@@ -98,4 +98,5 @@ class AccountAddress extends AbstractTypedAddress {
 	public function getUpdated() {
 		return $this->updated;
 	}
+
 }

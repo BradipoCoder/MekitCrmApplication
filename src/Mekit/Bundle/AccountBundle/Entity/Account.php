@@ -959,7 +959,7 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	}
 
 	/**
-	 * @param AccountAddress $address	 *
+	 * @param AccountAddress $address
 	 * @return $this
 	 */
 	public function setPrimaryAddress(AccountAddress $address) {

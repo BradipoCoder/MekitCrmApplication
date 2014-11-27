@@ -10,6 +10,8 @@ use Mekit\Bundle\AccountBundle\Entity\AccountEmail;
 use Mekit\Bundle\AccountBundle\Entity\AccountPhone;
 use Mekit\Bundle\ContactBundle\Model\ExtendContact;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
+use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
+use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
 use Oro\Bundle\EmailBundle\Entity\EmailOwnerInterface;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
@@ -44,7 +46,7 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          "ownership"={
  *              "owner_type"="USER",
  *              "owner_field_name"="owner",
- *              "owner_column_name"="user_owner_id",
+ *              "owner_column_name"="owner_id",
  *              "organization_field_name"="organization",
  *              "organization_column_name"="organization_id"
  *          },
@@ -384,8 +386,8 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	/**
 	 * @var Collection
 	 *
-	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\AccountBundle\Entity\AccountEmail",
-	 *    mappedBy="ownerContact", cascade={"all"}, orphanRemoval=true
+	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\AccountBundle\Entity\AccountEmail", mappedBy="ownerContact",
+	 *    cascade={"all"}, orphanRemoval=true
 	 * )
 	 * @ORM\OrderBy({"primary" = "DESC"})
 	 * @Soap\ComplexType("Mekit\Bundle\AccountBundle\Entity\AccountEmail[]", nillable=true)
@@ -398,6 +400,24 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	 * )
 	 */
 	protected $emails;
+
+	/**
+	 * @var Collection
+	 *
+	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ContactBundle\Entity\ContactAddress",
+	 *    mappedBy="owner", cascade={"all"}, orphanRemoval=true
+	 * )
+	 * @ORM\OrderBy({"primary" = "DESC"})
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "importexport"={
+	 *              "full"=true,
+	 *              "order"=250
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $addresses;
 
 	/**
 	 * @var User
@@ -500,6 +520,7 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 		parent::__construct();
 		$this->phones = new ArrayCollection();
 		$this->emails = new ArrayCollection();
+		$this->addresses = new ArrayCollection();
 		$this->tags = new ArrayCollection();
 	}
 
@@ -848,6 +869,151 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 		return null;
 	}
 
+	/**
+	 * Set addresses.
+	 *
+	 * @param Collection|AbstractAddress[] $addresses
+	 * @return $this
+	 */
+	public function resetAddresses($addresses) {
+		if($this->addresses) {
+			$this->addresses->clear();
+		}
+		foreach ($addresses as $address) {
+			$this->addAddress($address);
+		}
+		return $this;
+	}
+
+	/**
+	 * Remove address
+	 *
+	 * @param AbstractAddress $address
+	 * @return $this
+	 */
+	public function removeAddress(AbstractAddress $address) {
+		if ($this->addresses->contains($address)) {
+			$this->addresses->removeElement($address);
+		}
+		return $this;
+	}
+
+	/**
+	 * Get addresses
+	 *
+	 * @return Collection|AbstractAddress[]
+	 */
+	public function getAddresses() {
+		return $this->addresses;
+	}
+
+	/**
+	 * @param AbstractAddress $address
+	 * @return bool
+	 */
+	public function hasAddress(AbstractAddress $address) {
+		return $this->getAddresses()->contains($address);
+	}
+
+	/**
+	 * Add address
+	 *
+	 * @param AbstractAddress $address
+	 *
+	 * @return $this
+	 */
+	public function addAddress(AbstractAddress $address) {
+		/** @var ContactAddress $address */
+		if (!$this->addresses->contains($address)) {
+			$this->addresses->add($address);
+			$address->setOwner($this);
+		}
+		return $this;
+	}
+
+	/**
+	 * Gets primary address if it's available.
+	 *
+	 * @return ContactAddress|null
+	 */
+	public function getPrimaryAddress() {
+		$result = null;
+		/** @var ContactAddress $address */
+		foreach ($this->getAddresses() as $address) {
+			if ($address->isPrimary()) {
+				$result = $address;
+				break;
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * @param ContactAddress $address
+	 * @return $this
+	 */
+	public function setPrimaryAddress(ContactAddress $address) {
+		if ($this->hasAddress($address)) {
+			$address->setPrimary(true);
+			/** @var ContactAddress $otherAddress */
+			foreach ($this->getAddresses() as $otherAddress) {
+				if (!$address->isEqual($otherAddress)) {
+					$otherAddress->setPrimary(false);
+				}
+			}
+		}
+		return $this;
+	}
+
+	/**
+	 * Gets address type if it's available.
+	 *
+	 * @param ContactAddress $address
+	 * @param AddressType    $addressType
+	 * @return $this
+	 */
+	public function setAddressType(ContactAddress $address, AddressType $addressType) {
+		if ($this->hasAddress($address)) {
+			$address->addType($addressType);
+			/** @var ContactAddress $otherAddress */
+			foreach ($this->getAddresses() as $otherAddress) {
+				if (!$address->isEqual($otherAddress)) {
+					$otherAddress->removeType($addressType);
+				}
+			}
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Gets one address that has specified type.
+	 *
+	 * @param AddressType $type
+	 *
+	 * @return ContactAddress|null
+	 */
+	public function getAddressByType(AddressType $type) {
+		return $this->getAddressByTypeName($type->getName());
+	}
+
+	/**
+	 * Gets one address that has specified type name.
+	 *
+	 * @param string $typeName
+	 * @return ContactAddress|null
+	 */
+	public function getAddressByTypeName($typeName) {
+		$result = null;
+		/** @var ContactAddress $address */
+		foreach ($this->getAddresses() as $address) {
+			if ($address->hasTypeWithName($typeName)) {
+				$result = $address;
+				break;
+			}
+		}
+		return $result;
+	}
 
 	/**
 	 * @return User

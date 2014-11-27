@@ -10,12 +10,14 @@ mekit:
         widgets:
             account_information:    Account Information
             account_addresses:      Address Book
+            account_contacts:       Contacts
 
         account_actions:            Account actions
 
         sections:
             general:                General
             addresses:              Addresses
+            contacts:               Contacts
 
         form:
             choose_account:         Choose an account...

@@ -47,16 +47,28 @@
         {{ oro_widget_render({
             'widgetType': 'block',
             'contentClasses': [],
-            'url': path('mekit_account_address_book', {id: entity.id}),
-            'title': 'mekit.account.widgets.account_addresses'|trans
+            'title': 'mekit.account.widgets.account_addresses'|trans,
+            'url': path('mekit_account_address_book', {id: entity.id})
         }) }}
     {% endset %}
+
+	{% set accountContactsWidget %}
+		{{ oro_widget_render({
+			'widgetType': 'block',
+			'title': 'mekit.account.widgets.account_contacts'|trans,
+			'url': path('mekit_account_widget_listcontacts', {id: entity.id})
+		}) }}
+	{% endset %}
 
 	{% set dataBlocks = [
 		{
 		'title': 'mekit.account.sections.general'|trans,
 		'class': 'active',
 		'subblocks': [ {'data' : [accountInformationWidget]} ]
+		},
+		{
+		'title': 'mekit.account.sections.contacts'|trans,
+		'subblocks': [ {'data' : [accountContactsWidget]} ]
 		},
 		{
 		'title': 'mekit.account.sections.addresses'|trans,

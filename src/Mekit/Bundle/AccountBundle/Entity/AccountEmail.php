@@ -3,11 +3,11 @@ namespace Mekit\Bundle\AccountBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
-use Mekit\Bundle\ContactBundle\Entity\Contact;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
-
 use Oro\Bundle\AddressBundle\Entity\AbstractEmail;
 use Oro\Bundle\EmailBundle\Entity\EmailInterface;
+
+use Mekit\Bundle\ContactBundle\Entity\Contact;
 
 /**
  * @ORM\Entity
