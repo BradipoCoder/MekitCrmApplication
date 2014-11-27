@@ -9,6 +9,7 @@ mekit:
             shortcut_list_accounts.description: List of accounts
         widgets:
             account_information:    Account Information
+            account_additional:     Additional Information
             account_addresses:      Address Book
             account_contacts:       Contacts
 
