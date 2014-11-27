@@ -11,9 +11,6 @@ use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SoapBundle\Controller\Api\Rest\RestController;
 use Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager;
 use Oro\Bundle\SoapBundle\Form\Handler\ApiFormHandler;
-use OroCRM\Bundle\ContactBundle\Entity\Contact;
-use OroCRM\Bundle\ContactBundle\Entity\ContactAddress;
-use OroCRM\Bundle\ContactBundle\Form\Type\ContactApiType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -132,7 +129,7 @@ class AccountController extends RestController implements ClassResourceInterface
 	 */
 	//todo: missing api service
 	public function getForm() {
-		return $this->get('mekit_account.form.account');
+		return $this->get('mekit_account.form.account.api');
 	}
 
 	/**
@@ -140,7 +137,7 @@ class AccountController extends RestController implements ClassResourceInterface
 	 */
 	//todo: missing api service
 	public function getFormHandler() {
-		return $this->get('mekit_account.form.handler.account');
+		return $this->get('mekit_account.form.handler.account.api');
 	}
 
 }

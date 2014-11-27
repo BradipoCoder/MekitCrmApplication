@@ -3,9 +3,10 @@ parameters:
     mekit_account.account_address.manager.api.class:            Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
 
     mekit_account.type.account.class:                           Mekit\Bundle\AccountBundle\Form\Type\AccountType
-    mekit_account.handler.account.class:                        Mekit\Bundle\AccountBundle\Form\Handler\AccountHandler
-
+    mekit_account.type.account.api.class:                       Mekit\Bundle\AccountBundle\Form\Type\AccountApiType
     mekit_account.type.account_select.class:                    Mekit\Bundle\AccountBundle\Form\Type\AccountSelectType
+
+    mekit_account.handler.account.class:                        Mekit\Bundle\AccountBundle\Form\Handler\AccountHandler
 
 services:
     # Account
@@ -37,6 +38,32 @@ services:
         scope: request
         arguments:
             - @mekit_account.form.account
+            - @request
+            - @doctrine.orm.entity_manager
+        tags:
+            - { name: oro_tag.tag_manager }
+
+    mekit_account.form.account.api:
+        class: Symfony\Component\Form\Form
+        factory_method: createNamed
+        factory_service: form.factory
+        arguments: ["account", "account", null]
+
+    mekit_account.form.type.account.api:
+        class: %mekit_account.type.account.api.class%
+        arguments:
+            - @router
+            - @oro_locale.formatter.name
+            - @oro_security.security_facade
+            - @mekit_list.form_helper
+        tags:
+            - { name: form.type, alias: account }
+
+    mekit_account.form.handler.account.api:
+        class: %mekit_account.handler.account.class%
+        scope: request
+        arguments:
+            - @mekit_account.form.account.api
             - @request
             - @doctrine.orm.entity_manager
         tags:
