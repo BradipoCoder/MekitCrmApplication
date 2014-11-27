@@ -3,6 +3,7 @@ namespace Mekit\Bundle\AccountBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
+use Mekit\Bundle\ContactBundle\Entity\Contact;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 
 use Oro\Bundle\AddressBundle\Entity\AbstractEmail;
@@ -32,44 +33,81 @@ use Oro\Bundle\EmailBundle\Entity\EmailInterface;
  */
 class AccountEmail extends AbstractEmail implements EmailInterface {
 	/**
-	 * @ORM\ManyToOne(targetEntity="Account", inversedBy="emails")
-	 * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="CASCADE")
+	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\AccountBundle\Entity\Account", inversedBy="emails")
+	 * @ORM\JoinColumn(name="account_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
 	 */
-	protected $owner;
+	protected $ownerAccount;
 
 	/**
-	 * {@inheritdoc}
+	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ContactBundle\Entity\Contact", inversedBy="emails")
+	 * @ORM\JoinColumn(name="contact_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
 	 */
-	public function getEmailField()
-	{
-		return 'email';
-	}
+	protected $ownerContact;
 
 	/**
-	 * {@inheritdoc}
-	 */
-	public function getEmailOwner()
-	{
-		return $this->getOwner();
-	}
-
-	/**
-	 * Set contact as owner.
-	 *
-	 * @param Account $owner
-	 */
-	public function setOwner(Account $owner = null)
-	{
-		$this->owner = $owner;
-	}
-
-	/**
-	 * Get owner contact.
-	 *
 	 * @return Account
 	 */
-	public function getOwner()
-	{
-		return $this->owner;
+	public function getOwnerAccount() {
+		return $this->ownerAccount;
+	}
+
+	/**
+	 * @param Account $ownerAccount
+	 * @return $this
+	 */
+	public function setOwnerAccount(Account $ownerAccount = null) {
+		$this->ownerAccount = $ownerAccount;
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isAccountEMail() {
+		return (!is_null($this->ownerAccount));
+	}
+
+	/**
+	 * @return Contact
+	 */
+	public function getOwnerContact() {
+		return $this->ownerContact;
+	}
+
+	/**
+	 * @param Contact $ownerContact
+	 * @return $this
+	 */
+	public function setOwnerContact(Contact $ownerContact = null) {
+		$this->ownerContact = $ownerContact;
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isContactEmail() {
+		return (!is_null($this->ownerContact));
+	}
+
+
+	/**
+	 * Returns entity which owns this Email
+	 * @return Account|Contact|null
+	 */
+	public function getEmailOwner() {
+		if($this->isAccountEMail()) {
+			return $this->getOwnerAccount();
+		} else if ($this->isContactEmail()) {
+			return $this->getOwnerContact();
+		}
+		return null;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getEmailField() {
+		return 'email';
 	}
 }

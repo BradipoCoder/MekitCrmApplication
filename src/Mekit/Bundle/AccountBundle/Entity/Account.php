@@ -164,7 +164,7 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	/**
 	 * @var Collection
 	 *
-	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\AccountBundle\Entity\AccountPhone", mappedBy="owner",
+	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\AccountBundle\Entity\AccountPhone", mappedBy="ownerAccount",
 	 *    cascade={"all"}, orphanRemoval=true
 	 * ))
 	 * @ORM\OrderBy({"primary" = "DESC"})
@@ -324,7 +324,7 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 * @var Collection
 	 *
 	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\AccountBundle\Entity\AccountEmail",
-	 *    mappedBy="owner", cascade={"all"}, orphanRemoval=true
+	 *    mappedBy="ownerAccount", cascade={"all"}, orphanRemoval=true
 	 * )
 	 * @ORM\OrderBy({"primary" = "DESC"})
 	 * @Soap\ComplexType("Mekit\Bundle\AccountBundle\Entity\AccountEmail[]", nillable=true)
@@ -572,7 +572,7 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	public function addPhone(AccountPhone $phone) {
 		if (!$this->phones->contains($phone)) {
 			$this->phones->add($phone);
-			$phone->setOwner($this);
+			$phone->setOwnerAccount($this);
 		}
 		return $this;
 	}
@@ -774,7 +774,7 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	public function addEmail(AccountEmail $email) {
 		if (!$this->emails->contains($email)) {
 			$this->emails->add($email);
-			$email->setOwner($this);
+			$email->setOwnerAccount($this);
 		}
 		return $this;
 	}

@@ -130,8 +130,8 @@
 			{{ UI.renderProperty('mekit.contact.gender.label'|trans, entity.gender) }}
 			{{ UI.renderProperty('mekit.contact.birthday.label'|trans, entity.birthday ? birthdayData : null) }}
 
-			{#{{ UI.renderHtmlProperty('mekit.contact.emails.label'|trans, entity.emails.count ? _self.renderCollectionWithPrimaryElement(entity.emails, true) : null) }}#}
-			{#{{ UI.renderHtmlProperty('mekit.contact.phones.label'|trans, entity.phones.count ? _self.renderCollectionWithPrimaryElement(entity.phones, false) : null) }}#}
+			{{ UI.renderHtmlProperty('mekit.contact.emails.label'|trans, entity.emails.count ? _self.renderCollectionWithPrimaryElement(entity.emails, true) : null) }}
+			{{ UI.renderHtmlProperty('mekit.contact.phones.label'|trans, entity.phones.count ? _self.renderCollectionWithPrimaryElement(entity.phones, false) : null) }}
 
 			{{ UI.renderHtmlProperty('mekit.contact.skype.label'|trans, skypeData) }}
 			{{ UI.renderHtmlProperty('mekit.contact.social.label'|trans, socialData) }}

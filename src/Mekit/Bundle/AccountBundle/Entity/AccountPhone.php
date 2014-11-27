@@ -3,6 +3,7 @@ namespace Mekit\Bundle\AccountBundle\Entity;
 
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\ORM\Mapping as ORM;
+use Mekit\Bundle\ContactBundle\Entity\Contact;
 use Oro\Bundle\AddressBundle\Entity\AbstractPhone;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 
@@ -31,25 +32,47 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
  */
 class AccountPhone extends AbstractPhone {
 	/**
-	 * @ORM\ManyToOne(targetEntity="Account", inversedBy="phones")
-	 * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="CASCADE")
+	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\AccountBundle\Entity\Account", inversedBy="phones")
+	 * @ORM\JoinColumn(name="account_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
 	 */
-	protected $owner;
+	protected $ownerAccount;
 
 	/**
-	 * @param Account $owner
-	 * @return $this
+	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ContactBundle\Entity\Contact", inversedBy="phones")
+	 * @ORM\JoinColumn(name="contact_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
 	 */
-	public function setOwner(Account $owner = null) {
-		$this->owner = $owner;
-		return $this;
-	}
+	protected $ownerContact;
 
 	/**
 	 * @return Account
 	 */
-	public function getOwner() {
-		return $this->owner;
+	public function getOwnerAccount() {
+		return $this->ownerAccount;
+	}
+
+	/**
+	 * @param Account $ownerAccount
+	 * @return $this
+	 */
+	public function setOwnerAccount(Account $ownerAccount = null) {
+		$this->ownerAccount = $ownerAccount;
+		return $this;
+	}
+
+	/**
+	 * @return Contact
+	 */
+	public function getOwnerContact() {
+		return $this->ownerContact;
+	}
+
+	/**
+	 * @param Contact $ownerContact
+	 * @return $this
+	 */
+	public function setOwnerContact(Contact $ownerContact = null) {
+		$this->ownerContact = $ownerContact;
+		return $this;
 	}
 }
 
