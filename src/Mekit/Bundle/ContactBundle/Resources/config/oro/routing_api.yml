@@ -1,0 +1,4 @@
+mekit_contact_api:
+    resource:     "@MekitContactBundle/Controller/Api/Rest/ContactController.php"
+    type:         rest
+

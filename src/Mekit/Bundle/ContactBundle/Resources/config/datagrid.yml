@@ -55,14 +55,14 @@ datagrid:
                 type:       url
                 route:      mekit_contact_view
                 params:     [ id ]
-#            update_link:
-#                type:       url
-#                route:      mekit_contact_update
-#                params:     [ id ]
-#            delete_link:
-#                type:       url
-#                route:      mekit_api_delete_contact
-#                params:     [ id ]
+            update_link:
+                type:       url
+                route:      mekit_contact_update
+                params:     [ id ]
+            delete_link:
+                type:       url
+                route:      mekit_api_delete_contact
+                params:     [ id ]
 
         actions:
             view:
@@ -72,18 +72,18 @@ datagrid:
                 icon:          eye-open
                 link:          view_link
                 rowAction:     true
-#            update:
-#                type:          navigate
-#                acl_resource:  mekit_contact_update
-#                label:         oro.grid.action.update
-#                icon:          edit
-#                link:          update_link
-#            delete:
-#                type:          delete
-#                acl_resource:  mekit_contact_delete
-#                label:         oro.grid.action.delete
-#                icon:          trash
-#                link:          delete_link
+            update:
+                type:          navigate
+                acl_resource:  mekit_contact_update
+                label:         oro.grid.action.update
+                icon:          edit
+                link:          update_link
+            delete:
+                type:          delete
+                acl_resource:  mekit_contact_delete
+                label:         oro.grid.action.delete
+                icon:          trash
+                link:          delete_link
 
         mass_actions:
             delete:
