@@ -6,11 +6,9 @@ use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
 /**
- * Class MekitAccountBundle (usage: oro:migration:load --show-queries --bundles MekitAccountBundle --dry-run)
+ * usage: oro:migration:load --show-queries --bundles MekitAccountBundle --dry-run
  *
- * @SuppressWarnings(PHPMD.TooManyMethods)
- * @SuppressWarnings(PHPMD.ExcessiveClassLength)
- *
+ * Class MekitAccountBundle
  */
 class MekitAccountBundle implements Migration {
 	/** @var string */
