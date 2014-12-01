@@ -14,6 +14,7 @@ datagrid:
                     - e.duration
                     - eventState.label as state
                     - eventPriority.label as priority
+#                    - eTask as EventTask
                 from:
                     - { table: %mekit_event.event.entity.class%, alias: e }
                 join:
@@ -21,12 +22,16 @@ datagrid:
                         - { join: e.owner, alias: eventOwner }
                         - { join: e.state, alias: eventState }
                         - { join: e.priority, alias: eventPriority }
+#                        - { join: e.task, alias: eTask }
 
         columns:
-            name:
-                label:         mekit.event.name.label
             type:
                 label:         mekit.event.type.label
+                type:           twig
+                frontend_type:  html
+                template:       MekitEventBundle:Event:Datagrid/Property/eventTypeIcon.html.twig
+            name:
+                label:         mekit.event.name.label
             state:
                 label:         mekit.event.state.label
             startDate:
