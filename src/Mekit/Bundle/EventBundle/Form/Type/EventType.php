@@ -1,11 +1,12 @@
 <?php
 
-namespace Mekit\Bundle\TaskBundle\Form\Type;
+namespace Mekit\Bundle\EventBundle\Form\Type;
 
 use Doctrine\Common\Collections\Collection;
 
 use Doctrine\ORM\EntityRepository;
-use Mekit\Bundle\EventBundle\Form\Type\EventType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -24,14 +25,13 @@ use Mekit\Bundle\ListBundle\Helper\FormHelper;
 use Mekit\Bundle\ListBundle\Entity\ListGroup;
 
 use Mekit\Bundle\EventBundle\Entity\Event;
-use Mekit\Bundle\TaskBundle\Entity\Task;
 use Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository;
 
 
 /**
- * Class TaskType
+ * Class EventType
  */
-class TaskType extends AbstractType {
+class EventType extends AbstractType {
 
 	/**
 	 * @var Router
@@ -60,8 +60,8 @@ class TaskType extends AbstractType {
 	 * @param FormHelper $listBundleHelper - temporary solution!
 	 */
 	public function __construct(Router $router, NameFormatter $nameFormatter, SecurityFacade $securityFacade, FormHelper $listBundleHelper) {
-		$this->router = $router;
 		$this->nameFormatter = $nameFormatter;
+		$this->router = $router;
 		$this->securityFacade = $securityFacade;
 		$this->listBundleHelper = $listBundleHelper;
 	}
@@ -74,11 +74,17 @@ class TaskType extends AbstractType {
 
 		// basic fields
 		$builder
-			->add('description', 'textarea', array('required' => false, 'label' => 'mekit.task.description.label'));
-			/*->add('tags', 'oro_tag_select', ['label' => 'oro.tag.entity_plural_label']);*/
+			->add('name', 'text', array('required' => true, 'label' => 'mekit.event.name.label'))
+			->add('type', 'hidden', array('required' => true, 'label' => 'mekit.event.type.label'))
+			->add('startDate', 'oro_datetime', array('required' => true, 'label' => 'mekit.event.start_date.label'))
+			->add('endDate', 'oro_datetime', array('required' => false, 'label' => 'mekit.event.end_date.label'))
+			->add('duration', 'number', array('required' => false, 'label' => 'mekit.event.duration.label'));
+
+
 
 		//dynamic lists from ListBundle(using temporary helper service solution)
-		//$this->listBundleHelper->addListSelectorToFormBuilder($builder, 'jobTitle', 'CONTACT_JOBTITLE', 'mekit.contact.job_title.label');
+		$this->listBundleHelper->addListSelectorToFormBuilder($builder, 'state', 'EVENT_STATE', 'mekit.event.state.label');
+		$this->listBundleHelper->addListSelectorToFormBuilder($builder, 'priority', 'EVENT_PRIORITY', 'mekit.event.priority.label');
 
 
 		//assigned to (user)
@@ -88,9 +94,20 @@ class TaskType extends AbstractType {
 //			array('required' => false, 'label' => 'mekit.contact.assigned_to.label')
 //		);
 
-		//add event form
-		$builder->add('event', new EventType($this->router, $this->nameFormatter, $this->securityFacade, $this->listBundleHelper));
 
+		//Set the correct type of the entity bound to the parent form
+		$builder->addEventListener(
+			FormEvents::POST_SET_DATA,
+			function (FormEvent $event) {
+				$parentForm = $event->getForm()->getParent();
+				if ($parentForm) {
+					$parentDataClass = $parentForm->getConfig()->getDataClass();
+					$event->getForm()->get("type")->setData($parentDataClass);
+				} else {
+					throw new \LogicException("No parent form!");
+				}
+			}
+		);
 	}
 
 	/**
@@ -99,8 +116,8 @@ class TaskType extends AbstractType {
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(
 			array(
-				'data_class' => 'Mekit\Bundle\TaskBundle\Entity\Task',
-				'intention' => 'task',
+				'data_class' => 'Mekit\Bundle\EventBundle\Entity\Event',
+				'intention' => 'event',
 				'extra_fields_message' => 'This form should not contain extra fields: "{{ extra_fields }}"',
 				'cascade_validation' => true
 			)
@@ -111,6 +128,6 @@ class TaskType extends AbstractType {
 	 * @return string
 	 */
 	public function getName() {
-		return 'mekit_task';
+		return 'mekit_event';
 	}
 }

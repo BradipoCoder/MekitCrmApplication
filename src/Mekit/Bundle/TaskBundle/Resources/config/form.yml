@@ -36,5 +36,3 @@ services:
             - @mekit_task.form.task
             - @request
             - @doctrine.orm.entity_manager
-        tags:
-            - { name: oro_tag.tag_manager }

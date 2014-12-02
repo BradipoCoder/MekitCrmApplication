@@ -1,18 +1,17 @@
 <?php
 
-namespace Mekit\Bundle\TaskBundle\Form\Handler;
+namespace Mekit\Bundle\EventBundle\Form\Handler;
 
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use Mekit\Bundle\EventBundle\Entity\Event;
-use Mekit\Bundle\TaskBundle\Entity\Task;
 
 /**
- * Class TaskHandler
+ * Class EventHandler
  */
-class TaskHandler {
+class EventHandler {
 	/**
 	 * @var FormInterface
 	 */
@@ -43,10 +42,10 @@ class TaskHandler {
 	/**
 	 * Process form
 	 *
-	 * @param  Task $entity
+	 * @param  Event $entity
 	 * @return bool True on successful processing, false otherwise
 	 */
-	public function process(Task $entity) {
+	public function process(Event $entity) {
 		$this->form->setData($entity);
 		if (in_array($this->request->getMethod(), array('POST', 'PUT'))) {
 			$this->form->submit($this->request);
@@ -61,10 +60,11 @@ class TaskHandler {
 	/**
 	 * "Success" form handler
 	 *
-	 * @param Task $entity
+	 * @param Event $entity
 	 */
-	protected function onSuccess(Task $entity) {
+	protected function onSuccess(Event $entity) {
 		$this->manager->persist($entity);
 		$this->manager->flush();
 	}
+
 }

@@ -24,6 +24,7 @@ class MekitEventExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+	    $loader->load('form.yml');
 	    $loader->load('twig_extensions.yml');
     }
 }

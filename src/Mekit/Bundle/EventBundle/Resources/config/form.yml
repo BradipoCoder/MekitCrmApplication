@@ -1,0 +1,38 @@
+parameters:
+    mekit_event.event.manager.api.class:                    Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
+
+    mekit_event.type.event.class:                           Mekit\Bundle\EventBundle\Form\Type\EventType
+
+    mekit_event.handler.event.class:                        Mekit\Bundle\EventBundle\Form\Handler\EventHandler
+
+services:
+    mekit_event.event.manager.api:
+        class: %mekit_event.event.manager.api.class%
+        parent: oro_soap.manager.entity_manager.abstract
+        arguments:
+            - %mekit_event.event.entity.class%
+            - @doctrine.orm.entity_manager
+
+    mekit_event.form.event:
+        class: Symfony\Component\Form\Form
+        factory_method: createNamed
+        factory_service: form.factory
+        arguments: ["mekit_event_form", "mekit_event", null]
+
+    mekit_event.form.type.event:
+        class: %mekit_event.type.event.class%
+        arguments:
+            - @router
+            - @oro_locale.formatter.name
+            - @oro_security.security_facade
+            - @mekit_list.form_helper
+        tags:
+            - { name: form.type, alias: mekit_event }
+
+    mekit_event.form.handler.event:
+        class: %mekit_event.handler.event.class%
+        scope: request
+        arguments:
+            - @mekit_event.form.event
+            - @request
+            - @doctrine.orm.entity_manager

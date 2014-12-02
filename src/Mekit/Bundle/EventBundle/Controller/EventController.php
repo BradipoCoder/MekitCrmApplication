@@ -40,4 +40,5 @@ class EventController extends Controller {
 			'entity_class' => $this->container->getParameter('mekit_event.event.entity.class')
 		);
 	}
+
 }

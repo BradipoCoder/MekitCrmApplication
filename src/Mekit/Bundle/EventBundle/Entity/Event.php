@@ -397,6 +397,12 @@ class Event extends ExtendEvent{
 		return $this;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function __toString() {
+		return (string)$this->getName();
+	}
 
 	/**
 	 * Pre persist event listener
