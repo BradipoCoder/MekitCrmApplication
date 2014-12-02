@@ -1,0 +1,40 @@
+parameters:
+    mekit_task.task.manager.api.class:                    Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
+
+    mekit_task.type.task.class:                           Mekit\Bundle\TaskBundle\Form\Type\TaskType
+
+    mekit_task.handler.task.class:                        Mekit\Bundle\TaskBundle\Form\Handler\TaskHandler
+
+services:
+    mekit_task.task.manager.api:
+        class: %mekit_task.task.manager.api.class%
+        parent: oro_soap.manager.entity_manager.abstract
+        arguments:
+            - %mekit_task.task.entity.class%
+            - @doctrine.orm.entity_manager
+
+    mekit_task.form.task:
+        class: Symfony\Component\Form\Form
+        factory_method: createNamed
+        factory_service: form.factory
+        arguments: ["mekit_task_form", "mekit_task", null]
+
+    mekit_task.form.type.task:
+        class: %mekit_task.type.task.class%
+        arguments:
+            - @router
+            - @oro_locale.formatter.name
+            - @oro_security.security_facade
+            - @mekit_list.form_helper
+        tags:
+            - { name: form.type, alias: mekit_task }
+
+    mekit_task.form.handler.task:
+        class: %mekit_task.handler.task.class%
+        scope: request
+        arguments:
+            - @mekit_task.form.task
+            - @request
+            - @doctrine.orm.entity_manager
+        tags:
+            - { name: oro_tag.tag_manager }

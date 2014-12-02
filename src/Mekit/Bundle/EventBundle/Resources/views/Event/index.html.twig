@@ -4,11 +4,23 @@
 {% set pageTitle = 'mekit.event.entity_plural_label'|trans %}
 
 
-{#{% block navButtons %}#}
+{% block navButtons %}
+	{# - CREATE EVENT - TEMPORARY #}
 	{#<div class="btn-group">#}
 		{#{{ UI.addButton({#}
-		{#'path' : path('mekit_account_create'),#}
-		{#'entity_label': 'mekit.account.entity_label'|trans#}
+		{#'path': path('mekit_event_create'),#}
+		{#'entity_label': 'mekit.event.entity_label'|trans#}
 		{#}) }}#}
 	{#</div>#}
-{#{% endblock %}#}
+
+	{# - CREATE TASK - #}
+	<div class="btn-group">
+		{{ UI.addButton({
+			'iCss': 'icon-flag hide-text',
+			'path': path('mekit_task_create'),
+			'entity_label': 'mekit.task.entity_label'|trans
+		}) }}
+	</div>
+
+
+{% endblock %}

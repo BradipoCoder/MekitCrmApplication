@@ -31,8 +31,8 @@ use Oro\Bundle\UserBundle\Entity\User;
  * @ORM\HasLifecycleCallbacks()
  * @Oro\Loggable
  * @Config(
- *      routeName="",
- *      routeView="",
+ *      routeName="mekit_task_index",
+ *      routeView="mekit_task_view",
  *      defaultValues={
  *          "entity"={
  *              "icon"="icon-flag"
@@ -50,6 +50,12 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          },
  *          "dataaudit"={
  *              "auditable"=true
+ *          },
+ *          "eventable"={
+ *				"indexRouteName"="mekit_task_index",
+ *              "viewRouteName"="mekit_task_view",
+ *              "editRouteName"="mekit_task_edit",
+ *              "deleteRouteName"="mekit_task_api_delete",
  *          }
  *      }
  * )
@@ -61,6 +67,7 @@ class Task extends ExtendTask {
 	 * @ORM\Id
 	 * @ORM\Column(type="integer", name="id")
 	 * @ORM\GeneratedValue(strategy="AUTO")
+	 * @Soap\ComplexType("int", nillable=true)
 	 */
 	protected $id;
 
@@ -74,7 +81,10 @@ class Task extends ExtendTask {
 	 *      defaultValues={
 	 *          "importexport"={
 	 *              "order"=250
-	 *          }
+	 *          },
+	 *          "dataaudit"={
+	 *              "auditable"=true
+	 *          },
 	 *      }
 	 * )
 	 */
@@ -84,6 +94,10 @@ class Task extends ExtendTask {
 	 * @var Event
 	 *
 	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\EventBundle\Entity\Event", mappedBy="task")
+	 * @Soap\ComplexType("Mekit\Bundle\EventBundle\Entity\Event", nillable=false)
+	 * @ConfigField(
+	 *      defaultValues={}
+	 * )
 	 */
 	protected $event;
 
@@ -92,7 +106,11 @@ class Task extends ExtendTask {
 	 *
 	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
 	 * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="SET NULL")
+	 * @Soap\ComplexType("string", nillable=true)
 	 * @Oro\Versioned
+	 * @ConfigField(
+	 *      defaultValues={}
+	 * )
 	 */
 	protected $owner;
 
@@ -103,6 +121,7 @@ class Task extends ExtendTask {
 	 * @ORM\JoinColumn(name="organization_id", referencedColumnName="id", onDelete="SET NULL")
 	 */
 	protected $organization;
+
 
 
 	/**
@@ -192,6 +211,11 @@ class Task extends ExtendTask {
 		return $this;
 	}
 
-
+	/**
+	 * @return string
+	 */
+	public function __toString() {
+		return (string)$this->getDescription();
+	}
 
 }

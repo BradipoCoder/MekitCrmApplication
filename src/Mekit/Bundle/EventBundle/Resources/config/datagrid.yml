@@ -25,13 +25,18 @@ datagrid:
 #                        - { join: e.task, alias: eTask }
 
         columns:
-            type:
-                label:         mekit.event.type.label
+            type_icon:
+                data_name:      type
+                label:          mekit.event.type.label
                 type:           twig
                 frontend_type:  html
-                template:       MekitEventBundle:Event:Datagrid/Property/eventTypeIcon.html.twig
-            name:
-                label:         mekit.event.name.label
+                template:       MekitEventBundle:Event:Datagrid/Property/eventIcon.html.twig
+            linked_name:
+                data_name:      type
+                label:          mekit.event.name.label
+                type:           twig
+                frontend_type:  html
+                template:       MekitEventBundle:Event:Datagrid/Property/eventLinkView.html.twig
             state:
                 label:         mekit.event.state.label
             startDate:
@@ -45,16 +50,17 @@ datagrid:
             priority:
                 label:         mekit.event.priority.label
 
+
         sorters:
             columns:
-                name:
+                linked_name:
                     data_name: e.name
-                type:
+                type_icon:
                     data_name: e.type
 
         filters:
             columns:
-                name:
+                linked_name:
                     type:      string
                     data_name: e.name
 

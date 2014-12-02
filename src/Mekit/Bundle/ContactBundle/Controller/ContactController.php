@@ -95,16 +95,6 @@ class ContactController extends Controller {
 
 			//assign to current user
 			$entity->setAssignedTo($this->getUser());
-
-			/** @var ListItemRepository $listItemRepo */
-//			$listItemRepo = $this->getDoctrine()->getRepository('MekitListBundle:ListItem');
-
-			//set defaults for list items
-//			$entity->setType($listItemRepo->getDefaultItemForGroup("ACCOUNT_TYPE"));
-//			$entity->setState($listItemRepo->getDefaultItemForGroup("ACCOUNT_STATE"));
-//			$entity->setIndustry($listItemRepo->getDefaultItemForGroup("ACCOUNT_INDUSTRY"));
-//			$entity->setSource($listItemRepo->getDefaultItemForGroup("ACCOUNT_SOURCE"));
-
 		}
 
 		return $this->get('oro_form.model.update_handler')->handleUpdate(

@@ -1,0 +1,12 @@
+{#{{ record.getValue('id') }}#}
+{% set entity_config = mkt_ev_type_spec_cfg(value) %}
+{% set entityIcon = entity_config.get('icon') %}
+{% set entityLabel = entity_config.get('label')|trans %}
+
+{% set iconContent = null %}
+{% if entityIcon %}
+    {% set iconContent %}
+    <i class="{{ entityIcon }} hide-text" title="{{ entityLabel }}"></i>
+    {% endset %}
+{% endif %}
+{{ iconContent }}

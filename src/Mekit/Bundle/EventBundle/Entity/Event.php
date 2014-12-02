@@ -144,10 +144,33 @@ class Event extends ExtendEvent{
 	 */
 	protected $organization;
 
+
+	/**
+	 * @var \DateTime
+	 *
+	 * @ORM\Column(type="datetime")
+	 * @Soap\ComplexType("dateTime", nillable=true)
+	 * @ConfigField(
+	 *      defaultValues={}
+	 * )
+	 */
+	protected $createdAt;
+
+	/**
+	 * @var \DateTime
+	 *
+	 * @ORM\Column(type="datetime", nullable=true)
+	 * @Soap\ComplexType("dateTime", nillable=true)
+	 * @ConfigField(
+	 *      defaultValues={}
+	 * )
+	 */
+	protected $updatedAt;
+
 	/**
 	 * @var Task
 	 *
-	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\TaskBundle\Entity\Task", inversedBy="event")
+	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\TaskBundle\Entity\Task", inversedBy="event", cascade={"all"}, orphanRemoval=true)
 	 */
 	protected $task;
 
@@ -323,6 +346,42 @@ class Event extends ExtendEvent{
 	}
 
 	/**
+	 * Get created date/time
+	 *
+	 * @return \DateTime
+	 */
+	public function getCreatedAt() {
+		return $this->createdAt;
+	}
+
+	/**
+	 * @param \DateTime
+	 * @return $this
+	 */
+	public function setCreatedAt(\DateTime $created) {
+		$this->createdAt = $created;
+		return $this;
+	}
+
+	/**
+	 * Get last update date/time
+	 *
+	 * @return \DateTime
+	 */
+	public function getUpdatedAt() {
+		return $this->updatedAt;
+	}
+
+	/**
+	 * @param \DateTime
+	 * @return $this
+	 */
+	public function setUpdatedAt(\DateTime $updated) {
+		$this->updatedAt = $updated;
+		return $this;
+	}
+
+	/**
 	 * @return Task
 	 */
 	public function getTask() {
@@ -339,6 +398,23 @@ class Event extends ExtendEvent{
 	}
 
 
+	/**
+	 * Pre persist event listener
+	 *
+	 * @ORM\PrePersist
+	 */
+	public function beforeSave() {
+		$this->createdAt = new \DateTime('now', new \DateTimeZone('UTC'));
+		$this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
+	}
 
+	/**
+	 * Pre update event handler
+	 *
+	 * @ORM\PreUpdate
+	 */
+	public function doPreUpdate() {
+		$this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
+	}
 
 }
