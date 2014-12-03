@@ -1,0 +1,38 @@
+parameters:
+    mekit_meeting.meeting.manager.api.class:                    Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
+
+    mekit_meeting.type.meeting.class:                           Mekit\Bundle\MeetingBundle\Form\Type\MeetingType
+
+    mekit_meeting.handler.meeting.class:                        Mekit\Bundle\MeetingBundle\Form\Handler\MeetingHandler
+
+services:
+    mekit_meeting.meeting.manager.api:
+        class: %mekit_meeting.meeting.manager.api.class%
+        parent: oro_soap.manager.entity_manager.abstract
+        arguments:
+            - %mekit_meeting.meeting.entity.class%
+            - @doctrine.orm.entity_manager
+
+    mekit_meeting.form.meeting:
+        class: Symfony\Component\Form\Form
+        factory_method: createNamed
+        factory_service: form.factory
+        arguments: ["mekit_meeting_form", "mekit_meeting", null]
+
+    mekit_meeting.form.type.meeting:
+        class: %mekit_meeting.type.meeting.class%
+        arguments:
+            - @router
+            - @oro_locale.formatter.name
+            - @oro_security.security_facade
+            - @mekit_list.form_helper
+        tags:
+            - { name: form.type, alias: mekit_meeting }
+
+    mekit_meeting.form.handler.meeting:
+        class: %mekit_meeting.handler.meeting.class%
+        scope: request
+        arguments:
+            - @mekit_meeting.form.meeting
+            - @request
+            - @doctrine.orm.entity_manager

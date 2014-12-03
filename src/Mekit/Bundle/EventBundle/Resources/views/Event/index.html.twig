@@ -5,14 +5,6 @@
 
 
 {% block navButtons %}
-	{# - CREATE EVENT - TEMPORARY #}
-	{#<div class="btn-group">#}
-		{#{{ UI.addButton({#}
-		{#'path': path('mekit_event_create'),#}
-		{#'entity_label': 'mekit.event.entity_label'|trans#}
-		{#}) }}#}
-	{#</div>#}
-
 	{# - CREATE TASK - #}
 	<div class="btn-group">
 		{{ UI.addButton({
@@ -22,5 +14,13 @@
 		}) }}
 	</div>
 
+	{# - CREATE MEETING - #}
+	<div class="btn-group">
+		{{ UI.addButton({
+		'iCss': 'icon-group hide-text',
+		'path': path('mekit_meeting_create'),
+		'entity_label': 'mekit.meeting.entity_label'|trans
+		}) }}
+	</div>
 
 {% endblock %}

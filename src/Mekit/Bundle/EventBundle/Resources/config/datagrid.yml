@@ -14,7 +14,12 @@ datagrid:
                     - e.duration
                     - eventState.label as state
                     - eventPriority.label as priority
-                    - evTask.id as linkRefId
+                    - >
+                      CASE
+                        WHEN evTask.id IS NOT NULL THEN evTask.id
+                        WHEN evMeeting.id IS NOT NULL THEN evMeeting.id
+                        ELSE ''
+                        END as linkRefId
                 from:
                     - { table: %mekit_event.event.entity.class%, alias: e }
                 join:
@@ -23,6 +28,7 @@ datagrid:
                         - { join: e.state, alias: eventState }
                         - { join: e.priority, alias: eventPriority }
                         - { join: e.task, alias: evTask }
+                        - { join: e.meeting, alias: evMeeting }
 
         columns:
             type_icon:

@@ -1,0 +1,5 @@
+parameters:
+    mekit_meeting.meeting.entity.class: Mekit\Bundle\MeetingBundle\Entity\Meeting
+
+services:
+

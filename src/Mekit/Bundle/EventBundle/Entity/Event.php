@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Mekit\Bundle\AccountBundle\Model\ExtendAccount;
 use Mekit\Bundle\EventBundle\Model\ExtendEvent;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
+use Mekit\Bundle\MeetingBundle\Entity\Meeting;
 use Mekit\Bundle\TaskBundle\Entity\Task;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
@@ -173,6 +174,13 @@ class Event extends ExtendEvent{
 	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\TaskBundle\Entity\Task", inversedBy="event", cascade={"all"}, orphanRemoval=true)
 	 */
 	protected $task;
+
+	/**
+	 * @var Meeting
+	 *
+	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\MeetingBundle\Entity\Meeting", inversedBy="event", cascade={"all"}, orphanRemoval=true)
+	 */
+	protected $meeting;
 
 	/**
 	 * Constructor
@@ -392,8 +400,24 @@ class Event extends ExtendEvent{
 	 * @param Task $task
 	 * @return $this
 	 */
-	public function setTask($task) {
+	public function setTask(Task $task) {
 		$this->task = $task;
+		return $this;
+	}
+
+	/**
+	 * @return Meeting
+	 */
+	public function getMeeting() {
+		return $this->meeting;
+	}
+
+	/**
+	 * @param Meeting $meeting
+	 * @return $this
+	 */
+	public function setMeeting(Meeting $meeting) {
+		$this->meeting = $meeting;
 		return $this;
 	}
 

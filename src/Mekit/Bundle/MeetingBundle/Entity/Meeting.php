@@ -1,5 +1,5 @@
 <?php
-namespace Mekit\Bundle\TaskBundle\Entity;
+namespace Mekit\Bundle\MeetingBundle\Entity;
 
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -9,7 +9,7 @@ use Mekit\Bundle\AccountBundle\Model\ExtendAccount;
 use Mekit\Bundle\EventBundle\Entity\Event;
 use Mekit\Bundle\EventBundle\Model\ExtendEvent;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
-use Mekit\Bundle\TaskBundle\Model\ExtendTask;
+use Mekit\Bundle\MeetingBundle\Model\ExtendMeeting;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
@@ -22,14 +22,14 @@ use Oro\Bundle\UserBundle\Entity\User;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="mekit_task")
+ * @ORM\Table(name="mekit_meeting")
  * @Oro\Loggable
  * @Config(
- *      routeName="mekit_task_index",
- *      routeView="mekit_task_view",
+ *      routeName="mekit_meeting_index",
+ *      routeView="mekit_meeting_view",
  *      defaultValues={
  *          "entity"={
- *              "icon"="icon-flag"
+ *              "icon"="icon-group"
  *          },
  *          "security"={
  *              "type"="ACL",
@@ -40,15 +40,15 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          },
  *          "mekitevent"={
  *              "eventable"=true,
- *              "label"="Task",
- *              "icon"="icon-flag",
- *              "view_route_name"="mekit_task_view",
- *              "edit_route_name"="mekit_task_edit"
+ *              "label"="Meeting",
+ *              "icon"="icon-group",
+ *              "view_route_name"="mekit_meeting_view",
+ *              "edit_route_name"="mekit_meeting_edit"
  *          }
  *      }
  * )
  */
-class Task extends ExtendTask {
+class Meeting extends ExtendMeeting {
 	/**
 	 * @var int
 	 *
@@ -81,7 +81,7 @@ class Task extends ExtendTask {
 	/**
 	 * @var Event
 	 *
-	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\EventBundle\Entity\Event", mappedBy="task", cascade={"all"}, orphanRemoval=true)
+	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\EventBundle\Entity\Event", mappedBy="meeting", cascade={"all"}, orphanRemoval=true)
 	 * @Soap\ComplexType("Mekit\Bundle\EventBundle\Entity\Event", nillable=false)
 	 * @ConfigField(
 	 *      defaultValues={}
