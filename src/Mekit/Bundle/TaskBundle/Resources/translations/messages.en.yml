@@ -17,7 +17,7 @@ mekit:
         entity_description:         Task
 
         id.label:                   Id
-        owner.label:                Owner
+        event.label:                Event
         description.label:          Description
 
 

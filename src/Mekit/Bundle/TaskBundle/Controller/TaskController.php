@@ -1,6 +1,9 @@
 <?php
 namespace Mekit\Bundle\TaskBundle\Controller;
 
+use BeSimple\SoapCommon\Type\KeyValue\DateTime;
+use Mekit\Bundle\EventBundle\Entity\Event;
+use Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository;
 use Mekit\Bundle\TaskBundle\Entity\Task;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -13,7 +16,6 @@ use Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager;
 
 /**
  * Class TaskController
- * todo: all Acl resources should be of event - !!!
  */
 class TaskController extends Controller {
 	/**
@@ -24,7 +26,7 @@ class TaskController extends Controller {
 	 *      defaults={"_format" = "html"}
 	 * )
 	 * @Template
-	 * @AclAncestor("mekit_task_view")
+	 * @AclAncestor("mekit_event_view")
 	 * @return array
 	 */
 	public function indexAction() {
@@ -36,12 +38,7 @@ class TaskController extends Controller {
 	/**
 	 * @Route("/view/{id}", name="mekit_task_view", requirements={"id"="\d+"})
 	 * @Template
-	 * @Acl(
-	 *      id="mekit_task_view",
-	 *      type="entity",
-	 *      class="MekitTaskBundle:Task",
-	 *      permission="VIEW"
-	 * )
+	 * @AclAncestor("mekit_event_view")
 	 * @param Task $entity
 	 * @return array
 	 */
@@ -57,7 +54,7 @@ class TaskController extends Controller {
 	 *      id="mekit_task_create",
 	 *      type="entity",
 	 *      permission="CREATE",
-	 *      class="MekitTaskBundle:Task"
+	 *      class="MekitEventBundle:Event"
 	 * )
 	 * @Template("MekitTaskBundle:Task:update.html.twig")
 	 * @return array
@@ -72,7 +69,7 @@ class TaskController extends Controller {
 	 *      id="mekit_task_update",
 	 *      type="entity",
 	 *      permission="EDIT",
-	 *      class="MekitTaskBundle:Task"
+	 *      class="MekitEventBundle:Event"
 	 * )
 	 * @Template()
 	 * @param Task $entity
@@ -88,11 +85,23 @@ class TaskController extends Controller {
 	 */
 	protected function update(Task $entity = null) {
 		if (!$entity) {
-			/** @var Task $entity */
-			$entity = $this->getManager()->createEntity();
+			/** @var ListItemRepository $listItemRepo */
+			$listItemRepo = $this->getDoctrine()->getRepository('MekitListBundle:ListItem');
 
-			//assign to current user
-			//$entity->setAssignedTo($this->getUser());
+			/** @var Event $event */
+			$event = $this->getManagerEvent()->createEntity();
+			$event->setStartDate(new \DateTime());
+			$event->setState($listItemRepo->getDefaultItemForGroup("EVENT_STATE"));
+			$event->setPriority($listItemRepo->getDefaultItemForGroup("EVENT_PRIORITY"));
+			$event->setOwner($this->getUser());
+
+			/** @var Task $entity */
+			$entity = $this->getManagerTask()->createEntity();
+
+
+			//set relationship between entity and Event
+			$entity->setEvent($event);
+			$event->setTask($entity);
 		}
 
 		return $this->get('oro_form.model.update_handler')->handleUpdate(
@@ -119,21 +128,28 @@ class TaskController extends Controller {
 
 	/**
 	 * @Route("/widget/info/{id}", name="mekit_task_widget_info", requirements={"id"="\d+"})
-	 * @AclAncestor("mekit_task_view")
+	 * @AclAncestor("mekit_event_view")
 	 * @Template(template="MekitTaskBundle:Task/widget:info.html.twig")
-	 * @param Task $task
+	 * @param Task $entity
 	 * @return array
 	 */
-	public function infoAction(Task $task) {
+	public function infoAction(Task $entity) {
 		return [
-			'entity' => $task
+			'entity' => $entity
 		];
 	}
 
 	/**
 	 * @return ApiEntityManager
 	 */
-	protected function getManager() {
+	protected function getManagerTask() {
 		return $this->get('mekit_task.task.manager.api');
+	}
+
+	/**
+	 * @return ApiEntityManager
+	 */
+	protected function getManagerEvent() {
+		return $this->get('mekit_event.event.manager.api');
 	}
 }

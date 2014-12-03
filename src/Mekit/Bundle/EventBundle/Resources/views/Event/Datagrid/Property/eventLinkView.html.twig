@@ -1,4 +1,0 @@
-{# VIEW LINK TO SPECIFIC EVENT #}
-{% set routeName = mkt_ev_type_spec_link(record.getValue('type'), 'viewRouteName') %}
-{% set viewUri = path(routeName, {'id': record.getValue('id') }) %}
-<a href="{{ viewUri }}">{{ record.getValue('name') }}</a>

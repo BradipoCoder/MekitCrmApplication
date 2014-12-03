@@ -18,16 +18,16 @@
 		}) }}
 	{% endif %}
 
-	{#{% if resource_granted('DELETE', entity) %}#}
-		{#{{ UI.deleteButton({#}
-		{#'dataUrl': path('mekit_api_delete_task', {'id': entity.id}),#}
-		{#'dataRedirect': path('mekit_event_index'),#}
-		{#'aCss': 'no-hash remove-button',#}
-		{#'dataId': entity.id,#}
-		{#'id': 'btn-remove-account',#}
-		{#'entity_label': 'mekit.task.entity_label'|trans#}
-		{#}) }}#}
-	{#{% endif %}#}
+	{% if resource_granted('DELETE', entity.event) %}
+		{{ UI.deleteButton({
+		'dataUrl': path('mekit_api_delete_event', {'id': entity.event.id}),
+		'dataRedirect': path('mekit_event_index'),
+		'aCss': 'no-hash remove-button',
+		'dataId': entity.event.id,
+		'id': 'btn-remove-event',
+		'entity_label': 'mekit.task.entity_label'|trans
+		}) }}
+	{% endif %}
 {% endblock navButtons %}
 
 
@@ -52,11 +52,22 @@
 		}) }}
 	{% endset %}
 
+	{% set eventInformationWidget %}
+		{{ oro_widget_render({
+			'widgetType': 'block',
+			'title': 'mekit.event.widgets.event_information'|trans,
+			'url': path('mekit_event_widget_info', {id: entity.event.id})
+		}) }}
+	{% endset %}
+
 	{% set dataBlocks = [
 		{
-		'title': 'mekit.task.sections.general'|trans,
-		'class': 'active',
-		'subblocks': [ {'data' : [taskInformationWidget]} ]
+			'title': 'mekit.task.sections.general'|trans,
+			'class': 'active',
+			'subblocks': [
+				{'data' : [taskInformationWidget]},
+				{'data' : [eventInformationWidget]}
+			]
 		}
 	] %}
 

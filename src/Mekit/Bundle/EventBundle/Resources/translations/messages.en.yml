@@ -4,6 +4,17 @@ mekit:
             events_tab.label: Events
             event_list.description: List of events
 
+        entity_config:
+            entity:
+                items:
+                    eventable:        Eventable
+
+        widgets:
+            event_information:        Event Information
+
+        sections:
+            general:                  General
+
         #
         # Mekit/Bundle/EventBundle/Entity/Event
         #
@@ -12,7 +23,7 @@ mekit:
         entity_description:         Event
 
         id.label:                   Id
-        name.label:                 Event Name
+        name.label:                 Name
         type.label:                 Type
         start_date.label:           Start Date
         end_date.label:             End Date

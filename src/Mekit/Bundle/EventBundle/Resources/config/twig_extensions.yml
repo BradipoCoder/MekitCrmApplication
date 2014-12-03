@@ -5,8 +5,7 @@ services:
     mekit_event.twig.extension.event_type_specific:
         class: %mekit_event.twig.extension.event_type_specific.class%
         arguments:
-            - @oro_entity_config.provider.entity
-            - @doctrine.orm.entity_manager
+            - @oro_entity_config.provider.mekitevent
         tags:
             - { name: twig.extension }
 

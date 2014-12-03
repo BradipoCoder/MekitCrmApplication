@@ -22,13 +22,7 @@ use Oro\Bundle\UserBundle\Entity\User;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="mekit_task",
- *      indexes={
- *          @ORM\Index(name="idx_event_owner", columns={"owner_id"}),
- *          @ORM\Index(name="idx_event_organization", columns={"organization_id"})
- *      }
- * )
- * @ORM\HasLifecycleCallbacks()
+ * @ORM\Table(name="mekit_task")
  * @Oro\Loggable
  * @Config(
  *      routeName="mekit_task_index",
@@ -37,13 +31,6 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          "entity"={
  *              "icon"="icon-flag"
  *          },
- *          "ownership"={
- *              "owner_type"="USER",
- *              "owner_field_name"="owner",
- *              "owner_column_name"="owner_id",
- *              "organization_field_name"="organization",
- *              "organization_column_name"="organization_id"
- *          },
  *          "security"={
  *              "type"="ACL",
  *              "group_name"=""
@@ -51,11 +38,12 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          "dataaudit"={
  *              "auditable"=true
  *          },
- *          "eventable"={
- *				"indexRouteName"="mekit_task_index",
- *              "viewRouteName"="mekit_task_view",
- *              "editRouteName"="mekit_task_edit",
- *              "deleteRouteName"="mekit_task_api_delete",
+ *          "mekitevent"={
+ *              "eventable"=true,
+ *              "label"="Task",
+ *              "icon"="icon-flag",
+ *              "view_route_name"="mekit_task_view",
+ *              "edit_route_name"="mekit_task_edit"
  *          }
  *      }
  * )
@@ -93,35 +81,13 @@ class Task extends ExtendTask {
 	/**
 	 * @var Event
 	 *
-	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\EventBundle\Entity\Event", mappedBy="task", cascade={"persist"})
+	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\EventBundle\Entity\Event", mappedBy="task", cascade={"all"}, orphanRemoval=true)
 	 * @Soap\ComplexType("Mekit\Bundle\EventBundle\Entity\Event", nillable=false)
 	 * @ConfigField(
 	 *      defaultValues={}
 	 * )
 	 */
 	protected $event;
-
-	/**
-	 * @var User
-	 *
-	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
-	 * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="SET NULL")
-	 * @Soap\ComplexType("string", nillable=true)
-	 * @Oro\Versioned
-	 * @ConfigField(
-	 *      defaultValues={}
-	 * )
-	 */
-	protected $owner;
-
-	/**
-	 * @var Organization
-	 *
-	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\OrganizationBundle\Entity\Organization")
-	 * @ORM\JoinColumn(name="organization_id", referencedColumnName="id", onDelete="SET NULL")
-	 */
-	protected $organization;
-
 
 
 	/**
@@ -176,38 +142,6 @@ class Task extends ExtendTask {
 	 */
 	public function setEvent($event) {
 		$this->event = $event;
-		return $this;
-	}
-
-	/**
-	 * @return User
-	 */
-	public function getOwner() {
-		return $this->owner;
-	}
-
-	/**
-	 * @param User $owner
-	 * @return $this
-	 */
-	public function setOwner($owner) {
-		$this->owner = $owner;
-		return $this;
-	}
-
-	/**
-	 * @return Organization
-	 */
-	public function getOrganization() {
-		return $this->organization;
-	}
-
-	/**
-	 * @param Organization $organization
-	 * @return $this
-	 */
-	public function setOrganization($organization) {
-		$this->organization = $organization;
 		return $this;
 	}
 

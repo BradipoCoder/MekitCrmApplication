@@ -48,24 +48,22 @@
         'class': 'active',
         'subblocks': [
             {
-                'title': 'Event Information'|trans,
+                'title': 'Task Information'|trans,
                 'data': [
                     form_row(form.event.name),
-                    form_row(form.event.type),
-					form_row(form.event.startDate),
-				    form_row(form.event.endDate),
-                    form_row(form.event.duration),
-                    form_row(form.event.state),
-                    form_row(form.event.priority),
-                    form_row(form.event.owner),
-
+                    form_row(form.description),
                 ]
             },
 	        {
-                'title': 'Task Information'|trans,
+                'title': 'Event Information'|trans,
                 'data': [
-                    form_row(form.owner),
-				    form_row(form.description),
+				    form_row(form.event.startDate),
+				    form_row(form.event.state),
+				    form_row(form.event.priority),
+				    form_row(form.event.endDate),
+				    form_row(form.event.duration),
+				    form_row(form.event.owner),
+				    form_row(form.event.type),
                 ]
             }
         ]
