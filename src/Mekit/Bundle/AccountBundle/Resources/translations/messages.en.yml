@@ -62,3 +62,26 @@ mekit:
             phone:                  Contact phone
 
 
+        #
+        # Mekit/Bundle/AccountBundle/Entity/AccountAddress
+        #
+        accountaddress:
+            entity_label:               Address
+            entity_plural_label:        Addresses
+            entity_description:         Address
+
+        #
+        # Mekit/Bundle/AccountBundle/Entity/AccountPhone
+        #
+        accountphone:
+            entity_label:               Phone
+            entity_plural_label:        Phones
+            entity_description:         Phone
+
+        #
+        # Mekit/Bundle/AccountBundle/Entity/AccountEmail
+        #
+        accountemail:
+            entity_label:               Email
+            entity_plural_label:        Emails
+            entity_description:         Email

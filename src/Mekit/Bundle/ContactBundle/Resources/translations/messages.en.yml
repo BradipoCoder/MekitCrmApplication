@@ -58,3 +58,10 @@ mekit:
         twitter.label:       Twitter
 
 
+        #
+        # Mekit/Bundle/ContactBundle/Entity/ContactAddress
+        #
+        contactaddress:
+            entity_label:               Address
+            entity_plural_label:        Addresses
+            entity_description:         Address
