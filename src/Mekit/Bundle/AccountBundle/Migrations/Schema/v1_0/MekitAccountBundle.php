@@ -11,7 +11,6 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
  * Class MekitAccountBundle
  */
 class MekitAccountBundle implements Migration {
-	/** @var string */
 	public static $tableNameAccount = "mekit_account";
 	public static $tableNameAccountAddress = "mekit_account_address";
 	public static $tableNameAccountAddressToType = "mekit_account_adr_to_adr_type";
@@ -195,18 +194,18 @@ class MekitAccountBundle implements Migration {
 
 		//FOREIGN KEYS
 		$table->addForeignKeyConstraint(
-			$schema->getTable('oro_address_type'),
-			['type_name'],
-			['name'],
-			['onDelete' => null, 'onUpdate' => null],
-			'fk_addresstype_type_name'
-		);
-		$table->addForeignKeyConstraint(
 			$schema->getTable('mekit_account_address'),
 			['account_address_id'],
 			['id'],
 			['onDelete' => 'CASCADE', 'onUpdate' => null],
 			'fk_addresstype_addressid'
+		);
+		$table->addForeignKeyConstraint(
+			$schema->getTable('oro_address_type'),
+			['type_name'],
+			['name'],
+			['onDelete' => null, 'onUpdate' => null],
+			'fk_addresstype_type_name'
 		);
 	}
 
