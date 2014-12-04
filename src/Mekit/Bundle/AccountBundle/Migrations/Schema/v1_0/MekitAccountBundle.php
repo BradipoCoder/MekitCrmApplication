@@ -155,7 +155,7 @@ class MekitAccountBundle implements Migration {
 
 		//FOREIGN KEYS
 		$table->addForeignKeyConstraint(
-			$schema->getTable('mekit_account'),
+			$schema->getTable(self::$tableNameAccount),
 			['owner_id'],
 			['id'],
 			['onDelete' => 'CASCADE', 'onUpdate' => null],
@@ -194,7 +194,7 @@ class MekitAccountBundle implements Migration {
 
 		//FOREIGN KEYS
 		$table->addForeignKeyConstraint(
-			$schema->getTable('mekit_account_address'),
+			$schema->getTable(self::$tableNameAccountAddress),
 			['account_address_id'],
 			['id'],
 			['onDelete' => 'CASCADE', 'onUpdate' => null],
@@ -230,7 +230,7 @@ class MekitAccountBundle implements Migration {
 
 		//FOREIGN KEYS
 		$table->addForeignKeyConstraint(
-			$schema->getTable('mekit_account'),
+			$schema->getTable(self::$tableNameAccount),
 			['account_id'],
 			['id'],
 			['onDelete' => 'CASCADE', 'onUpdate' => null],
@@ -266,7 +266,7 @@ class MekitAccountBundle implements Migration {
 
 		//FOREIGN KEYS
 		$table->addForeignKeyConstraint(
-			$schema->getTable('mekit_account'),
+			$schema->getTable(self::$tableNameAccount),
 			['account_id'],
 			['id'],
 			['onDelete' => 'CASCADE', 'onUpdate' => null],

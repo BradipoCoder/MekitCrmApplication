@@ -139,7 +139,7 @@ class MekitContactBundle implements Migration {
 
 		//FOREIGN KEYS
 		$table->addForeignKeyConstraint(
-			$schema->getTable('mekit_contact'),
+			$schema->getTable(self::$tableNameContact),
 			['owner_id'],
 			['id'],
 			['onDelete' => 'CASCADE', 'onUpdate' => null],
@@ -178,7 +178,7 @@ class MekitContactBundle implements Migration {
 
 		//FOREIGN KEYS
 		$table->addForeignKeyConstraint(
-			$schema->getTable('mekit_contact_address'),
+			$schema->getTable(self::$tableNameContactAddress),
 			['contact_address_id'],
 			['id'],
 			['onDelete' => 'CASCADE', 'onUpdate' => null],
