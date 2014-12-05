@@ -1,18 +1,18 @@
 <?php
-namespace Mekit\Bundle\AccountBundle\Entity;
+namespace Mekit\Bundle\ContactBundle\Entity;
 
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\ORM\Mapping as ORM;
-use Mekit\Bundle\ContactBundle\Entity\Contact;
+use Mekit\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\AddressBundle\Entity\AbstractPhone;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 
 /**
  * @ORM\Entity
- * @ORM\Table("mekit_account_phone", indexes={
+ * @ORM\Table("mekit_contact_phone", indexes={
  *      @ORM\Index(name="primary_phone_idx", columns={"phone", "is_primary"})
  * })
- * @ORM\Entity(repositoryClass="Mekit\Bundle\AccountBundle\Entity\Repository\AccountPhoneRepository")
+ * @ORM\Entity(repositoryClass="Mekit\Bundle\ContactBundle\Entity\Repository\ContactPhoneRepository")
  * @Config(
  *      defaultValues={
  *          "entity"={
@@ -30,7 +30,7 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
  *      }
  * )
  */
-class AccountPhone extends AbstractPhone {
+class ContactPhone extends AbstractPhone {
 	/**
 	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\AccountBundle\Entity\Account", inversedBy="phones")
 	 * @ORM\JoinColumn(name="account_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)

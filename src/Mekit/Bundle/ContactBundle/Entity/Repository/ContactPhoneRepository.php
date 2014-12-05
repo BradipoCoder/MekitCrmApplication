@@ -1,13 +1,16 @@
 <?php
-namespace Mekit\Bundle\AccountBundle\Entity\Repository;
+namespace Mekit\Bundle\ContactBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Mekit\Bundle\AccountBundle\Entity\Account;
-use Mekit\Bundle\AccountBundle\Entity\AccountPhone;
+use Mekit\Bundle\ContactBundle\Entity\ContactPhone;
 
-class AccountPhoneRepository  extends EntityRepository {
+/**
+ * Class ContactPhoneRepository
+ */
+class ContactPhoneRepository  extends EntityRepository {
 	/**
 	 * @param Account $account
 	 * @return QueryBuilder
@@ -21,7 +24,7 @@ class AccountPhoneRepository  extends EntityRepository {
 
 	/**
 	 * @param Account $account
-	 * @return AccountPhone[]
+	 * @return ContactPhone[]
 	 */
 	public function getContactPhones(Account $account) {
 		$query = $this->getAccountPhoneQueryBuilder($account)->getQuery();

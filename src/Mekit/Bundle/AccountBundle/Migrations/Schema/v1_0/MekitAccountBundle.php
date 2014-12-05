@@ -53,6 +53,7 @@ class MekitAccountBundle implements Migration {
 		$table->addColumn('type', 'string', ['length' => 32]);
 		$table->addColumn('state', 'string', ['length' => 32]);
 		$table->addColumn('industry', 'string', ['length' => 32]);
+		$table->addColumn('assigned_to', 'integer', ['notnull' => false]);
 		$table->addColumn('email', 'string', ['notnull' => false, 'length' => 255]);/*do we need this?*/
 
 		//INDEXES

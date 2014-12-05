@@ -123,7 +123,7 @@ class ContactType extends AbstractType {
 				'label'    => 'mekit.contact.phones.label',
 				'type'     => 'oro_phone',
 				'required' => false,
-				'options'  => array('data_class' => 'Mekit\Bundle\AccountBundle\Entity\AccountPhone')
+				'options'  => array('data_class' => 'Mekit\Bundle\ContactBundle\Entity\ContactPhone')
 			)
 		);
 
@@ -135,7 +135,7 @@ class ContactType extends AbstractType {
 					'label'    => 'mekit.contact.emails.label',
 					'type'     => 'oro_email',
 					'required' => false,
-					'options'  => array('data_class' => 'Mekit\Bundle\AccountBundle\Entity\AccountEmail')
+					'options'  => array('data_class' => 'Mekit\Bundle\ContactBundle\Entity\ContactEmail')
 				)
 			);
 	}

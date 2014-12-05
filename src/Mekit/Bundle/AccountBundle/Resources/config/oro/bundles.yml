@@ -1,2 +1,2 @@
 bundles:
-    - Mekit\Bundle\AccountBundle\MekitAccountBundle
+    - { name: Mekit\Bundle\AccountBundle\MekitAccountBundle, priority: 160 }

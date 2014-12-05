@@ -1,2 +1,2 @@
 bundles:
-    - Mekit\Bundle\TaskBundle\MekitTaskBundle
+    - { name: Mekit\Bundle\TaskBundle\MekitTaskBundle, priority: 110 }

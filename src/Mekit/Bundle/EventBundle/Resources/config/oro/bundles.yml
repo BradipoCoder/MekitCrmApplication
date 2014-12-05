@@ -1,2 +1,2 @@
 bundles:
-    - Mekit\Bundle\EventBundle\MekitEventBundle
+    - { name: Mekit\Bundle\EventBundle\MekitEventBundle, priority: 119 }
