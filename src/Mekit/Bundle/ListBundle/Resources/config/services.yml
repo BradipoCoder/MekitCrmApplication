@@ -1,0 +1,17 @@
+parameters:
+    mekit_list.listgroup.entity.class:                         Mekit\Bundle\ListBundle\Entity\ListGroup
+    mekit_list.listitem.entity.class:                          Mekit\Bundle\ListBundle\Entity\ListItem
+
+    mekit_list.datagrid_helper.class:                          Mekit\Bundle\ListBundle\Datagrid\ListDatagridHelper
+
+    mekit_list.form_helper.class:                              Mekit\Bundle\ListBundle\Helper\FormHelper
+
+services:
+    mekit_list.datagrid_helper:
+        class: %mekit_list.datagrid_helper.class%
+
+
+    mekit_list.form_helper:
+        class: %mekit_list.form_helper.class%
+        arguments:
+              - @doctrine.orm.entity_manager

@@ -2,18 +2,85 @@
 {% import 'OroTagBundle::macros.html.twig' as tag %}
 {% import 'OroEntityConfigBundle::macros.html.twig' as entityConfig %}
 
+{% macro renderCollectionWithPrimaryElement(collection, isEmail) %}
+	{% import 'OroUIBundle::macros.html.twig' as ui %}
+	{% import 'OroEmailBundle::macros.html.twig' as email %}
+
+	{% set primaryElement = null %}
+	{% set secondaryElements = [] %}
+
+	{% for element in collection %}
+		{% if element.primary %}
+			{% set primaryElement = element %}
+		{% else %}
+			{% set secondaryElements = secondaryElements|merge([element]) %}
+		{% endif %}
+	{% endfor %}
+
+	<ul class="extra-list">
+		{% if primaryElement %}
+			<li class="contact-collection-element">
+				<strong>
+					{% if isEmail %}
+						{{ email.email_address_simple(primaryElement) }}
+					{% else %}
+						{{ ui.renderPhone(primaryElement) }}
+					{% endif %}
+				</strong>
+			</li>
+		{% endif %}
+		{% for secondaryElement in secondaryElements %}
+			<li class="contact-collection-element">
+				{% if isEmail %}
+					{{ email.email_address_simple(secondaryElement) }}
+				{% else %}
+					{{ ui.renderPhone(secondaryElement) }}
+				{% endif %}
+			</li>
+		{% endfor %}
+	</ul>
+{% endmacro %}
+
+{% set fullname = account.assignedTo|oro_format_name %}
+{%- set assignedToData -%}
+    {%- if account.assignedTo -%}
+        {% if resource_granted('oro_user_user_view') %}
+            <a href="{{ path('oro_user_view', {'id': account.assignedTo.id}) }}">
+                {{ fullname }}
+            </a>
+        {% else %}
+            {{ fullname }}
+        {% endif %}
+    {%- endif -%}
+{%- endset -%}
+
 <div class="widget-content">
 	<div class="row-fluid form-horizontal">
 		<div class="responsive-block">
 			{{ UI.renderProperty('mekit.account.name.label'|trans, account.name) }}
 
-			{% if resource_granted('oro_tag_view_tag_cloud') %}
-				{{ UI.renderHtmlProperty('oro.tag.entity_plural_label'|trans, tag.renderView(account)) }}
-			{% endif %}
+			{{ UI.renderProperty('mekit.account.vatid.label'|trans, account.vatid) }}
+			{{ UI.renderProperty('mekit.account.nin.label'|trans, account.nin) }}
+
+			{{ UI.renderHtmlProperty('mekit.account.emails.label'|trans, account.emails.count ? _self.renderCollectionWithPrimaryElement(account.emails, true) : null) }}
+			{{ UI.renderHtmlProperty('mekit.account.phones.label'|trans, account.phones.count ? _self.renderCollectionWithPrimaryElement(account.phones, false) : null) }}
+
+			{{ UI.renderProperty('mekit.account.fax.label'|trans, account.fax) }}
+			{{ UI.renderHtmlProperty('mekit.account.website.label'|trans, UI.renderUrl('http://'~account.website, account.website) ) }}
+			{{ UI.renderProperty('mekit.account.description.label'|trans, account.description) }}
+
 		</div>
 
 		<div class="responsive-block">
+			{{ UI.renderProperty('mekit.account.type.label'|trans, account.type ? account.type.label : null) }}
+			{{ UI.renderProperty('mekit.account.state.label'|trans, account.state ? account.state.label : null) }}
+			{{ UI.renderProperty('mekit.account.industry.label'|trans, account.industry ? account.industry.label : null) }}
+			{{ UI.renderProperty('mekit.account.source.label'|trans, account.source ? account.source.label : null) }}
+			{{ UI.renderHtmlProperty('mekit.account.assigned_to.label'|trans, assignedToData) }}
 			{{ entityConfig.renderDynamicFields(account) }}
+			{% if resource_granted('oro_tag_view_tag_cloud') %}
+				{{ UI.renderHtmlProperty('oro.tag.entity_plural_label'|trans, tag.renderView(account)) }}
+			{% endif %}
 		</div>
 	</div>
 </div>

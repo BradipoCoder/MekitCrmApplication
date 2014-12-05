@@ -1,0 +1,151 @@
+datagrid:
+    contacts-grid:
+        extended_entity_name: %mekit_contact.contact.entity.class%
+        source:
+            type:           orm
+            acl_resource:   mekit_contact_view
+            query:
+                select:
+                    - c.id
+                    - c.firstName
+                    - c.lastName
+                    - CONCAT(Owner.firstName, CONCAT(' ', Owner.lastName)) as ownerName
+                    - CONCAT(assignee.firstName, CONCAT(' ', assignee.lastName)) as AssigneeName
+                    - Account.name as accountName
+                from:
+                    - { table: %mekit_contact.contact.entity.class%, alias: c }
+                join:
+                    left:
+                        - { join: c.owner, alias: Owner }
+                        - { join: c.assignedTo, alias: assignee }
+                        - { join: c.account, alias: Account }
+                groupBy: c.id
+
+        columns:
+            lastName:
+                label:         mekit.contact.last_name.label
+            firstName:
+                label:         mekit.contact.first_name.label
+            accountName:
+                 label:        mekit.contact.account.label
+            AssigneeName:
+                 label:        mekit.account.assigned_to.label
+
+        sorters:
+            columns:
+                firstName:
+                    data_name: c.firstName
+                lastName:
+                    data_name: c.lastName
+            default:
+                lastName:  %oro_datagrid.extension.orm_sorter.class%::DIRECTION_ASC
+
+        filters:
+            columns:
+                firstName:
+                    type: string
+                    data_name: c.firstName
+                lastName:
+                    type: string
+                    data_name: c.lastName
+
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      mekit_contact_view
+                params:     [ id ]
+            update_link:
+                type:       url
+                route:      mekit_contact_update
+                params:     [ id ]
+            delete_link:
+                type:       url
+                route:      mekit_api_delete_contact
+                params:     [ id ]
+
+        actions:
+            view:
+                type:          navigate
+                acl_resource:  mekit_contact_view
+                label:         oro.grid.action.view
+                icon:          eye-open
+                link:          view_link
+                rowAction:     true
+            update:
+                type:          navigate
+                acl_resource:  mekit_contact_update
+                label:         oro.grid.action.update
+                icon:          edit
+                link:          update_link
+            delete:
+                type:          delete
+                acl_resource:  mekit_contact_delete
+                label:         oro.grid.action.delete
+                icon:          trash
+                link:          delete_link
+
+        mass_actions:
+            delete:
+                type: delete
+                entity_name: %mekit_contact.contact.entity.class%
+                data_identifier: c.id
+                acl_resource: mekit_contact_delete
+                label: oro.grid.action.delete
+                icon: trash
+
+        options:
+            entityHint: contact
+            export: true
+
+    contacts-of-account-grid:
+        extended_entity_name: %mekit_contact.contact.entity.class%
+        source:
+            type:           orm
+            acl_resource:   mekit_contact_view
+            query:
+                select:
+                    - c.id
+                    - c.firstName
+                    - c.lastName
+                    - contactJobTitle.label as jobTitle
+                    - CONCAT(assignee.firstName, CONCAT(' ', assignee.lastName)) as AssigneeName
+                from:
+                    - { table: %mekit_contact.contact.entity.class%, alias: c }
+                join:
+                    left:
+                        - { join: c.account, alias: Account }
+                        - { join: c.assignedTo, alias: assignee }
+                        - { join: c.jobTitle, alias: contactJobTitle }
+                where:
+                    and:
+                        - Account.id = :entity_id
+
+            bind_parameters:
+                - entity_id
+
+        columns:
+            lastName:
+                label:         mekit.contact.last_name.label
+            firstName:
+                label:         mekit.contact.first_name.label
+            jobTitle:
+                label:         mekit.contact.job_title.label
+            AssigneeName:
+                 label:        mekit.account.assigned_to.label
+
+        properties:
+                    id: ~
+                    view_link:
+                        type:       url
+                        route:      mekit_contact_view
+                        params:     [ id ]
+
+        actions:
+            view:
+                type:          navigate
+                acl_resource:  mekit_contact_view
+                label:         oro.grid.action.view
+                icon:          eye-open
+                link:          view_link
+                rowAction:     true

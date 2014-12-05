@@ -8,14 +8,98 @@ datagrid:
                 select:
                     - a.id
                     - a.name
-                    - a.createdAt
-                    - a.updatedAt
+                    - accountType.label as type
+                    - accountState.label as state
+                    - accountIndustry.label as industry
+                    - accountSource.label as source
                     - CONCAT(accountOwner.firstName, CONCAT(' ', accountOwner.lastName)) as ownerName
+                    - CONCAT(assignee.firstName, CONCAT(' ', assignee.lastName)) as AssigneeName
                 from:
                     - { table: %mekit_account.account.entity.class%, alias: a }
                 join:
                     left:
                         - { join: a.owner, alias: accountOwner }
+                        - { join: a.assignedTo, alias: assignee }
+                        - { join: a.type, alias: accountType }
+                        - { join: a.state, alias: accountState }
+                        - { join: a.industry, alias: accountIndustry }
+                        - { join: a.source, alias: accountSource }
+
+        columns:
+            name:
+                label:         mekit.account.name.label
+            type:
+                label:         mekit.account.type.label
+            state:
+                label:         mekit.account.state.label
+            industry:
+                label:         mekit.account.industry.label
+            source:
+                label:         mekit.account.source.label
+            AssigneeName:
+                label:         mekit.account.assigned_to.label
+
+        sorters:
+            columns:
+                name:
+                    data_name: a.name
+                type:
+                    data_name: type
+                state:
+                    data_name: state
+                industry:
+                    data_name: industry
+                source:
+                    data_name: source
+                AssigneeName:
+                    data_name: AssigneeName
+
+
+        filters:
+            columns:
+                name:
+                    type:      string
+                    data_name: a.name
+                AssigneeName:
+                    type:      string
+                    data_name: AssigneeName
+                type:
+                    type:      entity
+                    data_name: accountType.id
+                    options:
+                      field_options:
+                        class:     MekitListBundle:ListItem
+                        property:  label
+                        query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilder_ACCOUNT_TYPE
+                        multiple: true
+                state:
+                    type:      entity
+                    data_name: accountState.id
+                    options:
+                      field_options:
+                        class:     MekitListBundle:ListItem
+                        property:  label
+                        query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilder_ACCOUNT_STATE
+                        multiple: true
+                industry:
+                    type:      entity
+                    data_name: accountIndustry.id
+                    options:
+                      field_options:
+                        class:     MekitListBundle:ListItem
+                        property:  label
+                        query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilder_ACCOUNT_INDUSTRY
+                        multiple: true
+                source:
+                    type:      entity
+                    data_name: accountSource.id
+                    options:
+                      field_options:
+                        class:     MekitListBundle:ListItem
+                        property:  label
+                        query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilder_ACCOUNT_SOURCE
+                        multiple: true
+
         properties:
             id: ~
             view_link:
@@ -26,41 +110,11 @@ datagrid:
                 type:       url
                 route:      mekit_account_update
                 params:     [ id ]
-        columns:
-            name:
-                label:         mekit.account.name.label
-            ownerName:
-                label:         mekit.account.owner.label
-            createdAt:
-                label:         oro.ui.created_at
-                frontend_type: datetime
-            updatedAt:
-                label:         oro.ui.updated_at
-                frontend_type: datetime
-        sorters:
-            columns:
-                name:
-                    data_name: a.name
-                ownerName:
-                    data_name: ownerName
-                createdAt:
-                    data_name: a.createdAt
-                updatedAt:
-                    data_name: a.updatedAt
-        filters:
-            columns:
-                name:
-                    type:      string
-                    data_name: a.name
-                ownerName:
-                    type:      string
-                    data_name: ownerName
-                createdAt:
-                    type:      datetime
-                    data_name: a.createdAt
-                updatedAt:
-                    type:      datetime
-                    data_name: a.updatedAt
+            delete_link:
+                type:       url
+                route:      mekit_api_delete_account
+                params:     [ id ]
+
         actions:
             view:
                 type:          navigate
@@ -75,11 +129,19 @@ datagrid:
                 label:         oro.grid.action.update
                 icon:          edit
                 link:          update_link
+            delete:
+                type:          delete
+                acl_resource:  mekit_account_account_delete
+                label:         oro.grid.action.delete
+                icon:          trash
+                link:          delete_link
+
         mass_actions:
             merge:
                 type: merge
                 entity_name: %mekit_account.account.entity.class%
                 data_identifier: a.id
+
         options:
             entityHint: account
             export: true

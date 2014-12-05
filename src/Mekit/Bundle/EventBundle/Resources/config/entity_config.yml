@@ -1,0 +1,39 @@
+oro_entity_config:
+    mekitevent:
+        entity:
+            items:
+                eventable:
+                    options:
+                        priority:           200
+                        default_value:      false
+                        indexed:            true
+                    grid:
+                        type:               boolean
+                        label:              mekit.event.entity_config.entity.items.eventable
+                        filter_type:        boolean
+                        required:           true
+                        sortable:           true
+                        filterable:         true
+                        show_filter:        false
+
+                label:
+                    options:
+                        priority:           210
+                        indexed:            true
+
+                icon:
+                    options:
+                        priority:           220
+                        indexed:            true
+
+                view_route_name:
+                    options:
+                        priority:           230
+                        indexed:            true
+
+                edit_route_name:
+                    options:
+                        priority:           240
+                        indexed:            true
+
+

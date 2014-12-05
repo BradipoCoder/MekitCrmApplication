@@ -1,0 +1,15 @@
+#also needed for tagging
+Mekit\Bundle\AccountBundle\Entity\Account:
+    alias: mekit_account
+    label: mekit.account.entity_plural_label
+    title_fields: [name]
+    route:
+        name: mekit_account_view
+        parameters:
+            id: id
+    search_template: MekitAccountBundle:Account:searchResult.html.twig
+    fields:
+        -
+            name: name
+            target_type: text
+            target_fields: [name]

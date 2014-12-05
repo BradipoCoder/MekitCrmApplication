@@ -1,0 +1,24 @@
+mekit:
+    meeting:
+        widgets:
+            meeting_information:    Meeting Information
+
+        sections:
+            general:                General Information
+
+        controller:
+            saved.message:          Meeting saved
+
+        #
+        # Mekit/Bundle/MeetingBundle/Entity/Meeting
+        #
+        entity_label:               Meeting
+        entity_plural_label:        Meetings
+        entity_description:         Meeting
+
+        id.label:                   Id
+        event.label:                Event
+        description.label:          Description
+
+
+

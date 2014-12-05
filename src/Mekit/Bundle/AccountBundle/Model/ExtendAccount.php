@@ -4,7 +4,6 @@ namespace Mekit\Bundle\AccountBundle\Model;
 
 /**
  * Class ExtendAccount
- * @package Mekit\Bundle\AccountBundle\Model
  */
 class ExtendAccount {
 	/**

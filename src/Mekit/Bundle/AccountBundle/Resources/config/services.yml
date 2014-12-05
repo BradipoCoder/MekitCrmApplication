@@ -1,44 +1,13 @@
 parameters:
     mekit_account.account.entity.class:                         Mekit\Bundle\AccountBundle\Entity\Account
-
-    mekit_account.account.manager.api.class:                    Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
-
-    mekit_account.type.account.class:                           Mekit\Bundle\AccountBundle\Form\Type\AccountType
-    mekit_account.handler.account.class:                        Mekit\Bundle\AccountBundle\Form\Handler\AccountHandler
+    mekit_account.account_address.entity.class:                 Mekit\Bundle\AccountBundle\Entity\AccountAddress
 
 services:
-
-
-# Account API
-    mekit_account.account.manager.api:
-        class: %mekit_account.account.manager.api.class%
-        parent: oro_soap.manager.entity_manager.abstract
+    mekit_account.autocomplete.account.search_handler:
+        parent: oro_form.autocomplete.search_handler
         arguments:
             - %mekit_account.account.entity.class%
-            - @doctrine.orm.entity_manager
-
-    mekit_account.form.account:
-        class: Symfony\Component\Form\Form
-        factory_method: createNamed
-        factory_service: form.factory
-        arguments: ["mekit_account_form", "mekit_account", null]
-
-    mekit_account.form.type.account:
-        class: %mekit_account.type.account.class%
-        arguments:
-            - @router
-            - @oro_locale.formatter.name
-            - @oro_security.security_facade
+            - ["name"]
         tags:
-            - { name: form.type, alias: mekit_account }
-
-    mekit_account.form.handler.account:
-        class: %mekit_account.handler.account.class%
-        scope: request
-        arguments:
-            - @mekit_account.form.account
-            - @request
-            - @doctrine.orm.entity_manager
-        tags:
-            - { name: oro_tag.tag_manager }
+            - { name: oro_form.autocomplete.search_handler, alias: accounts, acl_resource: mekit_account_account_view }
 

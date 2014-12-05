@@ -1,0 +1,34 @@
+mekit:
+    event:
+        menu:
+            events_tab.label: Events
+            event_list.description: List of events
+
+        entity_config:
+            entity:
+                items:
+                    eventable:        Eventable
+
+        widgets:
+            event_information:        Event Information
+
+        sections:
+            general:                  General
+
+        #
+        # Mekit/Bundle/EventBundle/Entity/Event
+        #
+        entity_label:               Event
+        entity_plural_label:        Events
+        entity_description:         Event
+
+        id.label:                   Id
+        name.label:                 Name
+        type.label:                 Type
+        start_date.label:           Start Date
+        end_date.label:             End Date
+        duration.label:             Duration
+        state.label:                State
+        priority.label:             Priority
+        owner.label:                Owner
+        organization.label:         Organization

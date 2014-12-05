@@ -2,6 +2,27 @@
 
 {% oro_title_set({params : {"%account.name%": entity.name|default('N/A')} }) %}
 
+{% block navButtons %}
+	{% if resource_granted('EDIT', entity) %}
+		{{ UI.editButton({
+		'path': path('mekit_account_update', {'id': entity.id}),
+		'entity_label': 'mekit.account.entity_label'|trans
+		}) }}
+	{% endif %}
+
+	{% if resource_granted('DELETE', entity) %}
+		{{ UI.deleteButton({
+		'dataUrl': path('mekit_api_delete_account', {'id': entity.id}),
+		'dataRedirect': path('mekit_account_index'),
+		'aCss': 'no-hash remove-button',
+		'dataId': entity.id,
+		'id': 'btn-remove-account',
+		'entity_label': 'mekit.account.entity_label'|trans
+		}) }}
+	{% endif %}
+
+{% endblock navButtons %}
+
 {% block pageHeader %}
 	{% set breadcrumbs = {
 	'entity': entity,
@@ -22,16 +43,37 @@
 		}) }}
 	{% endset %}
 
-	{% set generalSectionBlocks = [{'data' : [accountInformationWidget]}]%}
+	{% set addressBookWidget %}
+        {{ oro_widget_render({
+            'widgetType': 'block',
+            'contentClasses': [],
+            'title': 'mekit.account.widgets.account_addresses'|trans,
+            'url': path('mekit_account_address_book', {id: entity.id})
+        }) }}
+    {% endset %}
 
-
+	{% set accountContactsWidget %}
+		{{ oro_widget_render({
+			'widgetType': 'block',
+			'title': 'mekit.account.widgets.account_contacts'|trans,
+			'url': path('mekit_account_widget_listcontacts', {id: entity.id})
+		}) }}
+	{% endset %}
 
 	{% set dataBlocks = [
 		{
 		'title': 'mekit.account.sections.general'|trans,
 		'class': 'active',
-		'subblocks': generalSectionBlocks
-		}
+		'subblocks': [ {'data' : [accountInformationWidget]} ]
+		},
+		{
+		'title': 'mekit.account.sections.contacts'|trans,
+		'subblocks': [ {'data' : [accountContactsWidget]} ]
+		},
+		{
+		'title': 'mekit.account.sections.addresses'|trans,
+		'subblocks': [ {'data' : [addressBookWidget]} ]
+		},
 	] %}
 
 	{% set id = 'accountView' %}

@@ -1,0 +1,24 @@
+mekit:
+    task:
+        widgets:
+            task_information:       Task Information
+
+        sections:
+            general:                General Information
+
+        controller:
+            saved.message:          Task saved
+
+        #
+        # Mekit/Bundle/TaskBundle/Entity/Task
+        #
+        entity_label:               Task
+        entity_plural_label:        Tasks
+        entity_description:         Task
+
+        id.label:                   Id
+        event.label:                Event
+        description.label:          Description
+
+
+

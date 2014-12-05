@@ -1,0 +1,4 @@
+# do: app/console assets:install && app/console assetic:dump to compile it in web/css/oro.css
+css:
+    mekitaccount:
+        - 'bundles/mekitaccount/css/style.css'

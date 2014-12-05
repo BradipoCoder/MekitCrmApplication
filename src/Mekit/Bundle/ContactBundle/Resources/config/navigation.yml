@@ -1,0 +1,22 @@
+oro_menu_config:
+    items:
+        contact_list:
+            label: 'mekit.contact.entity_plural_label'
+            route: 'mekit_contact_index'
+            extras:
+                position: 10
+                routes: ['mekit_contact_*']
+                description: 'mekit.contact.menu.contact_list.description'
+
+    tree:
+        application_menu:
+            children:
+                customers_tab:
+                    children:
+                        contact_list: ~
+
+oro_titles:
+    mekit_contact_index: ~
+    mekit_contact_view: '%%contact.name%%'
+#    mekit_contact_create: 'Create Account'
+#    mekit_contact_update: '%%contact.name%% - Edit'

@@ -1,23 +1,18 @@
 <?php
-
 namespace Mekit\Bundle\AccountBundle\Controller;
-
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
+use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager;
 
-use Oro\Bundle\UserBundle\Entity\User;
-use Oro\Bundle\UserBundle\Entity\UserApi;
 use Mekit\Bundle\AccountBundle\Entity\Account;
+use Mekit\Bundle\ListBundle\Entity\ListItem;
+use Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository;
 
-use Oro\Bundle\OrganizationBundle\Entity\Manager\BusinessUnitManager;
-use Oro\Bundle\OrganizationBundle\Entity\Organization;
 
 /**
  * Class AccountController
@@ -70,8 +65,7 @@ class AccountController extends Controller {
 	 * @Template("MekitAccountBundle:Account:update.html.twig")
 	 * @return array
 	 */
-	public function createAction()
-	{
+	public function createAction() {
 		return $this->update();
 	}
 
@@ -87,34 +81,31 @@ class AccountController extends Controller {
 	 * @param Account $account
 	 * @return array
 	 */
-	public function updateAction(Account $account)
-	{
+	public function updateAction(Account $account) {
 		return $this->update($account);
 	}
-
-	/**
-	 * @Route("/widget/info/{id}", name="mekit_account_widget_info", requirements={"id"="\d+"})
-	 * @AclAncestor("mekit_account_account_view")
-	 * @Template(template="MekitAccountBundle:Account/widget:info.html.twig")
-	 * @param Account $account
-	 * @return array
-	 */
-	public function infoAction(Account $account) {
-		return [
-			'account' => $account
-		];
-	}
-
-
 
 	/**
 	 * @param Account $entity
 	 * @return array
 	 */
-	protected function update(Account $entity = null)
-	{
+	protected function update(Account $entity = null) {
 		if (!$entity) {
+			/** @var Account $entity */
 			$entity = $this->getManager()->createEntity();
+
+			//assign to current user
+			$entity->setAssignedTo($this->getUser());
+
+			/** @var ListItemRepository $listItemRepo */
+			$listItemRepo = $this->getDoctrine()->getRepository('MekitListBundle:ListItem');
+
+			//set defaults for list items
+			$entity->setType($listItemRepo->getDefaultItemForGroup("ACCOUNT_TYPE"));
+			$entity->setState($listItemRepo->getDefaultItemForGroup("ACCOUNT_STATE"));
+			$entity->setIndustry($listItemRepo->getDefaultItemForGroup("ACCOUNT_INDUSTRY"));
+			$entity->setSource($listItemRepo->getDefaultItemForGroup("ACCOUNT_SOURCE"));
+
 		}
 
 		return $this->get('oro_form.model.update_handler')->handleUpdate(
@@ -137,12 +128,38 @@ class AccountController extends Controller {
 		);
 	}
 
+	/**
+	 * @Route("/widget/info/{id}", name="mekit_account_widget_info", requirements={"id"="\d+"})
+	 * @AclAncestor("mekit_account_account_view")
+	 * @Template(template="MekitAccountBundle:Account/widget:info.html.twig")
+	 * @param Account $account
+	 * @return array
+	 */
+	public function infoAction(Account $account) {
+		return [
+			'account' => $account
+		];
+	}
+
+	/**
+	 * Lists Contacts under a specific account
+	 * @Route("/widget/listcontacts/{id}", name="mekit_account_widget_listcontacts", requirements={"id"="\d+"})
+	 * @AclAncestor("mekit_contact_view")
+	 * @Template(template="MekitAccountBundle:Contact/widget:accountContacts.html.twig")
+	 * @param Account $account
+	 * @return array
+	 */
+	public function listContactsAction(Account $account) {
+		return [
+			'entity' => $account
+		];
+	}
+
 
 	/**
 	 * @return ApiEntityManager
 	 */
-	protected function getManager()
-	{
+	protected function getManager() {
 		return $this->get('mekit_account.account.manager.api');
 	}
 }

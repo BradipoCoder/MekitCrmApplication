@@ -1,0 +1,4 @@
+mekit_event_api:
+    resource:     "@MekitEventBundle/Controller/Api/Rest/EventController.php"
+    type:         rest
+

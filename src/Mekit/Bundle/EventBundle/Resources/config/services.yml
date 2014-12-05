@@ -1,0 +1,5 @@
+parameters:
+    mekit_event.event.entity.class: Mekit\Bundle\EventBundle\Entity\Event
+
+services:
+

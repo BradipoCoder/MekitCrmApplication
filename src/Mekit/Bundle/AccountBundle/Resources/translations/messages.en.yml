@@ -8,41 +8,80 @@ mekit:
             shortcut_list_accounts.label: Show accounts list
             shortcut_list_accounts.description: List of accounts
         widgets:
-            magento_channel:        Magento Channel
             account_information:    Account Information
+            account_additional:     Additional Information
+            account_addresses:      Address Book
+            account_contacts:       Contacts
 
         account_actions:            Account actions
 
         sections:
             general:                General
+            addresses:              Addresses
+            contacts:               Contacts
+
         form:
             choose_account:         Choose an account...
             select_contacts:        Select contacts
+
         controller:
             account.saved.message:  "Account saved"
+
         #
         # Mekit/Bundle/AccountBundle/Entity/Account
         #
         entity_label:               Account
         entity_plural_label:        Accounts
-        entity_description:         Represent account
+        entity_description:         Account
+
         id.label:                   Id
-        name.label:                 Account name
+        name.label:                 Account Name
+        vatid.label:                VAT Id
+        nin.label:                  National Insurance Number
+        fax.label:                  Fax
+        website.label:              Web Site
+        description.label:          Description
+
+        type.label:                 Type
+        state.label:                State
+        industry.label:             Industry
+        source.label:               Source
+        assigned_to.label:          Assigned To
+        phones.label:               Phone
+        emails.label:               Email
         owner.label:                Owner
+        organization.label:         Organization
+
         contacts.label:             Contacts
         default_contact.label:      Default Contact
-        phone.label:                Phone
-        email.label:                Email
-        assigned.label:             Assigned
 
-        extend_description.label:   Description
-
-        lifetime_value.label:       Lifetime sales value
 
         contact:
             name:                   Contact name
             email:                  Contact email
             phone:                  Contact phone
 
-        organization:
-            label: Organization
+
+        #
+        # Mekit/Bundle/AccountBundle/Entity/AccountAddress
+        #
+        accountaddress:
+            entity_label:               Address
+            entity_plural_label:        Addresses
+            entity_description:         Address
+
+        #
+        # Mekit/Bundle/AccountBundle/Entity/AccountPhone
+        #
+        accountphone:
+            entity_label:               Phone
+            entity_plural_label:        Phones
+            entity_description:         Phone
+
+        #
+        # Mekit/Bundle/AccountBundle/Entity/AccountEmail
+        #
+        accountemail:
+            entity_label:               Email
+            entity_plural_label:        Emails
+            entity_description:         Email

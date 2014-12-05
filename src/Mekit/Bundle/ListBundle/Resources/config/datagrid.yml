@@ -1,0 +1,142 @@
+datagrid:
+    lists-grid:
+        extended_entity_name: %mekit_list.listgroup.entity.class%
+        source:
+            type:           orm
+            acl_resource:   mekit_list_view
+            query:
+                select:
+                    - lg.id
+                    - lg.name
+                    - lg.label
+                    - lg.description
+                    - CASE lg.required WHEN 1 THEN 'mekit.list.generic.yes' ELSE 'mekit.list.generic.no' as required
+                    - CASE lg.system WHEN 1 THEN 'mekit.list.generic.yes' ELSE 'mekit.list.generic.no' as system
+                    - defaultItem.label as defItemLabel
+                from:
+                    - { table: %mekit_list.listgroup.entity.class%, alias: lg }
+                join:
+                    left:
+                        - { join: lg.items, alias: defaultItem, conditionType: 'WITH', condition: 'defaultItem.default_item = true' }
+#            hints:
+#                - { name: HINT_CUSTOM_OUTPUT_WALKER, value: %oro_translation.translation_walker.class%}
+
+        columns:
+            name:
+                label:          mekit.list.listgroup.name.label
+            label:
+                label:          mekit.list.listgroup.label.label
+                type:           twig
+                frontend_type:  html
+                template:       MekitListBundle:List:Datagrid/Property/translatedValue.html.twig
+            defItemLabel:
+                label:          mekit.list.listgroup.default_item.label
+            description:
+                label:          mekit.list.listgroup.description.label
+                type:           twig
+                frontend_type:  html
+                template:       MekitListBundle:List:Datagrid/Property/translatedValue.html.twig
+            required:
+                label:          mekit.list.listgroup.required.label
+                type:           twig
+                frontend_type:  html
+                template:       MekitListBundle:List:Datagrid/Property/translatedValue.html.twig
+            system:
+                label:          mekit.list.listgroup.system.label
+                type:           twig
+                frontend_type:  html
+                template:       MekitListBundle:List:Datagrid/Property/translatedValue.html.twig
+
+        sorters:
+                name:
+                    data_name: lg.name
+
+        filters:
+            columns:
+                name:
+                    type:      string
+                    data_name: lg.name
+
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      mekit_list_view
+                params:     [ id ]
+            update_link:
+                type:       url
+                route:      mekit_list_update
+                params:     [ id ]
+
+        actions:
+            view:
+                type:          navigate
+                acl_resource:  mekit_list_view
+                label:         oro.grid.action.view
+                icon:          eye-open
+                link:          view_link
+                rowAction:     true
+            update:
+                type:          navigate
+                acl_resource:  mekit_list_update
+                label:         oro.grid.action.update
+                icon:          edit
+                link:          update_link
+
+        mass_actions:
+        options:
+
+    listitems-grid:
+        options:
+            toolbarOptions:
+                pageSize:
+                    default_per_page: 50
+        extended_entity_name: %mekit_list.listitem.entity.class%
+        source:
+            type:           orm
+            acl_resource:   mekit_list_view
+            query:
+                select:
+                    - li.id
+                    - li.label
+                    - CASE li.default_item WHEN 1 THEN 'mekit.list.generic.yes' ELSE 'mekit.list.generic.no' as default_item
+                from:
+                    - { table: %mekit_list.listitem.entity.class%, alias: li }
+                join:
+                    inner:
+                        - { join: li.listGroup, alias: lg }
+                where:
+                    and:
+                        - lg.id = :entity_id
+            bind_parameters:
+                - entity_id
+
+        columns:
+            label:
+                label:          mekit.list.listitem.label.label
+                type:           twig
+                frontend_type:  html
+                template:       MekitListBundle:Item:Datagrid/Property/editButton.html.twig
+            id:
+                label:          mekit.list.listitem.id.label
+            default_item:
+                label:          mekit.list.listitem.default_item.label
+                type:           twig
+                frontend_type:  html
+                template:       MekitListBundle:List:Datagrid/Property/translatedValue.html.twig
+
+
+        properties:
+            id: ~
+            delete_link:
+                type:       url
+                route:      mekit_api_delete_listitem
+                params:     [ id ]
+
+        actions:
+            delete:
+                  type:          delete
+                  acl_resource:  mekit_listitem_delete
+                  label:         oro.grid.action.delete
+                  icon:          trash
+                  link:          delete_link

@@ -1,0 +1,113 @@
+datagrid:
+    events-grid:
+        extended_entity_name: %mekit_event.event.entity.class%
+        source:
+            type:           orm
+            acl_resource:   mekit_event_view
+            query:
+                select:
+                    - e.id
+                    - e.name
+                    - e.type
+                    - e.startDate
+                    - e.endDate
+                    - e.duration
+                    - eventState.label as state
+                    - eventPriority.label as priority
+                    - >
+                      CASE
+                        WHEN evTask.id IS NOT NULL THEN evTask.id
+                        WHEN evMeeting.id IS NOT NULL THEN evMeeting.id
+                        ELSE ''
+                        END as linkRefId
+                from:
+                    - { table: %mekit_event.event.entity.class%, alias: e }
+                join:
+                    left:
+                        - { join: e.owner, alias: eventOwner }
+                        - { join: e.state, alias: eventState }
+                        - { join: e.priority, alias: eventPriority }
+                        - { join: e.task, alias: evTask }
+                        - { join: e.meeting, alias: evMeeting }
+
+        columns:
+            type_icon:
+                data_name:      type
+                label:          mekit.event.type.label
+                type:           twig
+                frontend_type:  html
+                template:       MekitEventBundle:Event:Datagrid/Property/eventIcon.html.twig
+            linked_name:
+                data_name:      type
+                label:          mekit.event.name.label
+                type:           twig
+                frontend_type:  html
+                template:       MekitEventBundle:Event:Datagrid/Property/eventLink.html.twig
+                context:
+                    config_route_key:     view_route_name
+            state:
+                label:         mekit.event.state.label
+            startDate:
+                label:         mekit.event.start_date.label
+                frontend_type: datetime
+            endDate:
+                label:         mekit.event.end_date.label
+                frontend_type: datetime
+            duration:
+                label:         mekit.event.duration.label
+            priority:
+                label:         mekit.event.priority.label
+
+
+        sorters:
+            columns:
+                linked_name:
+                    data_name: e.name
+                type_icon:
+                    data_name: e.type
+
+        filters:
+            columns:
+                linked_name:
+                    type:      string
+                    data_name: e.name
+
+        properties:
+            id: ~
+#            view_link:
+#                type:       url
+#                route:      mekit_account_view
+#                params:     [ id ]
+#            update_link:
+#                type:       url
+#                route:      mekit_account_update
+#                params:     [ id ]
+#            delete_link:
+#                type:       url
+#                route:      mekit_api_delete_account
+#                params:     [ id ]
+
+        actions:
+#            view:
+#                type:          navigate
+#                acl_resource:  mekit_account_account_view
+#                label:         oro.grid.action.view
+#                icon:          eye-open
+#                link:          view_link
+#                rowAction:     true
+#            update:
+#                type:          navigate
+#                acl_resource:  mekit_account_account_update
+#                label:         oro.grid.action.update
+#                icon:          edit
+#                link:          update_link
+#            delete:
+#                type:          delete
+#                acl_resource:  mekit_account_account_delete
+#                label:         oro.grid.action.delete
+#                icon:          trash
+#                link:          delete_link
+
+        options:
+            entityHint: event
+            export: true

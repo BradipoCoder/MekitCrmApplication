@@ -1,0 +1,11 @@
+parameters:
+    mekit_contact.twig.extension.social_url.class: Mekit\Bundle\ContactBundle\Twig\SocialUrlExtension
+
+services:
+    mekit_contact.twig.extension.social_url:
+        class: %mekit_contact.twig.extension.social_url.class%
+        arguments:
+            - @mekit_contact.social_url_formatter
+        tags:
+            - { name: twig.extension }
+

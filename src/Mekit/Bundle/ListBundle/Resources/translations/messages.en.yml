@@ -1,0 +1,57 @@
+mekit:
+    list:
+        form:
+            choose_account:         Choose an account...
+            select_contacts:        Select contacts
+
+        menu:
+            title:                  "Lists"
+            description:            "List Group listing"
+
+        widgets:
+            listgroup_information:  "List Group Info"
+            listitem_add:           "Add new item"
+            listitem_update:        "Modify item"
+
+        controller:
+            list.saved.message:     "List Group saved"
+            item.saved.message:     "List Item saved"
+
+        sections:
+          general:                  "General"
+          items:                    "Items"
+
+        generic:
+          yes:                      Yes
+          no:                       No
+
+        listgroup:
+          entity_label:               List
+          entity_plural_label:        Lists
+          entity_description:         A list items to be used as options for entities
+
+          id.label:                   Id
+          name.label:                 List Name
+          label.label:                Label
+          item_prefix.label:          Item Prefix
+          empty_value.label:          Empty Value
+          required.label:             Required
+          system.label:               System
+
+          description.label:          Description
+          items.label:                Items
+          default_item.label:         Default Item
+
+
+        listitem:
+          entity_label:               List Item
+          entity_plural_label:        List Items
+          entity_description:         A list of items
+
+          id.label:                   Id
+          list_group.label:           List
+          label.label:                Label
+          default_item.label:         Default
+
+
+          editaction.label:           Edit

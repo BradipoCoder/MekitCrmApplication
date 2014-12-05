@@ -1,0 +1,74 @@
+parameters:
+    mekit_contact.contact.manager.api.class:                    Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
+
+    mekit_contact.type.contact.class:                           Mekit\Bundle\ContactBundle\Form\Type\ContactType
+    mekit_contact.type.contact.api.class:                       Mekit\Bundle\ContactBundle\Form\Type\ContactApiType
+    #mekit_contact.type.contact_select.class:                    Mekit\Bundle\ContactBundle\Form\Type\ContactSelectType
+
+    mekit_contact.handler.contact.class:                        Mekit\Bundle\ContactBundle\Form\Handler\ContactHandler
+
+services:
+    # Contact
+    mekit_contact.contact.manager.api:
+        class: %mekit_contact.contact.manager.api.class%
+        parent: oro_soap.manager.entity_manager.abstract
+        arguments:
+            - %mekit_contact.contact.entity.class%
+            - @doctrine.orm.entity_manager
+
+    mekit_contact.form.contact:
+        class: Symfony\Component\Form\Form
+        factory_method: createNamed
+        factory_service: form.factory
+        arguments: ["mekit_contact_form", "mekit_contact", null]
+
+    mekit_contact.form.type.contact:
+        class: %mekit_contact.type.contact.class%
+        arguments:
+            - @router
+            - @oro_locale.formatter.name
+            - @oro_security.security_facade
+            - @mekit_list.form_helper
+        tags:
+            - { name: form.type, alias: mekit_contact }
+
+    mekit_contact.form.handler.contact:
+        class: %mekit_contact.handler.contact.class%
+        scope: request
+        arguments:
+            - @mekit_contact.form.contact
+            - @request
+            - @doctrine.orm.entity_manager
+        tags:
+            - { name: oro_tag.tag_manager }
+
+    mekit_contact.form.contact.api:
+        class: Symfony\Component\Form\Form
+        factory_method: createNamed
+        factory_service: form.factory
+        arguments: ["contact", "contact", null]
+
+    mekit_contact.form.type.contact.api:
+        class: %mekit_contact.type.contact.api.class%
+        arguments:
+            - @router
+            - @oro_locale.formatter.name
+            - @oro_security.security_facade
+            - @mekit_list.form_helper
+        tags:
+            - { name: form.type, alias: contact }
+
+    mekit_contact.form.handler.contact.api:
+        class: %mekit_contact.handler.contact.class%
+        scope: request
+        arguments:
+            - @mekit_contact.form.contact.api
+            - @request
+            - @doctrine.orm.entity_manager
+        tags:
+            - { name: oro_tag.tag_manager }
+
+#    mekit_contact.form.type.contact_select:
+#        class: %mekit_contact.type.contact_select.class%
+#        tags:
+#            - { name: form.type, alias: mekit_contact_select }

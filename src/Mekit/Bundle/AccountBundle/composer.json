@@ -3,15 +3,7 @@
     "type": "symfony-bundle",
     "description": "Mekit Account Bundle",
     "license": "MIT",
-    "require": {
-        "php": ">=5.3.3",
-        "symfony/symfony": "2.3.*",
-        "friendsofsymfony/rest-bundle": "0.11.*",
-        "nelmio/api-doc-bundle": "dev-master",
-        "oro/ui-bundle": "dev-master",
-        "oro/user-bundle": "dev-master",
-        "oro/dashboard-bundle": "dev-master"
-    },
+    "require": {},
     "autoload": {
         "psr-0": { "": "src/" }
     },

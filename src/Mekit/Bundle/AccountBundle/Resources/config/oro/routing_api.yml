@@ -1,0 +1,8 @@
+mekit_account_api:
+    resource:     "@MekitAccountBundle/Controller/Api/Rest/AccountController.php"
+    type:         rest
+
+mekit_account_address_api:
+    resource:     "@MekitAccountBundle/Controller/Api/Rest/AccountAddressController.php"
+    type:         rest
+    parent:       mekit_account_api

@@ -1,0 +1,26 @@
+{% extends 'OroUIBundle:actions:index.html.twig' %}
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+{% set gridName = 'events-grid' %}
+{% set pageTitle = 'mekit.event.entity_plural_label'|trans %}
+
+
+{% block navButtons %}
+	{# - CREATE TASK - #}
+	<div class="btn-group">
+		{{ UI.addButton({
+			'iCss': 'icon-flag hide-text',
+			'path': path('mekit_task_create'),
+			'entity_label': 'mekit.task.entity_label'|trans
+		}) }}
+	</div>
+
+	{# - CREATE MEETING - #}
+	<div class="btn-group">
+		{{ UI.addButton({
+		'iCss': 'icon-group hide-text',
+		'path': path('mekit_meeting_create'),
+		'entity_label': 'mekit.meeting.entity_label'|trans
+		}) }}
+	</div>
+
+{% endblock %}

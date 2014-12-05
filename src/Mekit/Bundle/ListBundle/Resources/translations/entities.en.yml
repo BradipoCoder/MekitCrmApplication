@@ -1,0 +1,57 @@
+listgroup:
+    ACCOUNT_TYPE:
+        label:          'Type'
+        description:    'Account types'
+        empty_value:    '--- Select one ---'
+    ACCOUNT_INDUSTRY:
+        label:          'Industry'
+        description:    'Account industries'
+        empty_value:    '--- Select one ---'
+    ACCOUNT_STATE:
+        label:          'State'
+        description:    'Account states'
+        empty_value:    '--- Select one ---'
+    ACCOUNT_SOURCE:
+        label:          'Source'
+        description:    'Account sources'
+        empty_value:    '--- Select one ---'
+    CONTACT_JOBTITLE:
+        label:          'Job Title'
+        description:    'Contact job titles'
+        empty_value:    '--- Select one ---'
+    EVENT_STATE:
+        label:          'State'
+        description:    'Event states'
+        empty_value:    '--- Select one ---'
+    EVENT_PRIORITY:
+        label:          'Priority'
+        description:    'Event priorities'
+        empty_value:    '--- Select one ---'
+
+listitem:
+    ACCOUNT_TYPE:
+      CLNT:             'Client'
+      SPLR:             'Supplier'
+      CPTR:             'Competitior'
+      OTHR:             'Other'
+    ACCOUNT_INDUSTRY:
+      OTHR:             'Other'
+    ACCOUNT_STATE:
+      NEW:              'New'
+      ACTIVE:           'Active'
+      NEGATIVE:         'Negative'
+      SLEEP:            'Inactive'
+      LEAD:             'Lead'
+    ACCOUNT_SOURCE:
+      OTHR:             'Other'
+      WWW:              'Web'
+    CONTACT_JOBTITLE:
+      OTHR:             'Other'
+      CEO:              'CEO'
+    EVENT_STATE:
+      ACTIVE:           'Active'
+      INACTIVE:         'Completed'
+    EVENT_PRIORITY:
+      NORMAL:           'Normal'
+      LOW:              'Low'
+      HIGH:             'High'

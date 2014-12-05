@@ -1,0 +1,2 @@
+bundles:
+    - { name: Mekit\Bundle\ListBundle\MekitListBundle, priority: 100 }

@@ -1,0 +1,17 @@
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+
+<div class="widget-content">
+	<div class="row-fluid form-horizontal">
+		<div class="responsive-block">
+			{{ UI.renderProperty('mekit.list.listgroup.name.label'|trans, entity.name) }}
+			{{ UI.renderProperty('mekit.list.listgroup.label.label'|trans, entity.label|trans) }}
+			{{ UI.renderProperty('mekit.list.listgroup.description.label'|trans, entity.description) }}
+		</div>
+		<div class="responsive-block">
+			{{ UI.renderProperty('mekit.list.listgroup.system.label'|trans, entity.system ? 'mekit.list.generic.yes'|trans : 'mekit.list.generic.no'|trans) }}
+			{{ UI.renderProperty('mekit.list.listgroup.item_prefix.label'|trans, entity.itemPrefix) }}
+			{{ UI.renderProperty('mekit.list.listgroup.required.label'|trans, entity.required ? 'mekit.list.generic.yes'|trans : 'mekit.list.generic.no'|trans) }}
+			{{ UI.renderProperty('mekit.list.listgroup.empty_value.label'|trans, entity.emptyValue) }}
+		</div>
+	</div>
+</div>

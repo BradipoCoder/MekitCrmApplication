@@ -1,0 +1,14 @@
+mekit_list_bundle:
+    resource:     "@MekitListBundle/Controller"
+    type:         annotation
+    prefix:       /list
+
+mekit_listitem_api:
+    resource:     "@MekitListBundle/Controller/Api/Rest/ListItemController.php"
+    type:         rest
+    prefix:       api/rest/{version}/
+    requirements:
+        version:  latest|v1
+    defaults:
+        version:  latest
+

@@ -1,0 +1,5 @@
+parameters:
+    mekit_task.task.entity.class: Mekit\Bundle\TaskBundle\Entity\Task
+
+services:
+
