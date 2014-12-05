@@ -49,6 +49,14 @@ class ListItem {
 	 */
 	protected $default_item;
 
+	/**
+	 * @var boolean
+	 *
+	 * @ORM\Column(type="boolean", options={"default"=0})
+	 * @Soap\ComplexType("boolean")
+	 */
+	protected $system;
+
 
 	/**
 	 * @return string
@@ -121,8 +129,21 @@ class ListItem {
 		return $this;
 	}
 
+	/**
+	 * @return boolean
+	 */
+	public function isSystem() {
+		return $this->system;
+	}
 
-
+	/**
+	 * @param boolean $system
+	 * @return $this
+	 */
+	public function setSystem($system) {
+		$this->system = $system;
+		return $this;
+	}
 
 	/**
 	 * @param ExecutionContext $context

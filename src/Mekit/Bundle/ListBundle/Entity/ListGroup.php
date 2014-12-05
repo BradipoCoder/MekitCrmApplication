@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\ExecutionContext;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Mekit\Bundle\ListBundle\Entity\Repository\ListGroupRepository")
  * @ORM\Table(name="mekit_list_group",
  *      indexes={
  *          @ORM\Index(name="idx_listgroup_system", columns={"system"})

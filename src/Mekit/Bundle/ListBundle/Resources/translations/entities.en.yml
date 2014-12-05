@@ -1,0 +1,57 @@
+listgroup:
+    ACCOUNT_TYPE:
+        label:          'Type'
+        description:    'Account types'
+        empty_value:    '--- Select one ---'
+    ACCOUNT_INDUSTRY:
+        label:          'Industry'
+        description:    'Account industries'
+        empty_value:    '--- Select one ---'
+    ACCOUNT_STATE:
+        label:          'State'
+        description:    'Account states'
+        empty_value:    '--- Select one ---'
+    ACCOUNT_SOURCE:
+        label:          'Source'
+        description:    'Account sources'
+        empty_value:    '--- Select one ---'
+    CONTACT_JOBTITLE:
+        label:          'Job Title'
+        description:    'Contact job titles'
+        empty_value:    '--- Select one ---'
+    EVENT_STATE:
+        label:          'State'
+        description:    'Event states'
+        empty_value:    '--- Select one ---'
+    EVENT_PRIORITY:
+        label:          'Priority'
+        description:    'Event priorities'
+        empty_value:    '--- Select one ---'
+
+listitem:
+    # Account Type(ACCOUNT_TYPE)
+    ACCTY_CLNT:          'Client'
+    ACCTY_SPLR:          'Supplier'
+    ACCTY_CPTR:          'Competitior'
+    ACCTY_OTHR:          'Other'
+    # Account Industry(ACCOUNT_INDUSTRY)
+    ACCIR_OTHR:           'Other'
+    # Account State(ACCOUNT_STATE)
+    ACCST_NEW:            'New'
+    ACCST_ACTIVE:         'Active'
+    ACCST_NEGATIVE:       'Negative'
+    ACCST_SLEEP:          'Inactive'
+    ACCST_LEAD:           'Lead'
+    # Account Source(ACCOUNT_SOURCE)
+    ACCSR_OTHR:           'Other'
+    ACCSR_WWW:            'Web'
+    # Contact Job Title(CONTACT_JOBTITLE)
+    CNTJB_OTHR:           'Other'
+    CNTJB_CEO:            'CEO'
+    # Event State(EVENT_STATE)
+    EVSTT_ACTIVE:         'Active'
+    EVSTT_INACTIVE:       'Completed'
+    # Event Priority(EVENT_PRIORITY)
+    EVPRI_NORMAL:         'Normal'
+    EVPRI_LOW:            'Low'
+    EVPRI_HIGH:           'High'

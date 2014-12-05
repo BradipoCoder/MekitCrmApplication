@@ -1,0 +1,80 @@
+ACCOUNT_TYPE:
+  item_prefix:    ACCTY_
+  required:       true
+  system:         true
+  items:
+    ACCTY_CLNT:
+      system:         true
+      default_item:   true
+    ACCTY_SPLR:
+      system:         true
+    ACCTY_CPTR:
+      system:         true
+    ACCTY_OTHR:
+      system:         true
+ACCOUNT_INDUSTRY:
+  item_prefix:    ACCIR_
+  required:       true
+  system:         true
+  items:
+    ACCIR_OTHR:
+      default_item: true
+      system:       true
+ACCOUNT_STATE:
+  item_prefix:    ACCST_
+  required:       true
+  system:         true
+  items:
+    ACCST_NEW:
+      default_item: true
+      system:       true
+    ACCST_ACTIVE:
+      system:       true
+    ACCST_NEGATIVE:
+      system:       true
+    ACCST_SLEEP:
+      system:       true
+    ACCST_LEAD:
+      system:       true
+ACCOUNT_SOURCE:
+  item_prefix:    ACCSR_
+  required:       true
+  system:         true
+  items:
+    ACCSR_OTHR:
+      default_item: true
+      system:       true
+    ACCSR_WWW:
+      system:       true
+CONTACT_JOBTITLE:
+  item_prefix:    CNTJB_
+  required:       false
+  system:         true
+  items:
+    CNTJB_OTHR:
+      default_item: true
+      system:       true
+    CNTJB_CEO:
+      system:       true
+EVENT_STATE:
+  item_prefix:    EVSTT_
+  required:       true
+  system:         true
+  items:
+    EVSTT_ACTIVE:
+      default_item: true
+      system:       true
+    EVSTT_INACTIVE:
+      system:       true
+EVENT_PRIORITY:
+  item_prefix:    EVPRI_
+  required:       true
+  system:         true
+  items:
+    EVPRI_NORMAL:
+      default_item: true
+      system:       true
+    EVPRI_LOW:
+      system:       true
+    EVPRI_HIGH:
+      system:       true
