@@ -29,29 +29,29 @@ listgroup:
         empty_value:    '--- Select one ---'
 
 listitem:
-    # Account Type(ACCOUNT_TYPE)
-    ACCTY_CLNT:          'Client'
-    ACCTY_SPLR:          'Supplier'
-    ACCTY_CPTR:          'Competitior'
-    ACCTY_OTHR:          'Other'
-    # Account Industry(ACCOUNT_INDUSTRY)
-    ACCIR_OTHR:           'Other'
-    # Account State(ACCOUNT_STATE)
-    ACCST_NEW:            'New'
-    ACCST_ACTIVE:         'Active'
-    ACCST_NEGATIVE:       'Negative'
-    ACCST_SLEEP:          'Inactive'
-    ACCST_LEAD:           'Lead'
-    # Account Source(ACCOUNT_SOURCE)
-    ACCSR_OTHR:           'Other'
-    ACCSR_WWW:            'Web'
-    # Contact Job Title(CONTACT_JOBTITLE)
-    CNTJB_OTHR:           'Other'
-    CNTJB_CEO:            'CEO'
-    # Event State(EVENT_STATE)
-    EVSTT_ACTIVE:         'Active'
-    EVSTT_INACTIVE:       'Completed'
-    # Event Priority(EVENT_PRIORITY)
-    EVPRI_NORMAL:         'Normal'
-    EVPRI_LOW:            'Low'
-    EVPRI_HIGH:           'High'
+    ACCOUNT_TYPE:
+      CLNT:             'Client'
+      SPLR:             'Supplier'
+      CPTR:             'Competitior'
+      OTHR:             'Other'
+    ACCOUNT_INDUSTRY:
+      OTHR:             'Other'
+    ACCOUNT_STATE:
+      NEW:              'New'
+      ACTIVE:           'Active'
+      NEGATIVE:         'Negative'
+      SLEEP:            'Inactive'
+      LEAD:             'Lead'
+    ACCOUNT_SOURCE:
+      OTHR:             'Other'
+      WWW:              'Web'
+    CONTACT_JOBTITLE:
+      OTHR:             'Other'
+      CEO:              'CEO'
+    EVENT_STATE:
+      ACTIVE:           'Active'
+      INACTIVE:         'Completed'
+    EVENT_PRIORITY:
+      NORMAL:           'Normal'
+      LOW:              'Low'
+      HIGH:             'High'

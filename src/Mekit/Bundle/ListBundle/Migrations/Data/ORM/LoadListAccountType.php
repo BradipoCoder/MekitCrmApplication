@@ -141,7 +141,7 @@ class LoadListAccountType extends AbstractTranslatableEntityFixture implements V
 		$listItem = $this->listItemRepository->find($listItemData["id"]);
 		if(!$listItem) {
 
-			$translationPrefix = static::LIST_ITEM_PREFIX;
+			$translationPrefix = static::LIST_ITEM_PREFIX.".".$listGroup->getName();
 			$label = $this->translate($listItemData['id'], $translationPrefix, $locale);
 
 			$listItem = new ListItem();
