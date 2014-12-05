@@ -118,7 +118,6 @@ class LoadListAccountType extends AbstractTranslatableEntityFixture implements V
 						if (!$listItem) {
 							continue;
 						}
-						echo $listItemId.": " .serialize($listItem);
 						$manager->persist($listItem);
 					}
 				}

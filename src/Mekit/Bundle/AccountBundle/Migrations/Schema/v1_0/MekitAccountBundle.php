@@ -14,8 +14,7 @@ class MekitAccountBundle implements Migration {
 	public static $tableNameAccount = "mekit_account";
 	public static $tableNameAccountAddress = "mekit_account_address";
 	public static $tableNameAccountAddressToType = "mekit_account_adr_to_adr_type";
-	public static $tableNameAccountEmail = "mekit_account_email";
-	public static $tableNameAccountPhone = "mekit_account_phone";
+
 
 	/**
 	 * @param Schema   $schema
@@ -26,8 +25,6 @@ class MekitAccountBundle implements Migration {
 		$this->createMekitAccountTable($schema);
 		$this->createMekitAccountAddressTable($schema);
 		$this->createMekitAccountAdrToAdrTypeTable($schema);
-		$this->createMekitAccountEmailTable($schema);
-		$this->createMekitAccountPhoneTable($schema);
 	}
 
 	/**
@@ -44,11 +41,11 @@ class MekitAccountBundle implements Migration {
 		$table->addColumn('updatedAt', 'datetime', ['notnull' => false]);
 		//
 		$table->addColumn('name', 'string', ['length' => 255]);
-		$table->addColumn('vatid', 'string', ['length' => 16]);
-		$table->addColumn('nin', 'string', ['length' => 24]);
-		$table->addColumn('website', 'string', ['length' => 128]);
-		$table->addColumn('fax', 'string', ['length' => 16]);
-		$table->addColumn('description', 'string', ['length' => 65535]);
+		$table->addColumn('vatid', 'string', ['length' => 16, 'notnull' => false]);
+		$table->addColumn('nin', 'string', ['length' => 24, 'notnull' => false]);
+		$table->addColumn('website', 'string', ['length' => 128, 'notnull' => false]);
+		$table->addColumn('fax', 'string', ['length' => 16, 'notnull' => false]);
+		$table->addColumn('description', 'string', ['length' => 65535, 'notnull' => false]);
 		$table->addColumn('source', 'string', ['length' => 32]);
 		$table->addColumn('type', 'string', ['length' => 32]);
 		$table->addColumn('state', 'string', ['length' => 32]);
@@ -58,7 +55,7 @@ class MekitAccountBundle implements Migration {
 
 		//INDEXES
 		$table->setPrimaryKey(['id']);
-		$table->addIndex(['owner_id'], 'idx_account_owner_id', []);
+		$table->addIndex(['owner_id'], 'idx_account_owner', []);
 		$table->addIndex(['organization_id'], 'idx_account_organization', []);
 		$table->addIndex(['createdAt'], 'idx_account_created_at', []);
 		$table->addIndex(['updatedAt'], 'idx_account_updated_at', []);
@@ -89,7 +86,7 @@ class MekitAccountBundle implements Migration {
 			['assigned_to'],
 			['id'],
 			['onDelete' => 'SET NULL', 'onUpdate' => null],
-			'fk_account_owner'
+			'fk_account_assignee'
 		);
 		$table->addForeignKeyConstraint(
 			$schema->getTable('mekit_list_item'),
@@ -150,7 +147,7 @@ class MekitAccountBundle implements Migration {
 
 		//INDEXES
 		$table->setPrimaryKey(['id']);
-		$table->addIndex(['owner_id'], 'idx_address_owner_id', []);
+		$table->addIndex(['owner_id'], 'idx_address_owner', []);
 		$table->addIndex(['country_code'], 'idx_address_country_code', []);
 		$table->addIndex(['region_code'], 'idx_address_region_code', []);
 
@@ -160,21 +157,21 @@ class MekitAccountBundle implements Migration {
 			['owner_id'],
 			['id'],
 			['onDelete' => 'CASCADE', 'onUpdate' => null],
-			'fk_address_owner'
+			'fk_account_address_owner'
 		);
 		$table->addForeignKeyConstraint(
 			$schema->getTable('oro_dictionary_country'),
 			['country_code'],
 			['iso2_code'],
 			['onDelete' => null, 'onUpdate' => null],
-			'fk_address_country'
+			'fk_account_address_country'
 		);
 		$table->addForeignKeyConstraint(
 			$schema->getTable('oro_dictionary_region'),
 			['region_code'],
 			['combined_code'],
 			['onDelete' => null, 'onUpdate' => null],
-			'fk_address_region'
+			'fk_account_address_region'
 		);
 	}
 
@@ -199,86 +196,14 @@ class MekitAccountBundle implements Migration {
 			['account_address_id'],
 			['id'],
 			['onDelete' => 'CASCADE', 'onUpdate' => null],
-			'fk_addresstype_addressid'
+			'fk_account_addresstype_addressid'
 		);
 		$table->addForeignKeyConstraint(
 			$schema->getTable('oro_address_type'),
 			['type_name'],
 			['name'],
 			['onDelete' => null, 'onUpdate' => null],
-			'fk_addresstype_type_name'
-		);
-	}
-
-	/**
-	 * Create mekit_account_email table
-	 *
-	 * @param Schema $schema
-	 */
-	protected function createMekitAccountEmailTable(Schema $schema) {
-		$table = $schema->createTable(self::$tableNameAccountEmail);
-		$table->addColumn('id', 'integer', ['autoincrement' => true]);
-		$table->addColumn('account_id', 'integer', ['notnull' => false]);
-		$table->addColumn('contact_id', 'integer', ['notnull' => false]);
-		$table->addColumn('email', 'string', ['length' => 255]);
-		$table->addColumn('is_primary', 'boolean', ['notnull' => false]);
-
-		//INDEXES
-		$table->setPrimaryKey(['id']);
-		$table->addIndex(['email', 'is_primary'], 'primary_email_idx', []);
-		$table->addIndex(['account_id'], 'idx_email_account_id', []);
-		$table->addIndex(['contact_id'], 'idx_email_contact_id', []);
-
-		//FOREIGN KEYS
-		$table->addForeignKeyConstraint(
-			$schema->getTable(self::$tableNameAccount),
-			['account_id'],
-			['id'],
-			['onDelete' => 'CASCADE', 'onUpdate' => null],
-			'fk_email_account'
-		);
-		$table->addForeignKeyConstraint(
-			$schema->getTable('mekit_contact'),
-			['contact_id'],
-			['id'],
-			['onDelete' => 'CASCADE', 'onUpdate' => null],
-			'fk_email_contact'
-		);
-	}
-
-	/**
-	 * Create mekit_account_phone table
-	 *
-	 * @param Schema $schema
-	 */
-	protected function createMekitAccountPhoneTable(Schema $schema) {
-		$table = $schema->createTable(self::$tableNameAccountPhone);
-		$table->addColumn('id', 'integer', ['autoincrement' => true]);
-		$table->addColumn('account_id', 'integer', ['notnull' => false]);
-		$table->addColumn('contact_id', 'integer', ['notnull' => false]);
-		$table->addColumn('phone', 'string', ['length' => 255]);
-		$table->addColumn('is_primary', 'boolean', ['notnull' => false]);
-
-		//INDEXES
-		$table->setPrimaryKey(['id']);
-		$table->addIndex(['phone', 'is_primary'], 'primary_phone_idx', []);
-		$table->addIndex(['account_id'], 'idx_phone_account_id', []);
-		$table->addIndex(['contact_id'], 'idx_phone_account_id', []);
-
-		//FOREIGN KEYS
-		$table->addForeignKeyConstraint(
-			$schema->getTable(self::$tableNameAccount),
-			['account_id'],
-			['id'],
-			['onDelete' => 'CASCADE', 'onUpdate' => null],
-			'fk_phone_account'
-		);
-		$table->addForeignKeyConstraint(
-			$schema->getTable('mekit_contact'),
-			['contact_id'],
-			['id'],
-			['onDelete' => 'CASCADE', 'onUpdate' => null],
-			'fk_phone_contact'
+			'fk_account_addresstype_type_name'
 		);
 	}
 }

@@ -9,7 +9,11 @@ use Symfony\Component\Validator\ExecutionContext;
 
 /**
  * @ORM\Entity(repositoryClass="Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository")
- * @ORM\Table(name="mekit_list_item")
+ * @ORM\Table(name="mekit_list_item",
+ *      indexes={
+ *          @ORM\Index(name="idx_listitem_system", columns={"system"})
+ *      }
+ * )
  * @ORM\HasLifecycleCallbacks()
  * @Oro\Loggable
  */

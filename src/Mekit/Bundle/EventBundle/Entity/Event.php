@@ -26,6 +26,8 @@ use Oro\Bundle\UserBundle\Entity\User;
  *      indexes={
  *          @ORM\Index(name="idx_event_owner", columns={"owner_id"}),
  *          @ORM\Index(name="idx_event_organization", columns={"organization_id"}),
+ *          @ORM\Index(name="idx_event_created_at", columns={"createdAt"}),
+ *          @ORM\Index(name="idx_event_updated_at", columns={"updatedAt"}),
  *          @ORM\Index(name="idx_event_name", columns={"name"}),
  *          @ORM\Index(name="idx_event_type", columns={"type"}),
  *          @ORM\Index(name="idx_event_start_date", columns={"start_date"}),

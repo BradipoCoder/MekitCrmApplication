@@ -22,7 +22,11 @@ use Oro\Bundle\UserBundle\Entity\User;
  * @ORM\Entity
  * @ORM\Table(
  *      name="mekit_contact",
- *      indexes={@ORM\Index(name="contact_name_idx",columns={"last_name", "first_name"})}
+ *      indexes={
+ *          @ORM\Index(name="contact_name_idx", columns={"last_name", "first_name"}),
+ *          @ORM\Index(name="idx_contact_created_at", columns={"createdAt"}),
+ *          @ORM\Index(name="idx_contact_updated_at", columns={"updatedAt"})
+ *      }
  * )
  * @ORM\HasLifecycleCallbacks()
  * @Oro\Loggable
@@ -144,7 +148,7 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="last_name", type="string", length=128)
+	 * @ORM\Column(name="last_name", type="string", length=128, nullable=true)
 	 * @Soap\ComplexType("string")
 	 * @Oro\Versioned
 	 * @ConfigField(
