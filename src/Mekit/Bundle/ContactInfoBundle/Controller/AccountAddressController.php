@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  */
 class AccountAddressController extends Controller {
 	/**
-	 * @Route("/address-book/{id}", name="mekit_account_address_book", requirements={"id"="\d+"})
+	 * @Route("/account-address-book/{id}", name="mekit_account_address_book", requirements={"id"="\d+"})
 	 * @Template(template="MekitContactInfoBundle:AccountAddress/widget:addressBook.html.twig")
 	 * @AclAncestor("mekit_account_view")
 	 */

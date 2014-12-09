@@ -115,6 +115,30 @@ class ContactType extends AbstractType {
 			array('required' => false, 'label' => 'mekit.contact.account.label')
 		);
 
+		//addresses
+		$builder->add(
+			'addresses',
+			'oro_address_collection',
+			array(
+				'label'    => '',
+				'type'     => 'oro_typed_address',
+				'required' => false,
+				'options'  => array('data_class' => 'Mekit\Bundle\ContactInfoBundle\Entity\Address')
+			)
+		);
+
+		//emails
+		$builder->add(
+				'emails',
+				'oro_email_collection',
+				array(
+					'label'    => 'mekit.contact.emails.label',
+					'type'     => 'oro_email',
+					'required' => false,
+					'options'  => array('data_class' => 'Mekit\Bundle\ContactInfoBundle\Entity\Email')
+				)
+			);
+
 		//phones
 		$builder->add(
 			'phones',
@@ -123,21 +147,10 @@ class ContactType extends AbstractType {
 				'label'    => 'mekit.contact.phones.label',
 				'type'     => 'oro_phone',
 				'required' => false,
-				'options'  => array('data_class' => 'Mekit\Bundle\ContactBundle\Entity\ContactPhone')
+				'options'  => array('data_class' => 'Mekit\Bundle\ContactInfoBundle\Entity\Phone')
 			)
 		);
 
-		//email
-		$builder->add(
-				'emails',
-				'oro_email_collection',
-				array(
-					'label'    => 'mekit.contact.emails.label',
-					'type'     => 'oro_email',
-					'required' => false,
-					'options'  => array('data_class' => 'Mekit\Bundle\ContactBundle\Entity\ContactEmail')
-				)
-			);
 	}
 
 	/**
