@@ -1,0 +1,17 @@
+{
+    "name": "mekit/contact-info-bundle",
+    "type": "symfony-bundle",
+    "description": "Mekit Contact Info Bundle",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-0": { "": "src/" }
+    },
+    "target-dir": "Mekit/Bundle/ContactInfoBundle",
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}

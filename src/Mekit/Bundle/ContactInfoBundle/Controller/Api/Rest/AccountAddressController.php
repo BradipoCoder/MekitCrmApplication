@@ -1,13 +1,13 @@
 <?php
 
-namespace Mekit\Bundle\AccountBundle\Controller\Api\Rest;
+namespace Mekit\Bundle\ContactInfoBundle\Controller\Api\Rest;
 
 use FOS\Rest\Util\Codes;
 use FOS\RestBundle\Controller\Annotations\NamePrefix;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use Mekit\Bundle\AccountBundle\Entity\Account;
-use Mekit\Bundle\AccountBundle\Entity\AccountAddress;
+use Mekit\Bundle\ContactInfoBundle\Entity\Address;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SoapBundle\Controller\Api\Rest\RestController;
@@ -37,7 +37,7 @@ class AccountAddressController extends RestController implements ClassResourceIn
 		/** @var Account $account */
 		$account = $this->getAccountManager()->find($accountId);
 
-		/** @var AccountAddress $address */
+		/** @var Address $address */
 		$address = $this->getManager()->find($addressId);
 
 		$addressData = null;
@@ -93,7 +93,7 @@ class AccountAddressController extends RestController implements ClassResourceIn
 	 * @return Response
 	 */
 	public function deleteAction($accountId, $addressId) {
-		/** @var AccountAddress $address */
+		/** @var Address $address */
 		$address = $this->getManager()->find($addressId);
 		/** @var Account $account */
 		$account = $this->getAccountManager()->find($accountId);
@@ -162,6 +162,9 @@ class AccountAddressController extends RestController implements ClassResourceIn
 		return new Response($responseData, $address ? Codes::HTTP_OK : Codes::HTTP_NOT_FOUND);
 	}
 
+	/**
+	 * @return \Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
+	 */
 	protected function getAccountManager() {
 		return $this->get('mekit_account.account.manager.api');
 	}
@@ -170,7 +173,7 @@ class AccountAddressController extends RestController implements ClassResourceIn
 	 * {@inheritdoc}
 	 */
 	public function getManager() {
-		return $this->get('mekit_account.account_address.manager.api');
+		return $this->get('mekit_contact_info.address.manager.api');
 	}
 
 	/**
@@ -194,7 +197,7 @@ class AccountAddressController extends RestController implements ClassResourceIn
 		// convert addresses to plain array
 		$addressTypesData = array();
 
-		/** @var $entity AccountAddress */
+		/** @var $entity Address */
 		foreach ($entity->getTypes() as $addressType) {
 			$addressTypesData[] = parent::getPreparedItem($addressType);
 		}
@@ -205,7 +208,7 @@ class AccountAddressController extends RestController implements ClassResourceIn
 		$result['countryIso3'] = $entity->getCountry()->getIso3Code();
 		$result['regionCode'] = $entity->getRegionCode();
 
-		unset($result['owner']);
+		unset($result['owner_account']);
 
 		return $result;
 	}

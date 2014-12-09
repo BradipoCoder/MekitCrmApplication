@@ -1,9 +1,9 @@
 <?php
 
-namespace Mekit\Bundle\AccountBundle\Controller;
+namespace Mekit\Bundle\ContactInfoBundle\Controller;
 
 use Mekit\Bundle\AccountBundle\Entity\Account;
-use Mekit\Bundle\AccountBundle\Entity\AccountAddress;
+use Mekit\Bundle\ContactInfoBundle\Entity\Address;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -15,10 +15,9 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  * Class AccountAddressController
  */
 class AccountAddressController extends Controller {
-
 	/**
 	 * @Route("/address-book/{id}", name="mekit_account_address_book", requirements={"id"="\d+"})
-	 * @Template(template="MekitAccountBundle:AccountAddress/widget:addressBook.html.twig")
+	 * @Template(template="MekitContactInfoBundle:AccountAddress/widget:addressBook.html.twig")
 	 * @AclAncestor("mekit_account_view")
 	 */
 	public function addressBookAction(Account $account) {
@@ -30,39 +29,39 @@ class AccountAddressController extends Controller {
 
 	/**
 	 * @Route(
-	 *      "/{accountId}/address-create",
+	 *      "/{accountId}/account-address-create",
 	 *      name="mekit_account_address_create",
 	 *      requirements={"accountId"="\d+"}
 	 * )
-	 * @Template("MekitAccountBundle:AccountAddress:update.html.twig")
+	 * @Template("MekitContactInfoBundle:AccountAddress:update.html.twig")
 	 * @AclAncestor("mekit_account_create")
 	 * @ParamConverter("account", options={"id" = "accountId"})
 	 */
 	public function createAction(Account $account) {
-		return $this->update($account, new AccountAddress());
+		return $this->update($account, new Address());
 	}
 
 	/**
 	 * @Route(
-	 *      "/{accountId}/address-update/{id}",
+	 *      "/{accountId}/account-address-update/{id}",
 	 *      name="mekit_account_address_update",
 	 *      requirements={"accountId"="\d+","id"="\d+"}, defaults={"id"=0}
 	 * )
-	 * @Template("MekitAccountBundle:AccountAddress:update.html.twig")
+	 * @Template("MekitContactInfoBundle:AccountAddress:update.html.twig")
 	 * @AclAncestor("mekit_account_update")
 	 * @ParamConverter("account", options={"id" = "accountId"})
 	 */
-	public function updateAction(Account $account, AccountAddress $address) {
+	public function updateAction(Account $account, Address $address) {
 		return $this->update($account, $address);
 	}
 
 	/**
-	 * @param Account        $account
-	 * @param AccountAddress $address
+	 * @param Account $account
+	 * @param Address $address
 	 * @return array
 	 * @throws BadRequestHttpException
 	 */
-	protected function update(Account $account, AccountAddress $address) {
+	protected function update(Account $account, Address $address) {
 		$responseData = array(
 			'saved' => false,
 			'account' => $account
@@ -76,9 +75,9 @@ class AccountAddressController extends Controller {
 			}
 		}
 
-		if ($address->getOwner() && $address->getOwner()->getId() != $account->getId()) {
+		if ($address->getOwnerAccount() && $address->getOwnerAccount()->getId() != $account->getId()) {
 			throw new BadRequestHttpException('Address must belong to an account');
-		} elseif (!$address->getOwner()) {
+		} elseif (!$address->getOwnerAccount()) {
 			$account->addAddress($address);
 		}
 

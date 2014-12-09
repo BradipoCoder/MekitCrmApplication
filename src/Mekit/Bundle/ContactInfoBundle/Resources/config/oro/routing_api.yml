@@ -1,0 +1,4 @@
+mekit_contact_info_address_api:
+    resource:     "@MekitContactInfoBundle/Controller/Api/Rest/AccountAddressController.php"
+    type:         rest
+    parent:       mekit_account_api

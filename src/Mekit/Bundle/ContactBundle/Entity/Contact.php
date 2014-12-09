@@ -7,6 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Mekit\Bundle\AccountBundle\Entity\Account;
 use Mekit\Bundle\ContactBundle\Model\ExtendContact;
+use Mekit\Bundle\ContactInfoBundle\Entity\Address;
+use Mekit\Bundle\ContactInfoBundle\Entity\Email;
+use Mekit\Bundle\ContactInfoBundle\Entity\Phone;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
@@ -345,8 +348,6 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	 */
 	protected $linkedIn;
 
-	//$reportsTo
-
 	/**
 	 * @var ListItem
 	 *
@@ -370,11 +371,9 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	/**
 	 * @var Collection
 	 *
-	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ContactBundle\Entity\ContactPhone", mappedBy="ownerContact",
-	 *    cascade={"all"}, orphanRemoval=true
-	 * ))
+	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ContactInfoBundle\Entity\Phone", mappedBy="owner_contact", cascade={"all"})
 	 * @ORM\OrderBy({"primary" = "DESC"})
-	 * @Soap\ComplexType("Mekit\Bundle\ContactBundle\Entity\ContactPhone[]", nillable=true)
+	 * @Soap\ComplexType("Mekit\Bundle\ContactInfoBundle\Entity\Phone[]", nillable=true)
 	 * @ConfigField(
 	 *      defaultValues={
 	 *          "importexport"={
@@ -388,11 +387,9 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	/**
 	 * @var Collection
 	 *
-	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ContactBundle\Entity\ContactEmail", mappedBy="ownerContact",
-	 *    cascade={"all"}, orphanRemoval=true
-	 * )
+	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ContactInfoBundle\Entity\Email", mappedBy="owner_contact", cascade={"all"})
 	 * @ORM\OrderBy({"primary" = "DESC"})
-	 * @Soap\ComplexType("Mekit\Bundle\ContactBundle\Entity\ContactEmail[]", nillable=true)
+	 * @Soap\ComplexType("Mekit\Bundle\ContactInfoBundle\Entity\Email[]", nillable=true)
 	 * @ConfigField(
 	 *      defaultValues={
 	 *          "importexport"={
@@ -406,10 +403,9 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	/**
 	 * @var Collection
 	 *
-	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ContactBundle\Entity\ContactAddress",
-	 *    mappedBy="owner", cascade={"all"}, orphanRemoval=true
-	 * )
+	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ContactInfoBundle\Entity\Address", mappedBy="owner_contact", cascade={"all"})
 	 * @ORM\OrderBy({"primary" = "DESC"})
+	 * @Soap\ComplexType("Mekit\Bundle\ContactInfoBundle\Entity\Address[]", nillable=true)
 	 * @ConfigField(
 	 *      defaultValues={
 	 *          "importexport"={
@@ -674,7 +670,7 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	 * Set phones.
 	 * This method could not be named setPhones because of bug CRM-253.
 	 *
-	 * @param Collection|ContactPhone[] $phones
+	 * @param Collection|Phone[] $phones
 	 * @return $this
 	 */
 	public function resetPhones($phones) {
@@ -688,10 +684,10 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	/**
 	 * Add phone
 	 *
-	 * @param ContactPhone $phone
+	 * @param Phone $phone
 	 * @return $this
 	 */
-	public function addPhone(ContactPhone $phone) {
+	public function addPhone(Phone $phone) {
 		if (!$this->phones->contains($phone)) {
 			$this->phones->add($phone);
 			$phone->setOwnerContact($this);
@@ -702,10 +698,10 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	/**
 	 * Remove phone
 	 *
-	 * @param ContactPhone $phone
+	 * @param Phone $phone
 	 * @return $this
 	 */
-	public function removePhone(ContactPhone $phone) {
+	public function removePhone(Phone $phone) {
 		if ($this->phones->contains($phone)) {
 			$this->phones->removeElement($phone);
 		}
@@ -715,24 +711,24 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	/**
 	 * Get phones
 	 *
-	 * @return Collection|ContactPhone[]
+	 * @return Collection|Phone[]
 	 */
 	public function getPhones() {
 		return $this->phones;
 	}
 
 	/**
-	 * @param ContactPhone $phone
+	 * @param Phone $phone
 	 * @return bool
 	 */
-	public function hasPhone(ContactPhone $phone) {
+	public function hasPhone(Phone $phone) {
 		return $this->getPhones()->contains($phone);
 	}
 
 	/**
 	 * Gets primary phone if it's available.
 	 *
-	 * @return ContactPhone|null
+	 * @return Phone|null
 	 */
 	public function getPrimaryPhone() {
 		$result = null;
@@ -746,10 +742,10 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	}
 
 	/**
-	 * @param ContactPhone $phone
+	 * @param Phone $phone
 	 * @return $this
 	 */
-	public function setPrimaryPhone(ContactPhone $phone) {
+	public function setPrimaryPhone(Phone $phone) {
 		if ($this->hasPhone($phone)) {
 			$phone->setPrimary(true);
 			foreach ($this->getPhones() as $otherPhone) {
@@ -764,7 +760,7 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	/**
 	 * Set emails
 	 *
-	 * @param Collection|ContactEmail[] $emails
+	 * @param Collection|Email[] $emails
 	 * @return $this
 	 */
 	public function resetEmails($emails) {
@@ -778,10 +774,10 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	/**
 	 * Add email
 	 *
-	 * @param ContactEmail $email
+	 * @param Email $email
 	 * @return $this
 	 */
-	public function addEmail(ContactEmail $email) {
+	public function addEmail(Email $email) {
 		if (!$this->emails->contains($email)) {
 			$this->emails->add($email);
 			$email->setOwnerContact($this);
@@ -792,10 +788,10 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	/**
 	 * Remove email
 	 *
-	 * @param ContactEmail $email
+	 * @param Email $email
 	 * @return $this
 	 */
-	public function removeEmail(ContactEmail $email) {
+	public function removeEmail(Email $email) {
 		if ($this->emails->contains($email)) {
 			$this->emails->removeElement($email);
 		}
@@ -805,7 +801,7 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	/**
 	 * Get emails
 	 *
-	 * @return Collection|ContactEmail[]
+	 * @return Collection|Email[]
 	 */
 	public function getEmails() {
 		return $this->emails;
@@ -823,17 +819,17 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	}
 
 	/**
-	 * @param ContactEmail $email
+	 * @param Email $email
 	 * @return bool
 	 */
-	public function hasEmail(ContactEmail $email) {
+	public function hasEmail(Email $email) {
 		return $this->getEmails()->contains($email);
 	}
 
 	/**
 	 * Gets primary email if it's available.
 	 *
-	 * @return ContactEmail|null
+	 * @return Email|null
 	 */
 	public function getPrimaryEmail() {
 		$result = null;
@@ -847,10 +843,10 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	}
 
 	/**
-	 * @param ContactEmail $email
+	 * @param Email $email
 	 * @return $this
 	 */
-	public function setPrimaryEmail(ContactEmail $email) {
+	public function setPrimaryEmail(Email $email) {
 		if ($this->hasEmail($email)) {
 			$email->setPrimary(true);
 			foreach ($this->getEmails() as $otherEmail) {
@@ -925,10 +921,10 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	 * @return $this
 	 */
 	public function addAddress(AbstractAddress $address) {
-		/** @var ContactAddress $address */
+		/** @var Address $address */
 		if (!$this->addresses->contains($address)) {
 			$this->addresses->add($address);
-			$address->setOwner($this);
+			$address->setOwnerContact($this);
 		}
 		return $this;
 	}
@@ -936,11 +932,11 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	/**
 	 * Gets primary address if it's available.
 	 *
-	 * @return ContactAddress|null
+	 * @return Address|null
 	 */
 	public function getPrimaryAddress() {
 		$result = null;
-		/** @var ContactAddress $address */
+		/** @var Address $address */
 		foreach ($this->getAddresses() as $address) {
 			if ($address->isPrimary()) {
 				$result = $address;
@@ -951,13 +947,13 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	}
 
 	/**
-	 * @param ContactAddress $address
+	 * @param Address $address
 	 * @return $this
 	 */
-	public function setPrimaryAddress(ContactAddress $address) {
+	public function setPrimaryAddress(Address $address) {
 		if ($this->hasAddress($address)) {
 			$address->setPrimary(true);
-			/** @var ContactAddress $otherAddress */
+			/** @var Address $otherAddress */
 			foreach ($this->getAddresses() as $otherAddress) {
 				if (!$address->isEqual($otherAddress)) {
 					$otherAddress->setPrimary(false);
@@ -970,14 +966,14 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	/**
 	 * Gets address type if it's available.
 	 *
-	 * @param ContactAddress $address
-	 * @param AddressType    $addressType
+	 * @param Address $address
+	 * @param AddressType $addressType
 	 * @return $this
 	 */
-	public function setAddressType(ContactAddress $address, AddressType $addressType) {
+	public function setAddressType(Address $address, AddressType $addressType) {
 		if ($this->hasAddress($address)) {
 			$address->addType($addressType);
-			/** @var ContactAddress $otherAddress */
+			/** @var Address $otherAddress */
 			foreach ($this->getAddresses() as $otherAddress) {
 				if (!$address->isEqual($otherAddress)) {
 					$otherAddress->removeType($addressType);
@@ -992,8 +988,7 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	 * Gets one address that has specified type.
 	 *
 	 * @param AddressType $type
-	 *
-	 * @return ContactAddress|null
+	 * @return Address|null
 	 */
 	public function getAddressByType(AddressType $type) {
 		return $this->getAddressByTypeName($type->getName());
@@ -1003,11 +998,11 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	 * Gets one address that has specified type name.
 	 *
 	 * @param string $typeName
-	 * @return ContactAddress|null
+	 * @return Address|null
 	 */
 	public function getAddressByTypeName($typeName) {
 		$result = null;
-		/** @var ContactAddress $address */
+		/** @var Address $address */
 		foreach ($this->getAddresses() as $address) {
 			if ($address->hasTypeWithName($typeName)) {
 				$result = $address;

@@ -1,6 +1,5 @@
 parameters:
     mekit_account.account.manager.api.class:                    Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
-    mekit_account.account_address.manager.api.class:            Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
 
     mekit_account.type.account.class:                           Mekit\Bundle\AccountBundle\Form\Type\AccountType
     mekit_account.type.account.api.class:                       Mekit\Bundle\AccountBundle\Form\Type\AccountApiType
@@ -74,11 +73,4 @@ services:
         tags:
             - { name: form.type, alias: mekit_account_select }
 
-    # AccountAddress
-    mekit_account.account_address.manager.api:
-        class: %mekit_account.account_address.manager.api.class%
-        parent: oro_soap.manager.entity_manager.abstract
-        arguments:
-            - %mekit_account.account_address.entity.class%
-            - @doctrine.orm.entity_manager
 

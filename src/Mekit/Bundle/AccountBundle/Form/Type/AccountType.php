@@ -103,7 +103,7 @@ class AccountType extends AbstractType {
 					'label'    => 'mekit.account.emails.label',
 					'type'     => 'oro_email',
 					'required' => false,
-					'options'  => array('data_class' => 'Mekit\Bundle\ContactBundle\Entity\ContactEmail')
+					'options'  => array('data_class' => 'Mekit\Bundle\ContactInfoBundle\Entity\Email')
 				)
 			);
 
@@ -115,7 +115,7 @@ class AccountType extends AbstractType {
 					'label'    => '',
 					'type'     => 'oro_typed_address',
 					'required' => true,
-					'options'  => array('data_class' => 'Mekit\Bundle\AccountBundle\Entity\AccountAddress')
+					'options'  => array('data_class' => 'Mekit\Bundle\ContactInfoBundle\Entity\Address')
 				)
 			);
 
@@ -134,7 +134,7 @@ class AccountType extends AbstractType {
 					'label'    => 'mekit.account.phones.label',
 					'type'     => 'oro_phone',
 					'required' => false,
-					'options'  => array('data_class' => 'Mekit\Bundle\ContactBundle\Entity\ContactPhone')
+					'options'  => array('data_class' => 'Mekit\Bundle\ContactInfoBundle\Entity\Phone')
 				)
 			);
 

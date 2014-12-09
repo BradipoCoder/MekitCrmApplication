@@ -1,5 +1,4 @@
 <?php
-
 namespace Mekit\Bundle\AccountBundle\Entity;
 
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
@@ -7,8 +6,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Mekit\Bundle\AccountBundle\Model\ExtendAccount;
-use Mekit\Bundle\ContactBundle\Entity\ContactEmail;
-use Mekit\Bundle\ContactBundle\Entity\ContactPhone;
+use Mekit\Bundle\ContactInfoBundle\Entity\Address;
+use Mekit\Bundle\ContactInfoBundle\Entity\Email;
+use Mekit\Bundle\ContactInfoBundle\Entity\Phone;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
@@ -166,11 +166,9 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	/**
 	 * @var Collection
 	 *
-	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ContactBundle\Entity\ContactPhone", mappedBy="ownerAccount",
-	 *    cascade={"all"}, orphanRemoval=true
-	 * ))
+	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ContactInfoBundle\Entity\Phone", mappedBy="owner_account", cascade={"all"})
 	 * @ORM\OrderBy({"primary" = "DESC"})
-	 * @Soap\ComplexType("Mekit\Bundle\ContactBundle\Entity\ContactPhone[]", nillable=true)
+	 * @Soap\ComplexType("Mekit\Bundle\ContactInfoBundle\Entity\Phone[]", nillable=true)
 	 * @ConfigField(
 	 *      defaultValues={
 	 *          "importexport"={
@@ -300,9 +298,7 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	/**
 	 * @var Collection
 	 *
-	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ContactBundle\Entity\Contact", mappedBy="account",
-	 *      cascade={"all"}, orphanRemoval=true
-	 * )
+	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ContactBundle\Entity\Contact", mappedBy="account", cascade={"all"}, orphanRemoval=true)
 	 * @ORM\OrderBy({"id" = "ASC"})
 	 * @Soap\ComplexType("Mekit\Bundle\ContactBundle\Entity\Contact[]", nillable=true)
 	 */
@@ -326,11 +322,9 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	/**
 	 * @var Collection
 	 *
-	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ContactBundle\Entity\ContactEmail",
-	 *    mappedBy="ownerAccount", cascade={"all"}, orphanRemoval=true
-	 * )
+	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ContactInfoBundle\Entity\Email", mappedBy="owner_account", cascade={"all"})
 	 * @ORM\OrderBy({"primary" = "DESC"})
-	 * @Soap\ComplexType("Mekit\Bundle\ContactBundle\Entity\ContactEmail[]", nillable=true)
+	 * @Soap\ComplexType("Mekit\Bundle\ContactInfoBundle\Entity\Email[]", nillable=true)
 	 * @ConfigField(
 	 *      defaultValues={
 	 *          "importexport"={
@@ -344,10 +338,9 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	/**
 	 * @var Collection
 	 *
-	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\AccountBundle\Entity\AccountAddress",
-	 *    mappedBy="owner", cascade={"all"}, orphanRemoval=true
-	 * )
+	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ContactInfoBundle\Entity\Address", mappedBy="owner_account", cascade={"all"})
 	 * @ORM\OrderBy({"primary" = "DESC"})
+	 * @Soap\ComplexType("Mekit\Bundle\ContactInfoBundle\Entity\Address[]", nillable=true)
 	 * @ConfigField(
 	 *      defaultValues={
 	 *          "importexport"={
@@ -358,7 +351,6 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 * )
 	 */
 	protected $addresses;
-
 
 	/**
 	 * @var User
@@ -460,8 +452,8 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 
 	public function __construct() {
 		parent::__construct();
-		$this->emails = new ArrayCollection();
 		$this->phones = new ArrayCollection();
+		$this->emails = new ArrayCollection();
 		$this->addresses = new ArrayCollection();
 		$this->tags = new ArrayCollection();
 	}
@@ -555,7 +547,7 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 * Set phones.
 	 * This method could not be named setPhones because of bug CRM-253.
 	 *
-	 * @param Collection|ContactPhone[] $phones
+	 * @param Collection|Phone[] $phones
 	 * @return $this
 	 */
 	public function resetPhones($phones) {
@@ -569,10 +561,10 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	/**
 	 * Add phone
 	 *
-	 * @param ContactPhone $phone
+	 * @param Phone $phone
 	 * @return $this
 	 */
-	public function addPhone(ContactPhone $phone) {
+	public function addPhone(Phone $phone) {
 		if (!$this->phones->contains($phone)) {
 			$this->phones->add($phone);
 			$phone->setOwnerAccount($this);
@@ -583,10 +575,10 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	/**
 	 * Remove phone
 	 *
-	 * @param ContactPhone $phone
+	 * @param Phone $phone
 	 * @return $this
 	 */
-	public function removePhone(ContactPhone $phone) {
+	public function removePhone(Phone $phone) {
 		if ($this->phones->contains($phone)) {
 			$this->phones->removeElement($phone);
 		}
@@ -596,24 +588,24 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	/**
 	 * Get phones
 	 *
-	 * @return Collection|ContactPhone[]
+	 * @return Collection|Phone[]
 	 */
 	public function getPhones() {
 		return $this->phones;
 	}
 
 	/**
-	 * @param ContactPhone $phone
+	 * @param Phone $phone
 	 * @return bool
 	 */
-	public function hasPhone(ContactPhone $phone) {
+	public function hasPhone(Phone $phone) {
 		return $this->getPhones()->contains($phone);
 	}
 
 	/**
 	 * Gets primary phone if it's available.
 	 *
-	 * @return ContactPhone|null
+	 * @return Phone|null
 	 */
 	public function getPrimaryPhone() {
 		$result = null;
@@ -627,10 +619,10 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	}
 
 	/**
-	 * @param ContactPhone $phone
+	 * @param Phone $phone
 	 * @return $this
 	 */
-	public function setPrimaryPhone(ContactPhone $phone) {
+	public function setPrimaryPhone(Phone $phone) {
 		if ($this->hasPhone($phone)) {
 			$phone->setPrimary(true);
 			foreach ($this->getPhones() as $otherPhone) {
@@ -757,7 +749,7 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	/**
 	 * Set emails
 	 *
-	 * @param Collection|ContactEmail[] $emails
+	 * @param Collection|Email[] $emails
 	 * @return $this
 	 */
 	public function resetEmails($emails) {
@@ -771,10 +763,10 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	/**
 	 * Add email
 	 *
-	 * @param ContactEmail $email
+	 * @param Email $email
 	 * @return $this
 	 */
-	public function addEmail(ContactEmail $email) {
+	public function addEmail(Email $email) {
 		if (!$this->emails->contains($email)) {
 			$this->emails->add($email);
 			$email->setOwnerAccount($this);
@@ -785,10 +777,10 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	/**
 	 * Remove email
 	 *
-	 * @param ContactEmail $email
+	 * @param Email $email
 	 * @return $this
 	 */
-	public function removeEmail(ContactEmail $email) {
+	public function removeEmail(Email $email) {
 		if ($this->emails->contains($email)) {
 			$this->emails->removeElement($email);
 		}
@@ -798,7 +790,7 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	/**
 	 * Get emails
 	 *
-	 * @return Collection|ContactEmail[]
+	 * @return Collection|Email[]
 	 */
 	public function getEmails() {
 		return $this->emails;
@@ -816,17 +808,17 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	}
 
 	/**
-	 * @param ContactEmail $email
+	 * @param Email $email
 	 * @return bool
 	 */
-	public function hasEmail(ContactEmail $email) {
+	public function hasEmail(Email $email) {
 		return $this->getEmails()->contains($email);
 	}
 
 	/**
 	 * Gets primary email if it's available.
 	 *
-	 * @return ContactEmail|null
+	 * @return Email|null
 	 */
 	public function getPrimaryEmail() {
 		$result = null;
@@ -840,10 +832,10 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	}
 
 	/**
-	 * @param ContactEmail $email
+	 * @param Email $email
 	 * @return $this
 	 */
-	public function setPrimaryEmail(ContactEmail $email) {
+	public function setPrimaryEmail(Email $email) {
 		if ($this->hasEmail($email)) {
 			$email->setPrimary(true);
 			foreach ($this->getEmails() as $otherEmail) {
@@ -936,10 +928,10 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 * @return $this
 	 */
 	public function addAddress(AbstractAddress $address) {
-		/** @var AccountAddress $address */
+		/** @var Address $address */
 		if (!$this->addresses->contains($address)) {
 			$this->addresses->add($address);
-			$address->setOwner($this);
+			$address->setOwnerAccount($this);
 		}
 		return $this;
 	}
@@ -947,11 +939,11 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	/**
 	 * Gets primary address if it's available.
 	 *
-	 * @return AccountAddress|null
+	 * @return Address|null
 	 */
 	public function getPrimaryAddress() {
 		$result = null;
-		/** @var AccountAddress $address */
+		/** @var Address $address */
 		foreach ($this->getAddresses() as $address) {
 			if ($address->isPrimary()) {
 				$result = $address;
@@ -962,13 +954,13 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	}
 
 	/**
-	 * @param AccountAddress $address
+	 * @param Address $address
 	 * @return $this
 	 */
-	public function setPrimaryAddress(AccountAddress $address) {
+	public function setPrimaryAddress(Address $address) {
 		if ($this->hasAddress($address)) {
 			$address->setPrimary(true);
-			/** @var AccountAddress $otherAddress */
+			/** @var Address $otherAddress */
 			foreach ($this->getAddresses() as $otherAddress) {
 				if (!$address->isEqual($otherAddress)) {
 					$otherAddress->setPrimary(false);
@@ -981,14 +973,14 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	/**
 	 * Gets address type if it's available.
 	 *
-	 * @param AccountAddress $address
-	 * @param AddressType    $addressType
+	 * @param Address $address
+	 * @param AddressType $addressType
 	 * @return $this
 	 */
-	public function setAddressType(AccountAddress $address, AddressType $addressType) {
+	public function setAddressType(Address $address, AddressType $addressType) {
 		if ($this->hasAddress($address)) {
 			$address->addType($addressType);
-			/** @var AccountAddress $otherAddress */
+			/** @var Address $otherAddress */
 			foreach ($this->getAddresses() as $otherAddress) {
 				if (!$address->isEqual($otherAddress)) {
 					$otherAddress->removeType($addressType);
@@ -1004,7 +996,7 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 *
 	 * @param AddressType $type
 	 *
-	 * @return AccountAddress|null
+	 * @return Address|null
 	 */
 	public function getAddressByType(AddressType $type) {
 		return $this->getAddressByTypeName($type->getName());
@@ -1014,11 +1006,11 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 * Gets one address that has specified type name.
 	 *
 	 * @param string $typeName
-	 * @return AccountAddress|null
+	 * @return Address|null
 	 */
 	public function getAddressByTypeName($typeName) {
 		$result = null;
-		/** @var AccountAddress $address */
+		/** @var Address $address */
 		foreach ($this->getAddresses() as $address) {
 			if ($address->hasTypeWithName($typeName)) {
 				$result = $address;
