@@ -1,16 +1,8 @@
 <?php
 namespace Mekit\Bundle\RelationshipBundle\Entity;
 
-use Mekit\Bundle\RelationshipBundle\Model\ExtendRelationship;
-use Symfony\Component\Security\Core\User\UserInterface;
-
 use Doctrine\ORM\Mapping as ORM;
-
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
-use Oro\Bundle\NoteBundle\Model\ExtendNote;
-use Oro\Bundle\UserBundle\Entity\User;
-use Oro\Bundle\OrganizationBundle\Entity\Organization;
 
 /**
  * @ORM\Entity(repositoryClass="Mekit\Bundle\RelationshipBundle\Entity\Repository\RelationshipRepository")
@@ -19,25 +11,11 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
  *      defaultValues={
  *          "entity"={
  *              "icon"="icon-sitemap"
- *          },
- *          "ownership"={
- *              "owner_type"="USER",
- *              "owner_field_name"="owner",
- *              "owner_column_name"="user_owner_id",
- *              "organization_field_name"="organization",
- *              "organization_column_name"="organization_id"
- *          },
- *          "security"={
- *              "type"="ACL",
- *              "group_name"=""
- *          },
- *          "activity"={
- *              "immutable"=true
  *          }
  *      }
  * )
  */
-class Relationship extends ExtendRelationship {
+class Relationship {
 	const ENTITY_NAME = 'Mekit\Bundle\RelationshipBundle\Entity\Relationship';
 
 	/**
@@ -50,56 +28,32 @@ class Relationship extends ExtendRelationship {
 	protected $id;
 
 	/**
-	 * @var User
+	 * @var string
 	 *
-	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
-	 * @ORM\JoinColumn(name="user_owner_id", referencedColumnName="id", onDelete="SET NULL")
+	 * @ORM\Column(name="owner_entity", type="string", length=255, nullable=false)
 	 */
-	protected $owner;
+	protected $ownerEntity;
 
 	/**
-	 * @var Organization
+	 * @var integer
 	 *
-	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\OrganizationBundle\Entity\Organization", inversedBy="businessUnits")
-	 * @ORM\JoinColumn(name="organization_id", referencedColumnName="id", onDelete="SET NULL")
+	 * @ORM\Column(name="owner_id", type="integer", nullable=false)
 	 */
-	protected $organization;
+	protected $ownerId;
 
 	/**
-	 * @var User
+	 * @var string
 	 *
-	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
-	 * @ORM\JoinColumn(name="updated_by_user_id", referencedColumnName="id", onDelete="SET NULL")
+	 * @ORM\Column(name="owned_entity", type="string", length=255, nullable=false)
 	 */
-	protected $updatedBy;
+	protected $ownedEntity;
 
 	/**
-	 * @var \Datetime $created
+	 * @var integer
 	 *
-	 * @ORM\Column(name="created_at", type="datetime", nullable=false)
-	 * @ConfigField(
-	 *      defaultValues={
-	 *          "entity"={
-	 *              "label"="oro.ui.created_at"
-	 *          }
-	 *      }
-	 * )
+	 * @ORM\Column(name="owned_id", type="integer", nullable=false)
 	 */
-	protected $createdAt;
-
-	/**
-	 * @var \Datetime $updated
-	 *
-	 * @ORM\Column(name="updated_at", type="datetime", nullable=false)
-	 * @ConfigField(
-	 *      defaultValues={
-	 *          "entity"={
-	 *              "label"="oro.ui.updated_at"
-	 *          }
-	 *      }
-	 * )
-	 */
-	protected $updatedAt;
+	protected $ownedId;
 
 	/**
 	 * @return int
@@ -109,93 +63,75 @@ class Relationship extends ExtendRelationship {
 	}
 
 	/**
-	 * @param \Datetime $createdAt
-	 *
+	 * @param int $id
 	 * @return $this
 	 */
-	public function setCreatedAt($createdAt) {
-		$this->createdAt = $createdAt;
+	public function setId($id) {
+		$this->id = $id;
 		return $this;
 	}
 
 	/**
-	 * @return \Datetime
+	 * @return string
 	 */
-	public function getCreatedAt() {
-		return $this->createdAt;
+	public function getOwnerEntity() {
+		return $this->ownerEntity;
 	}
 
 	/**
-	 * @param \Datetime $updatedAt
-	 *
+	 * @param string $ownerEntity
 	 * @return $this
 	 */
-	public function setUpdatedAt($updatedAt) {
-		$this->updatedAt = $updatedAt;
+	public function setOwnerEntity($ownerEntity) {
+		$this->ownerEntity = $ownerEntity;
 		return $this;
 	}
 
 	/**
-	 * @return \Datetime
+	 * @return int
 	 */
-	public function getUpdatedAt() {
-		return $this->updatedAt;
+	public function getOwnerId() {
+		return $this->ownerId;
 	}
 
 	/**
-	 * Not using type hint due to the fact that entity setter can be called when no logged user available
-	 * So $updatedBy will be null
-	 *
-	 * @param UserInterface|null $updatedBy
-	 *
+	 * @param int $ownerId
 	 * @return $this
 	 */
-	public function setUpdatedBy($updatedBy) {
-		$this->updatedBy = $updatedBy;
+	public function setOwnerId($ownerId) {
+		$this->ownerId = $ownerId;
 		return $this;
 	}
 
 	/**
-	 * @return UserInterface
+	 * @return string
 	 */
-	public function getUpdatedBy() {
-		return $this->updatedBy;
+	public function getOwnedEntity() {
+		return $this->ownedEntity;
 	}
 
 	/**
-	 * @param UserInterface|null $owningUser
-	 *
+	 * @param string $ownedEntity
 	 * @return $this
 	 */
-	public function setOwner($owningUser) {
-		$this->owner = $owningUser;
+	public function setOwnedEntity($ownedEntity) {
+		$this->ownedEntity = $ownedEntity;
 		return $this;
 	}
 
 	/**
-	 * @return UserInterface
+	 * @return int
 	 */
-	public function getOwner() {
-		return $this->owner;
+	public function getOwnedId() {
+		return $this->ownedId;
 	}
 
 	/**
-	 * Set organization
-	 *
-	 * @param Organization $organization
+	 * @param int $ownedId
 	 * @return $this
 	 */
-	public function setOrganization($organization) {
-		$this->organization = $organization;
+	public function setOwnedId($ownedId) {
+		$this->ownedId = $ownedId;
 		return $this;
-	}
-
-	/**
-	 * Get organization
-	 *
-	 * @return Organization
-	 */
-	public function getOrganization() {
-		return $this->organization;
 	}
 }
