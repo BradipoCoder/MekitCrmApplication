@@ -2,6 +2,8 @@ parameters:
     mekit_list.listgroup.entity.class:                         Mekit\Bundle\ListBundle\Entity\ListGroup
     mekit_list.listitem.entity.class:                          Mekit\Bundle\ListBundle\Entity\ListItem
 
+    mekit_list.listitem.repository.class:                      Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository
+
     mekit_list.datagrid_helper.class:                          Mekit\Bundle\ListBundle\Datagrid\ListDatagridHelper
 
     mekit_list.form_helper.class:                              Mekit\Bundle\ListBundle\Helper\FormHelper
@@ -9,9 +11,18 @@ parameters:
 services:
     mekit_list.datagrid_helper:
         class: %mekit_list.datagrid_helper.class%
+        arguments:
+            - @mekit_list.list_item_repository
+
+    mekit_list.list_item_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments:
+            - 'MekitListBundle:ListItem'
 
 
     mekit_list.form_helper:
         class: %mekit_list.form_helper.class%
         arguments:
-              - @doctrine.orm.entity_manager
+            - @doctrine.orm.entity_manager
