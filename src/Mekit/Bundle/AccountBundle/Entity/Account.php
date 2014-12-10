@@ -219,7 +219,6 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 *
 	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ListBundle\Entity\ListItem")
 	 * @ORM\JoinColumn(name="type", referencedColumnName="id", nullable=false)
-	 * @ORM\JoinColumns()
 	 * @Oro\Versioned
 	 * @ConfigField(
 	 *      defaultValues={

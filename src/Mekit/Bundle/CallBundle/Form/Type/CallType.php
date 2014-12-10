@@ -76,8 +76,20 @@ class CallType extends AbstractType {
 			->add('description', 'textarea', array('required' => false, 'label' => 'mekit.call.description.label'));
 			/*->add('tags', 'oro_tag_select', ['label' => 'oro.tag.entity_plural_label']);*/
 
+		//static list - call direction(in/out)
+		$builder->add('direction', 'choice', [
+				'required' => true,
+				'label' => 'mekit.call.direction.label',
+				'expanded' => true,
+				'choices' => [
+					'in' => 'mekit.call.direction.in.label',
+					'out' => 'mekit.call.direction.out.label'
+				]
+			]
+		);
+
 		//dynamic lists from ListBundle(using temporary helper service solution)
-		//$this->listBundleHelper->addListSelectorToFormBuilder($builder, 'jobTitle', 'CONTACT_JOBTITLE', 'mekit.contact.job_title.label');
+		$this->listBundleHelper->addListSelectorToFormBuilder($builder, 'outcome', 'CALL_OUTCOME', 'mekit.call.outcome.label');
 
 
 		//assigned to (user)
@@ -89,7 +101,6 @@ class CallType extends AbstractType {
 
 		//add event form
 		$builder->add('event', new EventType($this->router, $this->nameFormatter, $this->securityFacade, $this->listBundleHelper));
-
 	}
 
 	/**

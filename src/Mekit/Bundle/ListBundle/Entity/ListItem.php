@@ -63,6 +63,13 @@ class ListItem {
 
 
 	/**
+	 * Constructor
+	 */
+	public function __construct() {
+		$this->system = false;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getId() {

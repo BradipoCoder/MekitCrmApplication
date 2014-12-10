@@ -1,0 +1,6 @@
+Mekit\Bundle\CallBundle\Entity\Call:
+    properties:
+        direction:
+            - NotBlank: ~
+
+

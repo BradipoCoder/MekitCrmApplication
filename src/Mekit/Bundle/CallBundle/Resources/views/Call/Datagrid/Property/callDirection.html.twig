@@ -1,0 +1,16 @@
+{% set directionLabel = 'mekit.call.direction.'~value~'.label' %}
+
+{% set entityIcon = null %}
+{% set iconContent = null %}
+{% if value == "in" %}
+	{% set entityIcon = 'icon-mail-reply' %}
+{% elseif value == "out" %}
+	{% set entityIcon = 'icon-mail-forward' %}
+{% endif %}
+
+{% if entityIcon %}
+	{% set iconContent %}
+	<i class="{{ entityIcon }} hide-text" title="{{ directionLabel|trans }}"></i>
+	{% endset %}
+{% endif %}
+{{ iconContent }}{{ directionLabel|trans }}

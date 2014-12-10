@@ -79,6 +79,45 @@ class Call extends ExtendCall {
 	protected $description;
 
 	/**
+	 * @var string
+	 *
+	 * @ORM\Column(type="text", length=4, nullable=false)
+	 * @Soap\ComplexType("string", nillable=false)
+	 * @Oro\Versioned
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "importexport"={
+	 *              "order"=250
+	 *          },
+	 *          "dataaudit"={
+	 *              "auditable"=true
+	 *          },
+	 *      }
+	 * )
+	 */
+	protected $direction;
+
+	/**
+	 * @var ListItem
+	 *
+	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ListBundle\Entity\ListItem")
+	 * @ORM\JoinColumn(name="outcome", referencedColumnName="id", nullable=false)
+	 * @Oro\Versioned
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "dataaudit"={
+	 *              "auditable"=true
+	 *          },
+	 *          "importexport"={
+	 *              "order"=90,
+	 *              "short"=true
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $outcome;
+
+	/**
 	 * @var Event
 	 *
 	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\EventBundle\Entity\Event", mappedBy="call", cascade={"all"})
@@ -126,6 +165,38 @@ class Call extends ExtendCall {
 	 */
 	public function setDescription($description) {
 		$this->description = $description;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDirection() {
+		return $this->direction;
+	}
+
+	/**
+	 * @param string $direction
+	 * @return $this
+	 */
+	public function setDirection($direction) {
+		$this->direction = $direction;
+		return $this;
+	}
+
+	/**
+	 * @return ListItem
+	 */
+	public function getOutcome() {
+		return $this->outcome;
+	}
+
+	/**
+	 * @param ListItem $outcome
+	 * @return $this
+	 */
+	public function setOutcome($outcome) {
+		$this->outcome = $outcome;
 		return $this;
 	}
 
