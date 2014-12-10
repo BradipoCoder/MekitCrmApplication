@@ -1,5 +1,8 @@
 mekit:
     meeting:
+        menu:
+            meeting_list.description:  List of meetings
+
         widgets:
             meeting_information:    Meeting Information
 

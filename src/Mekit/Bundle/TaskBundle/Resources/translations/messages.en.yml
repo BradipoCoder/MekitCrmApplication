@@ -1,5 +1,8 @@
 mekit:
     task:
+        menu:
+            task_list.description:  List of tasks
+
         widgets:
             task_information:       Task Information
 

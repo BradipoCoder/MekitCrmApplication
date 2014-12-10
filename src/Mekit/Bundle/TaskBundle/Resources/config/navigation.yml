@@ -1,0 +1,20 @@
+oro_menu_config:
+    items:
+        task_list:
+            label: 'mekit.task.entity_plural_label'
+            route: 'mekit_task_index'
+            extras:
+                position: 25
+                routes: ['mekit_task_*']
+                description: 'mekit.task.menu.task_list.description'
+
+    tree:
+        application_menu:
+            children:
+                events_tab:
+                    children:
+                        task_list: ~
+
+oro_titles:
+    mekit_task_index: ~
+

@@ -1,0 +1,20 @@
+oro_menu_config:
+    items:
+        meeting_list:
+            label: 'mekit.meeting.entity_plural_label'
+            route: 'mekit_meeting_index'
+            extras:
+                position: 35
+                routes: ['mekit_meeting_*']
+                description: 'mekit.meeting.menu.meeting_list.description'
+
+    tree:
+        application_menu:
+            children:
+                events_tab:
+                    children:
+                        meeting_list: ~
+
+oro_titles:
+    mekit_meeting_index: ~
+
