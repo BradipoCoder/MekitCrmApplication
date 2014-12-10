@@ -3,9 +3,9 @@
 namespace Mekit\Bundle\AccountBundle\Tests\Unit\Entity;
 
 use Mekit\Bundle\AccountBundle\Entity\Account;
-use Mekit\Bundle\AccountBundle\Entity\AccountAddress;
-use Mekit\Bundle\ContactBundle\Entity\ContactEmail;
-use Mekit\Bundle\ContactBundle\Entity\ContactPhone;
+use Mekit\Bundle\ContactInfoBundle\Entity\Address;
+use Mekit\Bundle\ContactInfoBundle\Entity\Email;
+use Mekit\Bundle\ContactInfoBundle\Entity\Phone;
 use Mekit\Bundle\TestBundle\Tests\Helpers\MekitEntityTests;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\AddressBundle\Entity\Country;
@@ -16,9 +16,9 @@ class AccountTest extends MekitEntityTests {
 	protected $entityName = 'Mekit\Bundle\AccountBundle\Entity\Account';
 
 	public function testEmails() {
-		$emailOne = new ContactEmail('one@test.com');
-		$emailTwo = new ContactEmail('two@test.com');
-		$emailThree = new ContactEmail('three@test.com');
+		$emailOne = new Email('one@test.com');
+		$emailTwo = new Email('two@test.com');
+		$emailThree = new Email('three@test.com');
 		$emails = array($emailOne, $emailTwo);
 
 		$entity = new Account();
@@ -52,14 +52,14 @@ class AccountTest extends MekitEntityTests {
 		$entity = new Account();
 		$this->assertNull($entity->getPrimaryEmail());
 
-		$email = new ContactEmail('email@example.com');
+		$email = new Email('email@example.com');
 		$entity->addEmail($email);
 		$this->assertNull($entity->getPrimaryEmail());
 
 		$entity->setPrimaryEmail($email);
 		$this->assertSame($email, $entity->getPrimaryEmail());
 
-		$email2 = new ContactEmail('new@example.com');
+		$email2 = new Email('new@example.com');
 		$entity->addEmail($email2);
 		$entity->setPrimaryEmail($email2);
 
@@ -68,9 +68,9 @@ class AccountTest extends MekitEntityTests {
 	}
 
 	public function testPhones() {
-		$phoneOne = new ContactPhone('06001122334455');
-		$phoneTwo = new ContactPhone('07001122334455');
-		$phoneThree = new ContactPhone('08001122334455');
+		$phoneOne = new Phone('06001122334455');
+		$phoneTwo = new Phone('07001122334455');
+		$phoneThree = new Phone('08001122334455');
 		$phones = array($phoneOne, $phoneTwo);
 
 		$entity = new Account();
@@ -104,14 +104,14 @@ class AccountTest extends MekitEntityTests {
 		$entity = new Account();
 		$this->assertNull($entity->getPrimaryPhone());
 
-		$phone = new ContactPhone('06001122334455');
+		$phone = new Phone('06001122334455');
 		$entity->addPhone($phone);
 		$this->assertNull($entity->getPrimaryPhone());
 
 		$entity->setPrimaryPhone($phone);
 		$this->assertSame($phone, $entity->getPrimaryPhone());
 
-		$phone2 = new ContactPhone('22001122334455');
+		$phone2 = new Phone('22001122334455');
 		$entity->addPhone($phone2);
 		$entity->setPrimaryPhone($phone2);
 
@@ -120,11 +120,11 @@ class AccountTest extends MekitEntityTests {
 	}
 
 	public function testAddresses() {
-		$addressOne = new AccountAddress();
+		$addressOne = new Address();
 		$addressOne->setCountry(new Country('US'));
-		$addressTwo = new AccountAddress();
+		$addressTwo = new Address();
 		$addressTwo->setCountry(new Country('UK'));
-		$addressThree = new AccountAddress();
+		$addressThree = new Address();
 		$addressThree->setCountry(new Country('RU'));
 		$addresses = array($addressOne, $addressTwo);
 
@@ -159,14 +159,14 @@ class AccountTest extends MekitEntityTests {
 		$entity = new Account();
 		$this->assertNull($entity->getPrimaryAddress());
 
-		$address = new AccountAddress();
+		$address = new Address();
 		$entity->addAddress($address);
 		$this->assertNull($entity->getPrimaryAddress());
 
 		$address->setPrimary(true);
 		$this->assertSame($address, $entity->getPrimaryAddress());
 
-		$newPrimary = new AccountAddress();
+		$newPrimary = new Address();
 		$entity->addAddress($newPrimary);
 
 		$entity->setPrimaryAddress($newPrimary);
@@ -179,7 +179,7 @@ class AccountTest extends MekitEntityTests {
 		$entity = new Account();
 		$this->assertNull($entity->getAddressByTypeName('billing'));
 
-		$address = new AccountAddress();
+		$address = new Address();
 		$address->addType(new AddressType('billing'));
 		$entity->addAddress($address);
 
@@ -187,7 +187,7 @@ class AccountTest extends MekitEntityTests {
 	}
 
 	public function testGetAddressByType() {
-		$address = new AccountAddress();
+		$address = new Address();
 		$addressType = new AddressType('billing');
 		$address->addType($addressType);
 
@@ -202,11 +202,11 @@ class AccountTest extends MekitEntityTests {
 		$entity = new Account();
 
 		$shippingType = new AddressType('shipping');
-		$addressOne = new AccountAddress();
+		$addressOne = new Address();
 		$addressOne->addType($shippingType);
 		$entity->addAddress($addressOne);
 
-		$addressTwo = new AccountAddress();
+		$addressTwo = new Address();
 		$entity->addAddress($addressTwo);
 
 		$entity->setAddressType($addressTwo, $shippingType);
@@ -225,7 +225,7 @@ class AccountTest extends MekitEntityTests {
 	}
 
 	public function testHasEmail() {
-		$email = new ContactEmail();
+		$email = new Email();
 
 		$entity = new Account();
 		$this->assertFalse($entity->hasEmail($email));
@@ -235,7 +235,7 @@ class AccountTest extends MekitEntityTests {
 	}
 
 	public function testHasPhone() {
-		$phone = new ContactPhone();
+		$phone = new Phone();
 
 		$entity = new Account();
 		$this->assertFalse($entity->hasPhone($phone));

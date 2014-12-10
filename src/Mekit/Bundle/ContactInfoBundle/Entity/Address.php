@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Mekit\Bundle\AccountBundle\Entity\Account;
 use Mekit\Bundle\ContactBundle\Entity\Contact;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
+use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\FormBundle\Entity\PrimaryItem;
@@ -35,6 +36,8 @@ use Oro\Bundle\FormBundle\Entity\PrimaryItem;
  */
 class Address extends AbstractAddress implements PrimaryItem {
 	/**
+	 * @var Account
+	 *
 	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\AccountBundle\Entity\Account", inversedBy="addresses", cascade={"persist"})
 	 * @ORM\JoinColumn(name="account_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
 	 * @ConfigField(
@@ -48,6 +51,8 @@ class Address extends AbstractAddress implements PrimaryItem {
 	protected $owner_account;
 
 	/**
+	 * @var Contact
+	 *
 	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ContactBundle\Entity\Contact", inversedBy="addresses", cascade={"persist"})
 	 * @ORM\JoinColumn(name="contact_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
 	 * @ConfigField(
@@ -59,6 +64,21 @@ class Address extends AbstractAddress implements PrimaryItem {
 	 * )
 	 */
 	protected $owner_contact;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="type", type="string", length=16, nullable=true)
+	 * @Soap\ComplexType("string", nillable=true)
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "importexport"={
+	 *              "excluded"=true
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $type;
 
 	/**
 	 * @var boolean
@@ -74,6 +94,7 @@ class Address extends AbstractAddress implements PrimaryItem {
 	 * )
 	 */
 	protected $primary;
+
 
 	public function __construct() {
 		$this->primary = false;
@@ -164,6 +185,22 @@ class Address extends AbstractAddress implements PrimaryItem {
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getType() {
+		return $this->type;
+	}
+
+	/**
+	 * @param string $type
+	 */
+	public function setType($type) {
+		$this->type = $type;
+	}
+
+
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function isEmpty() {
@@ -189,12 +226,22 @@ class Address extends AbstractAddress implements PrimaryItem {
 		return $this->updated;
 	}
 
-	/*---FAKE TYPE (todo: get rid of this)*/
+
 	/**
-	 * @return Collection
+	 * TODO: ALL THIS(TYPE/TYPES) IS TO BE REMOVED
+	 * We will be using 'label' for addresses
+	 * We also need to create a custom "AbstractAddress" removing fields:
+	 * [$organization, $namePrefix, $firstName, $middleName, $lastName, $nameSuffix]
+	 * Also,
+	 */
+
+	/**
+	 * @return AddressType
 	 */
 	public function getTypes() {
-		return new ArrayCollection();
+		$types = new ArrayCollection();
+		$types->add(new AddressType($this->type));
+		return $types;
 	}
 
 	/**
@@ -202,8 +249,68 @@ class Address extends AbstractAddress implements PrimaryItem {
 	 * @return $this
 	 */
 	public function setTypes(Collection $types) {
+		/** @var AddressType $type */
+		$type = $types->first();
+		$this->type = $type->getName();
 		return $this;
 	}
 
+	/**
+	 * Get list of address types names
+	 *
+	 * @return array
+	 */
+	public function getTypeNames() {
+		return [$this->type];
+	}
 
+	/**
+	 * Gets instance of address type entity by it's name if it exist.
+	 *
+	 * @param string $typeName
+	 * @return AddressType|null
+	 */
+	public function getTypeByName($typeName) {
+		if ($this->type === $typeName) {
+			return $this->getTypes();
+		}
+		return null;
+	}
+
+	/**
+	 * Checks if address has type with specified name
+	 *
+	 * @param string $typeName
+	 * @return bool
+	 */
+	public function hasTypeWithName($typeName) {
+		return null !== $this->getTypeByName($typeName);
+	}
+
+	/**
+	 * Get list of address types names(@todo: let's do something about this)
+	 *
+	 * @return array
+	 */
+	public function getTypeLabels() {
+		return [$this->type];
+	}
+
+	/**
+	 * @param AddressType $type
+	 * @return $this
+	 */
+	public function addType(AddressType $type) {
+		$this->type = $type->getName();
+		return $this;
+	}
+
+	/**
+	 * @param AddressType $type
+	 * @return $this
+	 */
+	public function removeType(AddressType $type) {
+		$this->type = null;
+		return $this;
+	}
 }
