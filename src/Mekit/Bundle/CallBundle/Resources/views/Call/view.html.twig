@@ -1,0 +1,77 @@
+{% extends 'OroUIBundle:actions:view.html.twig' %}
+
+{% set fullname = entity.event.name|default('N/A'|trans) %}
+{% oro_title_set({params : {"%task.name%": fullname} }) %}
+
+{% block stats %}
+	{% if breadcrumbs.entity.event is defined %}
+		<li>{{ 'oro.ui.created_at'|trans }}: {{ breadcrumbs.entity.event.createdAt ? breadcrumbs.entity.event.createdAt|oro_format_datetime : 'N/A' }}</li>
+		<li>{{ 'oro.ui.updated_at'|trans }}: {{ breadcrumbs.entity.event.updatedAt ? breadcrumbs.entity.event.updatedAt|oro_format_datetime : 'N/A' }}</li>
+	{% endif %}
+{% endblock stats %}
+
+{% block navButtons %}
+	{% if resource_granted('EDIT', entity) %}
+		{{ UI.editButton({
+		'path': path('mekit_task_update', {'id': entity.id}),
+		'entity_label': 'mekit.task.entity_label'|trans
+		}) }}
+	{% endif %}
+
+	{% if resource_granted('DELETE', entity.event) %}
+		{{ UI.deleteButton({
+		'dataUrl': path('mekit_api_delete_event', {'id': entity.event.id}),
+		'dataRedirect': path('mekit_event_index'),
+		'aCss': 'no-hash remove-button',
+		'dataId': entity.event.id,
+		'id': 'btn-remove-event',
+		'entity_label': 'mekit.task.entity_label'|trans
+		}) }}
+	{% endif %}
+{% endblock navButtons %}
+
+
+
+{% block pageHeader %}
+	{% set breadcrumbs = {
+	'entity': entity,
+	'indexPath': path('mekit_event_index'),
+	'indexLabel': 'mekit.event.entity_plural_label'|trans,
+	'entityTitle': fullname
+	} %}
+	{{ parent() }}
+{% endblock pageHeader %}
+
+
+{% block content_data %}
+	{% set taskInformationWidget %}
+		{{ oro_widget_render({
+		'widgetType': 'block',
+		'title': 'mekit.task.widgets.task_information'|trans,
+		'url': path('mekit_task_widget_info', {id: entity.id})
+		}) }}
+	{% endset %}
+
+	{% set eventInformationWidget %}
+		{{ oro_widget_render({
+			'widgetType': 'block',
+			'title': 'mekit.event.widgets.event_information'|trans,
+			'url': path('mekit_event_widget_info', {id: entity.event.id})
+		}) }}
+	{% endset %}
+
+	{% set dataBlocks = [
+		{
+			'title': 'mekit.task.sections.general'|trans,
+			'class': 'active',
+			'subblocks': [
+				{'data' : [taskInformationWidget]},
+				{'data' : [eventInformationWidget]}
+			]
+		}
+	] %}
+
+	{% set id = 'eventTaskView' %}
+	{% set data = {'dataBlocks': dataBlocks} %}
+	{{ parent() }}
+{% endblock content_data %}

@@ -1,0 +1,38 @@
+parameters:
+    mekit_call.call.manager.api.class:                    Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
+
+    mekit_call.type.call.class:                           Mekit\Bundle\CallBundle\Form\Type\CallType
+
+    mekit_call.handler.call.class:                        Mekit\Bundle\CallBundle\Form\Handler\CallHandler
+
+services:
+    mekit_call.call.manager.api:
+        class: %mekit_call.call.manager.api.class%
+        parent: oro_soap.manager.entity_manager.abstract
+        arguments:
+            - %mekit_call.call.entity.class%
+            - @doctrine.orm.entity_manager
+
+    mekit_call.form.call:
+        class: Symfony\Component\Form\Form
+        factory_method: createNamed
+        factory_service: form.factory
+        arguments: ["mekit_call_form", "mekit_call", null]
+
+    mekit_call.form.type.call:
+        class: %mekit_call.type.call.class%
+        arguments:
+            - @router
+            - @oro_locale.formatter.name
+            - @oro_security.security_facade
+            - @mekit_list.form_helper
+        tags:
+            - { name: form.type, alias: mekit_call }
+
+    mekit_call.form.handler.call:
+        class: %mekit_call.handler.call.class%
+        scope: request
+        arguments:
+            - @mekit_call.form.call
+            - @request
+            - @doctrine.orm.entity_manager

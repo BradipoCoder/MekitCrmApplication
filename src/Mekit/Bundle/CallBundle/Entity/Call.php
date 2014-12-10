@@ -1,15 +1,15 @@
 <?php
-namespace Mekit\Bundle\MeetingBundle\Entity;
+namespace Mekit\Bundle\CallBundle\Entity;
 
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Mekit\Bundle\AccountBundle\Model\ExtendAccount;
+use Mekit\Bundle\CallBundle\Model\ExtendCall;
 use Mekit\Bundle\EventBundle\Entity\Event;
 use Mekit\Bundle\EventBundle\Model\ExtendEvent;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
-use Mekit\Bundle\MeetingBundle\Model\ExtendMeeting;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
@@ -22,14 +22,14 @@ use Oro\Bundle\UserBundle\Entity\User;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="mekit_meeting")
+ * @ORM\Table(name="mekit_call")
  * @Oro\Loggable
  * @Config(
- *      routeName="mekit_meeting_index",
- *      routeView="mekit_meeting_view",
+ *      routeName="mekit_call_index",
+ *      routeView="mekit_call_view",
  *      defaultValues={
  *          "entity"={
- *              "icon"="icon-group"
+ *              "icon"="icon-phone"
  *          },
  *          "security"={
  *              "type"="ACL",
@@ -40,15 +40,15 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          },
  *          "mekitevent"={
  *              "eventable"=true,
- *              "label"="Meeting",
- *              "icon"="icon-group",
- *              "view_route_name"="mekit_meeting_view",
- *              "edit_route_name"="mekit_meeting_edit"
+ *              "label"="Call",
+ *              "icon"="icon-phone",
+ *              "view_route_name"="mekit_call_view",
+ *              "edit_route_name"="mekit_call_edit"
  *          }
  *      }
  * )
  */
-class Meeting extends ExtendMeeting {
+class Call extends ExtendCall {
 	/**
 	 * @var int
 	 *
@@ -81,7 +81,7 @@ class Meeting extends ExtendMeeting {
 	/**
 	 * @var Event
 	 *
-	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\EventBundle\Entity\Event", mappedBy="meeting", cascade={"all"})
+	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\EventBundle\Entity\Event", mappedBy="call", cascade={"all"})
 	 * @Soap\ComplexType("Mekit\Bundle\EventBundle\Entity\Event", nillable=false)
 	 * @ConfigField(
 	 *      defaultValues={}

@@ -1,0 +1,22 @@
+{% extends 'OroUIBundle:actions:index.html.twig' %}
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+{#{% set gridName = 'events-grid' %}#}
+{% set pageTitle = 'mekit.task.entity_plural_label'|trans %}
+
+{% block content_datagrid %}
+	<div class="layout-content">
+		<div class="container-fluid scrollable-container">
+			<div class="responsive-section responsive-section-has-blocks responsive-medium">
+				<div class="row-fluid row-fluid-divider">
+					<div class="responsive-cell">
+						<div class="alert alert-warning" role="alert">
+							Index in this bundle is disabled for now.
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{{ parent() }}
+{% endblock %}
+

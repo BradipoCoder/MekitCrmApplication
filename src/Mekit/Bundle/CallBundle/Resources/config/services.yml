@@ -1,0 +1,5 @@
+parameters:
+    mekit_call.call.entity.class: Mekit\Bundle\CallBundle\Entity\Call
+
+services:
+

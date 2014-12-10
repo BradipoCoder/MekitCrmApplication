@@ -81,7 +81,7 @@ class Task extends ExtendTask {
 	/**
 	 * @var Event
 	 *
-	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\EventBundle\Entity\Event", mappedBy="task", cascade={"all"}, orphanRemoval=true)
+	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\EventBundle\Entity\Event", mappedBy="task", cascade={"all"})
 	 * @Soap\ComplexType("Mekit\Bundle\EventBundle\Entity\Event", nillable=false)
 	 * @ConfigField(
 	 *      defaultValues={}
