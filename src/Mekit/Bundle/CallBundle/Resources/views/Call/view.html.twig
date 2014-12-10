@@ -1,7 +1,7 @@
 {% extends 'OroUIBundle:actions:view.html.twig' %}
 
 {% set fullname = entity.event.name|default('N/A'|trans) %}
-{% oro_title_set({params : {"%task.name%": fullname} }) %}
+{% oro_title_set({params : {"%call.name%": fullname} }) %}
 
 {% block stats %}
 	{% if breadcrumbs.entity.event is defined %}
@@ -13,8 +13,8 @@
 {% block navButtons %}
 	{% if resource_granted('EDIT', entity) %}
 		{{ UI.editButton({
-		'path': path('mekit_task_update', {'id': entity.id}),
-		'entity_label': 'mekit.task.entity_label'|trans
+		'path': path('mekit_call_update', {'id': entity.id}),
+		'entity_label': 'mekit.call.entity_label'|trans
 		}) }}
 	{% endif %}
 
@@ -25,7 +25,7 @@
 		'aCss': 'no-hash remove-button',
 		'dataId': entity.event.id,
 		'id': 'btn-remove-event',
-		'entity_label': 'mekit.task.entity_label'|trans
+		'entity_label': 'mekit.call.entity_label'|trans
 		}) }}
 	{% endif %}
 {% endblock navButtons %}
@@ -44,11 +44,11 @@
 
 
 {% block content_data %}
-	{% set taskInformationWidget %}
+	{% set callInformationWidget %}
 		{{ oro_widget_render({
 		'widgetType': 'block',
-		'title': 'mekit.task.widgets.task_information'|trans,
-		'url': path('mekit_task_widget_info', {id: entity.id})
+		'title': 'mekit.call.widgets.call_information'|trans,
+		'url': path('mekit_call_widget_info', {id: entity.id})
 		}) }}
 	{% endset %}
 
@@ -62,16 +62,16 @@
 
 	{% set dataBlocks = [
 		{
-			'title': 'mekit.task.sections.general'|trans,
+			'title': 'mekit.call.sections.general'|trans,
 			'class': 'active',
 			'subblocks': [
-				{'data' : [taskInformationWidget]},
+				{'data' : [callInformationWidget]},
 				{'data' : [eventInformationWidget]}
 			]
 		}
 	] %}
 
-	{% set id = 'eventTaskView' %}
+	{% set id = 'eventCallView' %}
 	{% set data = {'dataBlocks': dataBlocks} %}
 	{{ parent() }}
 {% endblock content_data %}
