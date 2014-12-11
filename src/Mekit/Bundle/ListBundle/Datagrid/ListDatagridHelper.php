@@ -16,7 +16,7 @@ class ListDatagridHelper {
 	}
 
 	/**
-	 * @todo: works but very ugly! - we need custom type (extending entity type) where we can specify "group_name" explicitely
+	 * @todo: works but very ugly! - we need custom type (extending entity type) where we can specify "group_name" explicitly
 	 * @return \Doctrine\ORM\QueryBuilder
 	 */
 	public function getListItemQueryBuilderForGroup() {

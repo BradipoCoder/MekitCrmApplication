@@ -38,6 +38,9 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          "dataaudit"={
  *              "auditable"=true
  *          },
+ *          "grouping"={
+ *              "groups"={"activity"}
+ *          },
  *          "mekitevent"={
  *              "eventable"=true,
  *              "label"="Task",
@@ -88,7 +91,6 @@ class Task extends ExtendTask {
 	 * )
 	 */
 	protected $event;
-
 
 	/**
 	 * Constructor

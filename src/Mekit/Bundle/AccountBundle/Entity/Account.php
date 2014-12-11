@@ -472,7 +472,6 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 */
 	public function setId($id) {
 		$this->id = $id;
-
 		return $this;
 	}
 

@@ -12,6 +12,7 @@ mekit:
             account_additional:     Additional Information
             account_addresses:      Address Book
             account_contacts:       Contacts
+            account_tasks:          Tasks
 
         account_actions:            Account actions
 
@@ -19,6 +20,7 @@ mekit:
             general:                General
             addresses:              Addresses
             contacts:               Contacts
+            tasks:                  Tasks
 
         form:
             choose_account:         Choose an account...
@@ -53,7 +55,7 @@ mekit:
         organization.label:         Organization
 
         contacts.label:             Contacts
-        default_contact.label:      Default Contact
+        tasks.label:                Tasks
 
 
         contact:
