@@ -23,3 +23,7 @@ after_script:
 cache:
   directories:
     - $COMPOSER_CACHE_DIR
+
+notifications:
+    on_success: never
+    on_failure: always
