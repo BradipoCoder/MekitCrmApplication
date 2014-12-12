@@ -10,7 +10,7 @@ matrix:
 
 before_script:
   - composer selfupdate
-  - composer install --no-interaction
+  - composer install --prefer-source --no-interaction
   - composer update
 
 script:
