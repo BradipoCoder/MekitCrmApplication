@@ -1,0 +1,7 @@
+items:
+    mekit_create_task_button:
+        template: MekitTaskBundle:Task/placeholders:activityButton.html.twig
+        acl: mekit_task_create
+    mekit_create_task_link:
+        template: MekitTaskBundle:Task/placeholders:activityLink.html.twig
+        acl: mekit_task_create

@@ -41,6 +41,12 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          "grouping"={
  *              "groups"={"activity"}
  *          },
+ *          "activity"={
+ *              "route"="mekit_task_activity_widget",
+ *              "acl"="mekit_event_view",
+ *              "action_button_widget"="mekit_create_task_button",
+ *              "action_link_widget"="mekit_create_task_link"
+ *          },
  *          "mekitevent"={
  *              "eventable"=true,
  *              "label"="Task",

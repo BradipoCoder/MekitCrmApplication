@@ -12,6 +12,9 @@ mekit:
         controller:
             saved.message:          Task saved
 
+        placeholders:
+            register_task:          Register Task
+
         #
         # Mekit/Bundle/TaskBundle/Entity/Task
         #
