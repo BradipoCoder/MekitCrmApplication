@@ -1,7 +1,7 @@
 {
-    "name": "mekit/crm",
+    "name": "mekit/crm-application",
     "description": "Mekit CRM Application",
-    "homepage": "https://github.com/adamjakab/mekit-crm-application.git",
+    "homepage": "https://github.com/adamjakab/MekitCrmApplication.git",
     "license": "MIT",
     "authors": [
         {

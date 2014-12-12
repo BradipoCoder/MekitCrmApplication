@@ -1,0 +1,25 @@
+mekit:
+    contactinfo:
+        #
+        # Mekit/Bundle/ContactInfoBundle/Entity/Address
+        #
+        address:
+            entity_label:               Address
+            entity_plural_label:        Addresses
+            entity_description:         Address
+
+        #
+        # Mekit/Bundle/ContactInfoBundle/Entity/Phone
+        #
+        phone:
+            entity_label:               Phone
+            entity_plural_label:        Phones
+            entity_description:         Phone
+
+        #
+        # Mekit/Bundle/ContactInfoBundle/Entity/Email
+        #
+        email:
+            entity_label:               Email
+            entity_plural_label:        Emails
+            entity_description:         Email

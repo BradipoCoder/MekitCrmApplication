@@ -94,19 +94,6 @@ class AccountType extends AbstractType {
 		$this->listBundleHelper->addListSelectorToFormBuilder($builder, 'industry', 'ACCOUNT_INDUSTRY', 'mekit.account.industry.label');
 		$this->listBundleHelper->addListSelectorToFormBuilder($builder, 'source', 'ACCOUNT_SOURCE', 'mekit.account.source.label');
 
-
-		//email
-		$builder->add(
-				'emails',
-				'oro_email_collection',
-				array(
-					'label'    => 'mekit.account.emails.label',
-					'type'     => 'oro_email',
-					'required' => false,
-					'options'  => array('data_class' => 'Mekit\Bundle\ContactBundle\Entity\ContactEmail')
-				)
-			);
-
 		//addresses
 		$builder->add(
 				'addresses',
@@ -115,9 +102,33 @@ class AccountType extends AbstractType {
 					'label'    => '',
 					'type'     => 'oro_typed_address',
 					'required' => true,
-					'options'  => array('data_class' => 'Mekit\Bundle\AccountBundle\Entity\AccountAddress')
+					'options'  => array('data_class' => 'Mekit\Bundle\ContactInfoBundle\Entity\Address')
 				)
 			);
+
+		//emails
+		$builder->add(
+			'emails',
+			'oro_email_collection',
+			array(
+				'label'    => 'mekit.account.emails.label',
+				'type'     => 'oro_email',
+				'required' => false,
+				'options'  => array('data_class' => 'Mekit\Bundle\ContactInfoBundle\Entity\Email')
+			)
+		);
+
+		//phones
+		$builder->add(
+			'phones',
+			'oro_phone_collection',
+			array(
+				'label'    => 'mekit.account.phones.label',
+				'type'     => 'oro_phone',
+				'required' => false,
+				'options'  => array('data_class' => 'Mekit\Bundle\ContactInfoBundle\Entity\Phone')
+			)
+		);
 
 		//assigned to (user)
 		$builder->add(
@@ -125,21 +136,6 @@ class AccountType extends AbstractType {
 		        'oro_user_select',
 		        array('required' => false, 'label' => 'mekit.account.assigned_to.label')
 	        );
-
-		//phones
-		$builder->add(
-				'phones',
-				'oro_phone_collection',
-				array(
-					'label'    => 'mekit.account.phones.label',
-					'type'     => 'oro_phone',
-					'required' => false,
-					'options'  => array('data_class' => 'Mekit\Bundle\ContactBundle\Entity\ContactPhone')
-				)
-			);
-
-
-
 	}
 
 	/**

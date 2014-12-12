@@ -1,0 +1,20 @@
+oro_menu_config:
+    items:
+        call_list:
+            label: 'mekit.call.entity_plural_label'
+            route: 'mekit_call_index'
+            extras:
+                position: 15
+                routes: ['mekit_call_*']
+                description: 'mekit.call.menu.call_list.description'
+
+    tree:
+        application_menu:
+            children:
+                events_tab:
+                    children:
+                        call_list: ~
+
+oro_titles:
+    mekit_call_index: ~
+

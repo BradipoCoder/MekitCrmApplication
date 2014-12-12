@@ -1,5 +1,5 @@
 Relationship Bundle
 ===================
 
-this bundle is NOT loaded - it needs thinking...
+This bundle is responsible for managing multiple relationships between entities. 
 

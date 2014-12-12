@@ -125,7 +125,6 @@ class TaskController extends Controller {
 	}
 
 
-
 	/**
 	 * @Route("/widget/info/{id}", name="mekit_task_widget_info", requirements={"id"="\d+"})
 	 * @AclAncestor("mekit_event_view")
@@ -136,6 +135,26 @@ class TaskController extends Controller {
 	public function infoAction(Task $entity) {
 		return [
 			'entity' => $entity
+		];
+	}
+
+	/**
+	 * This action is used to render the list of tasks associated with the given entity
+	 * on the view page of this entity
+	 *
+	 * @Route(
+	 *      "/widget/activity/{entityClass}/{entityId}",
+	 *      name="mekit_task_activity_widget"
+	 * )
+	 * @AclAncestor("mekit_event_view")
+	 * @Template(template="MekitTaskBundle:Task/widget:activity.html.twig")
+	 * @param string $entityClass
+	 * @param mixed $entityId
+	 * @return array
+	 */
+	public function activityAction($entityClass, $entityId) {
+		return [
+			'entity' => $this->get('oro_entity.routing_helper')->getEntity($entityClass, $entityId)
 		];
 	}
 

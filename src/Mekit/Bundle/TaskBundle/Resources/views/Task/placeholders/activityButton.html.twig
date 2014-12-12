@@ -1,0 +1,27 @@
+{{ UI.clientButton({
+    'dataUrl': path(
+        'mekit_task_create', {
+            entityClass: oro_class_name(entity, true),
+            entityId: entity.id
+    }) ,
+    'aCss': 'no-hash',
+    'iCss': 'icon-flag',
+    'dataId': entity.id,
+    'label' : 'mekit.task.placeholders.register_task'|trans,
+    'widget' : {
+        'type' : 'dialog',
+        'multiple' : true,
+        'reload-grid-name' : 'task-activity-grid',
+        'options' : {
+            'alias': 'task-dialog',
+            'dialogOptions' : {
+                'title' : 'mekit.task.placeholders.register_task'|trans,
+                'allowMaximize': true,
+                'allowMinimize': true,
+                'dblclick': 'maximize',
+                'maximizedHeightDecreaseBy': 'minimize-bar',
+                'width': 1000
+            }
+        }
+    }
+}) }}

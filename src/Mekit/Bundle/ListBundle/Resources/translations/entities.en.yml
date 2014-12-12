@@ -27,6 +27,10 @@ listgroup:
         label:          'Priority'
         description:    'Event priorities'
         empty_value:    '--- Select one ---'
+    CALL_OUTCOME:
+        label:          'Outcome'
+        description:    'Call outcome results'
+        empty_value:    '--- Select one ---'
 
 listitem:
     ACCOUNT_TYPE:
@@ -55,3 +59,13 @@ listitem:
       NORMAL:           'Normal'
       LOW:              'Low'
       HIGH:             'High'
+    CALL_OUTCOME:
+      BADNUMBER:        'Bad Number'
+      BUSY:             'Busy'
+      NEGATIVE:         'Negative'
+      NOANSWER:         'No Answer'
+      PLANNED:          'Planned'
+      POSITIVE:         'Positive'
+      RECALL:           'Recall'
+      UNLISTENED:       'Refused to Listen'
+

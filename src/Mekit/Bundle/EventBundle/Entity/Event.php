@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Mekit\Bundle\AccountBundle\Model\ExtendAccount;
+use Mekit\Bundle\CallBundle\Entity\Call;
 use Mekit\Bundle\EventBundle\Model\ExtendEvent;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
 use Mekit\Bundle\MeetingBundle\Entity\Meeting;
@@ -183,6 +184,14 @@ class Event extends ExtendEvent{
 	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\MeetingBundle\Entity\Meeting", inversedBy="event", cascade={"all"}, orphanRemoval=true)
 	 */
 	protected $meeting;
+
+	/**
+	 * @var Call
+	 *
+	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\CallBundle\Entity\Call", inversedBy="event", cascade={"all"}, orphanRemoval=true)
+	 */
+	protected $call;
+
 
 	/**
 	 * Constructor
@@ -420,6 +429,22 @@ class Event extends ExtendEvent{
 	 */
 	public function setMeeting(Meeting $meeting) {
 		$this->meeting = $meeting;
+		return $this;
+	}
+
+	/**
+	 * @return Call
+	 */
+	public function getCall() {
+		return $this->call;
+	}
+
+	/**
+	 * @param Call $call
+	 * @return $this
+	 */
+	public function setCall(Call $call) {
+		$this->call = $call;
 		return $this;
 	}
 

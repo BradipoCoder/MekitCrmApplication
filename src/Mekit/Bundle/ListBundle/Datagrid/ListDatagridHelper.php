@@ -3,60 +3,28 @@ namespace Mekit\Bundle\ListBundle\Datagrid;
 
 use Doctrine\ORM\Query;
 use Doctrine\ORM\EntityRepository;
+use Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository;
 
 class ListDatagridHelper {
-
-
 	/**
-	 * ACCOUNT_TYPE
-	 * @return callable
+	 * @var ListItemRepository
 	 */
-	public function getListItemQueryBuilder_ACCOUNT_TYPE() {
-		return function (EntityRepository $er) {
-			return $this->getListItemQueryBuilderForGroup($er, "ACCOUNT_TYPE");
-		};
+	private $listItemRepository;
+
+	public function __construct(ListItemRepository $listItemRepository) {
+		$this->listItemRepository = $listItemRepository;
 	}
 
 	/**
-	 * ACCOUNT_INDUSTRY
-	 * @return callable
-	 */
-	public function getListItemQueryBuilder_ACCOUNT_INDUSTRY() {
-		return function (EntityRepository $er) {
-			return $this->getListItemQueryBuilderForGroup($er, "ACCOUNT_INDUSTRY");
-		};
-	}
-
-	/**
-	 * ACCOUNT_STATE
-	 * @return callable
-	 */
-	public function getListItemQueryBuilder_ACCOUNT_STATE() {
-		return function (EntityRepository $er) {
-			return $this->getListItemQueryBuilderForGroup($er, "ACCOUNT_STATE");
-		};
-	}
-
-	/**
-	 * ACCOUNT_SOURCE
-	 * @return callable
-	 */
-	public function getListItemQueryBuilder_ACCOUNT_SOURCE() {
-		return function (EntityRepository $er) {
-			return $this->getListItemQueryBuilderForGroup($er, "ACCOUNT_SOURCE");
-		};
-	}
-
-	/**
-	 * @param EntityRepository $er
-	 * @param  String $listGroupName
+	 * @todo: works but very ugly! - we need custom type (extending entity type) where we can specify "group_name" explicitly
 	 * @return \Doctrine\ORM\QueryBuilder
 	 */
-	private function getListItemQueryBuilderForGroup(EntityRepository $er, $listGroupName) {
-		return $er->createQueryBuilder('li')
-			->innerJoin("li.listGroup", "lg")
-			->where('lg.name = :list_group_name')
-			->orderBy('li.label', 'ASC')
-			->setParameter('list_group_name', $listGroupName);
+	public function getListItemQueryBuilderForGroup() {
+		$args = func_get_args();
+		if(isset($args) && isset($args[2]) && isset($args[2]["attr"]) && isset($args[2]["attr"]["group_name"])) {
+			return($this->listItemRepository->getListItemQueryBuilder($args[2]["attr"]["group_name"]));
+		} else {
+			throw new \LogicException("Missing 'group_name' parameter in passed arguments: " . json_encode($args));
+		}
 	}
 }

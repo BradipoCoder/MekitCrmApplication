@@ -1,7 +1,8 @@
 parameters:
-#    mekit_relationship.example.class: Mekit\Bundle\RelationshipBundle\Example
+    mekit_relationship.relationship.extension.relationship.class:            Mekit\Bundle\RelationshipBundle\Migration\Extension\RelationshipExtension
 
 services:
-#    mekit_relationship.example:
-#        class: %mekit_relationship.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    mekit_relationship.migration.extension.relationship:
+        class: %mekit_relationship.relationship.extension.relationship.class%
+        tags:
+            - { name: oro_migration.extension, extension_name: relationship }

@@ -8,12 +8,7 @@ use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareInterf
 use Oro\Bundle\EntityExtendBundle\Migration\OroOptions;
 use Oro\Bundle\EntityExtendBundle\Tools\ExtendHelper;
 
-/**
- * Class RelationshipExtension
- */
 class RelationshipExtension implements ExtendExtensionAwareInterface {
-	const RELATIONSHIP_TABLE_NAME = 'mekit_relationship';
-
 	/** @var ExtendExtension */
 	protected $extendExtension;
 
@@ -25,54 +20,88 @@ class RelationshipExtension implements ExtendExtensionAwareInterface {
 	}
 
 	/**
-	 * Adds the associations as both source and target between the target table and the relationship table
+	 * Adds the association between the target table and the source table
 	 *
 	 * @param Schema $schema
-	 * @param string $targetTableName Target entity table name
-	 * @param string $targetColumnName A column name is used to show related entity
+	 * @param string $sourceTableName - Source entity table name. It is owning side of the association
+	 * @param string $targetTableName - Target entity table name
+	 * @param array $targetTitleColumnNames
+	 * @param array $targetDetailedColumnNames
+	 * @param array $targetGridColumnNames
+	 * @param array $relationshipOptions
+	 * @param bool   $immutable       - Set TRUE to prohibit disabling the relationship from UI
 	 */
-	public function addNoteAssociation(
+	public function addRelationship(
 		Schema $schema,
+		$sourceTableName,
 		$targetTableName,
-		$targetColumnName = null
+		$targetTitleColumnNames = null,
+		$targetDetailedColumnNames = null,
+		$targetGridColumnNames = null,
+		$relationshipOptions = null,
+		$immutable = false
 	) {
-		$relationshipTable = $schema->getTable(self::RELATIONSHIP_TABLE_NAME);
-		$targetTable = $schema->getTable($targetTableName);
-
-		if (empty($targetColumnName)) {
-			$primaryKeyColumns = $targetTable->getPrimaryKeyColumns();
-			$targetColumnName = array_shift($primaryKeyColumns);
-		}
-
-		$options = new OroOptions();
-		$options->set('relationship', 'enabled', true);
-		$targetTable->addOption(OroOptions::KEY, $options);
-
 		//SOURCE
-		$sourceAssociationName = ExtendHelper::buildAssociationName(
-			$this->extendExtension->getEntityClassByTableName($targetTableName), 'rel_source'
-		);
-
-		$this->extendExtension->addManyToOneRelation(
-			$schema,
-			$relationshipTable,
-			$sourceAssociationName,
-			$targetTable,
-			$targetColumnName
-		);
+		$sourceTable = $schema->getTable($sourceTableName);
+		$sourceClassName = $this->extendExtension->getEntityClassByTableName($sourceTableName);
 
 		//TARGET
-		$targetAssociationName = ExtendHelper::buildAssociationName(
-			$this->extendExtension->getEntityClassByTableName($targetTableName), 'rel_target'
-		);
+		$targetTable = $schema->getTable($targetTableName);
+		$targetClassName = $this->extendExtension->getEntityClassByTableName($targetTableName);
+		if (!$targetTitleColumnNames) {
+			// Column names used to show the title of the target entity
+			$targetTitleColumnNames = $targetTable->getPrimaryKeyColumns();
+		}
+		if (!$targetDetailedColumnNames) {
+			// Column names used to show detailed information about the target entity
+			$targetDetailedColumnNames = $targetTable->getPrimaryKeyColumns();
+		}
+		if (!$targetGridColumnNames) {
+			// Column names used to show target entity in a grid
+			$targetGridColumnNames = $targetTable->getPrimaryKeyColumns();
+		}
 
-		$this->extendExtension->addManyToOneRelation(
+		//TARGET OPTIONS
+		//@todo: make options for this
+		//@todo: do we need to do the same for source table?
+		if(true) {
+			$options = new OroOptions();
+			$options->set('relationship', 'enabled', true);
+			/*
+			$options->append(
+				'relationship',
+				'relationships',
+				$sourceClassName
+			);
+			if ($immutable) {
+				$options->append(
+					'relationship',
+					'immutable',
+					$sourceClassName
+				);
+			}*/
+			$targetTable->addOption(OroOptions::KEY, $options);
+		}
+
+		$associationName = ExtendHelper::buildAssociationName($targetClassName, 'relationship_'.$sourceClassName);
+
+		//ASSOCIATION OPTIONS
+		if (!$relationshipOptions) {
+			$relationshipOptions = [];
+		}
+		$relationshipOptions['extend']['without_default'] = true;
+
+		//CREATE THE ASSOCIATION
+		$this->extendExtension->addManyToManyRelation(
 			$schema,
-			$relationshipTable,
-			$targetAssociationName,
+			$sourceTable,
+			$associationName,
 			$targetTable,
-			$targetColumnName
+			$targetTitleColumnNames,
+			$targetDetailedColumnNames,
+			$targetGridColumnNames,
+			$relationshipOptions,
+			'manyToMany'
 		);
-
 	}
 }

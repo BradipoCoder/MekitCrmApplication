@@ -8,11 +8,13 @@ mekit:
             shortcut_list_contacts.description: List of contacts
         widgets:
             contact_information:    Contact Information
+            contact_addresses:      Address Book
 
         contact_actions:            Contact actions
 
         sections:
             general:                General
+            addresses:              Addresses
 
         form:
             choose_account:         Choose an account...
@@ -56,12 +58,3 @@ mekit:
         skype.label:         Skype
         social.label:        Social
         twitter.label:       Twitter
-
-
-        #
-        # Mekit/Bundle/ContactBundle/Entity/ContactAddress
-        #
-        contactaddress:
-            entity_label:               Address
-            entity_plural_label:        Addresses
-            entity_description:         Address

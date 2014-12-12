@@ -70,7 +70,9 @@ datagrid:
                       field_options:
                         class:     MekitListBundle:ListItem
                         property:  label
-                        query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilder_ACCOUNT_TYPE
+                        query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilderForGroup
+                        attr:
+                            group_name: 'ACCOUNT_TYPE'
                         multiple: true
                 state:
                     type:      entity
@@ -79,7 +81,9 @@ datagrid:
                       field_options:
                         class:     MekitListBundle:ListItem
                         property:  label
-                        query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilder_ACCOUNT_STATE
+                        query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilderForGroup
+                        attr:
+                            group_name: 'ACCOUNT_STATE'
                         multiple: true
                 industry:
                     type:      entity
@@ -88,7 +92,9 @@ datagrid:
                       field_options:
                         class:     MekitListBundle:ListItem
                         property:  label
-                        query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilder_ACCOUNT_INDUSTRY
+                        query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilderForGroup
+                        attr:
+                            group_name: 'ACCOUNT_INDUSTRY'
                         multiple: true
                 source:
                     type:      entity
@@ -97,7 +103,9 @@ datagrid:
                       field_options:
                         class:     MekitListBundle:ListItem
                         property:  label
-                        query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilder_ACCOUNT_SOURCE
+                        query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilderForGroup
+                        attr:
+                            group_name: 'ACCOUNT_SOURCE'
                         multiple: true
 
         properties:

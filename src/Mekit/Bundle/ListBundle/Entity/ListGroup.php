@@ -105,6 +105,7 @@ class ListGroup {
 	 * Constructor
 	 */
 	public function __construct() {
+		$this->system = false;
 		$this->items = new ArrayCollection();
 	}
 

@@ -43,12 +43,25 @@
 		}) }}
 	{% endset %}
 
+	{% set addressBookWidget %}
+        {{ oro_widget_render({
+            'widgetType': 'block',
+            'contentClasses': [],
+            'title': 'mekit.contact.widgets.contact_addresses'|trans,
+            'url': path('mekit_contact_address_book', {id: entity.id})
+        }) }}
+    {% endset %}
+
 	{% set dataBlocks = [
 		{
 		'title': 'mekit.contact.sections.general'|trans,
 		'class': 'active',
 		'subblocks': [ {'data' : [contactInformationWidget]} ]
-		}
+		},
+		{
+		'title': 'mekit.contact.sections.addresses'|trans,
+		'subblocks': [ {'data' : [addressBookWidget]} ]
+		},
 	] %}
 
 	{% set id = 'contactView' %}

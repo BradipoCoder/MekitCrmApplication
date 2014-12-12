@@ -1,0 +1,131 @@
+datagrid:
+    calls-grid:
+        extended_entity_name: %mekit_call.call.entity.class%
+        source:
+            type:           orm
+            acl_resource:   mekit_event_view
+            query:
+                select:
+                    - c.id as linkRefId
+                    - c.description
+                    - c.direction
+                    - callOutcome.label as outcome
+                    - e.name
+                    - e.type
+                    - e.startDate
+                    - e.endDate
+                    - e.duration
+                    - eventState.label as state
+                    - eventPriority.label as priority
+                from:
+                    - { table: %mekit_call.call.entity.class%, alias: c }
+                join:
+                    left:
+                        - { join: c.event, alias: e }
+                        - { join: c.outcome, alias: callOutcome }
+                        - { join: e.owner, alias: eventOwner }
+                        - { join: e.state, alias: eventState }
+                        - { join: e.priority, alias: eventPriority }
+
+        columns:
+            type_icon:
+                data_name:      type
+                label:          mekit.event.type.label
+                type:           twig
+                frontend_type:  html
+                template:       MekitEventBundle:Event:Datagrid/Property/eventIcon.html.twig
+            direction:
+                data_name:      direction
+                label:          mekit.call.direction.label
+                type:           twig
+                frontend_type:  html
+                template:       MekitCallBundle:Call:Datagrid/Property/callDirection.html.twig
+            linked_name:
+                data_name:      type
+                label:          mekit.event.name.label
+                type:           twig
+                frontend_type:  html
+                template:       MekitEventBundle:Event:Datagrid/Property/eventLink.html.twig
+                context:
+                    config_route_key:     view_route_name
+            state:
+                label:         mekit.event.state.label
+            outcome:
+                label:         mekit.call.outcome.label
+            startDate:
+                label:         mekit.event.start_date.label
+                frontend_type: date
+            endDate:
+                label:         mekit.event.end_date.label
+                frontend_type: date
+            duration:
+                label:         mekit.event.duration.label
+            priority:
+                label:         mekit.event.priority.label
+
+        sorters:
+            columns:
+                linked_name:
+                    data_name: e.name
+                direction:
+                    data_name: c.direction
+                state:
+                    data_name: eventState.label
+                outcome:
+                    data_name: callOutcome.label
+                startDate:
+                    data_name: e.startDate
+                endDate:
+                    data_name: e.endDate
+                duration:
+                    data_name: e.duration
+                priority:
+                    data_name: eventPriority.label
+
+        filters:
+            columns:
+                linked_name:
+                    type:      string
+                    data_name: e.name
+                state:
+                    type:      entity
+                    data_name: eventState.id
+                    options:
+                        field_options:
+                          class:     MekitListBundle:ListItem
+                          property:  label
+                          query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilderForGroup
+                          attr:
+                              group_name: 'EVENT_STATE'
+                          multiple: true
+                priority:
+                    type:      entity
+                    data_name: eventPriority.id
+                    options:
+                        field_options:
+                          class:     MekitListBundle:ListItem
+                          property:  label
+                          query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilderForGroup
+                          attr:
+                              group_name: 'EVENT_PRIORITY'
+                          multiple: true
+                direction:
+                    type:           choice
+                    data_name:      c.direction
+                    options:
+                        field_options:
+                            choices:
+                                in:     mekit.call.direction.in.label
+                                out:    mekit.call.direction.out.label
+                outcome:
+                    type:           entity
+                    data_name:      callOutcome.id
+                    options:
+                        field_options:
+                          class:     MekitListBundle:ListItem
+                          property:  label
+                          query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilderForGroup
+                          attr:
+                              group_name: 'CALL_OUTCOME'
+                          multiple: true
+

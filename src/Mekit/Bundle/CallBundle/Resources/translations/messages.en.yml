@@ -1,0 +1,33 @@
+mekit:
+    call:
+        menu:
+            call_list.description:  List of calls
+
+        widgets:
+            call_information:       Call Information
+
+        sections:
+            general:                General Information
+
+        controller:
+            saved.message:          Call saved
+
+        #
+        # Mekit/Bundle/CallBundle/Entity/Call
+        #
+        entity_label:               Call
+        entity_plural_label:        Calls
+        entity_description:         Call
+
+        id.label:                   Id
+        event.label:                Event
+        description.label:          Description
+        direction.label:            Direction
+        outcome.label:              Outcome
+
+
+
+
+        #Call direction labels
+        direction.in.label:         In
+        direction.out.label:        Out

@@ -2,14 +2,14 @@
 namespace Mekit\Bundle\RelationshipBundle\Migration\Extension;
 
 /**
- * Interface RelationshipExtensionAwareInterface
- * Should be implemented by migrations that depend on the RelationshipExtension
+ * RelationshipExtensionAwareInterface should be implemented by migrations that depend on RelationshipExtension.
  */
-interface RelationshipExtensionAwareInterface {
-	/**
-	 * Sets the Relationship
-	 *
-	 * @param RelationshipExtension $relationshipExtension
-	 */
-	public function setNoteExtension(RelationshipExtension $relationshipExtension);
+interface RelationshipExtensionAwareInterface
+{
+    /**
+     * Sets the RelationshipExtension
+     *
+     * @param RelationshipExtension $relationshipExtension
+     */
+    public function setRelationshipExtension(RelationshipExtension $relationshipExtension);
 }

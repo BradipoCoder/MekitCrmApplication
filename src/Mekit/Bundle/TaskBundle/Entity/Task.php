@@ -38,6 +38,15 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          "dataaudit"={
  *              "auditable"=true
  *          },
+ *          "grouping"={
+ *              "groups"={"activity"}
+ *          },
+ *          "activity"={
+ *              "route"="mekit_task_activity_widget",
+ *              "acl"="mekit_event_view",
+ *              "action_button_widget"="mekit_create_task_button",
+ *              "action_link_widget"="mekit_create_task_link"
+ *          },
  *          "mekitevent"={
  *              "eventable"=true,
  *              "label"="Task",
@@ -81,14 +90,13 @@ class Task extends ExtendTask {
 	/**
 	 * @var Event
 	 *
-	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\EventBundle\Entity\Event", mappedBy="task", cascade={"all"}, orphanRemoval=true)
+	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\EventBundle\Entity\Event", mappedBy="task", cascade={"all"})
 	 * @Soap\ComplexType("Mekit\Bundle\EventBundle\Entity\Event", nillable=false)
 	 * @ConfigField(
 	 *      defaultValues={}
 	 * )
 	 */
 	protected $event;
-
 
 	/**
 	 * Constructor

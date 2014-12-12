@@ -78,3 +78,26 @@ EVENT_PRIORITY:
       system:       true
     HIGH:
       system:       true
+CALL_OUTCOME:
+  item_prefix:    CLOCM_
+  required:       true
+  system:         true
+  items:
+    PLANNED:
+      default_item: true
+      system:       true
+    BADNUMBER:
+      system:       true
+    BUSY:
+      system:       true
+    NEGATIVE:
+      system:       true
+    NOANSWER:
+      system:       true
+    POSITIVE:
+      system:       true
+    RECALL:
+      system:       true
+    UNLISTENED:
+      system:       true
+

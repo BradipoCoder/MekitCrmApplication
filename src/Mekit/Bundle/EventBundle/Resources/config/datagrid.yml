@@ -18,6 +18,7 @@ datagrid:
                       CASE
                         WHEN evTask.id IS NOT NULL THEN evTask.id
                         WHEN evMeeting.id IS NOT NULL THEN evMeeting.id
+                        WHEN evCall.id IS NOT NULL THEN evCall.id
                         ELSE ''
                         END as linkRefId
                 from:
@@ -29,6 +30,7 @@ datagrid:
                         - { join: e.priority, alias: eventPriority }
                         - { join: e.task, alias: evTask }
                         - { join: e.meeting, alias: evMeeting }
+                        - { join: e.call, alias: evCall }
 
         columns:
             type_icon:

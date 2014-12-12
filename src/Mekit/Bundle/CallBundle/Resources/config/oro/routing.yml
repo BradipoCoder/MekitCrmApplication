@@ -1,0 +1,13 @@
+mekit_call_bundle:
+    resource:     "@MekitCallBundle/Controller"
+    type:         annotation
+    prefix:       /call
+
+#mekit_account_bundle_api:
+#    resource: "@MekitAccountBundle/Resources/config/oro/routing_api.yml"
+#    type: rest
+#    prefix:       api/rest/{version}
+#    requirements:
+#        version:  latest|v1
+#    defaults:
+#        version:  latest

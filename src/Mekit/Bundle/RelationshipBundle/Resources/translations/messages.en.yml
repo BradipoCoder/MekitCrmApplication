@@ -1,0 +1,15 @@
+mekit:
+    relationship:
+
+        #
+        # Mekit/Bundle/RelationshipBundle/Entity/Relationship
+        #
+        entity_label:               Relationship
+        entity_plural_label:        Relationships
+        entity_description:         Relationship
+
+        id.label:                   Id
+        owner_entity.label:         Owner Entity
+        owner_id.label:             Owner Id
+        owned_entity.label:         Owned Entity
+        owned_id.label:             Owned Id
