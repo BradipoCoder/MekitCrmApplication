@@ -31,8 +31,8 @@ build:
   dependencies:
     before:
     override:
-      - { command: 'composer install --prefer-source --no-interaction', idle_timeout: 1800, only_if: 'test -e composer.lock' }
-      - { command: 'true' }
+#      - { command: 'composer install --prefer-source --no-interaction', idle_timeout: 1800, only_if: 'test -e composer.lock' }
+#      - { command: 'true' }
     after:
   project_setup:
   tests:
