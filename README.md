@@ -6,5 +6,5 @@ The Mekit CRM Application
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/adamjakab/MekitCrmApplication/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/adamjakab/MekitCrmApplication/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/adamjakab/MekitCrmApplication/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/adamjakab/MekitCrmApplication/?branch=master)
 
-To be written...
+To be written....
 
