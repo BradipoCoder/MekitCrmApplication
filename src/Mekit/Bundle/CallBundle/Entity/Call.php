@@ -81,7 +81,7 @@ class Call extends ExtendCall {
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(type="text", length=4, nullable=false)
+	 * @ORM\Column(type="string", length=4, nullable=false)
 	 * @Soap\ComplexType("string", nillable=false)
 	 * @Oro\Versioned
 	 * @ConfigField(
