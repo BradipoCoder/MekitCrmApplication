@@ -11,7 +11,6 @@ matrix:
 before_script:
   - composer selfupdate
   - composer install --prefer-source --no-interaction
-  - composer update
 
 script:
   - phpunit -c phpunit.xml.dist --coverage-text --coverage-clover=coverage.clover
