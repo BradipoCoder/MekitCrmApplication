@@ -12,9 +12,6 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
  */
 class MekitAccountBundle implements Migration {
 	public static $tableNameAccount = "mekit_account";
-	public static $tableNameAccountAddress = "mekit_account_address";
-	public static $tableNameAccountAddressToType = "mekit_account_adr_to_adr_type";
-
 
 	/**
 	 * @param Schema   $schema
@@ -23,8 +20,6 @@ class MekitAccountBundle implements Migration {
 	public function up(Schema $schema, QueryBag $queries) {
 		/** Tables and foreign keys generation **/
 		$this->createMekitAccountTable($schema);
-		$this->createMekitAccountAddressTable($schema);
-		$this->createMekitAccountAdrToAdrTypeTable($schema);
 	}
 
 	/**
@@ -115,95 +110,6 @@ class MekitAccountBundle implements Migration {
 			['id'],
 			['onDelete' => null, 'onUpdate' => null],
 			'fk_account_industry'
-		);
-	}
-
-	/**
-	 * Create mekit_account_address table
-	 *
-	 * @param Schema $schema
-	 */
-	protected function createMekitAccountAddressTable(Schema $schema) {
-		$table = $schema->createTable(self::$tableNameAccountAddress);
-		$table->addColumn('id', 'integer', ['autoincrement' => true]);
-		$table->addColumn('owner_id', 'integer', ['notnull' => false]);
-		$table->addColumn('region_code', 'string', ['notnull' => false, 'length' => 16]);
-		$table->addColumn('country_code', 'string', ['notnull' => false, 'length' => 2]);
-		$table->addColumn('is_primary', 'boolean', ['notnull' => false]);
-		$table->addColumn('label', 'string', ['notnull' => false, 'length' => 255]);
-		$table->addColumn('street', 'string', ['notnull' => false, 'length' => 500]);
-		$table->addColumn('street2', 'string', ['notnull' => false, 'length' => 500]);
-		$table->addColumn('city', 'string', ['notnull' => false, 'length' => 255]);
-		$table->addColumn('postal_code', 'string', ['notnull' => false, 'length' => 20]);
-		$table->addColumn('organization', 'string', ['notnull' => false, 'length' => 255]);
-		$table->addColumn('region_text', 'string', ['notnull' => false, 'length' => 255]);
-		$table->addColumn('name_prefix', 'string', ['notnull' => false, 'length' => 255]);
-		$table->addColumn('first_name', 'string', ['notnull' => false, 'length' => 255]);
-		$table->addColumn('middle_name', 'string', ['notnull' => false, 'length' => 255]);
-		$table->addColumn('last_name', 'string', ['notnull' => false, 'length' => 255]);
-		$table->addColumn('name_suffix', 'string', ['notnull' => false, 'length' => 255]);
-		$table->addColumn('created', 'datetime', []);
-		$table->addColumn('updated', 'datetime', []);
-
-		//INDEXES
-		$table->setPrimaryKey(['id']);
-		$table->addIndex(['owner_id'], 'idx_address_owner', []);
-		$table->addIndex(['country_code'], 'idx_address_country_code', []);
-		$table->addIndex(['region_code'], 'idx_address_region_code', []);
-
-		//FOREIGN KEYS
-		$table->addForeignKeyConstraint(
-			$schema->getTable(self::$tableNameAccount),
-			['owner_id'],
-			['id'],
-			['onDelete' => 'CASCADE', 'onUpdate' => null],
-			'fk_account_address_owner'
-		);
-		$table->addForeignKeyConstraint(
-			$schema->getTable('oro_dictionary_country'),
-			['country_code'],
-			['iso2_code'],
-			['onDelete' => null, 'onUpdate' => null],
-			'fk_account_address_country'
-		);
-		$table->addForeignKeyConstraint(
-			$schema->getTable('oro_dictionary_region'),
-			['region_code'],
-			['combined_code'],
-			['onDelete' => null, 'onUpdate' => null],
-			'fk_account_address_region'
-		);
-	}
-
-	/**
-	 * Create mekit_account_adr_to_adr_type table
-	 *
-	 * @param Schema $schema
-	 */
-	protected function createMekitAccountAdrToAdrTypeTable(Schema $schema) {
-		$table = $schema->createTable(self::$tableNameAccountAddressToType);
-		$table->addColumn('account_address_id', 'integer', []);
-		$table->addColumn('type_name', 'string', ['length' => 16]);
-
-		//INDEXES
-		$table->setPrimaryKey(['account_address_id', 'type_name']);
-		$table->addIndex(['account_address_id'], 'idx_addresstype_addressid', []);
-		$table->addIndex(['type_name'], 'idx_addresstype_type_name', []);
-
-		//FOREIGN KEYS
-		$table->addForeignKeyConstraint(
-			$schema->getTable(self::$tableNameAccountAddress),
-			['account_address_id'],
-			['id'],
-			['onDelete' => 'CASCADE', 'onUpdate' => null],
-			'fk_account_addresstype_addressid'
-		);
-		$table->addForeignKeyConstraint(
-			$schema->getTable('oro_address_type'),
-			['type_name'],
-			['name'],
-			['onDelete' => null, 'onUpdate' => null],
-			'fk_account_addresstype_type_name'
 		);
 	}
 }
