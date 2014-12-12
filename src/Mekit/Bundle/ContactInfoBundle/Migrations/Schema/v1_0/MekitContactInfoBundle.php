@@ -1,5 +1,5 @@
 <?php
-namespace Mekit\Bundle\ContactInfoBundle\Migrations\v1_0;
+namespace Mekit\Bundle\ContactInfoBundle\Migrations\Schema\v1_0;
 
 use Doctrine\DBAL\Schema\Schema;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
