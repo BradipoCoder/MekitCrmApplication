@@ -32,15 +32,20 @@ build:
   dependencies:
     before:
     override:
-      - { command: 'composer install --prefer-source --no-interaction', idle_timeout: 1800 }
+      #- { command: 'composer install --prefer-source --no-interaction', idle_timeout: 1800 }
+      - { command: 'true' }
     after:
-  project_setup:
+#  project_setup:
+#    override:
+#      - { command: 'composer install --prefer-source --no-interaction', idle_timeout: 1800 }
   tests:
 
 application:
-  project_setup:
-    before:
-      - mysql -uroot -e 'CREATE DATABASE mekitcrm'
-    override:
-      - { command: 'composer install --prefer-source --no-interaction', idle_timeout: 1800 }
-    after:
+  type: none
+#  environment:
+#    php:
+#      version: hhvm
+#  project_setup:
+#    before:
+#      - mysql -uroot -e 'CREATE DATABASE mekitcrm'
+#    after:
