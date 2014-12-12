@@ -17,9 +17,9 @@ tools:
   php_loc: true
   php_cpd: true
   php_code_coverage: false
-  external_code_coverage:
-      timeout: 1800
-      runs: 2
+#  external_code_coverage:
+#      timeout: 1800
+#      runs: 2
 
 checks:
     php:
@@ -36,3 +36,11 @@ build:
     after:
   project_setup:
   tests:
+
+application:
+  project_setup:
+    before:
+      - mysql -uroot -e 'CREATE DATABASE mekitcrm'
+    override:
+      - { command: 'composer install --prefer-source --no-interaction', idle_timeout: 1800 }
+    after:
