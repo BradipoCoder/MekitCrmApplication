@@ -42,9 +42,9 @@ build:
 
 application:
   type: none
-#  environment:
-#    php:
-#      version: hhvm
+  environment:
+    php:
+      version: hhvm
 #  project_setup:
 #    before:
 #      - mysql -uroot -e 'CREATE DATABASE mekitcrm'
