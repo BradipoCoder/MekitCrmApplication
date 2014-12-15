@@ -17,9 +17,9 @@ tools:
   php_loc: true
   php_cpd: true
   php_code_coverage: false
-#  external_code_coverage:
-#      timeout: 1800
-#      runs: 2
+  external_code_coverage:
+      timeout: 1800
+      runs: 2
 
 checks:
     php:
@@ -32,19 +32,16 @@ build:
   dependencies:
     before:
     override:
-      #- { command: 'composer install --prefer-source --no-interaction', idle_timeout: 1800 }
+      - { command: 'composer install --prefer-source --no-interaction', idle_timeout: 1800 }
       - { command: 'true' }
     after:
-#  project_setup:
-#    override:
-#      - { command: 'composer install --prefer-source --no-interaction', idle_timeout: 1800 }
   tests:
 
 application:
   type: none
   environment:
     php:
-      version: hhvm
+      version: 5.5.12
 #  project_setup:
 #    before:
 #      - mysql -uroot -e 'CREATE DATABASE mekitcrm'
