@@ -2,11 +2,30 @@ parameters:
 #    mekit_relationship.relationship.manager.api.class:               Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
 
     mekit_relationship.type.relationship_select.class:               Mekit\Bundle\RelationshipBundle\Form\Type\RelationshipSelectType
+    mekit_relationship.type.referenceable_element.class:             Mekit\Bundle\RelationshipBundle\Form\Type\ReferenceableElementType
 
 #    mekit_relationship.handler.relationship.class:                   Mekit\Bundle\RelationshipBundle\Form\Handler\RelationshipHandler
 
 services:
+    mekit_relationship.form.referenceable_element:
+        class: Symfony\Component\Form\Form
+        factory_method: createNamed
+        factory_service: form.factory
+        arguments: ["mekit_referenceable_element_form", "mekit_referenceable_element", null]
+
+    mekit_relationship.form.type.referenceable_element:
+        class: %mekit_relationship.type.referenceable_element.class%
+        arguments:
+            - @router
+            - @oro_locale.formatter.name
+            - @oro_security.security_facade
+        tags:
+            - { name: form.type, alias: mekit_referenceable_element }
+
+
+
     mekit_relationship.form.type.relationship_select:
             class: %mekit_relationship.type.relationship_select.class%
             tags:
                 - { name: form.type, alias: mekit_relationship_select }
+

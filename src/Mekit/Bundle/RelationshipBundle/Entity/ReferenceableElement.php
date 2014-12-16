@@ -50,10 +50,8 @@ class ReferenceableElement {
 	protected $references;
 
 	/**
-	 * @param string $type
 	 */
-	public function __construct($type) {
-		$this->type = $type;
+	public function __construct() {
 		$this->referrals = new ArrayCollection();
 		$this->references = new ArrayCollection();
 	}

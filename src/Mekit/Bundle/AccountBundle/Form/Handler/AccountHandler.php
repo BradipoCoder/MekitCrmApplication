@@ -73,7 +73,7 @@ class AccountHandler implements TagHandlerInterface {
 	 * @param Account $entity
 	 */
 	protected function onSuccess(Account $entity) {
-		$this->doReferenceableStuff($entity);
+		//$this->doReferenceableStuff($entity);
 		$this->manager->persist($entity);
 		$this->manager->flush();
 		$this->tagManager->saveTagging($entity);

@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\Collection;
 
 use Doctrine\ORM\EntityRepository;
 use Mekit\Bundle\ListBundle\Entity\ListGroup;
+use Mekit\Bundle\RelationshipBundle\Form\Type\ReferenceableElementType;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Mekit\Bundle\ListBundle\Helper\FormHelper;
@@ -60,7 +61,7 @@ class AccountType extends AbstractType {
 	 * @param Router         $router
 	 * @param NameFormatter  $nameFormatter
 	 * @param SecurityFacade $securityFacade
-	 * @param FormHelper $listBundleHelper - temporary solution!
+	 * @param FormHelper     $listBundleHelper - temporary solution!
 	 */
 	public function __construct(Router $router, NameFormatter $nameFormatter, SecurityFacade $securityFacade, FormHelper $listBundleHelper) {
 		$this->nameFormatter = $nameFormatter;
@@ -75,7 +76,6 @@ class AccountType extends AbstractType {
 	 * @param array                $options
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-
 
 
 		$builder
@@ -96,25 +96,25 @@ class AccountType extends AbstractType {
 
 		//addresses
 		$builder->add(
-				'addresses',
-				'oro_address_collection',
-				array(
-					'label'    => '',
-					'type'     => 'oro_typed_address',
-					'required' => true,
-					'options'  => array('data_class' => 'Mekit\Bundle\ContactInfoBundle\Entity\Address')
-				)
-			);
+			'addresses',
+			'oro_address_collection',
+			array(
+				'label' => '',
+				'type' => 'oro_typed_address',
+				'required' => true,
+				'options' => array('data_class' => 'Mekit\Bundle\ContactInfoBundle\Entity\Address')
+			)
+		);
 
 		//emails
 		$builder->add(
 			'emails',
 			'oro_email_collection',
 			array(
-				'label'    => 'mekit.account.emails.label',
-				'type'     => 'oro_email',
+				'label' => 'mekit.account.emails.label',
+				'type' => 'oro_email',
 				'required' => false,
-				'options'  => array('data_class' => 'Mekit\Bundle\ContactInfoBundle\Entity\Email')
+				'options' => array('data_class' => 'Mekit\Bundle\ContactInfoBundle\Entity\Email')
 			)
 		);
 
@@ -123,19 +123,22 @@ class AccountType extends AbstractType {
 			'phones',
 			'oro_phone_collection',
 			array(
-				'label'    => 'mekit.account.phones.label',
-				'type'     => 'oro_phone',
+				'label' => 'mekit.account.phones.label',
+				'type' => 'oro_phone',
 				'required' => false,
-				'options'  => array('data_class' => 'Mekit\Bundle\ContactInfoBundle\Entity\Phone')
+				'options' => array('data_class' => 'Mekit\Bundle\ContactInfoBundle\Entity\Phone')
 			)
 		);
 
 		//assigned to (user)
 		$builder->add(
-		        'assignedTo',
-		        'oro_user_select',
-		        array('required' => false, 'label' => 'mekit.account.assigned_to.label')
-	        );
+			'assignedTo',
+			'oro_user_select',
+			array('required' => false, 'label' => 'mekit.account.assigned_to.label')
+		);
+
+		//ReferenceableElement - Sub Form Injection
+		$builder->add('referenceableElement', 'mekit_referenceable_element');
 	}
 
 	/**
