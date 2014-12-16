@@ -11,6 +11,7 @@ use Mekit\Bundle\ContactInfoBundle\Entity\Address;
 use Mekit\Bundle\ContactInfoBundle\Entity\Email;
 use Mekit\Bundle\ContactInfoBundle\Entity\Phone;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
+use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
@@ -513,6 +514,32 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	 * )
 	 */
 	protected $tags;
+
+
+	/**
+	 * @var ReferenceableElement
+	 *
+	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement", cascade={"all"})
+	 * @ORM\JoinColumn(name="rid", referencedColumnName="id", onDelete="CASCADE", nullable=false)
+	 */
+	protected $referenceableElement;
+
+	/**
+	 * @return ReferenceableElement
+	 */
+	public function getReferenceableElement() {
+		return $this->referenceableElement;
+	}
+
+	/**
+	 * @param ReferenceableElement $referenceableElement
+	 */
+	public function setReferenceableElement($referenceableElement) {
+		$this->referenceableElement = $referenceableElement;
+	}
+
+
+
 
 	public function __construct() {
 		parent::__construct();

@@ -2,6 +2,7 @@
 
 namespace Mekit\Bundle\AccountBundle\Form\Handler;
 
+use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -72,9 +73,21 @@ class AccountHandler implements TagHandlerInterface {
 	 * @param Account $entity
 	 */
 	protected function onSuccess(Account $entity) {
+		$this->doReferenceableStuff($entity);
 		$this->manager->persist($entity);
 		$this->manager->flush();
 		$this->tagManager->saveTagging($entity);
+	}
+
+	/**
+	 * @param Account $entity
+	 */
+	public function doReferenceableStuff($entity) {
+		if(!$entity->getReferenceableElement()) {
+			$className = $this->manager->getClassMetadata(get_class($entity))->getName();
+			$ref = new ReferenceableElement($className);
+			$entity->setReferenceableElement($ref);
+		}
 	}
 
 	/**

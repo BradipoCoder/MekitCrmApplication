@@ -22,7 +22,9 @@ use Oro\Bundle\UserBundle\Entity\User;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="mekit_call")
+ * @ORM\Table(name="mekit_call", indexes={
+ *      @ORM\Index(name="idx_call_direction", columns={"direction"}),
+ * })
  * @Oro\Loggable
  * @Config(
  *      routeName="mekit_call_index",

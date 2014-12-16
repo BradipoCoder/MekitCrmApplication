@@ -1,10 +1,10 @@
 <?php
-namespace Mekit\Bundle\AccountBundle\Form\Type;
+namespace Mekit\Bundle\RelationshipBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class AccountSelectType extends AbstractType {
+class RelationshipSelectType extends AbstractType {
 	/**
 	 * {@inheritdoc}
 	 */
@@ -31,6 +31,8 @@ class AccountSelectType extends AbstractType {
 	 * {@inheritdoc}
 	 */
 	public function getName() {
-		return 'mekit_account_select';
+		return 'mekit_relationship_select';
 	}
+
+
 }

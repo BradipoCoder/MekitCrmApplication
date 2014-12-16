@@ -2,6 +2,7 @@
 
 namespace Mekit\Bundle\ContactBundle\Form\Handler;
 
+use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -72,9 +73,21 @@ class ContactHandler implements TagHandlerInterface {
 	 * @param Contact $entity
 	 */
 	protected function onSuccess(Contact $entity) {
+		$this->doReferenceableStuff($entity);
 		$this->manager->persist($entity);
 		$this->manager->flush();
 		$this->tagManager->saveTagging($entity);
+	}
+
+	/**
+	 * @param Contact $entity
+	 */
+	public function doReferenceableStuff($entity) {
+		if(!$entity->getReferenceableElement()) {
+			$className = $this->manager->getClassMetadata(get_class($entity))->getName();
+			$ref = new ReferenceableElement($className);
+			$entity->setReferenceableElement($ref);
+		}
 	}
 
 	/**
