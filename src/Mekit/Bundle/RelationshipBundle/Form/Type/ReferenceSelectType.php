@@ -6,18 +6,19 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Mekit\Bundle\RelationshipBundle\Helper\FormHelper;
 
 class ReferenceSelectType extends AbstractType {
 	/**
-	 * @var ObjectManager
+	 * @var FormHelper
 	 */
-	protected $manager;
+	protected $helper;
 
 	/**
-	 * @param ObjectManager $manager
+	 * @param FormHelper $helper
 	 */
-	public function __construct(ObjectManager $manager) {
-		$this->manager = $manager;
+	public function __construct(FormHelper $helper) {
+		$this->helper = $helper;
 	}
 
 	/**
@@ -30,6 +31,7 @@ class ReferenceSelectType extends AbstractType {
 				[
 					'required' => true,
 					'empty_value' => 'Choose a type',
+					'mapped' => false,
 					'choices' => [
 						'Mekit\Bundle\AccountBundle\Entity\Account' => 'Account',
 						'Mekit\Bundle\ContactBundle\Entity\Contact' => 'Contact',
@@ -37,8 +39,7 @@ class ReferenceSelectType extends AbstractType {
 				]
 			);
 
-		/** @var ReferenceableElementRepository $repo */
-		$repo = $this->manager->getRepository("MekitRelationshipBundle:ReferenceableElement");
+
 
 		$constraints = [];
 
@@ -51,7 +52,7 @@ class ReferenceSelectType extends AbstractType {
 				'label' => 'REF',
 				'empty_value' => 'Choose a referenceable element',
 				'mapped' => false,
-				'query_builder' => $repo->getReferencedElementsQueryBuilderByType('Mekit\Bundle\ContactBundle\Entity\Contact'),
+				'query_builder' => $this->helper->getReferencedElementsQueryBuilderByType('Mekit\Bundle\ContactBundle\Entity\Contact'),
 				'constraints'   => $constraints
 			]
 		);

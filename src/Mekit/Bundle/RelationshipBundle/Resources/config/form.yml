@@ -28,7 +28,7 @@ services:
     mekit_relationship.form.type.reference_select:
             class: %mekit_relationship.type.reference_select.class%
             arguments:
-                - @doctrine.orm.entity_manager
+                - @mekit_relationship.form_helper
             tags:
                 - { name: form.type, alias: mekit_reference_select }
 

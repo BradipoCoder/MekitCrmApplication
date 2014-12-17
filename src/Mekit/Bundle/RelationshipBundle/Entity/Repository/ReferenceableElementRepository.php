@@ -13,8 +13,8 @@ class ReferenceableElementRepository extends EntityRepository {
 	 * @return QueryBuilder
 	 */
 	public function getReferencedElementsQueryBuilderByType($type) {
-		$qb = $this->getEntityManager()->getRepository($type)->createQueryBuilder('e')
-			->orderBy("e.id");
+		$qb = $this->getEntityManager()->getRepository($type)->createQueryBuilder('el')
+			->orderBy("el.id");
 		return($qb);
 	}
 
