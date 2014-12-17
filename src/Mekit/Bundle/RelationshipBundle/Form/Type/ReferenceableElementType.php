@@ -58,8 +58,19 @@ class ReferenceableElementType extends AbstractType {
 	 * @param array                $options
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$builder
-			->add('type', 'hidden');
+		$builder->add('type', 'hidden');
+
+		$builder->add(
+			'references',
+			'mekit_reference_select_collection',
+			array(
+				'label'    => 'REF COLLECTION',
+				'type'     => 'mekit_reference_select',
+				'required' => false,
+				'options'  => array('data_class' => 'Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement')
+			)
+		);
+
 
 
 		//Set the correct type of the entity bound to the parent form
