@@ -1,0 +1,24 @@
+{% block mekit_referenceable_element_widget %}
+	<div class="mekit-referenceable-element">
+		{{ form_widget(form.type) }}
+		{{ form_widget(form.references) }}
+	</div>
+	{{ form_rest(form) }}
+{% endblock %}
+
+{% block mekit_reference_select_collection_widget %}
+	{{ block('oro_collection_widget') }}
+{% endblock %}
+
+{% block mekit_reference_select_widget %}
+	<div class="row">
+	{% for child in form.children %}
+		<div class="pull-left">
+			{{ form_widget(child, {'attr': {'title': child.vars.label}}) }}
+		</div>
+		{{ form_errors(child) }}
+	{% endfor %}
+	</div>
+	{{ form_rest(form) }}
+{% endblock %}
+

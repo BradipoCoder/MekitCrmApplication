@@ -64,10 +64,9 @@ class ReferenceableElementType extends AbstractType {
 			'references',
 			'mekit_reference_select_collection',
 			array(
-				'label'    => 'REF COLLECTION',
-				'type'     => 'mekit_reference_select',
-				'required' => false,
-				'options'  => array('data_class' => 'Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement')
+				'label'    => false,
+				'empty_data'  => null,
+//				'options'  => array('data_class' => 'Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement')
 			)
 		);
 

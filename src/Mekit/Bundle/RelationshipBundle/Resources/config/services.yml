@@ -1,7 +1,7 @@
 parameters:
     mekit_relationship.relationship.extension.relationship.class:            Mekit\Bundle\RelationshipBundle\Migration\Extension\RelationshipExtension
 
-    mekit_relationship.referenceable_element.entity.class:                            Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement
+    mekit_relationship.referenceable_element.entity.class:                   Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement
 
 services:
     mekit_relationship.migration.extension.relationship:

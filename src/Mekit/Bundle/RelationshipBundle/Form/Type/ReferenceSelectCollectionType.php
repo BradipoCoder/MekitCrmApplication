@@ -5,13 +5,18 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ReferenceSelectCollectionType extends AbstractType {
+
 	/**
 	 * {@inheritdoc}
 	 */
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(
 			array(
-				'type' => 'mekit_relationship_reference'
+				'type' => 'mekit_reference_select',
+				'allow_add' => true,
+				'allow_delete' => true,
+				'delete_empty' => true,
+				'by_reference' => false
 			)
 		);
 	}

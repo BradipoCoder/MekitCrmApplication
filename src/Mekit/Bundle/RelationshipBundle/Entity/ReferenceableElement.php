@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Mekit\Bundle\RelationshipBundle\Entity\Repository\ReferenceableElementRepository")
  * @ORM\Table(name="mekit_ref", indexes={
  *      @ORM\Index(name="idx_ref_type", columns={"type"})
  * }
@@ -30,6 +30,13 @@ class ReferenceableElement {
 	 * @ORM\Column(name="type", length=255, nullable=false)
 	 */
 	protected $type;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="tmp", length=255, nullable=true)
+	 */
+	protected $tmp;
 
 	/**
 	 * @var Collection
@@ -65,9 +72,11 @@ class ReferenceableElement {
 
 	/**
 	 * @param int $id
+	 * @return $this
 	 */
 	public function setId($id) {
 		$this->id = $id;
+		return $this;
 	}
 
 	/**
@@ -79,37 +88,133 @@ class ReferenceableElement {
 
 	/**
 	 * @param string $type
+	 * @return $this
 	 */
 	public function setType($type) {
 		$this->type = $type;
+		return $this;
 	}
 
 	/**
-	 * @return Collection
+	 * @return string
 	 */
-	public function getReferrals() {
-		return $this->referrals;
+	public function getTmp() {
+		return $this->tmp;
 	}
 
 	/**
-	 * @param Collection $referrals
+	 * @param string $tmp
 	 */
-	public function setReferrals($referrals) {
-		$this->referrals = $referrals;
+	public function setTmp($tmp) {
+		$this->tmp = $tmp;
 	}
 
+
+
 	/**
-	 * @return Collection
+	 * @return Collection|ReferenceableElement[]
 	 */
 	public function getReferences() {
 		return $this->references;
 	}
 
 	/**
-	 * @param Collection $references
+	 * @param Collection|ReferenceableElement[] $references
+	 * @return $this
 	 */
 	public function setReferences($references) {
-		$this->references = $references;
+		$this->references->clear();
+		foreach($references as $reference) {
+			$this->addReference($reference);
+		}
+		return $this;
 	}
 
+	/**
+	 * @param ReferenceableElement $reference
+	 * @return $this
+	 */
+	public function addReference(ReferenceableElement $reference) {
+		if (!$this->references->contains($reference)) {
+			$this->references->add($reference);
+			//$reference->addReferral($this);
+		}
+		return $this;
+	}
+
+	/**
+	 * @param ReferenceableElement $reference
+	 * @return $this
+	 */
+	public function removeReference(ReferenceableElement $reference) {
+		if (!$this->references->contains($reference)) {
+			$this->references->removeElement($reference);
+		}
+		return $this;
+	}
+
+	/**
+	 * @param ReferenceableElement $reference
+	 * @return boolean
+	 */
+	public function hasReference(ReferenceableElement $reference) {
+		return $this->getReferences()->contains($reference);
+	}
+
+	/**
+	 * @return Collection|ReferenceableElement[]
+	 */
+	public function getReferrals() {
+		return $this->referrals;
+	}
+
+	/**
+	 * @param Collection|ReferenceableElement[] $referrals
+	 * @return $this
+	 */
+	public function setReferrals($referrals) {
+		$this->referrals->clear();
+		foreach($referrals as $referral) {
+			$this->addReferral($referral);
+		}
+		return $this;
+	}
+
+	/**
+	 * @param ReferenceableElement $referral
+	 * @return $this
+	 */
+	public function addReferral(ReferenceableElement $referral) {
+		if (!$this->referrals->contains($referral)) {
+			$this->referrals->add($referral);
+			//$reference->addReference($this);
+		}
+		return $this;
+	}
+
+	/**
+	 * @param ReferenceableElement $referral
+	 * @return $this
+	 */
+	public function removeReferral(ReferenceableElement $referral) {
+		if (!$this->referrals->contains($referral)) {
+			$this->referrals->removeElement($referral);
+		}
+		return $this;
+	}
+
+	/**
+	 * @param ReferenceableElement $referral
+	 * @return boolean
+	 */
+	public function hasReferral(ReferenceableElement $referral) {
+		return $this->getReferrals()->contains($referral);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function __toString() {
+		return (string)$this->getId()."-".$this->getType();
+	}
 }

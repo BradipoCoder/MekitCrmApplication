@@ -23,7 +23,7 @@ class ListItemRepository extends EntityRepository {
 	}
 
 	/**
-	 * @param $ListGroupName
+	 * @param string $ListGroupName
 	 * @return ListItem[]
 	 */
 	public function getListItems($ListGroupName) {
@@ -33,7 +33,7 @@ class ListItemRepository extends EntityRepository {
 
 	/**
 	 * Returns default item for a specific list
-	 * @param $groupName
+	 * @param string $groupName
 	 * @return null|ListItem
 	 */
 	public function getDefaultItemForGroup($groupName) {
