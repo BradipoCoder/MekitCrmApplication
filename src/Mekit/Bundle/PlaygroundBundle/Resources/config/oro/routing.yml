@@ -1,0 +1,4 @@
+mekit_playground_bundle:
+    resource:     "@MekitPlaygroundBundle/Controller"
+    type:         annotation
+    prefix:       /playground

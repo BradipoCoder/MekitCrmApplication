@@ -41,14 +41,16 @@ class ReferenceableElement {
 	/**
 	 * @var Collection
 	 *
-	 * @ORM\ManyToMany(targetEntity="ReferenceableElement", mappedBy="references")
+	 * @ORM\ManyToMany(targetEntity="ReferenceableElement", mappedBy="references", cascade={"all"})
 	 */
 	protected $referrals;
 
 	/**
 	 * @var Collection
 	 *
-	 * @ORM\ManyToMany(targetEntity="ReferenceableElement", inversedBy="referrals")
+	 * ---A new entity was found through the relationship 'Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement#references' that was not configured to cascade persist operations for entity: -. To solve this issue: Either explicitly call EntityManager#persist() on this unknown entity or configure cascade persist this association in the mapping for example ManyToOne(..,cascade={"persist"}).
+	 *
+	 * @ORM\ManyToMany(targetEntity="ReferenceableElement", inversedBy="referrals", cascade={"all"})
 	 * @ORM\JoinTable(name="mekit_ref_refs",
 	 *      joinColumns={@ORM\JoinColumn(name="referral_id", referencedColumnName="id")},
 	 *      inverseJoinColumns={@ORM\JoinColumn(name="referenced_id", referencedColumnName="id")}
@@ -137,7 +139,7 @@ class ReferenceableElement {
 	public function addReference(ReferenceableElement $reference) {
 		if (!$this->references->contains($reference)) {
 			$this->references->add($reference);
-			//$reference->addReferral($this);
+			$reference->addReferral($this);
 		}
 		return $this;
 	}
@@ -147,7 +149,7 @@ class ReferenceableElement {
 	 * @return $this
 	 */
 	public function removeReference(ReferenceableElement $reference) {
-		if (!$this->references->contains($reference)) {
+		if ($this->references->contains($reference)) {
 			$this->references->removeElement($reference);
 		}
 		return $this;
@@ -187,7 +189,7 @@ class ReferenceableElement {
 	public function addReferral(ReferenceableElement $referral) {
 		if (!$this->referrals->contains($referral)) {
 			$this->referrals->add($referral);
-			//$reference->addReference($this);
+			$referral->addReference($this);
 		}
 		return $this;
 	}
@@ -197,7 +199,7 @@ class ReferenceableElement {
 	 * @return $this
 	 */
 	public function removeReferral(ReferenceableElement $referral) {
-		if (!$this->referrals->contains($referral)) {
+		if ($this->referrals->contains($referral)) {
 			$this->referrals->removeElement($referral);
 		}
 		return $this;

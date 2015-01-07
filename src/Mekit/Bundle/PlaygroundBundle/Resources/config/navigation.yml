@@ -1,0 +1,21 @@
+oro_menu_config:
+    items:
+        oro_playground:
+            label: 'Playground'
+            route: 'mekit_playground_index'
+            extras:
+                position:    92
+                routes:      ['mekit_playground_*']
+                description: 'Admin Playground'
+    tree:
+        application_menu:
+            children:
+                system_tab:
+                    children:
+                        oro_playground: ~
+
+oro_titles:
+    mekit_playground_index:  ~
+#    mekit_list_update: '%%list.name%% List Group - Edit'
+#    mekit_list_create: 'Create Tag'
+
