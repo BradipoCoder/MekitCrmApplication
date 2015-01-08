@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
-use Oro\Bundle\FormBundle\Entity\EmptyItem;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 
 /**
  * @ORM\Entity(repositoryClass="Mekit\Bundle\RelationshipBundle\Entity\Repository\ReferenceableElementRepository")
@@ -14,8 +14,16 @@ use Oro\Bundle\FormBundle\Entity\EmptyItem;
  *      @ORM\Index(name="idx_ref_type", columns={"type"})
  * }
  * )
+ * @Config(
+ *      defaultValues={
+ *          "form"={
+ *              "form_type"="mekit_reference_select_2",
+ *              "grid_name"="referenceable-element-select-grid"
+ *          }
+ *      }
+ * )
  */
-class ReferenceableElement implements EmptyItem {//
+class ReferenceableElement {
 	/**
 	 * @var int
 	 *
@@ -210,10 +218,6 @@ class ReferenceableElement implements EmptyItem {//
 	 */
 	public function hasReferral(ReferenceableElement $referral) {
 		return $this->getReferrals()->contains($referral);
-	}
-
-	public function isEmpty() {
-		return($this->id === null);
 	}
 
 	/**

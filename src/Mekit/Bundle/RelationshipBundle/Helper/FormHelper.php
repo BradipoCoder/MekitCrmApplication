@@ -34,40 +34,4 @@ class FormHelper {
 		return($this->refElRepo->getReferencedElementsQueryBuilderByType($type));
 	}
 
-
-
-
-
-
-//	public function addListSelectorToFormBuilder(FormBuilderInterface $builder, $propertyName, $listGroupName, $label) {
-//		/** @var EntityRepository $listGroupRepo */
-//		$listGroupRepo = $this->manager->getRepository('MekitListBundle:ListGroup');
-//		/** @var ListItemRepository $listItemRepo */
-//		$listItemRepo = $this->manager->getRepository('MekitListBundle:ListItem');
-//
-//		/** @var ListGroup $listGroup */
-//		$listGroup = $listGroupRepo->findOneBy(["name" => $listGroupName]);
-//
-//		$constraints = [];
-//		if($listGroup->isRequired()) {
-//			$constraints = [
-//				new NotBlank(["message" => "Select an item from the list"])
-//			];
-//		}
-//
-//		$builder->add(
-//			$propertyName,
-//			'entity',
-//			array(
-//				'required'    => $listGroup->isRequired(),
-//				'label'       => $label,
-//				'class'       => 'MekitListBundle:ListItem',
-//				'empty_value' => $listGroup->getEmptyValue(),
-//				'query_builder' => $listItemRepo->getListItemQueryBuilder($listGroupName),
-//				'constraints'   => $constraints
-//			)
-//		);
-//
-//
-//	}
 }

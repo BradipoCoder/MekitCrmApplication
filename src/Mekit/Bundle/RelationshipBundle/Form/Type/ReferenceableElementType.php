@@ -67,26 +67,35 @@ class ReferenceableElementType extends AbstractType {
 	 * @param array                $options
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$builder->add('type', 'text', [
-				'read_only' => true
+		$builder->add('id', 'text', ['read_only' => true]);
+		$builder->add('type', 'text', ['read_only' => true]);
+
+
+		//mekit_reference_select_2
+		//SINGLE REFERENCE SELECTOR
+		$builder->add(
+			'reference_selector',
+			'mekit_reference_select_2',
+			[
+				'label'    => false,
+				'mapped' => false
 			]
 		);
 
-
+		//COLLECTION FOR MULTIPLE REFERENCES
+		/*
 		$builder->add(
-			'references',
+			'reference_selectors',
 			'mekit_reference_select_collection',
 			[
 				'label'    => false,
-				'empty_data'  => null,
+				'mapped' => false
 			 ]
-		);
+		);*/
 
 
-
-
-		//Solutuion #3 (no other types are involved)
-		//this works - skipping altogether ReferenceSelectCollectionType && ReferenceSelectType
+		//Solutuion #3 (no other types are involved) - skipping altogether ReferenceSelectCollectionType && ReferenceSelectType
+		//this works - however it does not allow for type selection
 		// adds/removes references
 		/*$builder->add(
 			'references',

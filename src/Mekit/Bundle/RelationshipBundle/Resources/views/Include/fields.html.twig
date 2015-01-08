@@ -1,8 +1,10 @@
 {% block mekit_referenceable_element_widget %}
-	<div class="mekit-referenceable-element">
-		{{ form_widget(form.type) }}
-		{{ form_widget(form.references) }}
-	</div>
+	{% if form.references is defined %}
+		<div class="mekit-referenceable-element">
+			{{ form_widget(form.type) }}
+			{{ form_widget(form.references) }}
+		</div>
+	{% endif %}
 	{{ form_rest(form) }}
 {% endblock %}
 

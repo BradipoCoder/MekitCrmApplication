@@ -26,37 +26,33 @@ class ReferenceSelectType extends AbstractType {
 	 * {@inheritdoc}
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-//		$builder->add(
-//				'type',
-//				'choice',
-//				[
-//					'required' => true,
-//					'empty_value' => 'Choose a type',
-//					'mapped' => false,
-//					'choices' => [
-//						'Mekit\Bundle\AccountBundle\Entity\Account' => 'Account',
-//						'Mekit\Bundle\ContactBundle\Entity\Contact' => 'Contact',
-//					]
-//				]
-//			);
 
-		//$builder->add('id', 'text');
-
+		$builder->add(
+				'entity_type',
+				'choice',
+				[
+					'required' => true,
+					'empty_value' => 'Choose a type',
+					'mapped' => false,
+					'choices' => [
+						'Mekit\Bundle\AccountBundle\Entity\Account' => 'Account',
+						'Mekit\Bundle\ContactBundle\Entity\Contact' => 'Contact',
+					]
+				]
+			);
 
 		$constraints = [];
 		$builder->add(
-			'references',
+			'referenced_item',
 			'entity',
 			[
-				'class' => 'Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement',
+				'class' => 'Mekit\Bundle\ContactBundle\Entity\Contact',//dynamic
 				//'required' => false,
-				'mapped' => true,
+				'mapped' => false,
 				'label' => 'Referenceable Element',
 				'empty_value' => 'Choose a referenceable element',
-				//'empty_data' => new ReferenceableElement()
-				'query_builder' => $this->helper->getReferencedElementsQueryBuilderByType('Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement'),
+				'query_builder' => $this->helper->getReferencedElementsQueryBuilderByType('Mekit\Bundle\ContactBundle\Entity\Contact'),//dynamic
 				'constraints'   => $constraints
-
 			]
 		);
 
@@ -69,7 +65,7 @@ class ReferenceSelectType extends AbstractType {
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(
 			[
-				'data_class' => 'Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement'
+				/*'data_class' => 'Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement'*/
 			]
 		);
 	}

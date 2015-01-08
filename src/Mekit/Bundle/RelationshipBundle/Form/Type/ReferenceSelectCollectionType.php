@@ -12,7 +12,7 @@ class ReferenceSelectCollectionType extends AbstractType {
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(
 			array(
-				'type' => 'mekit_reference_select',
+				'type' => 'mekit_reference_select_2',
 				'allow_add' =>              true,
 				'allow_delete' =>           true,
 				'delete_empty' =>           true,

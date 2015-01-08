@@ -13,17 +13,12 @@ class ReferenceableElementRepository extends EntityRepository {
 	 * @return QueryBuilder
 	 */
 	public function getReferencedElementsQueryBuilderByType($type) {
-		$qb = $this->getEntityManager()->getRepository($type)->createQueryBuilder('el')
+		$qb = $this->getEntityManager()->createQueryBuilder()
+			->select('el')
+			->from($type, 'el')
+			//->innerJoin('el.referenceableElement', 're')
 			->orderBy("el.id");
 		return($qb);
 	}
 
-
-//	public function getListItemQueryBuilder($ListGroupName) {
-//		return $this->createQueryBuilder('li')
-//			->innerJoin("li.listGroup", "lg")
-//			->where('lg.name = :list_group_name')
-//			->orderBy('li.label', 'ASC')
-//			->setParameter('list_group_name', $ListGroupName);
-//	}
 }

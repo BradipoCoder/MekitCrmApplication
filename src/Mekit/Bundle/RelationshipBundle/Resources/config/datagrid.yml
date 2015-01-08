@@ -1,0 +1,24 @@
+datagrid:
+    referenceable-element-select-grid:
+        extended_entity_name: %mekit_relationship.referenceable_element.entity.class%
+        options:
+            entityHint: referenceable_element
+        source:
+#            acl_resource: oro_user_user_view
+            type: orm
+            query:
+                select:
+                    - re.id
+                    - re.type
+                from:
+                    - { table: %mekit_relationship.referenceable_element.entity.class%, alias: re }
+        columns:
+            id:
+                label: Id
+            type:
+                label: Type
+
+        properties:
+            id: ~
+        sorters:
+        filters:
