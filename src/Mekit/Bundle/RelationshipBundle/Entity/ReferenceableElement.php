@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
+use Oro\Bundle\FormBundle\Entity\EmptyItem;
 
 /**
  * @ORM\Entity(repositoryClass="Mekit\Bundle\RelationshipBundle\Entity\Repository\ReferenceableElementRepository")
@@ -14,7 +15,7 @@ use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
  * }
  * )
  */
-class ReferenceableElement {
+class ReferenceableElement implements EmptyItem {//
 	/**
 	 * @var int
 	 *
@@ -41,16 +42,14 @@ class ReferenceableElement {
 	/**
 	 * @var Collection
 	 *
-	 * @ORM\ManyToMany(targetEntity="ReferenceableElement", mappedBy="references", cascade={"all"})
+	 * @ORM\ManyToMany(targetEntity="ReferenceableElement", mappedBy="references")
 	 */
 	protected $referrals;
 
 	/**
 	 * @var Collection
 	 *
-	 * ---A new entity was found through the relationship 'Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement#references' that was not configured to cascade persist operations for entity: -. To solve this issue: Either explicitly call EntityManager#persist() on this unknown entity or configure cascade persist this association in the mapping for example ManyToOne(..,cascade={"persist"}).
-	 *
-	 * @ORM\ManyToMany(targetEntity="ReferenceableElement", inversedBy="referrals", cascade={"all"})
+	 * @ORM\ManyToMany(targetEntity="ReferenceableElement", inversedBy="referrals")
 	 * @ORM\JoinTable(name="mekit_ref_refs",
 	 *      joinColumns={@ORM\JoinColumn(name="referral_id", referencedColumnName="id")},
 	 *      inverseJoinColumns={@ORM\JoinColumn(name="referenced_id", referencedColumnName="id")}
@@ -211,6 +210,10 @@ class ReferenceableElement {
 	 */
 	public function hasReferral(ReferenceableElement $referral) {
 		return $this->getReferrals()->contains($referral);
+	}
+
+	public function isEmpty() {
+		return($this->id === null);
 	}
 
 	/**

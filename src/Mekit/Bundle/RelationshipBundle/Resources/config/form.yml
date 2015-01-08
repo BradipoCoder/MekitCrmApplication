@@ -20,6 +20,7 @@ services:
             - @router
             - @oro_locale.formatter.name
             - @oro_security.security_facade
+            - @mekit_relationship.form_helper
         tags:
             - { name: form.type, alias: mekit_referenceable_element }
 

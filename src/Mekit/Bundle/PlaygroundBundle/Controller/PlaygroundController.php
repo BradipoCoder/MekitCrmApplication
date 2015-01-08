@@ -73,7 +73,6 @@ class PlaygroundController extends Controller {
 
 
 		$data = [
-			'name' => 'Test',
 			'dumpdata' => $dumpData
 		];
 		return $this->render('MekitPlaygroundBundle:Default:index.html.twig', $data);

@@ -452,8 +452,8 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	/**
 	 * @var ReferenceableElement
 	 *
-	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement", cascade={"all"})
-	 * @ORM\JoinColumn(name="rid", referencedColumnName="id", onDelete="CASCADE", nullable=false)
+	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement", cascade={"persist"}, orphanRemoval=true)
+	 * @ORM\JoinColumn(name="rid", referencedColumnName="id", onDelete="RESTRICT", nullable=false)
 	 */
 	protected $referenceableElement;
 

@@ -13,10 +13,12 @@ class ReferenceSelectCollectionType extends AbstractType {
 		$resolver->setDefaults(
 			array(
 				'type' => 'mekit_reference_select',
-				'allow_add' => true,
-				'allow_delete' => true,
-				'delete_empty' => true,
-				'by_reference' => false
+				'allow_add' =>              true,
+				'allow_delete' =>           true,
+				'delete_empty' =>           true,
+				'by_reference' =>           false,
+				'handle_primary' =>         false,
+				'show_form_when_empty' =>   false,
 			)
 		);
 	}

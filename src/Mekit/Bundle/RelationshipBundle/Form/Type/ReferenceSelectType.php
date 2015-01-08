@@ -1,6 +1,7 @@
 <?php
 namespace Mekit\Bundle\RelationshipBundle\Form\Type;
 
+use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
 use Mekit\Bundle\RelationshipBundle\Entity\Repository\ReferenceableElementRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -39,23 +40,27 @@ class ReferenceSelectType extends AbstractType {
 //				]
 //			);
 
+		//$builder->add('id', 'text');
 
 
 		$constraints = [];
-
 		$builder->add(
-			'referenced_element',
+			'references',
 			'entity',
 			[
 				'class' => 'Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement',
-				'required' => true,
-				'label' => 'REF',
+				//'required' => false,
+				'mapped' => true,
+				'label' => 'Referenceable Element',
 				'empty_value' => 'Choose a referenceable element',
-				'mapped' => false,
+				//'empty_data' => new ReferenceableElement()
 				'query_builder' => $this->helper->getReferencedElementsQueryBuilderByType('Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement'),
 				'constraints'   => $constraints
+
 			]
 		);
+
+
 	}
 
 	/**
