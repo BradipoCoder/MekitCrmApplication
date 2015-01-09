@@ -60,11 +60,34 @@
 		}) }}
 	{% endset %}
 
+
+	{% set relationship_accounts %}
+	{{ oro_widget_render({
+		'widgetType': 'block',
+		'title': 'R-Accounts',
+		'url': path('mekit_relationship_widget_list', {id: entity.referenceableElement.id, datagrid_name: 'relationship-related-accounts'})
+	}) }}
+	{% endset %}
+
+	{% set relationship_contacts %}
+	{{ oro_widget_render({
+		'widgetType': 'block',
+		'title': 'R-Contacts',
+		'url': path('mekit_relationship_widget_list', {id: entity.referenceableElement.id, datagrid_name: 'relationship-related-contacts'})
+	}) }}
+	{% endset %}
+
+
+
 	{% set dataBlocks = [
 		{
 		'title': 'mekit.account.sections.general'|trans,
 		'class': 'active',
 		'subblocks': [ {'data' : [accountInformationWidget]} ]
+		},
+		{
+		'title': 'Relationships',
+		'subblocks': [ {'data' : [relationship_accounts, relationship_contacts]} ]
 		},
 		{
 		'title': 'mekit.account.sections.contacts'|trans,

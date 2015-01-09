@@ -1,0 +1,8 @@
+{% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
+
+{#<pre>ReferenceableElement Id: {{ referenceableElement.id }}</pre>#}
+{#<pre>Grid: {{ datagridName }}</pre>#}
+
+<div class="widget-content">
+	{{ dataGrid.renderGrid(datagridName, {ref_el_id: referenceableElement.id}, { cssClass: 'inner-grid' } ) }}
+</div>

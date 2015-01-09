@@ -1,0 +1,130 @@
+datagrid:
+
+    #
+    # These specific datagrids should go into their own bundle
+    # The name of the datagrid should be specified on the entitiy configuration
+    #
+
+
+    relationship-related-accounts:
+        extends: relationship-related-element-source-logic
+        source:
+            query:
+                select:
+                    - e.id
+                    - e.name
+                    - e.vatid
+                from:
+                   - { table: 'Mekit\Bundle\AccountBundle\Entity\Account', alias: e }
+        columns:
+            id:
+                label:        Id
+            name:
+                label:        Name
+            vatid:
+                label:        P.IVA
+            refId:
+                label:        Referenced Id
+
+
+
+    relationship-related-contacts:
+        extends: relationship-related-element-source-logic
+        source:
+            query:
+                select:
+                    - e.id
+                    - e.firstName
+                    - e.lastName
+                from:
+                   - { table: 'Mekit\Bundle\ContactBundle\Entity\Contact', alias: e }
+        columns:
+            id:
+                label:        Id
+            firstName:
+                label:        first Name
+            lastName:
+                label:        last Name
+            refId:
+                label:        Referenced Id
+
+
+
+
+
+
+
+# @todo: check and remove
+#    relationship-related-contacts-2:
+#        extends: relationship-related-element-source-logic-inversed
+#        source:
+#            query:
+#                select:
+#                    - e.id
+#                    - e.firstName
+#                    - e.lastName
+#                join:
+#                    inner:
+#                        - { join: 'Mekit\Bundle\ContactBundle\Entity\Contact', alias: e, conditionType: WITH, condition: 'referenceableElement = e.referenceableElement' }
+#        columns:
+#            id:
+#                label:        Id
+#            firstName:
+#                label:        first Name
+#            lastName:
+#                label:        last Name
+#            refId:
+#                label:        Referenced Id
+
+
+
+    # filters out all entities of a given class which reference OR are referred to a specific ReferenceableElement (entity_id)
+    relationship-related-element-source-logic:
+        source:
+            type:           orm
+            query:
+                select:
+                    - referenceableElement.id as refId
+                # This should be set by the extending datagrid
+                #from:
+                   #- { table: 'Mekit\Bundle\ContactBundle\Entity\Contact', alias: e }
+                join:
+                    inner:
+                        - { join: e.referenceableElement, alias: referenceableElement }
+                    left:
+                        - { join: referenceableElement.references, alias: RE_reference }
+                        - { join: referenceableElement.referrals, alias: RE_referral }
+                where:
+                    and:
+                        - (RE_reference.id = :ref_el_id OR RE_referral.id = :ref_el_id)
+            bind_parameters:
+                - ref_el_id
+
+    # filters out all entities of a given class which reference OR are referred to a specific ReferenceableElement (entity_id) - INVERSED LOGIC
+    # More difficult to extend and probably slower
+    relationship-related-element-source-logic-inversed:
+        source:
+            type:           orm
+            query:
+                select:
+                    - referenceableElement.id as refId
+                from:
+                    - { table: %mekit_relationship.referenceable_element.entity.class%, alias: referenceableElement }
+                join:
+                    left:
+                        - { join: referenceableElement.references, alias: RE_reference }
+                        - { join: referenceableElement.referrals, alias: RE_referral }
+                    # This should be set by the extending datagrid
+                    #inner:
+                        #-
+                            #join: 'Mekit\Bundle\ContactBundle\Entity\Contact'
+                            #alias: e
+                            #conditionType: WITH
+                            #condition: "referenceableElement = e.referenceableElement"
+                where:
+                    and:
+                        #- referenceableElement.type = 'Mekit\Bundle\ContactBundle\Entity\Contact' # this is not necessary
+                        - (RE_reference.id = :ref_el_id OR RE_referral.id = :ref_el_id)
+
+            bind_parameters:
+                - ref_el_id
