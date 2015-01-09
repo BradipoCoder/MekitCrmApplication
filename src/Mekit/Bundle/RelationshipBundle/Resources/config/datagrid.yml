@@ -78,7 +78,8 @@ datagrid:
 
 
 
-    # filters out all entities of a given class which reference OR are referred to a specific ReferenceableElement (entity_id)
+    # filters out all entities of a given class which reference OR is referred to by a specific ReferenceableElement (entity_id)
+    #@todo: implement "direction" -> is entity "referenced" OR "referred to by"
     relationship-related-element-source-logic:
         source:
             type:           orm
