@@ -3,15 +3,8 @@ parameters:
 
     mekit_relationship.referenceable_element.entity.class:                   Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement
 
-    mekit_relationship.form_helper.class:                                    Mekit\Bundle\RelationshipBundle\Helper\FormHelper
-
 services:
     mekit_relationship.migration.extension.relationship:
         class: %mekit_relationship.relationship.extension.relationship.class%
         tags:
             - { name: oro_migration.extension, extension_name: relationship }
-
-    mekit_relationship.form_helper:
-            class: %mekit_relationship.form_helper.class%
-            arguments:
-                - @doctrine.orm.entity_manager

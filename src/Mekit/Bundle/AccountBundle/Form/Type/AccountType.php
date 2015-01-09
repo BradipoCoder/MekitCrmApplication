@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\Collection;
 
 use Doctrine\ORM\EntityRepository;
 use Mekit\Bundle\ListBundle\Entity\ListGroup;
+use Mekit\Bundle\RelationshipBundle\Form\EventSubscriber\AddReferenceableElementSubscriber;
 use Mekit\Bundle\RelationshipBundle\Form\Type\ReferenceableElementType;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -137,8 +138,8 @@ class AccountType extends AbstractType {
 			array('required' => false, 'label' => 'mekit.account.assigned_to.label')
 		);
 
-		//ReferenceableElement - Sub Form Injection
-		$builder->add('referenceableElement', 'mekit_referenceable_element');
+		//ReferenceableElement
+		$builder->addEventSubscriber(new AddReferenceableElementSubscriber());
 	}
 
 	/**

@@ -65,7 +65,7 @@
 				    form_row(form.googlePlus),
 				    form_row(form.linkedIn),
 
-                    form_row(form.referenceableElement),
+                    form.referenceableElement is defined ? form_row(form.referenceableElement) : null,
 
                 ]
             },

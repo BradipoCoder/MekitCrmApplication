@@ -57,6 +57,9 @@
 				    form_row(form.owner),
 				    form_row(form.assignedTo),
                     form_row(form.description),
+
+                    form.referenceableElement is defined ? form_row(form.referenceableElement) : null,
+
                 ]
             },
             {
@@ -68,21 +71,8 @@
 				    form_row(form.phones),
 				    form_row(form.fax),
 				    form_row(form.website),
-
-				    form_row(form.tags)
+				    form_row(form.tags),
 	            ]
-            }
-        ]
-    },
-    {
-        'title': 'REFERENCES'|trans,
-        'class': 'resp',
-        'subblocks': [
-            {
-                'title': 'REFERENCES'|trans,
-                'data': [
-                    form_widget(form.referenceableElement, { 'attr': {'class': 'relationship-references'} }),
-                ]
             }
         ]
     },

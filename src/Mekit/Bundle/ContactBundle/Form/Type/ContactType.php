@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\Collection;
 
 use Doctrine\ORM\EntityRepository;
 use Mekit\Bundle\ListBundle\Entity\ListGroup;
+use Mekit\Bundle\RelationshipBundle\Form\EventSubscriber\AddReferenceableElementSubscriber;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Mekit\Bundle\ListBundle\Helper\FormHelper;
@@ -151,8 +152,8 @@ class ContactType extends AbstractType {
 			)
 		);
 
-		//ReferenceableElement - Sub Form Injection
-		$builder->add('referenceableElement', 'mekit_referenceable_element');
+		//ReferenceableElement
+		$builder->addEventSubscriber(new AddReferenceableElementSubscriber());
 
 	}
 

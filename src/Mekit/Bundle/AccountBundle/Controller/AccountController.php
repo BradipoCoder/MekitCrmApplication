@@ -112,14 +112,12 @@ class AccountController extends Controller {
 			$entity,
 			$this->get('mekit_account.form.account'),
 			function (Account $entity) {
-				throw new \Exception("XXX");
 				return array(
 					'route' => 'mekit_account_update',
 					'parameters' => array('id' => $entity->getId())
 				);
 			},
 			function (Account $entity) {
-				throw new \Exception("YYY");
 				return array(
 					'route' => 'mekit_account_view',
 					'parameters' => array('id' => $entity->getId())
