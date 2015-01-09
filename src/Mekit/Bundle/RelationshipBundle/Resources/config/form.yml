@@ -4,9 +4,6 @@ parameters:
     mekit_relationship.type.referenceable_element.class:                     Mekit\Bundle\RelationshipBundle\Form\Type\ReferenceableElementType
     mekit_relationship.type.reference_select_collection.class:               Mekit\Bundle\RelationshipBundle\Form\Type\ReferenceSelectCollectionType
     mekit_relationship.type.reference_select.class:                          Mekit\Bundle\RelationshipBundle\Form\Type\ReferenceSelectType
-    mekit_relationship.type.reference_select_2.class:                        Mekit\Bundle\RelationshipBundle\Form\Type\ReferenceSelectType2
-
-    mekit_relationship.autocomplete.referenceable_element.class:             Mekit\Bundle\RelationshipBundle\Autocomplete\ReferenceableElementSearchHandler
 
 #    mekit_relationship.handler.relationship.class:                         Mekit\Bundle\RelationshipBundle\Form\Handler\RelationshipHandler
 
@@ -31,19 +28,3 @@ services:
         class: %mekit_relationship.type.reference_select_collection.class%
         tags:
              - { name: form.type, alias: mekit_reference_select_collection }
-
-    mekit_relationship.form.type.reference_select_2:
-            class: %mekit_relationship.type.reference_select_2.class%
-            tags:
-                - { name: form.type, alias: mekit_reference_select_2 }
-
-    # Autocomplete search handler FOR REFERENCEABLE ELEMENT SELECT - @todo: move me to services!
-    mekit_relationship.autocomplete.referenceable_element.search_handler:
-        class: %mekit_relationship.autocomplete.referenceable_element.class%
-        parent: oro_form.autocomplete.search_handler
-        arguments:
-            - %mekit_relationship.referenceable_element.entity.class%
-            - ["id", "type"]
-        tags:
-            - { name: oro_form.autocomplete.search_handler, alias: referenceable_element_autocomplete_search}
-

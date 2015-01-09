@@ -71,33 +71,10 @@ class ReferenceableElementType extends AbstractType {
 		$builder->add('type', 'text', ['read_only' => true]);
 
 
-		//mekit_reference_select_2
-		//SINGLE REFERENCE SELECTOR
-		$builder->add(
-			'reference_selector',
-			'mekit_reference_select_2',
-			[
-				'label'    => false,
-				'mapped' => false
-			]
-		);
-
-		//COLLECTION FOR MULTIPLE REFERENCES
-		/*
-		$builder->add(
-			'reference_selectors',
-			'mekit_reference_select_collection',
-			[
-				'label'    => false,
-				'mapped' => false
-			 ]
-		);*/
-
-
 		//Solutuion #3 (no other types are involved) - skipping altogether ReferenceSelectCollectionType && ReferenceSelectType
 		//this works - however it does not allow for type selection
 		// adds/removes references
-		/*$builder->add(
+		$builder->add(
 			'references',
 			'oro_collection',
 			[
@@ -116,7 +93,7 @@ class ReferenceableElementType extends AbstractType {
 					//'query_builder' => $this->helper->getReferencedElementsQueryBuilderByType('Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement')
 				]
 			]
-		);*/
+		);
 
 
 		//Set the correct type of the entity bound to the parent form

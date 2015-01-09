@@ -11,15 +11,7 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 /**
  * @ORM\Entity(repositoryClass="Mekit\Bundle\RelationshipBundle\Entity\Repository\ReferenceableElementRepository")
  * @ORM\Table(name="mekit_ref", indexes={
- *      @ORM\Index(name="idx_ref_type", columns={"type"})
- * }
- * )
- * @Config(
- *      defaultValues={
- *          "form"={
- *              "form_type"="mekit_reference_select_2",
- *              "grid_name"="referenceable-element-select-grid"
- *          }
+ *          @ORM\Index(name="idx_ref_type", columns={"type"})
  *      }
  * )
  */
@@ -39,13 +31,6 @@ class ReferenceableElement {
 	 * @ORM\Column(name="type", length=255, nullable=false)
 	 */
 	protected $type;
-
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="tmp", length=255, nullable=true)
-	 */
-	protected $tmp;
 
 	/**
 	 * @var Collection
@@ -103,22 +88,6 @@ class ReferenceableElement {
 		$this->type = $type;
 		return $this;
 	}
-
-	/**
-	 * @return string
-	 */
-	public function getTmp() {
-		return $this->tmp;
-	}
-
-	/**
-	 * @param string $tmp
-	 */
-	public function setTmp($tmp) {
-		$this->tmp = $tmp;
-	}
-
-
 
 	/**
 	 * @return Collection|ReferenceableElement[]
