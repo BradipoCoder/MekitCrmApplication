@@ -1,0 +1,16 @@
+parameters:
+    mekit_relationship.reference_manager.class:                  Mekit\Bundle\RelationshipBundle\Entity\Manager\ReferenceManager
+    mekit_relationship.listener.entity_listener.class:           Mekit\Bundle\RelationshipBundle\EventListener\DoctrineListener
+
+services:
+    mekit_relationship.reference_manager:
+        class: %mekit_relationship.reference_manager.class%
+        arguments:
+            - @oro_entity_config.provider.relationship
+
+    mekit_relationship.listener.entity_listener:
+            class: %mekit_relationship.listener.entity_listener.class%
+            arguments:
+                - @mekit_relationship.reference_manager
+            tags:
+                - { name: doctrine.event_listener, event: prePersist }

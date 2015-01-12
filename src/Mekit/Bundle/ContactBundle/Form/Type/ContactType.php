@@ -152,9 +152,6 @@ class ContactType extends AbstractType {
 			)
 		);
 
-		//ReferenceableElement
-		$builder->addEventSubscriber(new AddReferenceableElementSubscriber());
-
 	}
 
 	/**

@@ -2,16 +2,8 @@ oro_entity_config:
     relationship:
         entity:
             items:
-                # indicates whether the entity can have relationships or not
-                enabled: # boolean
+                # indicates whether the entity is a referenceable element
+                referenceable: # boolean
                     options:
-                        require_schema_update: true
                         priority:           250
-                        default_value:      false
-
-                # this attribute can be used to prohibit changing the relationship association state (no matter whether it is enabled or not)
-                # if TRUE than the current state cannot be changed
-                immutable: # boolean
-                    options:
-                        auditable:          false
                         default_value:      false

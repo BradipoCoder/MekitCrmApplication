@@ -73,21 +73,9 @@ class ContactHandler implements TagHandlerInterface {
 	 * @param Contact $entity
 	 */
 	protected function onSuccess(Contact $entity) {
-		$this->doReferenceableStuff($entity);
 		$this->manager->persist($entity);
 		$this->manager->flush();
 		$this->tagManager->saveTagging($entity);
-	}
-
-	/**
-	 * @param Contact $entity
-	 */
-	public function doReferenceableStuff($entity) {
-		if(!$entity->getReferenceableElement()) {
-			$className = $this->manager->getClassMetadata(get_class($entity))->getName();
-			$ref = new ReferenceableElement($className);
-			$entity->setReferenceableElement($ref);
-		}
 	}
 
 	/**

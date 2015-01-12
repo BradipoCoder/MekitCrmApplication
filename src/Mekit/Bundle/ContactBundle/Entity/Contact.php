@@ -66,6 +66,9 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          },
  *          "dataaudit"={
  *              "auditable"=true
+ *          },
+ *          "relationship"={
+ *              "referenceable"=true
  *          }
  *      }
  * )
