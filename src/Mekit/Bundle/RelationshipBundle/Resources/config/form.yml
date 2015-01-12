@@ -1,17 +1,5 @@
 parameters:
-    mekit_relationship.type.referenceable_element.class:                     Mekit\Bundle\RelationshipBundle\Form\Type\ReferenceableElementType
-
 
 services:
-#    mekit_relationship.form.referenceable_element:
-#        class: Symfony\Component\Form\Form
-#        factory_method: createNamed
-#        factory_service: form.factory
-#        arguments: ["mekit_referenceable_element_form", "mekit_referenceable_element", null]
 
-    mekit_relationship.form.type.referenceable_element:
-        class: %mekit_relationship.type.referenceable_element.class%
-        arguments:
-        tags:
-            - { name: form.type, alias: mekit_referenceable_element }
 
