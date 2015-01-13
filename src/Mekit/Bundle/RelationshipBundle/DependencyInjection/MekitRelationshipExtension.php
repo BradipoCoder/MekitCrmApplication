@@ -26,5 +26,7 @@ class MekitRelationshipExtension extends Extension
         $loader->load('services.yml');
         $loader->load('orm.yml');
 	    $loader->load('form.yml');
+        $loader->load('twig_extensions.yml');
+
     }
 }

@@ -43,6 +43,13 @@
 		}) }}
 	{% endset %}
 
+	{% set relationship_lists %}
+	{{ mekit_render_all_relationships({
+		'title': 'Relationships',
+		'referenceableElementId': entity.referenceableElement.id
+	}) }}
+	{% endset %}
+
 	{% set addressBookWidget %}
         {{ oro_widget_render({
             'widgetType': 'block',
@@ -52,33 +59,6 @@
         }) }}
     {% endset %}
 
-	{% set accountContactsWidget %}
-		{{ oro_widget_render({
-			'widgetType': 'block',
-			'title': 'mekit.account.widgets.account_contacts'|trans,
-			'url': path('mekit_account_widget_listcontacts', {id: entity.id})
-		}) }}
-	{% endset %}
-
-
-	{% set relationship_accounts %}
-	{{ oro_widget_render({
-		'widgetType': 'block',
-		'title': 'R-Accounts',
-		'url': path('mekit_relationship_widget_list', {id: entity.referenceableElement.id, datagrid_name: 'relationship-related-accounts'})
-	}) }}
-	{% endset %}
-
-	{% set relationship_contacts %}
-	{{ oro_widget_render({
-		'widgetType': 'block',
-		'title': 'R-Contacts',
-		'url': path('mekit_relationship_widget_list', {id: entity.referenceableElement.id, datagrid_name: 'relationship-related-contacts'})
-	}) }}
-	{% endset %}
-
-
-
 	{% set dataBlocks = [
 		{
 		'title': 'mekit.account.sections.general'|trans,
@@ -87,11 +67,7 @@
 		},
 		{
 		'title': 'Relationships',
-		'subblocks': [ {'data' : [relationship_accounts, relationship_contacts]} ]
-		},
-		{
-		'title': 'mekit.account.sections.contacts'|trans,
-		'subblocks': [ {'data' : [accountContactsWidget]} ]
+		'subblocks': [ {'data' : [relationship_lists]} ]
 		},
 		{
 		'title': 'mekit.account.sections.addresses'|trans,

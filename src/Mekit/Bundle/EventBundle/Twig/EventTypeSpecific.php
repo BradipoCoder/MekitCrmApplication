@@ -9,7 +9,7 @@ use Oro\Bundle\EntityConfigBundle\Config\ConfigInterface;
 /**
  * Class EventTypeSpecific
  */
-class EventTypeSpecific  extends \Twig_Extension {
+class EventTypeSpecific extends \Twig_Extension {
 	/**
 	 * @var ConfigProvider
 	 */

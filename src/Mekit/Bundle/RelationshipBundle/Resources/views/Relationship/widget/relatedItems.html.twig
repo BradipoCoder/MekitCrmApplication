@@ -1,0 +1,10 @@
+{% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
+
+<div class="box-type1">
+	<div class="title">
+		<span class="widget-title">{{ referenceableEntityConfig.get("label")|trans }}</span>
+	</div>
+	<div class="row-fluid">
+		{{ dataGrid.renderGrid(referenceableEntityConfig.get("datagrid_name_list"), {ref_el_id: referenceableElement.id}, { cssClass: 'inner-grid' } ) }}
+	</div>
+</div>

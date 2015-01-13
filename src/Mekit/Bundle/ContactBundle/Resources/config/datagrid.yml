@@ -98,48 +98,33 @@ datagrid:
             entityHint: contact
             export: true
 
-    contacts-of-account-grid:
-        extended_entity_name: %mekit_contact.contact.entity.class%
+
+
+    contacts-related-relationship:
+        extends: relationship-related-element-source-logic
         source:
-            type:           orm
-            acl_resource:   mekit_contact_view
             query:
                 select:
-                    - c.id
-                    - c.firstName
-                    - c.lastName
-                    - contactJobTitle.label as jobTitle
-                    - CONCAT(assignee.firstName, CONCAT(' ', assignee.lastName)) as AssigneeName
+                    - e.id
+                    - e.firstName
+                    - e.lastName
                 from:
-                    - { table: %mekit_contact.contact.entity.class%, alias: c }
-                join:
-                    left:
-                        - { join: c.account, alias: Account }
-                        - { join: c.assignedTo, alias: assignee }
-                        - { join: c.jobTitle, alias: contactJobTitle }
-                where:
-                    and:
-                        - Account.id = :entity_id
-
-            bind_parameters:
-                - entity_id
+                   - { table: 'Mekit\Bundle\ContactBundle\Entity\Contact', alias: e }
 
         columns:
-            lastName:
-                label:         mekit.contact.last_name.label
+            id:
+                label:        Id
             firstName:
-                label:         mekit.contact.first_name.label
-            jobTitle:
-                label:         mekit.contact.job_title.label
-            AssigneeName:
-                 label:        mekit.account.assigned_to.label
+                label:        first Name
+            lastName:
+                label:        last Name
 
         properties:
-                    id: ~
-                    view_link:
-                        type:       url
-                        route:      mekit_contact_view
-                        params:     [ id ]
+            id: ~
+            view_link:
+                type:       url
+                route:      mekit_contact_view
+                params:     [ id ]
 
         actions:
             view:

@@ -20,16 +20,47 @@ class RelationshipController extends Controller {
 	/**
 	 * Lists Entities related to specific ReferenceableElement
 	 *
-	 * @Route("/widget/related_contacts/{id}/{datagrid_name}", name="mekit_relationship_widget_list", requirements={"id"="\d+"})
-	 * @Template(template="MekitRelationshipBundle:Relationship/widget:relatedElements.html.twig")
+	 * @Route("/widget/relationships/{id}", name="mekit_relationship_widget_list", requirements={"id"="\d+"})
+	 * @Template(template="MekitRelationshipBundle:Relationship/widget:relationships.html.twig")
 	 * @param ReferenceableElement $referenceableElement
-	 * @param String $datagrid_name
 	 * @return array
 	 */
-	public function listReferencedItemsAction(ReferenceableElement $referenceableElement, $datagrid_name) {
+	public function listRelationshipsAction(ReferenceableElement $referenceableElement) {
+		$referenceManager = $this->container->get("mekit_relationship.reference_manager");
+		$className = $referenceableElement->getType();
+		$classConfig = $referenceManager->getRelationshipConfiguration($className);
+		if(!$classConfig || $classConfig->get("referenceable") !== true) {
+			throw new \InvalidArgumentException('This is not a referenceable class!');
+		}
+		$referenceableEntityConfigs = $referenceManager->getReferenceableEntityConfigurations();
 		return [
 			'referenceableElement' => $referenceableElement,
-			'datagridName' => $datagrid_name
+			'referenceableEntityConfigs' => $referenceableEntityConfigs
 		];
 	}
+
+	/**
+	 * ?
+	 *
+	 * @Route("/widget/related_items/{id}/{type}", name="mekit_relationship_widget_related_items", requirements={"id"="\d+"})
+	 * @Template(template="MekitRelationshipBundle:Relationship/widget:relatedItems.html.twig")
+	 * @param ReferenceableElement $referenceableElement
+	 * @param String $type
+	 * @return array
+	 */
+	public function listRelatedItemsAction(ReferenceableElement $referenceableElement, $type) {
+		$referenceManager = $this->container->get("mekit_relationship.reference_manager");
+		$className = $referenceableElement->getType();
+		$classConfig = $referenceManager->getRelationshipConfiguration($className);
+		if(!$classConfig || $classConfig->get("referenceable") !== true) {
+			throw new \InvalidArgumentException('This is not a referenceable class!');
+		}
+		$referenceableEntityConfig = $referenceManager->getRelationshipConfiguration($type);
+		return [
+			'referenceableElement' => $referenceableElement,
+			'referenceableEntityConfig' => $referenceableEntityConfig
+		];
+	}
+
+
 }

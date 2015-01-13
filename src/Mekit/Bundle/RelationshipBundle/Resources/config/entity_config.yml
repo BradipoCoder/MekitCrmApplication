@@ -7,3 +7,24 @@ oro_entity_config:
                     options:
                         priority:           250
                         default_value:      false
+                # the label to use
+                label:
+                    options:
+                        priority:           260
+                        default_value:      ""
+                # can entity handle references to itself?
+                can_reference_itself:
+                    options:
+                        priority:           270
+                        default_value:      false
+                # name of the datagrid to use when listing items of this entity as related items
+                datagrid_name_list:
+                    options:
+                        priority:           280
+                        default_value:      ""
+                # name of the datagrid to use when selecting items of this entity as related items
+                datagrid_name_select:
+                    options:
+                        priority:           290
+                        default_value:      ""
+

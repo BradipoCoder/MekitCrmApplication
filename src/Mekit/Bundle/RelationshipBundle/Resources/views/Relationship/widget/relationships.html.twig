@@ -1,0 +1,11 @@
+{% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
+
+{#<pre>ReferenceableElement Id: {{ referenceableElement.id }}</pre>#}
+{#<pre>referenceableEntities: {{ dump(referenceableEntityConfigs) }}</pre>#}
+
+{% for referenceableEntityConfig in referenceableEntityConfigs %}
+	{{ mekit_render_relationship_items({
+		'referenceableElementId': referenceableElement.id,
+		'referenceableEntityConfig': referenceableEntityConfig
+	}) }}
+{% endfor %}

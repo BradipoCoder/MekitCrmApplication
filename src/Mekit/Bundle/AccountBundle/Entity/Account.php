@@ -65,7 +65,11 @@ use Oro\Bundle\UserBundle\Entity\User;
  *              "auditable"=true
  *          },
  *          "relationship"={
- *              "referenceable"=true
+ *              "referenceable"=true,
+ *              "label"="mekit.account.entity_plural_label",
+ *              "can_reference_itself"=false,
+ *              "datagrid_name_list"="accounts-related-relationship",
+ *              "datagrid_name_select"=""
  *          }
  *      }
  * )
