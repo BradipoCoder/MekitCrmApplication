@@ -6,7 +6,7 @@ datagrid:
             acl_resource:   mekit_event_view
             query:
                 select:
-                    - c.id as linkRefId
+                    - c.id
                     - c.description
                     - c.direction
                     - callOutcome.label as outcome
@@ -40,14 +40,8 @@ datagrid:
                 type:           twig
                 frontend_type:  html
                 template:       MekitCallBundle:Call:Datagrid/Property/callDirection.html.twig
-            linked_name:
-                data_name:      type
+            name:
                 label:          mekit.event.name.label
-                type:           twig
-                frontend_type:  html
-                template:       MekitEventBundle:Event:Datagrid/Property/eventLink.html.twig
-                context:
-                    config_route_key:     view_route_name
             state:
                 label:         mekit.event.state.label
             outcome:
@@ -63,9 +57,25 @@ datagrid:
             priority:
                 label:         mekit.event.priority.label
 
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      mekit_call_view
+                params:     [ id ]
+
+        actions:
+            view:
+                type:          navigate
+                acl_resource:  mekit_event_view
+                label:         oro.grid.action.view
+                icon:          eye-open
+                link:          view_link
+                rowAction:     true
+
         sorters:
             columns:
-                linked_name:
+                name:
                     data_name: e.name
                 direction:
                     data_name: c.direction
@@ -84,7 +94,7 @@ datagrid:
 
         filters:
             columns:
-                linked_name:
+                name:
                     type:      string
                     data_name: e.name
                 state:
@@ -129,3 +139,38 @@ datagrid:
                               group_name: 'CALL_OUTCOME'
                           multiple: true
 
+    calls-related-relationship:
+        extends: relationship-related-element-source-logic
+        source:
+            acl_resource:   mekit_event_view
+            query:
+                select:
+                    - e.id
+                    - ev.name as eventName
+                from:
+                   - { table: %mekit_call.call.entity.class%, alias: e }
+                join:
+                    left:
+                        - { join: e.event, alias: ev }
+
+        columns:
+            id:
+                label:        mekit.call.id.label
+            eventName:
+                label:        mekit.event.name.label
+
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      mekit_call_view
+                params:     [ id ]
+
+        actions:
+            view:
+                type:          navigate
+                acl_resource:  mekit_event_view
+                label:         oro.grid.action.view
+                icon:          eye-open
+                link:          view_link
+                rowAction:     true

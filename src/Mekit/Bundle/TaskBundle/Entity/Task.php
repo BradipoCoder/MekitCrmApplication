@@ -9,6 +9,8 @@ use Mekit\Bundle\AccountBundle\Model\ExtendAccount;
 use Mekit\Bundle\EventBundle\Entity\Event;
 use Mekit\Bundle\EventBundle\Model\ExtendEvent;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
+use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableTrait;
+use Mekit\Bundle\RelationshipBundle\Entity\Refererenceable;
 use Mekit\Bundle\TaskBundle\Model\ExtendTask;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
@@ -49,15 +51,24 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          },
  *          "mekitevent"={
  *              "eventable"=true,
- *              "label"="Task",
+ *              "label"="mekit.task.entity_label",
  *              "icon"="icon-flag",
  *              "view_route_name"="mekit_task_view",
  *              "edit_route_name"="mekit_task_edit"
+ *          },
+ *          "relationship"={
+ *              "referenceable"=true,
+ *              "label"="mekit.task.entity_plural_label",
+ *              "can_reference_itself"=false,
+ *              "datagrid_name_list"="tasks-related-relationship",
+ *              "datagrid_name_select"=""
  *          }
  *      }
  * )
  */
-class Task extends ExtendTask {
+class Task extends ExtendTask implements Refererenceable {
+	use ReferenceableTrait;
+
 	/**
 	 * @var int
 	 *

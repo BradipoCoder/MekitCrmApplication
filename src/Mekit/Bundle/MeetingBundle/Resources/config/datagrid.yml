@@ -94,3 +94,39 @@ datagrid:
                         attr:
                             group_name: 'EVENT_PRIORITY'
                         multiple: true
+
+    meetings-related-relationship:
+        extends: relationship-related-element-source-logic
+        source:
+            acl_resource:   mekit_event_view
+            query:
+                select:
+                    - e.id
+                    - ev.name as eventName
+                from:
+                   - { table: %mekit_meeting.meeting.entity.class%, alias: e }
+                join:
+                    left:
+                        - { join: e.event, alias: ev }
+
+        columns:
+            id:
+                label:        mekit.meeting.id.label
+            eventName:
+                label:        mekit.event.name.label
+
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      mekit_meeting_view
+                params:     [ id ]
+
+        actions:
+            view:
+                type:          navigate
+                acl_resource:  mekit_event_view
+                label:         oro.grid.action.view
+                icon:          eye-open
+                link:          view_link
+                rowAction:     true

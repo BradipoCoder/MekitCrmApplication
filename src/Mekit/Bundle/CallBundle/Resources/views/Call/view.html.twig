@@ -60,6 +60,13 @@
 		}) }}
 	{% endset %}
 
+	{% set relationship_lists %}
+	{{ mekit_render_all_relationships({
+		'title': 'Relationships',
+		'referenceableElementId': entity.referenceableElement.id
+	}) }}
+	{% endset %}
+
 	{% set dataBlocks = [
 		{
 			'title': 'mekit.call.sections.general'|trans,
@@ -68,6 +75,10 @@
 				{'data' : [callInformationWidget]},
 				{'data' : [eventInformationWidget]}
 			]
+		},
+		{
+		'title': 'Relationships',
+		'subblocks': [ {'data' : [relationship_lists]} ]
 		}
 	] %}
 

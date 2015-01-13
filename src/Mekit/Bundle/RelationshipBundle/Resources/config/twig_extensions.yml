@@ -2,7 +2,7 @@ parameters:
     mekit_relationship.twig.extension.relationship_list.class: Mekit\Bundle\RelationshipBundle\Twig\RelationshipLists
 
 services:
-    mekit_event.twig.extension.event_type_specific:
+    mekit_relationship.twig.extension.relationship_list:
         class: %mekit_relationship.twig.extension.relationship_list.class%
         arguments:
             - @mekit_relationship.reference_manager

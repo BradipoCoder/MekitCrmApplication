@@ -10,6 +10,8 @@ use Mekit\Bundle\EventBundle\Entity\Event;
 use Mekit\Bundle\EventBundle\Model\ExtendEvent;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
 use Mekit\Bundle\MeetingBundle\Model\ExtendMeeting;
+use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableTrait;
+use Mekit\Bundle\RelationshipBundle\Entity\Refererenceable;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
@@ -40,15 +42,24 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          },
  *          "mekitevent"={
  *              "eventable"=true,
- *              "label"="Meeting",
+ *              "label"="mekit.meeting.entity_label",
  *              "icon"="icon-group",
  *              "view_route_name"="mekit_meeting_view",
  *              "edit_route_name"="mekit_meeting_edit"
+ *          },
+ *          "relationship"={
+ *              "referenceable"=true,
+ *              "label"="mekit.meeting.entity_plural_label",
+ *              "can_reference_itself"=false,
+ *              "datagrid_name_list"="meetings-related-relationship",
+ *              "datagrid_name_select"=""
  *          }
  *      }
  * )
  */
-class Meeting extends ExtendMeeting {
+class Meeting extends ExtendMeeting implements Refererenceable {
+	use ReferenceableTrait;
+
 	/**
 	 * @var int
 	 *

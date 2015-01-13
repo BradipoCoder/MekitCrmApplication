@@ -1,9 +1,7 @@
 <?php
 namespace Mekit\Bundle\EventBundle\Twig;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
-use Oro\Bundle\EntityConfigBundle\Config\ConfigManager;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigInterface;
 
 /**
@@ -13,14 +11,14 @@ class EventTypeSpecific extends \Twig_Extension {
 	/**
 	 * @var ConfigProvider
 	 */
-	protected $configProvider;
+	protected $mekitEventConfigProvider;
 
 	/**
 	 * @param ConfigProvider $configProvider (oro_entity_config.provider.mekitevent)
 
 	 */
 	public function __construct(ConfigProvider $configProvider) {
-		$this->configProvider = $configProvider;
+		$this->mekitEventConfigProvider = $configProvider;
 	}
 
 	/**
@@ -63,7 +61,7 @@ class EventTypeSpecific extends \Twig_Extension {
 	 * @return ConfigInterface
 	 */
 	public function getEntityConfig($entityName) {
-		$config = $this->configProvider->getConfig($entityName);
+		$config = $this->mekitEventConfigProvider->getConfig($entityName);
 		if(!$config) {
 			throw new \LogicException(sprintf("This entity(%s) does not have configuration scope 'mekitevent'!", $entityName));
 		}
