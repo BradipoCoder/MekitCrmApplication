@@ -12,6 +12,8 @@ use Mekit\Bundle\ContactInfoBundle\Entity\Email;
 use Mekit\Bundle\ContactInfoBundle\Entity\Phone;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
 use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
+use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableTrait;
+use Mekit\Bundle\RelationshipBundle\Entity\Refererenceable;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
@@ -77,7 +79,9 @@ use Oro\Bundle\UserBundle\Entity\User;
  *      }
  * )
  */
-class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
+class Contact extends ExtendContact implements Refererenceable, Taggable, EmailOwnerInterface {
+	use ReferenceableTrait;
+
 	/*
 	 * Fields have to be duplicated here to enable dataaudit and soap transformation only for contact
 	 */
@@ -521,30 +525,6 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	 * )
 	 */
 	protected $tags;
-
-
-	/**
-	 * @var ReferenceableElement
-	 *
-	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement", cascade={"persist"}, orphanRemoval=true)
-	 * @ORM\JoinColumn(name="rid", referencedColumnName="id", onDelete="RESTRICT", nullable=false)
-	 */
-	protected $referenceableElement;
-
-	/**
-	 * @return ReferenceableElement
-	 */
-	public function getReferenceableElement() {
-		return $this->referenceableElement;
-	}
-
-	/**
-	 * @param ReferenceableElement $referenceableElement
-	 */
-	public function setReferenceableElement($referenceableElement) {
-		$this->referenceableElement = $referenceableElement;
-	}
-
 
 
 
