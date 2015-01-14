@@ -99,25 +99,31 @@ datagrid:
             export: true
 
 
-
     contacts-related-relationship:
         extends: relationship-related-element-source-logic
         source:
+            acl_resource:   mekit_contact_view
             query:
                 select:
-                    - e.id
-                    - e.firstName
-                    - e.lastName
+                    - c.id
+                    - c.firstName
+                    - c.lastName
+                    - jobTitleItem.label as jobTitle
                 from:
-                   - { table: 'Mekit\Bundle\ContactBundle\Entity\Contact', alias: e }
+                   - { table: 'Mekit\Bundle\ContactBundle\Entity\Contact', alias: c }
+                join:
+                    inner:
+                        - { join: c.referenceableElement, alias: referenceableElement }
+                    left:
+                        - { join: c.jobTitle, alias: jobTitleItem }
 
         columns:
-            id:
-                label:        Id
-            firstName:
-                label:        first Name
             lastName:
-                label:        last Name
+                label:        mekit.contact.last_name.label
+            firstName:
+                label:        mekit.contact.first_name.label
+            jobTitle:
+                label:        mekit.contact.job_title.label
 
         properties:
             id: ~

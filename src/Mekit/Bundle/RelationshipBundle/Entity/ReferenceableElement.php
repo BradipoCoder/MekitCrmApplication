@@ -5,13 +5,26 @@ use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Mekit\Bundle\CallBundle\Entity\Call;
+use Mekit\Bundle\MeetingBundle\Entity\Meeting;
+use Mekit\Bundle\TaskBundle\Entity\Task;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+
+use Mekit\Bundle\AccountBundle\Entity\Account;
+use Mekit\Bundle\ContactBundle\Entity\Contact;
 
 /**
  * @ORM\Entity(repositoryClass="Mekit\Bundle\RelationshipBundle\Entity\Repository\ReferenceableElementRepository")
  * @ORM\Table(name="mekit_ref", indexes={
  *          @ORM\Index(name="idx_ref_type", columns={"type"})
+ *      }
+ * )
+ * @Config(
+ *      defaultValues={
+ *          "entity"={
+ *              "icon"="icon-sitemap"
+ *          }
  *      }
  * )
  */
@@ -49,6 +62,125 @@ class ReferenceableElement {
 	 * )
 	 */
 	protected $references;
+
+	//-------------------------------------------ENTITY SPECIFIC INVERSE MAPPINGS (should be moved out to extend models)
+
+	//-----------------------------------------------------------------------------------------------------------ACCOUNT
+	/**
+	 * @var Account
+	 *
+	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\AccountBundle\Entity\Account", inversedBy="referenceableElement")
+	 * @ORM\JoinColumn(onDelete="RESTRICT", nullable=true)
+	 */
+	protected $account;
+
+	/**
+	 * @return Account
+	 */
+	public function getAccount() {
+		return $this->account;
+	}
+
+	/**
+	 * @param Account $account
+	 */
+	public function setAccount($account) {
+		$this->account = $account;
+	}
+
+	//-----------------------------------------------------------------------------------------------------------CONTACT
+	/**
+	 * @var Contact
+	 *
+	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\ContactBundle\Entity\Contact", inversedBy="referenceableElement")
+	 * @ORM\JoinColumn(onDelete="RESTRICT", nullable=true)
+	 */
+	protected $contact;
+
+	/**
+	 * @return Contact
+	 */
+	public function getContact() {
+		return $this->contact;
+	}
+
+	/**
+	 * @param Contact $contact
+	 */
+	public function setContact($contact) {
+		$this->contact = $contact;
+	}
+
+	//--------------------------------------------------------------------------------------------------------------CALL
+	/**
+	 * @var Call
+	 *
+	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\CallBundle\Entity\Call", inversedBy="referenceableElement")
+	 * @ORM\JoinColumn(onDelete="RESTRICT", nullable=true)
+	 */
+	protected $call;
+
+	/**
+	 * @return Call
+	 */
+	public function getCall() {
+		return $this->call;
+	}
+
+	/**
+	 * @param Call $call
+	 */
+	public function setCall($call) {
+		$this->call = $call;
+	}
+
+	//------------------------------------------------------------------------------------------------------------MEETING
+	/**
+	 * @var Meeting
+	 *
+	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\MeetingBundle\Entity\Meeting", inversedBy="referenceableElement")
+	 * @ORM\JoinColumn(onDelete="RESTRICT", nullable=true)
+	 */
+	protected $meeting;
+
+	/**
+	 * @return Meeting
+	 */
+	public function getMeeting() {
+		return $this->meeting;
+	}
+
+	/**
+	 * @param Meeting $meeting
+	 */
+	public function setMeeting($meeting) {
+		$this->meeting = $meeting;
+	}
+
+	//--------------------------------------------------------------------------------------------------------------TASK
+	/**
+	 * @var Task
+	 *
+	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\TaskBundle\Entity\Task", inversedBy="referenceableElement")
+	 * @ORM\JoinColumn(onDelete="RESTRICT", nullable=true)
+	 */
+	protected $task;
+
+	/**
+	 * @return Task
+	 */
+	public function getTask() {
+		return $this->task;
+	}
+
+	/**
+	 * @param Task $task
+	 */
+	public function setTask($task) {
+		$this->task = $task;
+	}
+
+
 
 	/**
 	 */

@@ -10,7 +10,7 @@ use Mekit\Bundle\CallBundle\Model\ExtendCall;
 use Mekit\Bundle\EventBundle\Entity\Event;
 use Mekit\Bundle\EventBundle\Model\ExtendEvent;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
-use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableTrait;
+use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
 use Mekit\Bundle\RelationshipBundle\Entity\Refererenceable;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
@@ -60,8 +60,6 @@ use Oro\Bundle\UserBundle\Entity\User;
  * )
  */
 class Call extends ExtendCall implements Refererenceable {
-	use ReferenceableTrait;
-
 	/**
 	 * @var int
 	 *
@@ -140,6 +138,28 @@ class Call extends ExtendCall implements Refererenceable {
 	 * )
 	 */
 	protected $event;
+
+	/**
+	 * @var ReferenceableElement
+	 *
+	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement", cascade={"persist"}, orphanRemoval=true, mappedBy="call")
+	 */
+	protected $referenceableElement;
+
+	/**
+	 * @return ReferenceableElement
+	 */
+	public function getReferenceableElement() {
+		return $this->referenceableElement;
+	}
+
+	/**
+	 * @param ReferenceableElement $referenceableElement
+	 */
+	public function setReferenceableElement(ReferenceableElement $referenceableElement) {
+		$this->referenceableElement = $referenceableElement;
+		$referenceableElement->setCall($this);
+	}
 
 
 	/**

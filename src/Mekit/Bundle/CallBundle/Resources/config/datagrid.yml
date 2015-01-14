@@ -150,6 +150,8 @@ datagrid:
                 from:
                    - { table: %mekit_call.call.entity.class%, alias: e }
                 join:
+                    inner:
+                        - { join: e.referenceableElement, alias: referenceableElement }
                     left:
                         - { join: e.event, alias: ev }
 

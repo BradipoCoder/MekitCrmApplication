@@ -1,26 +1,27 @@
 datagrid:
 
     # filters out all entities of a given class which reference OR is referred to by a specific ReferenceableElement (entity_id)
-    #@todo: implement "direction" -> is entity "referenced" OR "referred to by"
+    # USAGE:
+    #   1) extending datagrid must define "referenceableElement" through inner join
+    #   2) parameter "ref_el_id" must be defined - it will rappresent the id of the ReferenceableElement for which we are checking references/referrals
+    # PROVIDES:
+    # 1) filter on filter on "referenceableElement" having REFERENCES TO the referenceableElement identified by "ref_el_id"
+    # 2) filter on filter on "referenceableElement" having REFERRALS FROM the referenceableElement identified by "ref_el_id"
+    # 3) "referenceableElement_reference" and "referenceableElement_referral" through left join
+    # 4) field("referenceDirection")+column("direction") with values: IN(if it is a reference) | OUT(if it is a referral)
     relationship-related-element-source-logic:
         source:
-            type:           orm
+            type: orm
             query:
                 select:
-                    - referenceableElement.id as refId
-                    - CASE WHEN RE_reference IS NOT NULL THEN 'IN' ELSE 'OUT' END as referenceDirection
-                # This must be set by the extending datagrid with alias "e"
-                #from:
-                   #- { table: 'Mekit\Bundle\ContactBundle\Entity\Contact', alias: e }
+                    - CASE WHEN referenceableElement_reference IS NOT NULL THEN 'IN' ELSE 'OUT' END as referenceDirection
                 join:
-                    inner:
-                        - { join: e.referenceableElement, alias: referenceableElement }
                     left:
-                        - { join: referenceableElement.references, alias: RE_reference }
-                        - { join: referenceableElement.referrals, alias: RE_referral }
+                        - { join: referenceableElement.references, alias: referenceableElement_reference }
+                        - { join: referenceableElement.referrals, alias: referenceableElement_referral }
                 where:
                     and:
-                        - (RE_reference.id = :ref_el_id OR RE_referral.id = :ref_el_id)
+                        - (referenceableElement_reference.id = :ref_el_id OR referenceableElement_referral.id = :ref_el_id)
             bind_parameters:
                 - ref_el_id
         columns:
@@ -30,35 +31,3 @@ datagrid:
                 type:           twig
                 frontend_type:  html
                 template:       MekitRelationshipBundle:Relationship:Datagrid/Property/directionIcon.html.twig
-
-
-
-
-    # filters out all entities of a given class which reference OR are referred to a specific ReferenceableElement (entity_id) - INVERSED LOGIC
-    # More difficult to extend and probably slower
-    relationship-related-element-source-logic-inversed:
-        source:
-            type:           orm
-            query:
-                select:
-                    - referenceableElement.id as refId
-                from:
-                    - { table: %mekit_relationship.referenceable_element.entity.class%, alias: referenceableElement }
-                join:
-                    left:
-                        - { join: referenceableElement.references, alias: RE_reference }
-                        - { join: referenceableElement.referrals, alias: RE_referral }
-                    # This should be set by the extending datagrid
-                    #inner:
-                        #-
-                            #join: 'Mekit\Bundle\ContactBundle\Entity\Contact'
-                            #alias: e
-                            #conditionType: WITH
-                            #condition: "referenceableElement = e.referenceableElement"
-                where:
-                    and:
-                        #- referenceableElement.type = 'Mekit\Bundle\ContactBundle\Entity\Contact' # this is not necessary
-                        - (RE_reference.id = :ref_el_id OR RE_referral.id = :ref_el_id)
-
-            bind_parameters:
-                - ref_el_id

@@ -198,20 +198,20 @@ datagrid:
         source:
             query:
                 select:
-                    - e.id
-                    - e.name
+                    - a.id
+                    - a.name
                     - accountType.label as type
                     - accountState.label as state
                 from:
-                   - { table: %mekit_account.account.entity.class%, alias: e }
+                   - { table: %mekit_account.account.entity.class%, alias: a }
                 join:
+                    inner:
+                        - { join: a.referenceableElement, alias: referenceableElement }
                     left:
-                        - { join: e.type, alias: accountType }
-                        - { join: e.state, alias: accountState }
+                        - { join: a.type, alias: accountType }
+                        - { join: a.state, alias: accountState }
 
         columns:
-            id:
-                label:        mekit.account.id.label
             name:
                 label:        mekit.account.name.label
             type:
