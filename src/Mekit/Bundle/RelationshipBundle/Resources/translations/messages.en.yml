@@ -1,7 +1,13 @@
 mekit:
     relationship:
 
+        #
+        # Generic/Shared labels
+        #
         direction.label:            Direction
+        select.label:               Select
+        select_references.label:    Select related items
+        assigned.label:             Assigned
 
 
         referenceableelement:

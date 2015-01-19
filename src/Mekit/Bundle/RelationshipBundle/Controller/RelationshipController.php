@@ -18,7 +18,7 @@ use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
 class RelationshipController extends Controller {
 
 	/**
-	 * Lists Entities related to specific ReferenceableElement
+	 * Lists datagrids related to specific ReferenceableElement
 	 *
 	 * @Route("/widget/relationships/{id}", name="mekit_relationship_widget_list", requirements={"id"="\d+"})
 	 * @Template(template="MekitRelationshipBundle:Relationship/widget:relationships.html.twig")
@@ -27,10 +27,10 @@ class RelationshipController extends Controller {
 	 */
 	public function listRelationshipsAction(ReferenceableElement $referenceableElement) {
 		$referenceManager = $this->container->get("mekit_relationship.reference_manager");
-		$className = $referenceableElement->getType();
+		$className = $this->getRealClassName($referenceableElement->getBaseEntity());
 		$classConfig = $referenceManager->getRelationshipConfiguration($className);
 		if(!$classConfig || $classConfig->get("referenceable") !== true) {
-			throw new \InvalidArgumentException('This is not a referenceable class!');
+			throw new \InvalidArgumentException('This is not a referenceable class('.$className.')!');
 		}
 		$referenceableEntityConfigs = $referenceManager->getReferenceableEntityConfigurations();
 		return [
@@ -40,7 +40,7 @@ class RelationshipController extends Controller {
 	}
 
 	/**
-	 * ?
+	 * Show datagrid of related items (of given type) referenced by a specific ReferenceableElement
 	 *
 	 * @Route("/widget/related_items/{id}/{type}", name="mekit_relationship_widget_related_items", requirements={"id"="\d+"})
 	 * @Template(template="MekitRelationshipBundle:Relationship/widget:relatedItems.html.twig")
@@ -50,17 +50,56 @@ class RelationshipController extends Controller {
 	 */
 	public function listRelatedItemsAction(ReferenceableElement $referenceableElement, $type) {
 		$referenceManager = $this->container->get("mekit_relationship.reference_manager");
-		$className = $referenceableElement->getType();
+		$className = $this->getRealClassName($referenceableElement->getBaseEntity());
 		$classConfig = $referenceManager->getRelationshipConfiguration($className);
 		if(!$classConfig || $classConfig->get("referenceable") !== true) {
-			throw new \InvalidArgumentException('This is not a referenceable class!');
+			throw new \InvalidArgumentException('This is not a referenceable class('.$className.')!');
 		}
 		$referenceableEntityConfig = $referenceManager->getRelationshipConfiguration($type);
 		return [
 			'referenceableElement' => $referenceableElement,
-			'referenceableEntityConfig' => $referenceableEntityConfig
+			'referenceableEntityConfig' => $referenceableEntityConfig,
+			'entity_class' => $type
 		];
 	}
 
+	/**
+	 * Show datagrid of "un-related" items (of given type) for reference selection
+	 * "id" is passed so we can exclude items already selected
+	 *
+	 * @Route("/widget/select_items/{id}/{type}", name="mekit_relationship_widget_select_items", requirements={"id"="\d+"})
+	 * @Template(template="MekitRelationshipBundle:Relationship/widget:selectItems.html.twig")
+	 * @param ReferenceableElement $referenceableElement
+	 * @param String $type
+	 * @return array
+	 */
+	public function selectRelatedItemsAction(ReferenceableElement $referenceableElement, $type) {
+		$referenceManager = $this->container->get("mekit_relationship.reference_manager");
+		$className = $this->getRealClassName($referenceableElement->getBaseEntity());
+		$classConfig = $referenceManager->getRelationshipConfiguration($className);
+		if(!$classConfig || $classConfig->get("referenceable") !== true) {
+			echo $this->getRealClassName($referenceableElement->getBaseEntity());
+			throw new \InvalidArgumentException('This is not a referenceable class('.$className.')!');
+		}
+		$referenceableEntityConfig = $referenceManager->getRelationshipConfiguration($type);
+		return [
+			'referenceableElement' => $referenceableElement,
+			'referenceableEntityConfig' => $referenceableEntityConfig,
+			'entity_class' => $type
+		];
 
+
+	}
+
+	/**
+	 * Returns class name of an object
+	 * This works even if the passed object is a proxy class
+	 * @todo: move this out from controller
+	 * @param $object
+	 * @return string
+	 */
+	private function getRealClassName($object) {
+		$em = $this->container->get("doctrine.orm.entity_manager");
+		return($em->getClassMetadata(get_class($object))->getName());
+	}
 }

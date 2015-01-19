@@ -33,7 +33,6 @@ class ReferenceManager {
 		$classConfig = $this->getRelationshipConfiguration($className);
 		if($classConfig && $classConfig->get("referenceable") === true) {
 			$referenceableElement = new ReferenceableElement();
-			$referenceableElement->setType($className);
 			$entity->setReferenceableElement($referenceableElement);
 		}
 	}

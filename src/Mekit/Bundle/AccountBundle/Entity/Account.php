@@ -70,7 +70,7 @@ use Oro\Bundle\UserBundle\Entity\User;
  *              "label"="mekit.account.entity_plural_label",
  *              "can_reference_itself"=false,
  *              "datagrid_name_list"="accounts-related-relationship",
- *              "datagrid_name_select"=""
+ *              "datagrid_name_select"="accounts-related-select"
  *          }
  *      }
  * )

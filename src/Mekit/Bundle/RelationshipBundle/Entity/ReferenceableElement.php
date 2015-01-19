@@ -16,10 +16,7 @@ use Mekit\Bundle\ContactBundle\Entity\Contact;
 
 /**
  * @ORM\Entity(repositoryClass="Mekit\Bundle\RelationshipBundle\Entity\Repository\ReferenceableElementRepository")
- * @ORM\Table(name="mekit_ref", indexes={
- *          @ORM\Index(name="idx_ref_type", columns={"type"})
- *      }
- * )
+ * @ORM\Table(name="mekit_referenceable")
  * @Config(
  *      defaultValues={
  *          "entity"={
@@ -39,13 +36,6 @@ class ReferenceableElement {
 	protected $id;
 
 	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="type", length=255, nullable=false)
-	 */
-	protected $type;
-
-	/**
 	 * @var Collection
 	 *
 	 * @ORM\ManyToMany(targetEntity="ReferenceableElement", mappedBy="references")
@@ -56,7 +46,7 @@ class ReferenceableElement {
 	 * @var Collection
 	 *
 	 * @ORM\ManyToMany(targetEntity="ReferenceableElement", inversedBy="referrals")
-	 * @ORM\JoinTable(name="mekit_ref_refs",
+	 * @ORM\JoinTable(name="mekit_references",
 	 *      joinColumns={@ORM\JoinColumn(name="referral_id", referencedColumnName="id")},
 	 *      inverseJoinColumns={@ORM\JoinColumn(name="referenced_id", referencedColumnName="id")}
 	 * )
@@ -206,19 +196,24 @@ class ReferenceableElement {
 	}
 
 	/**
-	 * @return string
+	 * very ugly method to return the entity owning this ReferenceableElement
+	 *
+	 * @return bool|Account|Call|Contact|Meeting|Task
 	 */
-	public function getType() {
-		return $this->type;
-	}
-
-	/**
-	 * @param string $type
-	 * @return $this
-	 */
-	public function setType($type) {
-		$this->type = $type;
-		return $this;
+	public function getBaseEntity() {
+		if($this->account) {
+			return $this->account;
+		} else if($this->contact) {
+			return $this->contact;
+		} else if($this->call) {
+			return $this->call;
+		} else if($this->meeting) {
+			return $this->meeting;
+		} else if($this->task) {
+			return $this->task;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -325,6 +320,6 @@ class ReferenceableElement {
 	 * @return string
 	 */
 	public function __toString() {
-		return (string)$this->getId()."-".$this->getType();
+		return $this->getId();
 	}
 }

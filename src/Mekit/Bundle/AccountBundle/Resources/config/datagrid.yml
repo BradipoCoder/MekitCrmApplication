@@ -234,3 +234,59 @@ datagrid:
                 icon:          eye-open
                 link:          view_link
                 rowAction:     true
+
+    accounts-related-select:
+        extended_entity_name: %mekit_account.account.entity.class%
+        source:
+            type:           orm
+            acl_resource:   mekit_account_account_view
+            query:
+                select:
+                    - a.id
+                    - a.name
+                    - accountType.label as type
+                    - accountState.label as state
+                    - accountIndustry.label as industry
+                    - accountSource.label as source
+                    - CONCAT(accountOwner.firstName, CONCAT(' ', accountOwner.lastName)) as ownerName
+                    - CONCAT(assignee.firstName, CONCAT(' ', assignee.lastName)) as AssigneeName
+                    - CASE WHEN TRUE = TRUE THEN FALSE ELSE TRUE END as isAssigned
+                from:
+                    - { table: %mekit_account.account.entity.class%, alias: a }
+                join:
+                    left:
+                        - { join: a.owner, alias: accountOwner }
+                        - { join: a.assignedTo, alias: assignee }
+                        - { join: a.type, alias: accountType }
+                        - { join: a.state, alias: accountState }
+                        - { join: a.industry, alias: accountIndustry }
+                        - { join: a.source, alias: accountSource }
+
+        columns:
+            isAssigned:
+                label:         mekit.relationship.assigned.label
+                editable:      true
+                frontend_type: boolean
+            name:
+                label:         mekit.account.name.label
+            type:
+                label:         mekit.account.type.label
+            state:
+                label:         mekit.account.state.label
+            industry:
+                label:         mekit.account.industry.label
+            source:
+                label:         mekit.account.source.label
+            AssigneeName:
+                label:         mekit.account.assigned_to.label
+
+        sorters:
+            columns:
+                name:
+                    data_name: a.name
+
+        filters:
+            columns:
+                name:
+                    type:      string
+                    data_name: a.name

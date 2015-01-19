@@ -1,0 +1,23 @@
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+{% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
+
+
+<div class="widget-content">
+
+	<script type="text/javascript">
+		require(['oroui/js/mediator', 'oroui/js/widget-manager'],
+				function(mediator, widgetManager) {
+					//do something funky!
+				}
+		);
+	</script>
+	<div class="form-container">
+			{{ dataGrid.renderGrid(referenceableEntityConfig.get("datagrid_name_select"), {ref_el_id: referenceableElement.id}, {} ) }}
+		<form id="relationship_select_form" action="" method="post" class="listitem-form">
+			<div class="widget-actions form-actions" style="display: none;">
+				<button class="btn" type="reset">{{ 'Cancel'|trans }}</button>
+				<button class="btn btn-primary" type="submit">{{ 'Save'|trans }}</button>
+			</div>
+		</form>
+	</div>
+</div>
