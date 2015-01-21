@@ -10,16 +10,21 @@
 						messenger.notificationFlashMessage('success', __('mekit.relationship.saved.message'));
 						mediator.trigger('widget_success:' + widget.getAlias());
 						mediator.trigger('widget_success:' + widget.getWid());
-						//not refreshing
-						//mediator.trigger('datagrid:doRefresh:{{ referenceableEntityConfig.get("datagrid_name_select") }}');
-						//
 						widget.remove();
 					});
 				}
 			);
 		</script>
 	{% else %}
+		<script type="text/javascript">
+			require(['underscore', 'orotranslation/js/translator', 'oroui/js/widget-manager', 'oroui/js/messenger', 'oroui/js/mediator'],
+					function(_, __, widgetManager, messenger, mediator) {
+						//console.log("ok");
+					}
+			);
+		</script>
 		{{ dataGrid.renderGrid(referenceableEntityConfig.get("datagrid_name_select"), {ref_el_id: referenceableElement.id}, {} ) }}
+		{#{{ oro_datagrid_data }}#}
 		<div class="form-container">
 			{{ form_start(form) }}
 				{{ form_widget(form.appendElements, {'id': 'appendElements'}) }}

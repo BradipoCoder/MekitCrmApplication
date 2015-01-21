@@ -132,3 +132,36 @@ datagrid:
                 icon:          eye-open
                 link:          view_link
                 rowAction:     true
+
+    meetings-related-select:
+        extends: relationship-related-elements-select-logic
+        source:
+            query:
+                select:
+                    - referenceableElement.id as refElId
+                    - ev.name as eventName
+                from:
+                    - { table: %mekit_meeting.meeting.entity.class%, alias: m }
+                join:
+                    inner:
+                        - { join: m.referenceableElement, alias: referenceableElement }
+                        - { join: m.event, alias: ev }
+        columns:
+            refElId:
+                renderable: false
+            eventName:
+                label:        mekit.event.name.label
+
+        properties:
+            id: ~
+
+        options:
+            entityHint: meeting
+            rowSelection:
+                dataField: refElId
+                columnName: isAssigned
+                selectors:
+                    included: '#appendElements'
+                    excluded: '#removeElements'
+
+

@@ -54,7 +54,7 @@ use Oro\Bundle\UserBundle\Entity\User;
  *              "label"="mekit.call.entity_plural_label",
  *              "can_reference_itself"=false,
  *              "datagrid_name_list"="calls-related-relationship",
- *              "datagrid_name_select"=""
+ *              "datagrid_name_select"="calls-related-select"
  *          }
  *      }
  * )

@@ -1,17 +1,8 @@
 parameters:
-#    mekit_relationship.referenceable_element.manager.api.class:             Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
-
     mekit_relationship.type.relationship_assignment.class:                  Mekit\Bundle\RelationshipBundle\Form\Type\RelationshipAssignmentType
     mekit_relationship.handler.relationship_assignment.class:               Mekit\Bundle\RelationshipBundle\Form\Handler\RelationshipAssignmentHandler
 
 services:
-#    mekit_relationship.referenceable_element.manager.api:
-#        class: %mekit_relationship.referenceable_element.manager.api.class%
-#        parent: oro_soap.manager.entity_manager.abstract
-#        arguments:
-#            - %mekit_relationship.referenceable_element.entity.class%
-#            - @doctrine.orm.entity_manager
-
     mekit_relationship.form.relationship_assignment:
         class: Symfony\Component\Form\Form
         factory_method: createNamed

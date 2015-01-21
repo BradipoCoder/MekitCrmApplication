@@ -183,3 +183,35 @@ datagrid:
                 icon:          eye-open
                 link:          view_link
                 rowAction:     true
+
+
+    tasks-related-select:
+        extends: relationship-related-elements-select-logic
+        source:
+            query:
+                select:
+                    - referenceableElement.id as refElId
+                    - ev.name as eventName
+                from:
+                    - { table: %mekit_task.task.entity.class%, alias: t }
+                join:
+                    inner:
+                        - { join: t.referenceableElement, alias: referenceableElement }
+                        - { join: t.event, alias: ev }
+        columns:
+            refElId:
+                renderable: false
+            eventName:
+                label:        mekit.event.name.label
+
+        properties:
+            id: ~
+
+        options:
+            entityHint: task
+            rowSelection:
+                dataField: refElId
+                columnName: isAssigned
+                selectors:
+                    included: '#appendElements'
+                    excluded: '#removeElements'

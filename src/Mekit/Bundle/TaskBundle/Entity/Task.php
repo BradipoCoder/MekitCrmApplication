@@ -59,9 +59,9 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          "relationship"={
  *              "referenceable"=true,
  *              "label"="mekit.task.entity_plural_label",
- *              "can_reference_itself"=false,
+ *              "can_reference_itself"=true,
  *              "datagrid_name_list"="tasks-related-relationship",
- *              "datagrid_name_select"=""
+ *              "datagrid_name_select"="tasks-related-select"
  *          }
  *      }
  * )

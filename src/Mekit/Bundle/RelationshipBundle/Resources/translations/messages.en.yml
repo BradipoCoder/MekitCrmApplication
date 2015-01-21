@@ -4,7 +4,6 @@ mekit:
         #
         # Generic/Shared labels
         #
-        saved.message:              Relationships were saved successfully
         direction.label:            Direction
         select.label:               Select
         select_references.label:    Select related items

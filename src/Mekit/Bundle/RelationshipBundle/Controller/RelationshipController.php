@@ -83,13 +83,13 @@ class RelationshipController extends Controller {
 		}
 		$referenceableEntityConfig = $referenceManager->getRelationshipConfiguration($type);
 		//
-		$resp = [];
+		$response = [];
 		$saved = false;
 		if ($this->container->get('mekit_relationship.form.handler.relationship_assignment')->process($referenceableElement)) {
 			$saved = true;
 		}
 		//
-		$resp = array_merge($resp, [
+		$response = array_merge($response, [
 			'saved' => $saved,
 			'referenceableElement' => $referenceableElement,
 			'referenceableEntityConfig' => $referenceableEntityConfig,
@@ -97,12 +97,11 @@ class RelationshipController extends Controller {
 		]);
 
 		if (!$saved) {
-			$resp = array_merge($resp, [
+			$response = array_merge($response, [
 				'form' => $this->get('mekit_relationship.form.relationship_assignment')->createView()
 			]);
 		}
-
-		return $resp;
+		return $response;
 	}
 
 	/**

@@ -264,36 +264,3 @@ datagrid:
                 selectors:
                     included: '#appendElements'
                     excluded: '#removeElements'
-
-
-
-
-    accounts-test:
-        extends: relationship-related-elements-select-logic
-        source:
-            query:
-                select:
-                    - referenceableElement.id as refElId
-                    - a.id
-                    - a.name
-                from:
-                    - { table: %mekit_account.account.entity.class%, alias: a }
-                join:
-                    inner:
-                        - { join: a.referenceableElement, alias: referenceableElement }
-        columns:
-            refElId:
-                renderable: false
-            name:
-
-        properties:
-            id: ~
-
-        options:
-            entityHint: account
-            rowSelection:
-                dataField: refElId
-                columnName: isAssigned
-                selectors:
-                    included: '#appendElements'
-                    excluded: '#removeElements'

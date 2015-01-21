@@ -52,7 +52,7 @@ use Oro\Bundle\UserBundle\Entity\User;
  *              "label"="mekit.meeting.entity_plural_label",
  *              "can_reference_itself"=false,
  *              "datagrid_name_list"="meetings-related-relationship",
- *              "datagrid_name_select"=""
+ *              "datagrid_name_select"="meetings-related-select"
  *          }
  *      }
  * )

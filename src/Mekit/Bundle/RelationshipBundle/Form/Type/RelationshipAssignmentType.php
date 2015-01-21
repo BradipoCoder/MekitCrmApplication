@@ -19,6 +19,7 @@ class RelationshipAssignmentType extends AbstractType {
 		$this->buildFields($builder, $options);
 
 		// set pre-assigned references
+		/*
 		$builder->addEventListener(
 			FormEvents::POST_SET_DATA,
 			function (FormEvent $event) {
@@ -32,6 +33,7 @@ class RelationshipAssignmentType extends AbstractType {
 				}
 			}
 		);
+		*/
 	}
 
 	/**

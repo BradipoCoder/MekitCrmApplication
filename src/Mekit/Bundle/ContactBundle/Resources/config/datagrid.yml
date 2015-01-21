@@ -110,7 +110,7 @@ datagrid:
                     - c.lastName
                     - jobTitleItem.label as jobTitle
                 from:
-                   - { table: 'Mekit\Bundle\ContactBundle\Entity\Contact', alias: c }
+                   - { table: %mekit_contact.contact.entity.class%, alias: c }
                 join:
                     inner:
                         - { join: c.referenceableElement, alias: referenceableElement }
@@ -140,3 +140,37 @@ datagrid:
                 icon:          eye-open
                 link:          view_link
                 rowAction:     true
+
+    contacts-related-select:
+        extends: relationship-related-elements-select-logic
+        source:
+            query:
+                select:
+                    - referenceableElement.id as refElId
+                    - c.id
+                    - c.firstName
+                    - c.lastName
+                from:
+                    - { table: %mekit_contact.contact.entity.class%, alias: c }
+                join:
+                    inner:
+                        - { join: c.referenceableElement, alias: referenceableElement }
+        columns:
+            refElId:
+                renderable: false
+            lastName:
+                label:        mekit.contact.last_name.label
+            firstName:
+                label:        mekit.contact.first_name.label
+
+        properties:
+            id: ~
+
+        options:
+            entityHint: contact
+            rowSelection:
+                dataField: refElId
+                columnName: isAssigned
+                selectors:
+                    included: '#appendElements'
+                    excluded: '#removeElements'

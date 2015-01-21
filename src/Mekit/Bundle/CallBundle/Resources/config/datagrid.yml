@@ -176,3 +176,34 @@ datagrid:
                 icon:          eye-open
                 link:          view_link
                 rowAction:     true
+
+    calls-related-select:
+        extends: relationship-related-elements-select-logic
+        source:
+            query:
+                select:
+                    - referenceableElement.id as refElId
+                    - ev.name as eventName
+                from:
+                    - { table: %mekit_call.call.entity.class%, alias: c }
+                join:
+                    inner:
+                        - { join: c.referenceableElement, alias: referenceableElement }
+                        - { join: c.event, alias: ev }
+        columns:
+            refElId:
+                renderable: false
+            eventName:
+                label:        mekit.event.name.label
+
+        properties:
+            id: ~
+
+        options:
+            entityHint: call
+            rowSelection:
+                dataField: refElId
+                columnName: isAssigned
+                selectors:
+                    included: '#appendElements'
+                    excluded: '#removeElements'
