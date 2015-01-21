@@ -3,7 +3,7 @@
 
 <div class="box-type1">
 	<div class="title">
-		<span class="widget-title">{{ referenceableEntityConfig.get("label")|trans }}</span>
+		{#<span class="widget-title">{{ referenceableEntityConfig.get("label")|trans }}</span>#}
 		{% if referenceableEntityConfig.get("datagrid_name_select") %}
 			{{ UI.clientLink({
 				'dataUrl': path('mekit_relationship_widget_select_items', {id: referenceableElement.id, type: entity_class} ),

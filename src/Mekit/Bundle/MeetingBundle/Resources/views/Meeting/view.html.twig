@@ -60,13 +60,6 @@
 		}) }}
 	{% endset %}
 
-	{% set relationship_lists %}
-	{{ mekit_render_all_relationships({
-		'title': 'Relationships',
-		'referenceableElementId': entity.referenceableElement.id
-	}) }}
-	{% endset %}
-
 	{% set dataBlocks = [
 		{
 			'title': 'mekit.meeting.sections.general'|trans,
@@ -75,14 +68,15 @@
 				{'data' : [meetingInformationWidget]},
 				{'data' : [eventInformationWidget]}
 			]
-		},
-		{
-		'title': 'Relationships',
-		'subblocks': [ {'data' : [relationship_lists]} ]
 		}
 	] %}
 
+	{#RENDER RELATIONSHIPS#}
+	{% set relationships = mekit_render_all_relationships({'referenceableElement': entity.referenceableElement}) %}
+	{% set dataBlocks = dataBlocks|merge(relationships) %}
+
 	{% set id = 'eventMeetingView' %}
 	{% set data = {'dataBlocks': dataBlocks} %}
+
 	{{ parent() }}
 {% endblock content_data %}

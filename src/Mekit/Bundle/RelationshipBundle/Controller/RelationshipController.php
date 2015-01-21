@@ -16,29 +16,6 @@ use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
  * Class RelationshipController
  */
 class RelationshipController extends Controller {
-
-	/**
-	 * Lists datagrids related to specific ReferenceableElement
-	 *
-	 * @Route("/widget/relationships/{id}", name="mekit_relationship_widget_list", requirements={"id"="\d+"})
-	 * @Template(template="MekitRelationshipBundle:Relationship/widget:relationships.html.twig")
-	 * @param ReferenceableElement $referenceableElement
-	 * @return array
-	 */
-	public function listRelationshipsAction(ReferenceableElement $referenceableElement) {
-		$referenceManager = $this->container->get("mekit_relationship.reference_manager");
-		$className = $this->getRealClassName($referenceableElement->getBaseEntity());
-		$classConfig = $referenceManager->getRelationshipConfiguration($className);
-		if(!$classConfig || $classConfig->get("referenceable") !== true) {
-			throw new \InvalidArgumentException('This is not a referenceable class('.$className.')!');
-		}
-		$referenceableEntityConfigs = $referenceManager->getReferenceableEntityConfigurations();
-		return [
-			'referenceableElement' => $referenceableElement,
-			'referenceableEntityConfigs' => $referenceableEntityConfigs
-		];
-	}
-
 	/**
 	 * Show datagrid of related items (of given type) referenced by a specific ReferenceableElement
 	 *

@@ -43,15 +43,6 @@
 		}) }}
 	{% endset %}
 
-	{% set relationship_lists %}
-	{{ mekit_render_all_relationships({
-		'title': 'Relationships',
-		'className': oro_class_name(entity),
-		'entityId': entity.id,
-		'referenceableElementId': entity.referenceableElement.id
-	}) }}
-	{% endset %}
-
 	{% set addressBookWidget %}
         {{ oro_widget_render({
             'widgetType': 'block',
@@ -68,14 +59,14 @@
 		'subblocks': [ {'data' : [contactInformationWidget]} ]
 		},
 		{
-		'title': 'Relationships',
-		'subblocks': [ {'data' : [relationship_lists]} ]
-		},
-		{
 		'title': 'mekit.contact.sections.addresses'|trans,
 		'subblocks': [ {'data' : [addressBookWidget]} ]
 		},
 	] %}
+
+	{#RENDER RELATIONSHIPS#}
+	{% set relationships = mekit_render_all_relationships({'referenceableElement': entity.referenceableElement}) %}
+	{% set dataBlocks = dataBlocks|merge(relationships) %}
 
 	{% set id = 'contactView' %}
 	{% set data = {'dataBlocks': dataBlocks} %}

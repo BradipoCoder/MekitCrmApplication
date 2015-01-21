@@ -1,7 +1,9 @@
 <?php
 namespace Mekit\Bundle\RelationshipBundle\Twig;
 
+use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigInterface;
+use Oro\Bundle\TranslationBundle\Translation\Translator;
 use Symfony\Component\Routing\Router;
 use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
 use Oro\Bundle\UIBundle\Twig\WidgetExtension;
@@ -18,15 +20,20 @@ class RelationshipLists extends \Twig_Extension {
 	/** @var Router */
 	protected $router;
 
+	/** @var  Translator */
+	protected $translator;
+
 	/**
 	 * @param ReferenceManager $referenceManager
 	 * @param WidgetExtension $widgetExtension
 	 * @param Router $router
+	 * @param Translator $translator
 	 */
-	public function __construct(ReferenceManager $referenceManager, WidgetExtension $widgetExtension, Router $router) {
+	public function __construct(ReferenceManager $referenceManager, WidgetExtension $widgetExtension, Router $router, Translator $translator) {
 		$this->referenceManager = $referenceManager;
 		$this->widgetExtension = $widgetExtension;
 		$this->router = $router;
+		$this->translator = $translator;
 	}
 
 
@@ -42,34 +49,46 @@ class RelationshipLists extends \Twig_Extension {
 					'is_safe' => array('html'),
 					'needs_environment' => true
 				]
-			),
-			new \Twig_SimpleFunction('mekit_render_relationship_items', array(
-				$this,
-				'renderRelationshipItems'),
-				[
-					'is_safe' => array('html'),
-					'needs_environment' => true
-				]
 			)
 		);
 	}
 
-
 	/**
-	 * Render all relationships of a specific items of a specific ReferenceableElement
+	 * Render all relationships
 	 * @param Twig_Environment $environment,
 	 * @param Array $options
 	 * @return string
 	 */
 	public function renderAllRelationships(Twig_Environment $environment, $options) {
-		if (!array_key_exists('referenceableElementId', $options) || empty($options["referenceableElementId"])) {
-			throw new \InvalidArgumentException('Option referenceableElementId is required and cannot be empty!');
+		if (!array_key_exists('referenceableElement', $options) || !$options["referenceableElement"] instanceof ReferenceableElement) {
+			throw new \InvalidArgumentException('Option referenceableElement is required and must be an instance of Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement!');
 		}
-		$options["widgetType"] = 'block';
-		$options["url"] = $this->router->generate('mekit_relationship_widget_list', [
-			"id" => $options["referenceableElementId"]
-		]);
-		return $this->widgetExtension->render($environment, $options);
+		/** @var ReferenceableElement $referenceableElement */
+		$referenceableElement = $options["referenceableElement"];
+		$className = get_class($referenceableElement->getBaseEntity());
+		$classConfig = $this->referenceManager->getRelationshipConfiguration($className);
+		if(!$classConfig || $classConfig->get("referenceable") !== true) {
+			throw new \InvalidArgumentException('This is not a referenceable class('.$className.')!');
+		}
+		$referenceableEntityConfigs = $this->referenceManager->getReferenceableEntityConfigurations();
+		$blocks = [];
+		foreach($referenceableEntityConfigs as $referenceableEntityConfig) {
+			$refClassName = $referenceableEntityConfig->getId()->getClassName();
+			$blocks[] = [
+				"title" => $this->translator->trans($referenceableEntityConfig->get("label")),
+				"subblocks" => [
+					[
+						"data" => [
+							$this->renderRelationshipItems($environment, [
+								'referenceableElement' => $referenceableElement,
+								'referenceableEntityConfig' => $referenceableEntityConfig
+							])
+						]
+					]
+				]
+			];
+		}
+		return $blocks;
 	}
 
 	/**
@@ -79,19 +98,20 @@ class RelationshipLists extends \Twig_Extension {
 	 * @param Array $options
 	 * @return string
 	 */
-	public function renderRelationshipItems(Twig_Environment $environment, $options) {
-		if (!array_key_exists('referenceableElementId', $options) || empty($options["referenceableElementId"])) {
-			throw new \InvalidArgumentException('Option referenceableElementId is required and cannot be empty!');
+	private function renderRelationshipItems(Twig_Environment $environment, $options) {
+		if (!array_key_exists('referenceableElement', $options) || !$options["referenceableElement"] instanceof ReferenceableElement) {
+			throw new \InvalidArgumentException('Option referenceableElement is required and must be an instance of Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement!');
 		}
-		if (!array_key_exists('referenceableEntityConfig', $options) || empty($options["referenceableEntityConfig"])) {
-			throw new \InvalidArgumentException('Option referenceableEntityConfig is required and cannot be empty!');
+		if (!array_key_exists('referenceableEntityConfig', $options) || !$options["referenceableEntityConfig"] instanceof ConfigInterface) {
+			throw new \InvalidArgumentException('Option referenceableEntityConfig is required and must be an instance of Oro\Bundle\EntityConfigBundle\Config\ConfigInterface!');
 		}
+		/** @var ReferenceableElement $referenceableElement */
+		$referenceableElement = $options["referenceableElement"];
 		/** @var ConfigInterface $referenceableEntityConfig */
 		$referenceableEntityConfig = $options["referenceableEntityConfig"];
-
 		$options["widgetType"] = 'block';
 		$options["url"] = $this->router->generate('mekit_relationship_widget_related_items', [
-			"id" => $options["referenceableElementId"],
+			"id" => $referenceableElement->getId(),
 			"type" => $referenceableEntityConfig->getId()->getClassName(),
 		]);
 		return $this->widgetExtension->render($environment, $options);
