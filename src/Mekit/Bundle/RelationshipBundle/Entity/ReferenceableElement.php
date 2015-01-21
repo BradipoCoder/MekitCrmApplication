@@ -267,6 +267,13 @@ class ReferenceableElement {
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function hasReferences() {
+		return !$this->getReferences()->isEmpty();
+	}
+
+	/**
 	 * @return Collection|ReferenceableElement[]
 	 */
 	public function getReferrals() {
@@ -314,6 +321,13 @@ class ReferenceableElement {
 	 */
 	public function hasReferral(ReferenceableElement $referral) {
 		return $this->getReferrals()->contains($referral);
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasReferrals() {
+		return !$this->getReferrals()->isEmpty();
 	}
 
 	/**

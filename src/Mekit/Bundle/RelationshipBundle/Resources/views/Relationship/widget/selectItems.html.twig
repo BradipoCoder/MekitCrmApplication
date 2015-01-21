@@ -1,23 +1,34 @@
 {% import 'OroUIBundle::macros.html.twig' as UI %}
 {% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
 
-
 <div class="widget-content">
-
-	<script type="text/javascript">
-		require(['oroui/js/mediator', 'oroui/js/widget-manager'],
-				function(mediator, widgetManager) {
-					//do something funky!
+	{% if saved %}
+		<script type="text/javascript">
+			require(['underscore', 'orotranslation/js/translator', 'oroui/js/widget-manager', 'oroui/js/messenger', 'oroui/js/mediator'],
+				function(_, __, widgetManager, messenger, mediator) {
+					widgetManager.getWidgetInstance({{ app.request.get('_wid')|json_encode|raw }}, function(widget) {
+						messenger.notificationFlashMessage('success', __('mekit.relationship.saved.message'));
+						mediator.trigger('widget_success:' + widget.getAlias());
+						mediator.trigger('widget_success:' + widget.getWid());
+						//not refreshing
+						//mediator.trigger('datagrid:doRefresh:{{ referenceableEntityConfig.get("datagrid_name_select") }}');
+						//
+						widget.remove();
+					});
 				}
-		);
-	</script>
-	<div class="form-container">
-			{{ dataGrid.renderGrid(referenceableEntityConfig.get("datagrid_name_select"), {ref_el_id: referenceableElement.id}, {} ) }}
-		<form id="relationship_select_form" action="" method="post" class="listitem-form">
-			<div class="widget-actions form-actions" style="display: none;">
-				<button class="btn" type="reset">{{ 'Cancel'|trans }}</button>
-				<button class="btn btn-primary" type="submit">{{ 'Save'|trans }}</button>
-			</div>
-		</form>
-	</div>
+			);
+		</script>
+	{% else %}
+		{{ dataGrid.renderGrid(referenceableEntityConfig.get("datagrid_name_select"), {ref_el_id: referenceableElement.id}, {} ) }}
+		<div class="form-container">
+			{{ form_start(form) }}
+				{{ form_widget(form.appendElements, {'id': 'appendElements'}) }}
+				{{ form_widget(form.removeElements, {'id': 'removeElements'}) }}
+				<div class="widget-actions form-actions" style="display: none;">
+					<button class="btn" type="reset">{{ 'Cancel'|trans }}</button>
+					<button class="btn btn-primary" type="submit">{{ 'Save'|trans }}</button>
+				</div>
+			{{ form_end(form) }}
+		</div>
+	{% endif %}
 </div>

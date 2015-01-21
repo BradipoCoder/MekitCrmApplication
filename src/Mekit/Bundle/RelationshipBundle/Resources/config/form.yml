@@ -1,5 +1,35 @@
 parameters:
+#    mekit_relationship.referenceable_element.manager.api.class:             Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
+
+    mekit_relationship.type.relationship_assignment.class:                  Mekit\Bundle\RelationshipBundle\Form\Type\RelationshipAssignmentType
+    mekit_relationship.handler.relationship_assignment.class:               Mekit\Bundle\RelationshipBundle\Form\Handler\RelationshipAssignmentHandler
 
 services:
+#    mekit_relationship.referenceable_element.manager.api:
+#        class: %mekit_relationship.referenceable_element.manager.api.class%
+#        parent: oro_soap.manager.entity_manager.abstract
+#        arguments:
+#            - %mekit_relationship.referenceable_element.entity.class%
+#            - @doctrine.orm.entity_manager
 
+    mekit_relationship.form.relationship_assignment:
+        class: Symfony\Component\Form\Form
+        factory_method: createNamed
+        factory_service: form.factory
+        arguments: ["mekit_relationship_assign_form", "mekit_relationship_assign", null]
+
+    mekit_relationship.form.type.relationship_assignment:
+        class: %mekit_relationship.type.relationship_assignment.class%
+        arguments:
+        tags:
+            - { name: form.type, alias: mekit_relationship_assign }
+
+    mekit_relationship.form.handler.relationship_assignment:
+        class: %mekit_relationship.handler.relationship_assignment.class%
+        scope: request
+        arguments:
+            - @mekit_relationship.form.relationship_assignment
+            - @request
+            - @doctrine.orm.entity_manager
+        tags:
 

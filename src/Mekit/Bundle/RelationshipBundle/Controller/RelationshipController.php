@@ -82,13 +82,27 @@ class RelationshipController extends Controller {
 			throw new \InvalidArgumentException('This is not a referenceable class('.$className.')!');
 		}
 		$referenceableEntityConfig = $referenceManager->getRelationshipConfiguration($type);
-		return [
+		//
+		$resp = [];
+		$saved = false;
+		if ($this->container->get('mekit_relationship.form.handler.relationship_assignment')->process($referenceableElement)) {
+			$saved = true;
+		}
+		//
+		$resp = array_merge($resp, [
+			'saved' => $saved,
 			'referenceableElement' => $referenceableElement,
 			'referenceableEntityConfig' => $referenceableEntityConfig,
-			'entity_class' => $type
-		];
+			'entity_class' => $type,
+		]);
 
+		if (!$saved) {
+			$resp = array_merge($resp, [
+				'form' => $this->get('mekit_relationship.form.relationship_assignment')->createView()
+			]);
+		}
 
+		return $resp;
 	}
 
 	/**
