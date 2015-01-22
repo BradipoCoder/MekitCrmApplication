@@ -1,13 +1,13 @@
 {% import 'OroUIBundle::macros.html.twig' as UI %}
 {% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
 
-<div class="box-type1">
-	<div class="title">
-		{#<span class="widget-title">{{ referenceableEntityConfig.get("label")|trans }}</span>#}
+<div class="widget-content">
+	<div class="widget-actions">
+		{#SELECT BUTTON#}
 		{% if referenceableEntityConfig.get("datagrid_name_select") %}
-			{{ UI.clientLink({
+			{{ UI.clientButton({
 				'dataUrl': path('mekit_relationship_widget_select_items', {id: referenceableElement.id, type: entity_class} ),
-				'aCss': 'no-hash btn btn-primary',
+				'aCss': 'no-hash btn-mini btn-primary btn-uppercase',
 				'iCss': '',
 				'dataId': referenceableElement.id,
 				'title' : "mekit.relationship.select_references.label"|trans,
@@ -29,7 +29,9 @@
 			}) }}
 		{% endif %}
 	</div>
+
 	<div class="row-fluid">
 		{{ dataGrid.renderGrid(referenceableEntityConfig.get("datagrid_name_list"), {ref_el_id: referenceableElement.id}, { cssClass: 'inner-grid' } ) }}
 	</div>
+
 </div>

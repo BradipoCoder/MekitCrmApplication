@@ -109,7 +109,9 @@ class RelationshipLists extends \Twig_Extension {
 		$referenceableElement = $options["referenceableElement"];
 		/** @var ConfigInterface $referenceableEntityConfig */
 		$referenceableEntityConfig = $options["referenceableEntityConfig"];
+		$options["title"] = $this->translator->trans($referenceableEntityConfig->get("label"));
 		$options["widgetType"] = 'block';
+		$options["contentClasses"] = [];
 		$options["url"] = $this->router->generate('mekit_relationship_widget_related_items', [
 			"id" => $referenceableElement->getId(),
 			"type" => $referenceableEntityConfig->getId()->getClassName(),
