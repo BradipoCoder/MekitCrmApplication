@@ -6,7 +6,7 @@ mekit:
         #
         direction.label:            Direction
         select.label:               Select
-        select_references.label:    Select related items
+        select_references.label:    Select related %s
         assigned.label:             Assigned
 
 
