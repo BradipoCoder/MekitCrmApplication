@@ -2,6 +2,8 @@
 namespace Mekit\Bundle\PlaygroundBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
+use Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository;
+use Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -25,78 +27,56 @@ class PlaygroundController extends Controller {
 	 * @return array
 	 */
 	public function indexAction() {
-		/** @var EntityManager $em */
-		$em = $this->getDoctrine()->getManager();
-
-		/** @var Account $account */
-		$account = $em->getRepository('Mekit\Bundle\AccountBundle\Entity\Account')->find(20);
-		$dumpData["Account name"] = $account->getName();
-
-		$myself = $account->getReferenceableElement()->getAccount();
-		$dumpData["Myself name"] = $myself->getName();
-
-		$references = $account->getReferenceableElement()->getReferences();
-		$dumpData["Account References count"] = $references->count();
-
-
 		$data = [
-			'dumpdata' => $dumpData
+			'dumpdata' => 'Nothing here'
 		];
-		//return $this->render('MekitPlaygroundBundle:Default:index.html.twig', $data);
 		return $data;
-
 	}
 
-//		public function indexAction() {
-//			/** @var EntityManager $em */
-//			$em = $this->getDoctrine()->getManager();
-//			/** @var Account $account */
-//			$account = $em->getRepository('Mekit\Bundle\AccountBundle\Entity\Account')->findOneBy(["name"=>"AAA"]);
-//			$accountRefEl = $account->getReferenceableElement();
-//			/** @var Contact $contact */
-//			$contact = $em->getRepository('Mekit\Bundle\ContactBundle\Entity\Contact')->findOneBy(["firstName"=>"Mee"]);//7
-//			$contactRefEl = $contact->getReferenceableElement();
-//
-//			$dumpData = [];
-//			$dumpData['AccHasCnt-Reference'] = $accountRefEl->hasReference($contactRefEl) ? "Y" : "N";
-//			$dumpData['CntHasAcc-Reference'] = $contactRefEl->hasReference($accountRefEl) ? "Y" : "N";
-//			$dumpData['AccHasCnt-Referral'] = $accountRefEl->hasReferral($contactRefEl) ? "Y" : "N";
-//			$dumpData['CntHasAcc-Referral'] = $contactRefEl->hasReferral($accountRefEl) ? "Y" : "N";
-//
-//
-//			$accReferences = $accountRefEl->getReferences();
-//			$dumpData['AccountReferences'] = $accReferences->count();
-//
-//			/** @var ReferenceableElement $accRef1 */
-////		$accRef1 = $accReferences->first();
-////		$dumpData['AccRef1-id'] = $accRef1->getId();
-////		$dumpData['AccRef1-type'] = $accRef1->getType();
-//
-//			$dumpData['AccRef'] = [];
-//			/** @var ReferenceableElement $accReference */
-//			foreach($accReferences as $accReference) {
-//				//find out referenced item
-//				$reffedItem = $em->getRepository($accReference->getType())->findOneBy(["referenceableElement"=>$accReference->getId()]);
-//				if($reffedItem) {
-//					$dumpData['AccRef'][] = $reffedItem->__toString();
-//				}
-//			}
 
+	/**
+	 * @Route("/update/{id}", name="mekit_playground_update", requirements={"id"="\d+"})
+	 * @Template(template="MekitPlaygroundBundle:Playground:accountUpdate.html.twig")
+	 * @param Account $account
+	 * @return array
+	 */
+	public function updateAction(Account $account) {
+		return $this->update($account);
+	}
 
+	/**
+	 * @param Account $entity
+	 * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+	 * @throws \Exception
+	 */
+	protected function update(Account $entity = null) {
+		if (!$entity) {
+			throw new \Exception("ONLY EDIT PLS!");
+		}
+		return $this->get('oro_form.model.update_handler')->handleUpdate(
+			$entity,
+			$this->get('mekit_playground.form.account'),
+			function (Account $entity) {
+				return array(
+					'route' => 'mekit_playground_update',
+					'parameters' => array('id' => $entity->getId())
+				);
+			},
+			function (Account $entity) {
+				return array(
+					'route' => 'mekit_playground_update',
+					'parameters' => array('id' => $entity->getId())
+				);
+			},
+			$this->get('translator')->trans('mekit.account.controller.account.saved.message')
+		);
+	}
 
-//		//clear all
-////		$accountRefEl->setReferences([]);
-////		$contactRefEl->setReferences([]);
-////		$dumpData['NumRefs3'] = $accountRefEl->getReferences()->count();
-//
-//		$em->persist($account);
-//		$em->flush();
-//
-//
-//
-//		$data = [
-//			'dumpdata' => $dumpData
-//		];
-//		return $this->render('MekitPlaygroundBundle:Default:index.html.twig', $data);
-//	}
+	/**
+	 * @return ApiEntityManager
+	 */
+	protected function getAccountManager() {
+		return $this->get('mekit_account.account.manager.api');
+	}
+
 }

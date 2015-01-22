@@ -1,6 +1,7 @@
 parameters:
     mekit_relationship.type.relationship_assignment.class:                  Mekit\Bundle\RelationshipBundle\Form\Type\RelationshipAssignmentType
     mekit_relationship.handler.relationship_assignment.class:               Mekit\Bundle\RelationshipBundle\Form\Handler\RelationshipAssignmentHandler
+    mekit_relationship.handler.referenceable_element_search.class:          Mekit\Bundle\RelationshipBundle\Form\Handler\ReferenceableElementSearchHandler
 
 services:
     mekit_relationship.form.relationship_assignment:
@@ -23,4 +24,11 @@ services:
             - @request
             - @doctrine.orm.entity_manager
         tags:
+
+    mekit_relationship.form.handler.referenceable_element_select:
+        class: %mekit_relationship.handler.referenceable_element_search.class%
+        calls:
+            - [initDoctrinePropertiesByManagerRegistry, ["@doctrine"]]
+        tags:
+            - { name: oro_form.autocomplete.search_handler, alias: referenceable_element_select, acl_resource: oro_search }
 

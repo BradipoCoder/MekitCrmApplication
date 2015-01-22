@@ -1,0 +1,10 @@
+parameters:
+    mekit_form.type.referenceable_element_multi_select2.class:             Mekit\Bundle\FormBundle\Form\Type\ReferenceableElementMultiSelect2
+
+services:
+    mekit_form.form.type.referenceable_element_multi_select2:
+        class: %mekit_form.type.referenceable_element_multi_select2.class%
+        arguments:
+            - @doctrine.orm.entity_manager
+        tags:
+            - { name: form.type, alias: referenceable_element_multi_select2 }

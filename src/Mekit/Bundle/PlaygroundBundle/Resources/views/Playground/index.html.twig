@@ -4,4 +4,6 @@
 
 {% block content_datagrid %}
 	<pre>{{ dump(dumpdata) }}</pre>
+
+	<a href="{{ path('mekit_playground_update', { 'id': 20 }) }}">UPDATE FORM</a>
 {% endblock content_datagrid %}

@@ -6,8 +6,6 @@ use Doctrine\Common\Collections\Collection;
 
 use Doctrine\ORM\EntityRepository;
 use Mekit\Bundle\ListBundle\Entity\ListGroup;
-use Mekit\Bundle\RelationshipBundle\Form\EventSubscriber\AddReferenceableElementSubscriber;
-use Mekit\Bundle\RelationshipBundle\Form\Type\ReferenceableElementType;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Mekit\Bundle\ListBundle\Helper\FormHelper;
