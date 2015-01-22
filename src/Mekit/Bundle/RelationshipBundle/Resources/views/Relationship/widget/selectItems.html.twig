@@ -4,27 +4,26 @@
 <div class="widget-content">
 	{% if saved %}
 		<script type="text/javascript">
-			require(['underscore', 'orotranslation/js/translator', 'oroui/js/widget-manager', 'oroui/js/messenger', 'oroui/js/mediator'],
-				function(_, __, widgetManager, messenger, mediator) {
+			require(['underscore', 'orotranslation/js/translator', 'oroui/js/widget-manager', 'oroui/js/messenger', 'oroui/js/mediator', 'oronavigation/js/content-manager'],
+				function(_, __, widgetManager, messenger, mediator, navigationContentManager) {
 					widgetManager.getWidgetInstance({{ app.request.get('_wid')|json_encode|raw }}, function(widget) {
 						messenger.notificationFlashMessage('success', __('mekit.relationship.saved.message'));
-						mediator.trigger('widget_success:' + widget.getAlias());
 						mediator.trigger('widget_success:' + widget.getWid());
+						/*mediator.trigger('widget_success:' + widget.getAlias());*/
+
+						//clear cached datagrid data
+						var gridNameKey = "grid[{{ referenceableEntityConfig.get("datagrid_name_select") }}]";
+						if(!_.isUndefined(mediator.execute('pageCache:state:fetch', gridNameKey))) {
+							navigationContentManager.saveState(gridNameKey, null);
+						}
+
 						widget.remove();
 					});
 				}
 			);
 		</script>
 	{% else %}
-		<script type="text/javascript">
-			require(['underscore', 'orotranslation/js/translator', 'oroui/js/widget-manager', 'oroui/js/messenger', 'oroui/js/mediator'],
-					function(_, __, widgetManager, messenger, mediator) {
-						//console.log("ok");
-					}
-			);
-		</script>
 		{{ dataGrid.renderGrid(referenceableEntityConfig.get("datagrid_name_select"), {ref_el_id: referenceableElement.id}, {} ) }}
-		{#{{ oro_datagrid_data }}#}
 		<div class="form-container">
 			{{ form_start(form) }}
 				{{ form_widget(form.appendElements, {'id': 'appendElements'}) }}
