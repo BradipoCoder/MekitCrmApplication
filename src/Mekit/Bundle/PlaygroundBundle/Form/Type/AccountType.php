@@ -21,12 +21,28 @@ class AccountType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder->add('name', 'text', ['required' => true, 'label' => 'mekit.account.name.label']);
 
-		//referenceable_element_multi_select2
-		$builder->add('extra_field', 'referenceable_element_multi_select2', [
+		//select referenced for: Account
+		$builder->add('extra_field_1', 'referenceable_element_multi_select2', [
 			'mapped' => false,
 			'required' => false,
-			'label' => 'EXTRA FIELD',
-			'entity_class' => 'Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement'
+			'label' => 'Referenced Accounts',
+			'configs' => [
+				'entity_name' => 'Mekit\Bundle\AccountBundle\Entity\Account',/*The entity type we want to select*/
+				'entity_fields' => ['name', 'vatid'],
+				'entity_id' => 0, /* Dunno - maybe we don not have use for this */
+			]
+		]);
+
+		//select referenced for: Contact
+		$builder->add('extra_field_2', 'referenceable_element_multi_select2', [
+			'mapped' => false,
+			'required' => false,
+			'label' => 'Referenced Contacts',
+			'configs' => [
+				'entity_name' => 'Mekit\Bundle\ContactBundle\Entity\Contact',/*The entity type we want to select*/
+				'entity_fields' => ['firstName', 'lastName'],
+				'entity_id' => 0, /* Dunno - maybe we don not have use for this */
+			]
 		]);
 
 	}

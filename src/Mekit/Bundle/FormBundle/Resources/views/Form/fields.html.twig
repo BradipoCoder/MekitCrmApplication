@@ -1,0 +1,25 @@
+ {#Select2 custom configuration for Referenceable Element search #}
+ {#The below block is called from Oro/Bundle/FormBundle/Resources/views/Form/fields.html.twig #}
+ {#When field has 'extra_config' => 'autocomplete_referenceable_element' option specified #}
+ {#Customizations:#}
+    {#a) adding to query: entity name to search for#}
+    {#b) adding to query: entity fields to search in and return #}
+
+{% block oro_combobox_dataconfig_autocomplete_referenceable_element %}
+    select2Config.ajax = {
+        url: {{ url|json_encode|raw }},
+        data: function (query, page) {
+            return {
+                page: page,
+                per_page: {{ configs.per_page|default(10)|json_encode|raw }},
+                name: {{ configs.autocomplete_alias|json_encode|raw }},
+				query: query + ';' + {{ configs.entity_name|replace({'\\':'_'})|json_encode|raw }} + ';' + {{ configs.entity_fields|json_encode|raw }}
+            };
+        },
+        results: function (data, page) {
+            return data;
+        }
+    };
+
+    {{ block('oro_combobox_dataconfig_onselect') }}
+{% endblock %}

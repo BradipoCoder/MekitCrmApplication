@@ -8,10 +8,13 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\Form\Exception\InvalidConfigurationException;
 use Oro\Bundle\FormBundle\Form\DataTransformer\EntitiesToIdsTransformer;
 
-
+//use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType; //model used
+//use Oro\Bundle\FormBundle\Form\Type\OroJquerySelect2HiddenType; //model used
+//
 class ReferenceableElementMultiSelect2 extends AbstractType {
 	/**
 	 * @var EntityManager
@@ -45,29 +48,90 @@ class ReferenceableElementMultiSelect2 extends AbstractType {
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
+		$defaultConfig = [
+			'extra_config' => 'autocomplete_referenceable_element',/* triggers usage of block: "oro_combobox_dataconfig_autocomplete_referenceable_element" */
+			'entity_name' => null,
+			'entity_fields' => [],
+			'entity_id' => null,
+			'multiple' => true,
+			'width' => '400px',
+			'placeholder' => 'mekit.form.choose_value',
+			'allowClear' => true,
+			'minimumInputLength' => 1,
+			'result_template_twig'       => 'MekitFormBundle:Autocomplete:ReferenceableElementMultiSelect2/result.html.twig',
+			'selection_template_twig'    => 'MekitFormBundle:Autocomplete:ReferenceableElementMultiSelect2/selection.html.twig'
+
+		];
+
 		$resolver->setDefaults(
 			array(
 				'autocomplete_alias' => 'referenceable_element_select',
-				'configs' => array(
-					'multiple' => true,
-					'width' => '400px',
-					'placeholder' => 'mekit.form.choose_value',
-					'allowClear' => true,
-					'result_template_twig' => 'OroUserBundle:User:Autocomplete/result.html.twig',
-					'selection_template_twig' => 'OroUserBundle:User:Autocomplete/selection.html.twig',
-				)
+				'entity_class' => 'Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement',
+				'configs' => $defaultConfig
 			)
 		);
+
+		$this->setConfigsNormalizer($resolver, $defaultConfig);
 	}
 
-
 	/**
-	 * @param string $entityClass
-	 *
-	 * @return EntityToIdTransformer
+	 * @param OptionsResolverInterface $resolver
+	 * @param array                    $defaultConfig
 	 */
-	public function createDefaultTransformer($entityClass) {
-		return $value = new EntityToIdTransformer($this->entityManager, $entityClass);
+	protected function setConfigsNormalizer(OptionsResolverInterface $resolver, array $defaultConfig)
+	{
+		$resolver->setNormalizers(
+			[
+				'configs' => function (Options $options, $configs) use ($defaultConfig) {
+					$result = array_replace_recursive($defaultConfig, $configs);
+
+					if ($autoCompleteAlias = $options->get('autocomplete_alias')) {
+						$result['autocomplete_alias'] = $autoCompleteAlias;
+						/*if (empty($result['properties'])) {
+							$searchHandler        = $this->searchRegistry->getSearchHandler($autoCompleteAlias);
+							$result['properties'] = $searchHandler->getProperties();
+						}*/
+						if (empty($result['route_name'])) {
+							$result['route_name'] = 'oro_form_autocomplete_search';
+						}
+						//force 'extra_config'
+						$result['extra_config'] = 'autocomplete_referenceable_element';
+					}
+
+					if (!array_key_exists('route_parameters', $result)) {
+						$result['route_parameters'] = [];
+					}
+
+					if (empty($result['route_name'])) {
+						throw new InvalidConfigurationException(
+							'Option "configs[route_name]" must be set.'
+						);
+					}
+
+					if (empty($result['entity_name'])) {
+						throw new InvalidConfigurationException(
+							'Option "configs[entity_name]" must be set.'
+						);
+					}
+					//@todo: we need to check if this entity is referenceable
+
+
+					if(!is_array($result['entity_fields']) || !count($result['entity_fields'])) {
+						throw new InvalidConfigurationException(
+							'Option "configs[entity_fields]" must be set and must be an array of valid fields of the entity indicated in the "configs[entity_name]" option.'
+						);
+					}
+
+					if(in_array("id", $result['entity_fields'])) {
+						throw new InvalidConfigurationException(
+							'Option "configs[entity_fields]" MUST NOT specify field "id"! Remove it and you\'ll be fine!'
+						);
+					}
+
+					return $result;
+				}
+			]
+		);
 	}
 
 	/**
