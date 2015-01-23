@@ -46,14 +46,32 @@ class ReferenceableElementSearchHandler extends SearchHandler {
 
 		//search on all fields defined in 'entity_fields'
 		$orX = $qb->expr()->orX();
-		foreach($this->properties as $prop) {
-			$orX->add($qb->expr()->like('entity.'.$prop, $qb->expr()->literal('%' . $search . '%')));
+		foreach ($this->properties as $prop) {
+			$orX->add($qb->expr()->like('entity.' . $prop, $qb->expr()->literal('%' . $search . '%')));
 		}
 		$qb->where($orX);
 
 		$qb->setMaxResults($maxResults);
 		$qb->setFirstResult($firstResult);
 		return $qb->getQuery()->getResult();//getArrayResult();
+	}
+
+	/**
+	 * Get search results data by id
+	 *
+	 * @param int $query - comma separated list of ReferenceableElement IDs
+	 * @return array
+	 */
+	protected function findById($query) {
+		$ids = explode(',', $query);
+		$items = [];
+		if(count($ids)) {
+			$qb = $this->entityRepository->createQueryBuilder('entity');
+			$qb->innerJoin('entity.referenceableElement', 're');
+			$qb->where('re.id IN (:ids)')->setParameter('ids', $ids);
+			$items = $qb->getQuery()->getResult();
+		}
+		return $items;
 	}
 
 	/**

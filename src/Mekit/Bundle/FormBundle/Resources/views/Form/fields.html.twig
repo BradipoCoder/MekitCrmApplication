@@ -23,3 +23,9 @@
 
     {{ block('oro_combobox_dataconfig_onselect') }}
 {% endblock %}
+
+ {#The Type ReferenceableElementType(mekit_referenceable_element) is a collection of auto-generated fields - it will not have a #}
+ {#label and it should not be inserted into any container#}
+{% block mekit_referenceable_element_row %}
+    {{ form_widget(form) }}
+{% endblock %}

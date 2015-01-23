@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
-use Oro\Bundle\FormBundle\Form\DataTransformer\EntitiesToIdsTransformer;
+use Mekit\Bundle\FormBundle\Form\DataTransformer\ReferenceableEntitiesToIdsTransformer;
 
 //use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType; //model used
 //use Oro\Bundle\FormBundle\Form\Type\OroJquerySelect2HiddenType; //model used
@@ -31,19 +31,10 @@ class ReferenceableElementMultiSelect2 extends AbstractType {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function buildForm(FormBuilderInterface $builder, array $options)
-	{
-		$builder->addEventListener(
-			FormEvents::PRE_SUBMIT,
-			function (FormEvent $event) {
-				$value = $event->getData();
-				if (empty($value)) {
-					$event->setData(array());
-				}
-			}
-		);
+	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder->addModelTransformer(
-			new EntitiesToIdsTransformer($this->entityManager, $options['entity_class'])
+			/*new EntitiesToIdsTransformer($this->entityManager, $options['entity_class'])*/
+			new ReferenceableEntitiesToIdsTransformer($this->entityManager, $options['configs']['entity_name'])
 		);
 	}
 
@@ -58,8 +49,8 @@ class ReferenceableElementMultiSelect2 extends AbstractType {
 			'placeholder' => 'mekit.form.choose_value',
 			'allowClear' => true,
 			'minimumInputLength' => 1,
-			'result_template_twig'       => 'MekitFormBundle:Autocomplete:ReferenceableElementMultiSelect2/result.html.twig',
-			'selection_template_twig'    => 'MekitFormBundle:Autocomplete:ReferenceableElementMultiSelect2/selection.html.twig'
+			'result_template_twig' => 'MekitFormBundle:Autocomplete:ReferenceableElementMultiSelect2/result.html.twig',
+			'selection_template_twig' => 'MekitFormBundle:Autocomplete:ReferenceableElementMultiSelect2/selection.html.twig'
 
 		];
 
@@ -78,8 +69,7 @@ class ReferenceableElementMultiSelect2 extends AbstractType {
 	 * @param OptionsResolverInterface $resolver
 	 * @param array                    $defaultConfig
 	 */
-	protected function setConfigsNormalizer(OptionsResolverInterface $resolver, array $defaultConfig)
-	{
+	protected function setConfigsNormalizer(OptionsResolverInterface $resolver, array $defaultConfig) {
 		$resolver->setNormalizers(
 			[
 				'configs' => function (Options $options, $configs) use ($defaultConfig) {
@@ -87,10 +77,6 @@ class ReferenceableElementMultiSelect2 extends AbstractType {
 
 					if ($autoCompleteAlias = $options->get('autocomplete_alias')) {
 						$result['autocomplete_alias'] = $autoCompleteAlias;
-						/*if (empty($result['properties'])) {
-							$searchHandler        = $this->searchRegistry->getSearchHandler($autoCompleteAlias);
-							$result['properties'] = $searchHandler->getProperties();
-						}*/
 						if (empty($result['route_name'])) {
 							$result['route_name'] = 'oro_form_autocomplete_search';
 						}
@@ -116,13 +102,13 @@ class ReferenceableElementMultiSelect2 extends AbstractType {
 					//@todo: we need to check if this entity is referenceable
 
 
-					if(!is_array($result['entity_fields']) || !count($result['entity_fields'])) {
+					if (!is_array($result['entity_fields']) || !count($result['entity_fields'])) {
 						throw new InvalidConfigurationException(
 							'Option "configs[entity_fields]" must be set and must be an array of valid fields of the entity indicated in the "configs[entity_name]" option.'
 						);
 					}
 
-					if(in_array("id", $result['entity_fields'])) {
+					if (in_array("id", $result['entity_fields'])) {
 						throw new InvalidConfigurationException(
 							'Option "configs[entity_fields]" MUST NOT specify field "id"! Remove it and you\'ll be fine!'
 						);

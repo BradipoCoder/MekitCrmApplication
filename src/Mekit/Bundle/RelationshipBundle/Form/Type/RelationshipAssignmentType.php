@@ -11,29 +11,17 @@ use Symfony\Component\Form\FormEvent;
 
 use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
 
+/**
+ * Class RelationshipAssignmentType
+ * This type is used in dialog widget when assigning referenceable elements with the aid of datagrid
+ * bound to these unmapped fields
+ */
 class RelationshipAssignmentType extends AbstractType {
 	/**
 	 * {@inheritdoc}
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$this->buildFields($builder, $options);
-
-		// set pre-assigned references
-		/*
-		$builder->addEventListener(
-			FormEvents::POST_SET_DATA,
-			function (FormEvent $event) {
-				$referenceableElement = $event->getData();
-				if ($referenceableElement
-					&& $referenceableElement instanceof ReferenceableElement
-					&& !$referenceableElement->getId()
-					&& $referenceableElement->hasReferences()) {
-					$form = $event->getForm();
-					$form->get('appendElements')->setData($referenceableElement->getReferences());
-				}
-			}
-		);
-		*/
 	}
 
 	/**

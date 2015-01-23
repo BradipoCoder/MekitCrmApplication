@@ -1,7 +1,11 @@
 parameters:
     mekit_relationship.type.relationship_assignment.class:                  Mekit\Bundle\RelationshipBundle\Form\Type\RelationshipAssignmentType
+    mekit_relationship.type.referenceable_element.class:                    Mekit\Bundle\RelationshipBundle\Form\Type\ReferenceableElementType
+
     mekit_relationship.handler.relationship_assignment.class:               Mekit\Bundle\RelationshipBundle\Form\Handler\RelationshipAssignmentHandler
     mekit_relationship.handler.referenceable_element_search.class:          Mekit\Bundle\RelationshipBundle\Form\Handler\ReferenceableElementSearchHandler
+
+#    mekit_relationship.listener.referenceable_element_type.class:           Mekit\Bundle\RelationshipBundle\EventListener\ReferenceableElementTypeListener
 
 services:
     mekit_relationship.form.relationship_assignment:
@@ -24,6 +28,21 @@ services:
             - @request
             - @doctrine.orm.entity_manager
         tags:
+
+
+
+    mekit_relationship.form.type.referenceable_element:
+        class: %mekit_relationship.type.referenceable_element.class%
+        arguments:
+        tags:
+            - { name: form.type, alias: mekit_referenceable_element }
+
+#    mekit_relationship.listener.referenceable_element_type:
+#        class: %mekit_relationship.listener.referenceable_element_type.class%
+#        arguments:
+#        tags:
+#            - { name: event, event: prePersist }
+
 
     mekit_relationship.form.handler.referenceable_element_select:
         class: %mekit_relationship.handler.referenceable_element_search.class%
