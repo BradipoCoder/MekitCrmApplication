@@ -12,7 +12,7 @@ use Mekit\Bundle\ContactInfoBundle\Entity\Email;
 use Mekit\Bundle\ContactInfoBundle\Entity\Phone;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
 use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
-use Mekit\Bundle\RelationshipBundle\Entity\Refererenceable;
+use Mekit\Bundle\RelationshipBundle\Entity\Referenceable;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
@@ -73,12 +73,13 @@ use Oro\Bundle\UserBundle\Entity\User;
  *              "label"="mekit.contact.entity_plural_label",
  *              "can_reference_itself"=false,
  *              "datagrid_name_list"="contacts-related-relationship",
- *              "datagrid_name_select"="contacts-related-select"
+ *              "datagrid_name_select"="contacts-related-select",
+ *              "autocomplete_search_columns"={"firstName","lastName"}
  *          }
  *      }
  * )
  */
-class Contact extends ExtendContact implements Refererenceable, Taggable, EmailOwnerInterface {
+class Contact extends ExtendContact implements Referenceable, Taggable, EmailOwnerInterface {
 	/*
 	 * Fields have to be duplicated here to enable dataaudit and soap transformation only for contact
 	 */

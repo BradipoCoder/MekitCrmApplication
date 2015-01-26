@@ -11,7 +11,7 @@ use Mekit\Bundle\EventBundle\Entity\Event;
 use Mekit\Bundle\EventBundle\Model\ExtendEvent;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
 use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
-use Mekit\Bundle\RelationshipBundle\Entity\Refererenceable;
+use Mekit\Bundle\RelationshipBundle\Entity\Referenceable;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
@@ -54,12 +54,13 @@ use Oro\Bundle\UserBundle\Entity\User;
  *              "label"="mekit.call.entity_plural_label",
  *              "can_reference_itself"=false,
  *              "datagrid_name_list"="calls-related-relationship",
- *              "datagrid_name_select"="calls-related-select"
+ *              "datagrid_name_select"="calls-related-select",
+ *              "autocomplete_search_columns"={"description"}
  *          }
  *      }
  * )
  */
-class Call extends ExtendCall implements Refererenceable {
+class Call extends ExtendCall implements Referenceable {
 	/**
 	 * @var int
 	 *

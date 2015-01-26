@@ -27,7 +27,7 @@ class RelationshipController extends Controller {
 	 */
 	public function listRelatedItemsAction(ReferenceableElement $referenceableElement, $type) {
 		$referenceManager = $this->container->get("mekit_relationship.reference_manager");
-		$className = $this->getRealClassName($referenceableElement->getBaseEntity());
+		$className = $referenceManager->getRealClassName($referenceableElement->getBaseEntity());
 		$classConfig = $referenceManager->getRelationshipConfiguration($className);
 		if(!$classConfig || $classConfig->get("referenceable") !== true) {
 			throw new \InvalidArgumentException('This is not a referenceable class('.$className.')!');
@@ -52,10 +52,9 @@ class RelationshipController extends Controller {
 	 */
 	public function selectRelatedItemsAction(ReferenceableElement $referenceableElement, $type) {
 		$referenceManager = $this->container->get("mekit_relationship.reference_manager");
-		$className = $this->getRealClassName($referenceableElement->getBaseEntity());
+		$className = $referenceManager->getRealClassName($referenceableElement->getBaseEntity());
 		$classConfig = $referenceManager->getRelationshipConfiguration($className);
 		if(!$classConfig || $classConfig->get("referenceable") !== true) {
-			echo $this->getRealClassName($referenceableElement->getBaseEntity());
 			throw new \InvalidArgumentException('This is not a referenceable class('.$className.')!');
 		}
 		$referenceableEntityConfig = $referenceManager->getRelationshipConfiguration($type);
@@ -79,17 +78,5 @@ class RelationshipController extends Controller {
 			]);
 		}
 		return $response;
-	}
-
-	/**
-	 * Returns class name of an object
-	 * This works even if the passed object is a proxy class
-	 * @todo: move this out from controller
-	 * @param $object
-	 * @return string
-	 */
-	private function getRealClassName($object) {
-		$em = $this->container->get("doctrine.orm.entity_manager");
-		return($em->getClassMetadata(get_class($object))->getName());
 	}
 }

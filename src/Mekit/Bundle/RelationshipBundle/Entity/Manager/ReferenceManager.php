@@ -7,34 +7,22 @@ use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
 use Oro\Bundle\EntityConfigBundle\Provider\ConfigProvider;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigInterface;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigManager;
+use Doctrine\ORM\EntityManager;
 
 class ReferenceManager {
 	/** @var ConfigManager */
 	protected $configManager;
 
-	/**
-	 * @param ConfigManager $configManager
-	 */
-	public function __construct(ConfigManager $configManager) {
-		$this->configManager = $configManager;
-	}
+	/** @var  EntityManager */
+	protected $entityManager;
 
 	/**
-	 * Handle prePersist event - called by DoctrineListener
-	 *
-	 * When registering e new entity configured as "referenceable" it will create
-	 * the corresponding ReferenceableElement for it
-	 *
-	 * @param LifecycleEventArgs $args
+	 * @param ConfigManager $configManager
+	 * @param EntityManager $entityManager
 	 */
-	public function handlePrePersist(LifecycleEventArgs $args){
-		$entity = $args->getEntity();
-		$className = get_class($entity);
-		$classConfig = $this->getRelationshipConfiguration($className);
-		if($classConfig && $classConfig->get("referenceable") === true) {
-			$referenceableElement = new ReferenceableElement();
-			$entity->setReferenceableElement($referenceableElement);
-		}
+	public function __construct(ConfigManager $configManager, EntityManager $entityManager) {
+		$this->configManager = $configManager;
+		$this->entityManager = $entityManager;
 	}
 
 	/**
@@ -65,5 +53,15 @@ class ReferenceManager {
 			$classConfig = $this->configManager->getConfig($configId);
 		}
 		return $classConfig;
+	}
+
+	/**
+	 * Returns real class name for an object
+	 * If proxy object is given it will return its 'real'/'original' class name
+	 * @param mixed $object
+	 * @return string
+	 */
+	public function getRealClassName($object) {
+		return $this->entityManager->getMetadataFactory()->getMetadataFor(get_class($object))->getName();
 	}
 }

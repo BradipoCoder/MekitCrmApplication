@@ -11,7 +11,7 @@ use Mekit\Bundle\ContactInfoBundle\Entity\Email;
 use Mekit\Bundle\ContactInfoBundle\Entity\Phone;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
 use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
-use Mekit\Bundle\RelationshipBundle\Entity\Refererenceable;
+use Mekit\Bundle\RelationshipBundle\Entity\Referenceable;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
@@ -70,12 +70,13 @@ use Oro\Bundle\UserBundle\Entity\User;
  *              "label"="mekit.account.entity_plural_label",
  *              "can_reference_itself"=false,
  *              "datagrid_name_list"="accounts-related-relationship",
- *              "datagrid_name_select"="accounts-related-select"
+ *              "datagrid_name_select"="accounts-related-select",
+ *              "autocomplete_search_columns"={"name","vatid"}
  *          }
  *      }
  * )
  */
-class Account extends ExtendAccount implements Refererenceable, Taggable, EmailOwnerInterface {
+class Account extends ExtendAccount implements Referenceable, Taggable, EmailOwnerInterface {
 	/**
 	 * @ORM\Id
 	 * @ORM\Column(type="integer")

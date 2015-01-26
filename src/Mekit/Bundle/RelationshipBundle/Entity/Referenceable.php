@@ -1,7 +1,7 @@
 <?php
 namespace Mekit\Bundle\RelationshipBundle\Entity;
 
-interface Refererenceable {
+interface Referenceable {
 
 	/**
 	 * Returns the ReferenceableElement associated with the entity
