@@ -2,6 +2,7 @@
 namespace Mekit\Bundle\RelationshipBundle\Form\Handler;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\QueryBuilder;
 use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
 use Oro\Bundle\FormBundle\Autocomplete\SearchHandler;
 
@@ -38,19 +39,29 @@ class ReferenceableElementSearchHandler extends SearchHandler {
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Returns results for the searched string.
+	 * If the entity repository has specific method(getQueryBuilderForReferenceableElementAutocomplete) it will be used
+	 * otherwise a generic query will be used based on properties defined in 'entity_fields' configs option
+	 * @param string $search
+	 * @param int    $firstResult
+	 * @param int    $maxResults
+	 * @return array
 	 */
 	protected function searchEntities($search, $firstResult, $maxResults) {
-		$qb = $this->entityRepository->createQueryBuilder('entity');
-		$qb->innerJoin('entity.referenceableElement', 're');
-
-		//search on all fields defined in 'entity_fields'
-		$orX = $qb->expr()->orX();
-		foreach ($this->properties as $prop) {
-			$orX->add($qb->expr()->like('entity.' . $prop, $qb->expr()->literal('%' . $search . '%')));
+		$entitySpecificSearchMethod = 'getQueryBuilderForReferenceableElementAutocomplete';
+		if(method_exists($this->entityRepository, $entitySpecificSearchMethod)) {
+			/** @var QueryBuilder $qb */
+			$qb = call_user_func_array([$this->entityRepository, $entitySpecificSearchMethod],[$search]);
 		}
-		$qb->where($orX);
-
+		if (!isset($qb) || !$qb instanceof QueryBuilder) {
+			$qb = $this->entityRepository->createQueryBuilder('entity');
+			$qb->innerJoin('entity.referenceableElement', 're');
+			$orX = $qb->expr()->orX();
+			foreach ($this->properties as $prop) {
+				$orX->add($qb->expr()->like('entity.' . $prop, $qb->expr()->literal('%' . $search . '%')));
+			}
+			$qb->where($orX);
+		}
 		$qb->setMaxResults($maxResults);
 		$qb->setFirstResult($firstResult);
 		return $qb->getQuery()->getResult();//getArrayResult();
@@ -82,8 +93,12 @@ class ReferenceableElementSearchHandler extends SearchHandler {
 		$result = [];
 
 		//forcing to use id of referenceableElement
-		$referenceableElement = $this->getPropertyValue('referenceableElement', $item);
-		$result['id'] = $this->getPropertyValue('id', $referenceableElement);
+		if($this->getPropertyValue("referenceableElementId", $item)) {
+			$result['id'] = $this->getPropertyValue("referenceableElementId", $item);
+		} else {
+			$referenceableElement = $this->getPropertyValue('referenceableElement', $item);
+			$result['id'] = $this->getPropertyValue('id', $referenceableElement);
+		}
 
 		//try to add Item To String (i2s) property by calling entity's magic __toString method
 		//this is the default property used by the result and selection templates

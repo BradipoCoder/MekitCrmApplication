@@ -23,7 +23,7 @@ use Oro\Bundle\TagBundle\Entity\Taggable;
 use Oro\Bundle\UserBundle\Entity\User;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Mekit\Bundle\CallBundle\Entity\Repository\CallRepository")
  * @ORM\Table(name="mekit_call", indexes={
  *      @ORM\Index(name="idx_call_direction", columns={"direction"}),
  * })
@@ -55,7 +55,7 @@ use Oro\Bundle\UserBundle\Entity\User;
  *              "can_reference_itself"=false,
  *              "datagrid_name_list"="calls-related-relationship",
  *              "datagrid_name_select"="calls-related-select",
- *              "autocomplete_search_columns"={"description"}
+ *              "autocomplete_search_columns"={"i2s"}
  *          }
  *      }
  * )

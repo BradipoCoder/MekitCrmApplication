@@ -23,7 +23,7 @@ use Oro\Bundle\TagBundle\Entity\Taggable;
 use Oro\Bundle\UserBundle\Entity\User;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Mekit\Bundle\TaskBundle\Entity\Repository\TaskRepository")
  * @ORM\Table(name="mekit_task")
  * @Oro\Loggable
  * @Config(
@@ -62,7 +62,7 @@ use Oro\Bundle\UserBundle\Entity\User;
  *              "can_reference_itself"=true,
  *              "datagrid_name_list"="tasks-related-relationship",
  *              "datagrid_name_select"="tasks-related-select",
- *              "autocomplete_search_columns"={"description"}
+ *              "autocomplete_search_columns"={"i2s"}
  *          }
  *      }
  * )

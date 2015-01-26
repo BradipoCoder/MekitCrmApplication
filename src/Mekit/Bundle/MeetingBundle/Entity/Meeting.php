@@ -23,7 +23,7 @@ use Oro\Bundle\TagBundle\Entity\Taggable;
 use Oro\Bundle\UserBundle\Entity\User;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Mekit\Bundle\MeetingBundle\Entity\Repository\MeetingRepository")
  * @ORM\Table(name="mekit_meeting")
  * @Oro\Loggable
  * @Config(
@@ -53,7 +53,7 @@ use Oro\Bundle\UserBundle\Entity\User;
  *              "can_reference_itself"=false,
  *              "datagrid_name_list"="meetings-related-relationship",
  *              "datagrid_name_select"="meetings-related-select",
- *              "autocomplete_search_columns"={"description"}
+ *              "autocomplete_search_columns"={"i2s"}
  *          }
  *      }
  * )
