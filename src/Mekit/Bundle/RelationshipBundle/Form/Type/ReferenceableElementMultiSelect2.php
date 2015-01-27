@@ -1,5 +1,5 @@
 <?php
-namespace Mekit\Bundle\FormBundle\Form\Type;
+namespace Mekit\Bundle\RelationshipBundle\Form\Type;
 
 use Doctrine\ORM\EntityManager;
 
@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
-use Mekit\Bundle\FormBundle\Form\DataTransformer\ReferenceableEntitiesToIdsTransformer;
+use Mekit\Bundle\RelationshipBundle\Form\DataTransformer\ReferenceableEntitiesToIdsTransformer;
 
 //use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType; //model used
 //use Oro\Bundle\FormBundle\Form\Type\OroJquerySelect2HiddenType; //model used
@@ -60,8 +60,8 @@ class ReferenceableElementMultiSelect2 extends AbstractType {
 			'placeholder' => 'mekit.form.choose_value',
 			'allowClear' => true,
 			'minimumInputLength' => 1,
-			'result_template_twig' => 'MekitFormBundle:Autocomplete:ReferenceableElementMultiSelect2/result.html.twig',
-			'selection_template_twig' => 'MekitFormBundle:Autocomplete:ReferenceableElementMultiSelect2/selection.html.twig'
+			'result_template_twig' => 'MekitRelationshipBundle:Autocomplete:ReferenceableElementMultiSelect2/result.html.twig',
+			'selection_template_twig' => 'MekitRelationshipBundle:Autocomplete:ReferenceableElementMultiSelect2/selection.html.twig'
 
 		];
 

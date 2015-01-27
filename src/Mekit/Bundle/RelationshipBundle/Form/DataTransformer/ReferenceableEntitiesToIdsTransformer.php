@@ -1,6 +1,6 @@
 <?php
 
-namespace Mekit\Bundle\FormBundle\Form\DataTransformer;
+namespace Mekit\Bundle\RelationshipBundle\Form\DataTransformer;
 
 use Oro\Bundle\FormBundle\Form\DataTransformer\EntitiesToIdsTransformer;
 use Doctrine\ORM\QueryBuilder;

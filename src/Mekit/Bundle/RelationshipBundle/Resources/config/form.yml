@@ -1,6 +1,7 @@
 parameters:
     mekit_relationship.type.relationship_assignment.class:                  Mekit\Bundle\RelationshipBundle\Form\Type\RelationshipAssignmentType
     mekit_relationship.type.referenceable_element.class:                    Mekit\Bundle\RelationshipBundle\Form\Type\ReferenceableElementType
+    mekit_relationship.type.referenceable_element_multi_select2.class:      Mekit\Bundle\RelationshipBundle\Form\Type\ReferenceableElementMultiSelect2
 
     mekit_relationship.handler.relationship_assignment.class:               Mekit\Bundle\RelationshipBundle\Form\Handler\RelationshipAssignmentHandler
     mekit_relationship.handler.referenceable_element_search.class:          Mekit\Bundle\RelationshipBundle\Form\Handler\ReferenceableElementSearchHandler
@@ -46,3 +47,10 @@ services:
         tags:
             - { name: oro_form.autocomplete.search_handler, alias: referenceable_element_select, acl_resource: oro_search }
 
+
+    mekit_relationship.form.type.referenceable_element_multi_select2:
+        class: %mekit_relationship.type.referenceable_element_multi_select2.class%
+        arguments:
+            - @doctrine.orm.entity_manager
+        tags:
+            - { name: form.type, alias: referenceable_element_multi_select2 }

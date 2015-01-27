@@ -1,7 +1,7 @@
 <?php
 namespace Mekit\Bundle\RelationshipBundle\EventListener;
 
-use Mekit\Bundle\FormBundle\Form\DataTransformer\ReferenceableEntitiesToIdsTransformer;
+use Mekit\Bundle\RelationshipBundle\Form\DataTransformer\ReferenceableEntitiesToIdsTransformer;
 use Mekit\Bundle\RelationshipBundle\Entity\Manager\ReferenceManager;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Form\FormEvent;
