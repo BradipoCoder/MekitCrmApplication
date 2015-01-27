@@ -109,7 +109,9 @@ class ReferenceableElementSearchHandler extends SearchHandler {
 
 		//add the other specific properties defined by 'entity_fields'
 		foreach ($this->properties as $property) {
-			$result[$property] = $this->getPropertyValue($property, $item);
+			if( ($properyValue = $this->getPropertyValue($property, $item)) ) {
+				$result[$property] = $properyValue;
+			}
 		}
 
 		return $result;

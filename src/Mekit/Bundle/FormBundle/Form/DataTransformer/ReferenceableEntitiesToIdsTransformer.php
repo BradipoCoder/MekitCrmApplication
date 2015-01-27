@@ -11,7 +11,9 @@ use Symfony\Component\Form\Exception\UnexpectedTypeException;
 
 class ReferenceableEntitiesToIdsTransformer extends EntitiesToIdsTransformer {
 
+
 	/**
+	 * @todo: this is not good - it should receive an array of ReferenceableElements as input and return their ids
 	 * @param array $value - array of referenceable entities
 	 * @return array - array of ids of referenceableElements
 	 */
@@ -26,7 +28,8 @@ class ReferenceableEntitiesToIdsTransformer extends EntitiesToIdsTransformer {
 
 		$result = array();
 		foreach ($value as $entity) {
-			$id = $this->propertyAccessor->getValue($entity, 'referenceableElement.id');
+			//$id = $this->propertyAccessor->getValue($entity, 'referenceableElement.id');
+			$id = $this->propertyAccessor->getValue($entity, 'id');
 			$result[] = $id;
 		}
 		return $result;
@@ -50,7 +53,6 @@ class ReferenceableEntitiesToIdsTransformer extends EntitiesToIdsTransformer {
 		if (count($entities) !== count($value)) {
 			throw new TransformationFailedException('Could not find all entities for the given IDs');
 		}
-
 		return $entities;
 	}
 
@@ -73,7 +75,6 @@ class ReferenceableEntitiesToIdsTransformer extends EntitiesToIdsTransformer {
 			$qb = $repository->createQueryBuilder('re');
 			$qb->where('re.id IN (:ids)')->setParameter('ids', $ids);
 		}
-
 		return $qb->getQuery()->execute();
 	}
 }

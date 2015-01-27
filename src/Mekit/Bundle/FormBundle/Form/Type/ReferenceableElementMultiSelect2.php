@@ -32,10 +32,21 @@ class ReferenceableElementMultiSelect2 extends AbstractType {
 	 * {@inheritdoc}
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
+
+		$builder->addEventListener(
+			FormEvents::PRE_SUBMIT,
+			function (FormEvent $event) {
+				$value = $event->getData();
+				if (empty($value)) {
+					$event->setData(array());
+				}
+			}
+		);
+
 		$builder->addModelTransformer(
-			/*new EntitiesToIdsTransformer($this->entityManager, $options['entity_class'])*/
 			new ReferenceableEntitiesToIdsTransformer($this->entityManager, $options['configs']['entity_name'])
 		);
+
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {

@@ -56,6 +56,13 @@ class ReferenceManager {
 	}
 
 	/**
+	 * @return EntityManager
+	 */
+	public function getEntityManager() {
+		return $this->entityManager;
+	}
+
+	/**
 	 * Returns real class name for an object
 	 * If proxy object is given it will return its 'real'/'original' class name
 	 * @param mixed $object
