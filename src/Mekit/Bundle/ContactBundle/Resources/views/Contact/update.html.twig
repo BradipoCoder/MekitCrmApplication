@@ -63,10 +63,7 @@
 				    form_row(form.twitter),
 				    form_row(form.facebook),
 				    form_row(form.googlePlus),
-				    form_row(form.linkedIn),
-
-                    form.referenceableElement is defined ? form_row(form.referenceableElement) : null,
-
+				    form_row(form.linkedIn)
                 ]
             },
 	        {
@@ -91,6 +88,18 @@
                 'title': 'mekit.contact.widgets.contact_addresses'|trans,
                 'data': [
                     form_widget(form.addresses),
+                ]
+            },
+        ]
+    },
+    {
+	    'title': 'mekit.relationship.widgets.relationships'|trans,
+	    'class': 'resp',
+        'subblocks': [
+	        {
+                'title': 'mekit.relationship.widgets.relationships'|trans,
+                'data': [
+                    form_widget(form.referenceableElement),
                 ]
             },
         ]

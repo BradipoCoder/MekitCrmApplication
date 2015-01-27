@@ -135,6 +135,15 @@ class AccountType extends AbstractType {
 			'oro_user_select',
 			array('required' => false, 'label' => 'mekit.account.assigned_to.label')
 		);
+
+		//referenceable elements (reference selector fields)
+		$builder->add('referenceableElement',
+			'mekit_referenceable_element',
+			[
+				'label' => false,
+				'required' => false
+			]
+		);
 	}
 
 	/**

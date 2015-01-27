@@ -8,7 +8,11 @@ mekit:
         select.label:               Select
         select_references.label:    Select related %s
         assigned.label:             Assigned
-        choose_value:               Select an option
+        choose_value.label:         Select an option
+
+        widgets:
+            relationships:          References
+
 
         referenceableelement:
             #

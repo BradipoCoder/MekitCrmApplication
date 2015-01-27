@@ -56,8 +56,8 @@ class ReferenceableElementMultiSelect2 extends AbstractType {
 			'entity_fields' => [],
 			'entity_id' => null,
 			'multiple' => true,
-			'width' => '400px',
-			'placeholder' => 'mekit.form.choose_value',
+			'width' => '900px',
+			'placeholder' => 'mekit.relationship.choose_value.label',
 			'allowClear' => true,
 			'minimumInputLength' => 1,
 			'result_template_twig' => 'MekitRelationshipBundle:Autocomplete:ReferenceableElementMultiSelect2/result.html.twig',
@@ -69,6 +69,7 @@ class ReferenceableElementMultiSelect2 extends AbstractType {
 			array(
 				'autocomplete_alias' => 'referenceable_element_select',
 				'entity_class' => 'Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement',
+				'attr' => ['class' => 'referenceable_element_multi_select2'],
 				'configs' => $defaultConfig
 			)
 		);

@@ -43,31 +43,44 @@
 {% block content_data %}
     {% set id = 'task-profile' %}
 
-    {% set dataBlocks = [{
-        'title': 'General'|trans,
-        'class': 'active',
-        'subblocks': [
-            {
-                'title': 'Task Information'|trans,
-                'data': [
-                    form_row(form.event.name),
-                    form_row(form.description),
-                ]
-            },
-	        {
-                'title': 'Event Information'|trans,
-                'data': [
-				    form_row(form.event.startDate),
-				    form_row(form.event.state),
-				    form_row(form.event.priority),
-				    form_row(form.event.endDate),
-				    form_row(form.event.duration),
-				    form_row(form.event.owner),
-				    form_row(form.event.type),
-                ]
-            }
-        ]
-    }
+    {% set dataBlocks = [
+        {
+            'title': 'General'|trans,
+            'class': 'active',
+            'subblocks': [
+                {
+                    'title': 'Task Information'|trans,
+                    'data': [
+                        form_row(form.event.name),
+                        form_row(form.description),
+                    ]
+                },
+                {
+                    'title': 'Event Information'|trans,
+                    'data': [
+                        form_row(form.event.startDate),
+                        form_row(form.event.state),
+                        form_row(form.event.priority),
+                        form_row(form.event.endDate),
+                        form_row(form.event.duration),
+                        form_row(form.event.owner),
+                        form_row(form.event.type),
+                    ]
+                }
+            ]
+        },
+        {
+            'title': 'mekit.relationship.widgets.relationships'|trans,
+            'class': 'resp',
+            'subblocks': [
+                {
+                    'title': 'mekit.relationship.widgets.relationships'|trans,
+                    'data': [
+                        form_widget(form.referenceableElement),
+                    ]
+                },
+            ]
+        }
     ] %}
 
     {% if form.additional is defined and form.additional.children|length > 0 %}

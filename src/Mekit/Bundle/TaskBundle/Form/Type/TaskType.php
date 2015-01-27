@@ -91,6 +91,15 @@ class TaskType extends AbstractType {
 		//add event form
 		$builder->add('event', new EventType($this->router, $this->nameFormatter, $this->securityFacade, $this->listBundleHelper));
 
+		//referenceable elements (reference selector fields)
+		$builder->add('referenceableElement',
+			'mekit_referenceable_element',
+			[
+				'label' => false,
+				'required' => false
+			]
+		);
+
 	}
 
 	/**

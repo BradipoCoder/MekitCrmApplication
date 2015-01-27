@@ -152,6 +152,15 @@ class ContactType extends AbstractType {
 			)
 		);
 
+		//referenceable elements (reference selector fields)
+		$builder->add('referenceableElement',
+			'mekit_referenceable_element',
+			[
+				'label' => false,
+				'required' => false
+			]
+		);
+
 	}
 
 	/**
