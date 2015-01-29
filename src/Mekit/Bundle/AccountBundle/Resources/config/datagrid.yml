@@ -192,3 +192,75 @@ datagrid:
                     data_name: ownerName
         options:
             entityHint: account
+
+    accounts-related-relationship:
+        extends: relationship-related-element-source-logic
+        source:
+            query:
+                select:
+                    - a.id
+                    - a.name
+                    - accountType.label as type
+                    - accountState.label as state
+                from:
+                   - { table: %mekit_account.account.entity.class%, alias: a }
+                join:
+                    inner:
+                        - { join: a.referenceableElement, alias: referenceableElement }
+                    left:
+                        - { join: a.type, alias: accountType }
+                        - { join: a.state, alias: accountState }
+
+        columns:
+            name:
+                label:        mekit.account.name.label
+            type:
+                label:        mekit.account.type.label
+            state:
+                label:        mekit.account.state.label
+
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      mekit_account_view
+                params:     [ id ]
+
+        actions:
+            view:
+                type:          navigate
+                acl_resource:  mekit_account_account_view
+                label:         oro.grid.action.view
+                icon:          eye-open
+                link:          view_link
+                rowAction:     true
+
+    accounts-related-select:
+        extends: relationship-related-elements-select-logic
+        source:
+            query:
+                select:
+                    - referenceableElement.id as refElId
+                    - a.id
+                    - a.name
+                from:
+                    - { table: %mekit_account.account.entity.class%, alias: a }
+                join:
+                    inner:
+                        - { join: a.referenceableElement, alias: referenceableElement }
+        columns:
+            refElId:
+                renderable: false
+            name:
+
+        properties:
+            id: ~
+
+        options:
+            entityHint: account
+            rowSelection:
+                dataField: refElId
+                columnName: isAssigned
+                selectors:
+                    included: '#appendElements'
+                    excluded: '#removeElements'

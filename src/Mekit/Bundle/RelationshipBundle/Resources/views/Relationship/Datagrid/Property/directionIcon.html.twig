@@ -1,0 +1,6 @@
+{% set entityIcon = (value =="IN" ? "icon-hand-left" : "icon-hand-right") %}
+{% set iconLabel = (value =="IN" ? "Referenced by" : "Related to") %}
+{% set iconContent %}
+    <i class="{{ entityIcon }} hide-text" title="{{ iconLabel }}"></i>
+{% endset %}
+{{ iconContent }}

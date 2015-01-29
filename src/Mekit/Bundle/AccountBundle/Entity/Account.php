@@ -10,6 +10,8 @@ use Mekit\Bundle\ContactInfoBundle\Entity\Address;
 use Mekit\Bundle\ContactInfoBundle\Entity\Email;
 use Mekit\Bundle\ContactInfoBundle\Entity\Phone;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
+use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
+use Mekit\Bundle\RelationshipBundle\Entity\Referenceable;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
@@ -62,11 +64,19 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          },
  *          "dataaudit"={
  *              "auditable"=true
+ *          },
+ *          "relationship"={
+ *              "referenceable"=true,
+ *              "label"="mekit.account.entity_plural_label",
+ *              "can_reference_itself"=false,
+ *              "datagrid_name_list"="accounts-related-relationship",
+ *              "datagrid_name_select"="accounts-related-select",
+ *              "autocomplete_search_columns"={"name","vatid"}
  *          }
  *      }
  * )
  */
-class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
+class Account extends ExtendAccount implements Referenceable, Taggable, EmailOwnerInterface {
 	/**
 	 * @ORM\Id
 	 * @ORM\Column(type="integer")
@@ -447,6 +457,33 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 * )
 	 */
 	protected $tags;
+
+
+	/**
+	 * @var ReferenceableElement
+	 *
+	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement", cascade={"persist"}, orphanRemoval=true, mappedBy="account")
+	 */
+	protected $referenceableElement;
+
+	/**
+	 * @return ReferenceableElement
+	 */
+	public function getReferenceableElement() {
+		return $this->referenceableElement;
+	}
+
+	/**
+	 * @param ReferenceableElement $referenceableElement
+	 */
+	public function setReferenceableElement(ReferenceableElement $referenceableElement) {
+		$this->referenceableElement = $referenceableElement;
+		$referenceableElement->setAccount($this);
+	}
+
+
+
+
 
 
 	public function __construct() {

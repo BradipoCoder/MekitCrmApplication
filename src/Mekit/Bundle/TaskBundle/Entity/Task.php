@@ -9,6 +9,8 @@ use Mekit\Bundle\AccountBundle\Model\ExtendAccount;
 use Mekit\Bundle\EventBundle\Entity\Event;
 use Mekit\Bundle\EventBundle\Model\ExtendEvent;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
+use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
+use Mekit\Bundle\RelationshipBundle\Entity\Referenceable;
 use Mekit\Bundle\TaskBundle\Model\ExtendTask;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
@@ -21,7 +23,7 @@ use Oro\Bundle\TagBundle\Entity\Taggable;
 use Oro\Bundle\UserBundle\Entity\User;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Mekit\Bundle\TaskBundle\Entity\Repository\TaskRepository")
  * @ORM\Table(name="mekit_task")
  * @Oro\Loggable
  * @Config(
@@ -49,15 +51,23 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          },
  *          "mekitevent"={
  *              "eventable"=true,
- *              "label"="Task",
+ *              "label"="mekit.task.entity_label",
  *              "icon"="icon-flag",
  *              "view_route_name"="mekit_task_view",
  *              "edit_route_name"="mekit_task_edit"
+ *          },
+ *          "relationship"={
+ *              "referenceable"=true,
+ *              "label"="mekit.task.entity_plural_label",
+ *              "can_reference_itself"=true,
+ *              "datagrid_name_list"="tasks-related-relationship",
+ *              "datagrid_name_select"="tasks-related-select",
+ *              "autocomplete_search_columns"={"i2s"}
  *          }
  *      }
  * )
  */
-class Task extends ExtendTask {
+class Task extends ExtendTask implements Referenceable {
 	/**
 	 * @var int
 	 *
@@ -97,6 +107,28 @@ class Task extends ExtendTask {
 	 * )
 	 */
 	protected $event;
+
+	/**
+	 * @var ReferenceableElement
+	 *
+	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement", cascade={"persist"}, orphanRemoval=true, mappedBy="task")
+	 */
+	protected $referenceableElement;
+
+	/**
+	 * @return ReferenceableElement
+	 */
+	public function getReferenceableElement() {
+		return $this->referenceableElement;
+	}
+
+	/**
+	 * @param ReferenceableElement $referenceableElement
+	 */
+	public function setReferenceableElement(ReferenceableElement $referenceableElement) {
+		$this->referenceableElement = $referenceableElement;
+		$referenceableElement->setTask($this);
+	}
 
 	/**
 	 * Constructor

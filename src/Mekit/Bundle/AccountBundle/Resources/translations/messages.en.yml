@@ -51,11 +51,15 @@ mekit:
         assigned_to.label:          Assigned To
         phones.label:               Phone
         emails.label:               Email
+        email.label:                Email
         owner.label:                Owner
         organization.label:         Organization
 
         contacts.label:             Contacts
         tasks.label:                Tasks
+        addresses.label:            Addresses
+        referenceable_element.label:    ReferenceableElement
+
 
 
         contact:

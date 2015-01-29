@@ -64,6 +64,10 @@
 		},
 	] %}
 
+	{#RENDER RELATIONSHIPS#}
+	{% set relationships = mekit_render_all_relationships({'referenceableElement': entity.referenceableElement}) %}
+	{% set dataBlocks = dataBlocks|merge(relationships) %}
+
 	{% set id = 'contactView' %}
 	{% set data = {'dataBlocks': dataBlocks} %}
 

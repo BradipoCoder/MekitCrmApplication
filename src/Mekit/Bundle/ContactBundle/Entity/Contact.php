@@ -11,6 +11,8 @@ use Mekit\Bundle\ContactInfoBundle\Entity\Address;
 use Mekit\Bundle\ContactInfoBundle\Entity\Email;
 use Mekit\Bundle\ContactInfoBundle\Entity\Phone;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
+use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
+use Mekit\Bundle\RelationshipBundle\Entity\Referenceable;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
@@ -65,11 +67,19 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          },
  *          "dataaudit"={
  *              "auditable"=true
+ *          },
+ *          "relationship"={
+ *              "referenceable"=true,
+ *              "label"="mekit.contact.entity_plural_label",
+ *              "can_reference_itself"=false,
+ *              "datagrid_name_list"="contacts-related-relationship",
+ *              "datagrid_name_select"="contacts-related-select",
+ *              "autocomplete_search_columns"={"firstName","lastName"}
  *          }
  *      }
  * )
  */
-class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
+class Contact extends ExtendContact implements Referenceable, Taggable, EmailOwnerInterface {
 	/*
 	 * Fields have to be duplicated here to enable dataaudit and soap transformation only for contact
 	 */
@@ -513,6 +523,31 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	 * )
 	 */
 	protected $tags;
+
+
+	/**
+	 * @var ReferenceableElement
+	 *
+	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement", cascade={"persist"}, orphanRemoval=true, mappedBy="contact")
+	 */
+	protected $referenceableElement;
+
+	/**
+	 * @return ReferenceableElement
+	 */
+	public function getReferenceableElement() {
+		return $this->referenceableElement;
+	}
+
+	/**
+	 * @param ReferenceableElement $referenceableElement
+	 */
+	public function setReferenceableElement(ReferenceableElement $referenceableElement) {
+		$this->referenceableElement = $referenceableElement;
+		$referenceableElement->setContact($this);
+	}
+
+
 
 	public function __construct() {
 		parent::__construct();

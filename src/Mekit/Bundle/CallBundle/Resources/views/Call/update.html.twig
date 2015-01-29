@@ -43,33 +43,46 @@
 {% block content_data %}
     {% set id = 'call-profile' %}
 
-    {% set dataBlocks = [{
-        'title': 'General'|trans,
-        'class': 'active',
-        'subblocks': [
-            {
-                'title': 'mekit.call.widgets.call_information'|trans,
-                'data': [
-                    form_row(form.event.name),
-                    form_row(form.description),
-                    form_row(form.direction),
-                    form_row(form.outcome),
-                ]
-            },
-	        {
-                'title': 'mekit.event.widgets.event_information'|trans,
-                'data': [
-				    form_row(form.event.startDate),
-				    form_row(form.event.state),
-				    form_row(form.event.priority),
-				    form_row(form.event.endDate),
-				    form_row(form.event.duration),
-				    form_row(form.event.owner),
-				    form_row(form.event.type),
-                ]
-            }
-        ]
-    }
+    {% set dataBlocks = [
+        {
+            'title': 'General'|trans,
+            'class': 'active',
+            'subblocks': [
+                {
+                    'title': 'mekit.call.widgets.call_information'|trans,
+                    'data': [
+                        form_row(form.event.name),
+                        form_row(form.description),
+                        form_row(form.direction),
+                        form_row(form.outcome),
+                    ]
+                },
+                {
+                    'title': 'mekit.event.widgets.event_information'|trans,
+                    'data': [
+                        form_row(form.event.startDate),
+                        form_row(form.event.state),
+                        form_row(form.event.priority),
+                        form_row(form.event.endDate),
+                        form_row(form.event.duration),
+                        form_row(form.event.owner),
+                        form_row(form.event.type),
+                    ]
+                }
+            ]
+        },
+        {
+            'title': 'mekit.relationship.widgets.relationships'|trans,
+            'class': 'resp',
+            'subblocks': [
+                {
+                    'title': 'mekit.relationship.widgets.relationships'|trans,
+                    'data': [
+                        form_widget(form.referenceableElement),
+                    ]
+                },
+            ]
+        }
     ] %}
 
     {% if form.additional is defined and form.additional.children|length > 0 %}

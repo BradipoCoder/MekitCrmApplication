@@ -98,48 +98,39 @@ datagrid:
             entityHint: contact
             export: true
 
-    contacts-of-account-grid:
-        extended_entity_name: %mekit_contact.contact.entity.class%
+
+    contacts-related-relationship:
+        extends: relationship-related-element-source-logic
         source:
-            type:           orm
             acl_resource:   mekit_contact_view
             query:
                 select:
                     - c.id
                     - c.firstName
                     - c.lastName
-                    - contactJobTitle.label as jobTitle
-                    - CONCAT(assignee.firstName, CONCAT(' ', assignee.lastName)) as AssigneeName
+                    - jobTitleItem.label as jobTitle
                 from:
-                    - { table: %mekit_contact.contact.entity.class%, alias: c }
+                   - { table: %mekit_contact.contact.entity.class%, alias: c }
                 join:
+                    inner:
+                        - { join: c.referenceableElement, alias: referenceableElement }
                     left:
-                        - { join: c.account, alias: Account }
-                        - { join: c.assignedTo, alias: assignee }
-                        - { join: c.jobTitle, alias: contactJobTitle }
-                where:
-                    and:
-                        - Account.id = :entity_id
-
-            bind_parameters:
-                - entity_id
+                        - { join: c.jobTitle, alias: jobTitleItem }
 
         columns:
             lastName:
-                label:         mekit.contact.last_name.label
+                label:        mekit.contact.last_name.label
             firstName:
-                label:         mekit.contact.first_name.label
+                label:        mekit.contact.first_name.label
             jobTitle:
-                label:         mekit.contact.job_title.label
-            AssigneeName:
-                 label:        mekit.account.assigned_to.label
+                label:        mekit.contact.job_title.label
 
         properties:
-                    id: ~
-                    view_link:
-                        type:       url
-                        route:      mekit_contact_view
-                        params:     [ id ]
+            id: ~
+            view_link:
+                type:       url
+                route:      mekit_contact_view
+                params:     [ id ]
 
         actions:
             view:
@@ -149,3 +140,37 @@ datagrid:
                 icon:          eye-open
                 link:          view_link
                 rowAction:     true
+
+    contacts-related-select:
+        extends: relationship-related-elements-select-logic
+        source:
+            query:
+                select:
+                    - referenceableElement.id as refElId
+                    - c.id
+                    - c.firstName
+                    - c.lastName
+                from:
+                    - { table: %mekit_contact.contact.entity.class%, alias: c }
+                join:
+                    inner:
+                        - { join: c.referenceableElement, alias: referenceableElement }
+        columns:
+            refElId:
+                renderable: false
+            lastName:
+                label:        mekit.contact.last_name.label
+            firstName:
+                label:        mekit.contact.first_name.label
+
+        properties:
+            id: ~
+
+        options:
+            entityHint: contact
+            rowSelection:
+                dataField: refElId
+                columnName: isAssigned
+                selectors:
+                    included: '#appendElements'
+                    excluded: '#removeElements'

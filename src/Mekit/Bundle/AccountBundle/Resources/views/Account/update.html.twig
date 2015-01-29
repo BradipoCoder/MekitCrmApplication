@@ -56,10 +56,10 @@
 				    form_row(form.source),
 				    form_row(form.owner),
 				    form_row(form.assignedTo),
-                    form_row(form.description),
-
+                    form_row(form.description)
                 ]
-            }, {
+            },
+            {
                 'title': 'mekit.account.widgets.account_additional'|trans,
                 'data': [
 				    form_row(form.vatid),
@@ -68,7 +68,6 @@
 				    form_row(form.phones),
 				    form_row(form.fax),
 				    form_row(form.website),
-
 				    form_row(form.tags)
 	            ]
             }
@@ -82,6 +81,18 @@
                 'title': 'mekit.account.widgets.account_addresses'|trans,
                 'data': [
                     form_widget(form.addresses),
+                ]
+            },
+        ]
+    },
+    {
+	    'title': 'mekit.relationship.widgets.relationships'|trans,
+	    'class': 'resp',
+        'subblocks': [
+	        {
+                'title': 'mekit.relationship.widgets.relationships'|trans,
+                'data': [
+                    form_widget(form.referenceableElement),
                 ]
             },
         ]

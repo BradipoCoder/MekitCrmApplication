@@ -71,7 +71,12 @@
 		}
 	] %}
 
+	{#RENDER RELATIONSHIPS#}
+	{% set relationships = mekit_render_all_relationships({'referenceableElement': entity.referenceableElement}) %}
+	{% set dataBlocks = dataBlocks|merge(relationships) %}
+
 	{% set id = 'eventMeetingView' %}
 	{% set data = {'dataBlocks': dataBlocks} %}
+
 	{{ parent() }}
 {% endblock content_data %}

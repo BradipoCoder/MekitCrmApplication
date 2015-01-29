@@ -142,21 +142,6 @@ class AccountController extends Controller {
 	}
 
 	/**
-	 * Lists Contacts under a specific account
-	 * @Route("/widget/listcontacts/{id}", name="mekit_account_widget_listcontacts", requirements={"id"="\d+"})
-	 * @AclAncestor("mekit_contact_view")
-	 * @Template(template="MekitAccountBundle:Contact/widget:accountContacts.html.twig")
-	 * @param Account $account
-	 * @return array
-	 */
-	public function listContactsAction(Account $account) {
-		return [
-			'entity' => $account
-		];
-	}
-
-
-	/**
 	 * @return ApiEntityManager
 	 */
 	protected function getManager() {

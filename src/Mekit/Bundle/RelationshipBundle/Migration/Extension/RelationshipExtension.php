@@ -29,7 +29,7 @@ class RelationshipExtension implements ExtendExtensionAwareInterface {
 	 * @param array $targetDetailedColumnNames
 	 * @param array $targetGridColumnNames
 	 * @param array $relationshipOptions
-	 * @param bool   $immutable       - Set TRUE to prohibit disabling the relationship from UI
+	 * @param bool  $immutable       - Set TRUE to prohibit disabling the relationship from UI
 	 */
 	public function addRelationship(
 		Schema $schema,
@@ -41,6 +41,9 @@ class RelationshipExtension implements ExtendExtensionAwareInterface {
 		$relationshipOptions = null,
 		$immutable = false
 	) {
+
+		die("UNUSABLE!!! Missing addOneToOneRelation method on ExtendExtension");
+
 		//SOURCE
 		$sourceTable = $schema->getTable($sourceTableName);
 		$sourceClassName = $this->extendExtension->getEntityClassByTableName($sourceTableName);
@@ -92,6 +95,7 @@ class RelationshipExtension implements ExtendExtensionAwareInterface {
 		$relationshipOptions['extend']['without_default'] = true;
 
 		//CREATE THE ASSOCIATION
+		/*
 		$this->extendExtension->addManyToManyRelation(
 			$schema,
 			$sourceTable,
@@ -102,6 +106,7 @@ class RelationshipExtension implements ExtendExtensionAwareInterface {
 			$targetGridColumnNames,
 			$relationshipOptions,
 			'manyToMany'
-		);
+		);*/
+
 	}
 }

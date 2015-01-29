@@ -1,0 +1,16 @@
+parameters:
+    mekit_playground.type.account.class:                           Mekit\Bundle\PlaygroundBundle\Form\Type\AccountType
+
+services:
+    mekit_playground.form.account:
+        class: Symfony\Component\Form\Form
+        factory_method: createNamed
+        factory_service: form.factory
+        arguments: ["mekit_playground_account_form", "mekit_playground_account", null]
+
+    mekit_playground.form.type.account:
+        class: %mekit_playground.type.account.class%
+        arguments:
+        tags:
+            - { name: form.type, alias: mekit_playground_account }
+

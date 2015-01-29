@@ -1,0 +1,14 @@
+parameters:
+    mekit_relationship.twig.extension.relationship_list.class: Mekit\Bundle\RelationshipBundle\Twig\RelationshipLists
+
+services:
+    mekit_relationship.twig.extension.relationship_list:
+        class: %mekit_relationship.twig.extension.relationship_list.class%
+        arguments:
+            - @mekit_relationship.reference_manager
+            - @oro_ui.twig.widget_extension
+            - @router
+            - @translator
+        tags:
+            - { name: twig.extension }
+

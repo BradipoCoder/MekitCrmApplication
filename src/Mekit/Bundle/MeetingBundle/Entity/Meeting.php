@@ -10,6 +10,8 @@ use Mekit\Bundle\EventBundle\Entity\Event;
 use Mekit\Bundle\EventBundle\Model\ExtendEvent;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
 use Mekit\Bundle\MeetingBundle\Model\ExtendMeeting;
+use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
+use Mekit\Bundle\RelationshipBundle\Entity\Referenceable;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
@@ -21,7 +23,7 @@ use Oro\Bundle\TagBundle\Entity\Taggable;
 use Oro\Bundle\UserBundle\Entity\User;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Mekit\Bundle\MeetingBundle\Entity\Repository\MeetingRepository")
  * @ORM\Table(name="mekit_meeting")
  * @Oro\Loggable
  * @Config(
@@ -40,15 +42,23 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          },
  *          "mekitevent"={
  *              "eventable"=true,
- *              "label"="Meeting",
+ *              "label"="mekit.meeting.entity_label",
  *              "icon"="icon-group",
  *              "view_route_name"="mekit_meeting_view",
  *              "edit_route_name"="mekit_meeting_edit"
+ *          },
+ *          "relationship"={
+ *              "referenceable"=true,
+ *              "label"="mekit.meeting.entity_plural_label",
+ *              "can_reference_itself"=false,
+ *              "datagrid_name_list"="meetings-related-relationship",
+ *              "datagrid_name_select"="meetings-related-select",
+ *              "autocomplete_search_columns"={"i2s"}
  *          }
  *      }
  * )
  */
-class Meeting extends ExtendMeeting {
+class Meeting extends ExtendMeeting implements Referenceable {
 	/**
 	 * @var int
 	 *
@@ -88,6 +98,28 @@ class Meeting extends ExtendMeeting {
 	 * )
 	 */
 	protected $event;
+
+	/**
+	 * @var ReferenceableElement
+	 *
+	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement", cascade={"persist"}, orphanRemoval=true, mappedBy="meeting")
+	 */
+	protected $referenceableElement;
+
+	/**
+	 * @return ReferenceableElement
+	 */
+	public function getReferenceableElement() {
+		return $this->referenceableElement;
+	}
+
+	/**
+	 * @param ReferenceableElement $referenceableElement
+	 */
+	public function setReferenceableElement(ReferenceableElement $referenceableElement) {
+		$this->referenceableElement = $referenceableElement;
+		$referenceableElement->setMeeting($this);
+	}
 
 
 	/**
