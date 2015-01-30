@@ -1,0 +1,29 @@
+mekit:
+    campaign:
+        menu:
+            marketing_tab.label: Marketing
+
+        widgets:
+            account_information:    Account Information
+            account_additional:     Additional Information
+            account_addresses:      Address Book
+            account_contacts:       Contacts
+            account_tasks:          Tasks
+
+        sections:
+            general:                General
+
+        controller:
+            account.saved.message:  "Campaign saved"
+
+        #
+        # Mekit/Bundle/CampaignBundle/Entity/Campaign
+        #
+        entity_label:                   Campaign
+        entity_plural_label:            Campaigns
+        entity_description:             Campaign
+
+        id.label:                       Id
+        name.label:                     Name
+        referenceable_element.label:    ReferenceableElement
+

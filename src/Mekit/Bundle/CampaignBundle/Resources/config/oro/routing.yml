@@ -1,0 +1,4 @@
+mekit_campaign_bundle:
+    resource:     "@MekitCampaignBundle/Controller"
+    type:         annotation
+    prefix:       /campaign
