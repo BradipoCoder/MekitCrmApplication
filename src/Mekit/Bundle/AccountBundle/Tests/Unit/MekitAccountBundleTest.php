@@ -1,5 +1,5 @@
 <?php
-namespace Mekit\Bundle\Account\Tests\Unit;
+namespace Mekit\Bundle\AccountBundle\Tests\Unit;
 
 use Mekit\Bundle\AccountBundle\MekitAccountBundle;
 
