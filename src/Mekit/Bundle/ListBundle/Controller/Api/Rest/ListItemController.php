@@ -3,7 +3,7 @@
 namespace Mekit\Bundle\ListBundle\Controller\Api\Rest;
 
 use Doctrine\ORM\EntityNotFoundException;
-use FOS\Rest\Util\Codes;
+use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\Controller\Annotations\NamePrefix;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
