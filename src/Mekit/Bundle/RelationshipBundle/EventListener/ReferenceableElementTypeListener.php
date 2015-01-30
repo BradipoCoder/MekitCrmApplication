@@ -51,7 +51,7 @@ class ReferenceableElementTypeListener implements EventSubscriberInterface {
 	 * @param FormEvent $event
 	 */
 	public function preSetData(FormEvent $event) {
-		if($event->getData()) {
+		if($event->getData() || $event->getForm()->getParent()->getData()) {
 			$this->createFields($event->getForm());
 		}
 	}
@@ -81,7 +81,6 @@ class ReferenceableElementTypeListener implements EventSubscriberInterface {
 	 * @param FormEvent $event
 	 */
 	public function preSubmit(FormEvent $event) {
-		//$this->currentData
 		if(($postData = $event->getData())) {
 			$currentIds = [];
 			$postedIds = [];
@@ -97,25 +96,20 @@ class ReferenceableElementTypeListener implements EventSubscriberInterface {
 				}
 			}
 
-			/** @var ReferenceableElement[] $references */
-			foreach($this->currentData as $references) {
-				foreach($references as $referenceableElement) {
-					$currentIds[] = $referenceableElement->getId();
+			if(count($this->currentData)) {
+				/** @var ReferenceableElement[] $references */
+				foreach ($this->currentData as $references) {
+					foreach ($references as $referenceableElement) {
+						$currentIds[] = $referenceableElement->getId();
+					}
 				}
 			}
 
 			$addIds = array_values(array_diff($postedIds, $currentIds));
 			$removeIds = array_values(array_diff($currentIds, $postedIds));
 
-
 			$this->submitReferences["add"] = $this->idToEntityTransformer->reverseTransform($addIds);
 			$this->submitReferences["remove"] = $this->idToEntityTransformer->reverseTransform($removeIds);
-
-			echo("<hr />CURRENT: " . json_encode($currentIds));
-			echo("<hr />POST: " . json_encode($postedIds));
-
-			echo("<hr />ADD: " . json_encode($addIds));
-			echo("<hr />REMOVE: " . json_encode($removeIds));
 
 		}
 	}
@@ -123,9 +117,6 @@ class ReferenceableElementTypeListener implements EventSubscriberInterface {
 	public function onSubmit(FormEvent $event) {
 		/** @var ReferenceableElement $entity */
 		if(($entity = $event->getData())) {
-			echo("<hr />REFS TO ADD: " . count($this->submitReferences["add"]));
-			echo("<hr />REFS REMOVE: " . count($this->submitReferences["remove"]));
-
 			/** @var ReferenceableElement $referenceableElement */
 			foreach($this->submitReferences["add"] as $referenceableElement) {
 				$entity->addReference($referenceableElement);
@@ -134,9 +125,6 @@ class ReferenceableElementTypeListener implements EventSubscriberInterface {
 			foreach($this->submitReferences["remove"] as $referenceableElement) {
 				$entity->removeReference($referenceableElement);
 			}
-
-
-			//die();
 		}
 	}
 
