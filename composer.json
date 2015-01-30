@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "mekit/crm-platform": ">=1.0.8"
+        "oro/platform": "1.6.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
