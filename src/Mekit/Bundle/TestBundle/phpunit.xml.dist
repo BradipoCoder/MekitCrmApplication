@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
         colors="true"
-        bootstrap="tests/bootstrap.php"
+        bootstrap="Tests/bootstrap.php"
         >
     <testsuites>
         <testsuite name="MekitCRM Test Suite">
-            <directory suffix="Test.php">src/Mekit/Bundle/*Bundle/Tests/Unit</directory>
+            <directory suffix="Test.php">../*Bundle/Tests/Unit</directory>
         </testsuite>
     </testsuites>
 
