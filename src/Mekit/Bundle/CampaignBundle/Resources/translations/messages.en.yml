@@ -1,7 +1,8 @@
 mekit:
     campaign:
         menu:
-            marketing_tab.label: Marketing
+            marketing_tab.label:        Marketing
+            campaign_list.description:  List of Campaigns
 
         widgets:
             account_information:    Account Information
