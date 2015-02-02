@@ -17,4 +17,8 @@ oro_menu_config:
 
 oro_titles:
     mekit_call_index: ~
+    mekit_call_view: '%%event.name%%'
+    mekit_call_create: 'Create Call'
+    mekit_call_update: '%%event.name%% - Edit'
+
 
