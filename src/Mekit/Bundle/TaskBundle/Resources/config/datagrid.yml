@@ -6,8 +6,9 @@ datagrid:
             acl_resource:   mekit_event_view
             query:
                 select:
-                    - c.id as linkRefId
+                    - c.id
                     - c.description
+                    - e.id as eventId
                     - e.name
                     - e.type
                     - e.startDate
@@ -31,14 +32,8 @@ datagrid:
                 type:           twig
                 frontend_type:  html
                 template:       MekitEventBundle:Event:Datagrid/Property/eventIcon.html.twig
-            linked_name:
-                data_name:      type
+            name:
                 label:          mekit.event.name.label
-                type:           twig
-                frontend_type:  html
-                template:       MekitEventBundle:Event:Datagrid/Property/eventLink.html.twig
-                context:
-                    config_route_key:     view_route_name
             state:
                 label:         mekit.event.state.label
             startDate:
@@ -52,9 +47,47 @@ datagrid:
             priority:
                 label:         mekit.event.priority.label
 
+        properties:
+            id:             ~
+            eventId:        ~
+            view_link:
+                type:       url
+                route:      mekit_task_view
+                params:     [ id ]
+            update_link:
+                type:       url
+                route:      mekit_task_update
+                params:     [ id ]
+            delete_link:
+                type:       url
+                route:      mekit_api_delete_event
+                params:
+                    id: eventId
+
+        actions:
+            view:
+                type:          navigate
+                acl_resource:  mekit_event_view
+                label:         oro.grid.action.view
+                icon:          eye-open
+                link:          view_link
+                rowAction:     true
+            update:
+                type:          navigate
+                acl_resource:  mekit_task_update
+                label:         oro.grid.action.update
+                icon:          edit
+                link:          update_link
+            delete:
+                type:          delete
+                acl_resource:  mekit_event_delete
+                label:         oro.grid.action.delete
+                icon:          trash
+                link:          delete_link
+
         sorters:
             columns:
-                linked_name:
+                name:
                     data_name: e.name
                 state:
                     data_name: eventState.label
@@ -69,7 +102,7 @@ datagrid:
 
         filters:
             columns:
-                linked_name:
+                name:
                     type:      string
                     data_name: e.name
                 state:

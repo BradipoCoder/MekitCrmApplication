@@ -10,6 +10,7 @@ datagrid:
                     - c.description
                     - c.direction
                     - callOutcome.label as outcome
+                    - e.id as eventId
                     - e.name
                     - e.type
                     - e.startDate
@@ -58,11 +59,21 @@ datagrid:
                 label:         mekit.event.priority.label
 
         properties:
-            id: ~
+            id:             ~
+            eventId:        ~
             view_link:
                 type:       url
                 route:      mekit_call_view
                 params:     [ id ]
+            update_link:
+                type:       url
+                route:      mekit_call_update
+                params:     [ id ]
+            delete_link:
+                type:       url
+                route:      mekit_api_delete_event
+                params:
+                    id: eventId
 
         actions:
             view:
@@ -72,6 +83,18 @@ datagrid:
                 icon:          eye-open
                 link:          view_link
                 rowAction:     true
+            update:
+                type:          navigate
+                acl_resource:  mekit_call_update
+                label:         oro.grid.action.update
+                icon:          edit
+                link:          update_link
+            delete:
+                type:          delete
+                acl_resource:  mekit_event_delete
+                label:         oro.grid.action.delete
+                icon:          trash
+                link:          delete_link
 
         sorters:
             columns:
