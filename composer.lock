@@ -4421,16 +4421,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v2.3.24",
+            "version": "v2.3.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "5b2c33be25fdb94233e2c2625ee2d69289f24300"
+                "reference": "959733dc4b1da99b9e93a1762f4217eee20fc933"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/5b2c33be25fdb94233e2c2625ee2d69289f24300",
-                "reference": "5b2c33be25fdb94233e2c2625ee2d69289f24300",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/959733dc4b1da99b9e93a1762f4217eee20fc933",
+                "reference": "959733dc4b1da99b9e93a1762f4217eee20fc933",
                 "shasum": ""
             },
             "require": {
@@ -4524,7 +4524,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2015-01-07 10:32:09"
+            "time": "2015-01-30 13:55:40"
         },
         {
             "name": "tinymce/tinymce",

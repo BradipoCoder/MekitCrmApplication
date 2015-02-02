@@ -1,2 +1,3 @@
+# The priority of this bundle should be higher than all the other bundles it refers to #
 bundles:
     - { name: Mekit\Bundle\RelationshipBundle\MekitRelationshipBundle, priority: 999 }
