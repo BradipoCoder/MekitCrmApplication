@@ -1,0 +1,29 @@
+oro_menu_config:
+    items:
+        marketing_tab:
+            label: 'mekit.campaign.menu.marketing_tab.label'
+            uri: '#'
+            extras:
+                icon: icon-group
+                position: 13
+
+        campaign_list:
+            label: 'mekit.campaign.entity_plural_label'
+            route: 'mekit_campaign_index'
+            extras:
+                position: 5
+                routes: ['mekit_campaign_*']
+                description: 'mekit.campaign.menu.campaign_list.description'
+
+    tree:
+        application_menu:
+            children:
+                marketing_tab:
+                    children:
+                        campaign_list: ~
+
+oro_titles:
+    mekit_campaign_index: ~
+#    mekit_campaign_view: '%%campaign.name%%'
+#    mekit_campaign_create: 'Create Campaign'
+#    mekit_campaign_update: '%%campaign.name%% - Edit'
