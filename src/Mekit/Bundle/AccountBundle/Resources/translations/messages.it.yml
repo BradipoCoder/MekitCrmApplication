@@ -1,42 +1,42 @@
 mekit:
     account:
         menu:
-            customers_tab.label: Customers
-            account_list.description: List of accounts
-            shortcut_new_account.label: Create new account
-            shortcut_new_account.description: Create new account instance
+            customers_tab.label: Anagrafica
+            account_list.description: Elenco anagrafiche
+            shortcut_new_account.label: Crea nuova anagrafica
+            shortcut_new_account.description: Crea nuova anagrafica
             shortcut_list_accounts.label: Show accounts list
-            shortcut_list_accounts.description: List of accounts
+            shortcut_list_accounts.description: Anagrafiche
 
         widgets:
-            account_information:    Account Information
-            account_additional:     Additional Information
-            account_addresses:      Address Book
+            account_information:    Informazioni generali
+            account_additional:     Informazioni aggiuntive
+            account_addresses:      Indirizzi
 
-        account_actions:            Account actions
+        account_actions:            Azioni
 
         sections:
-            general:                General
-            addresses:              Addresses
+            general:                Generale
+            addresses:              Indirizzi
 
         form:
-            choose_account:         Choose an account...
-            select_contacts:        Select contacts
+            choose_account:         Scegli una azienda...
+            select_contacts:        Scegli un contatto
 
         controller:
-            account.saved.message:  "Account saved"
+            account.saved.message:  "Azienda salvata"
 
         #
         # Mekit/Bundle/AccountBundle/Entity/Account
         #
-        entity_label:               Account
-        entity_plural_label:        Accounts
-        entity_description:         Account
+        entity_label:               Azienda
+        entity_plural_label:        Aziende
+        entity_description:         Azienda
 
         id.label:                   Id
-        name.label:                 Account Name
-        vatid.label:                VAT Id
-        nin.label:                  National Insurance Number
+        name.label:                 Nome
+        vatid.label:                P.Iva
+        nin.label:                  C.F.
         fax.label:                  Fax
         website.label:              Web Site
         description.label:          Description

@@ -24,9 +24,7 @@ mekit:
         description.label:          Description
         direction.label:            Direction
         outcome.label:              Outcome
-
-
-
+        referenceable_element.label:    ReferenceableElement
 
         #Call direction labels
         direction.in.label:         In
