@@ -307,30 +307,6 @@ class Account extends ExtendAccount implements Referenceable, Taggable, EmailOwn
 	/**
 	 * @var Collection
 	 *
-	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ContactBundle\Entity\Contact", mappedBy="account", cascade={"all"}, orphanRemoval=true)
-	 * @ORM\OrderBy({"id" = "ASC"})
-	 * @Soap\ComplexType("Mekit\Bundle\ContactBundle\Entity\Contact[]", nillable=true)
-	 */
-	protected $contacts;
-
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="email", type="string", length=255, nullable=true)
-	 * @Oro\Versioned
-	 * @ConfigField(
-	 *      defaultValues={
-	 *          "dataaudit"={
-	 *              "auditable"=true
-	 *          }
-	 *      }
-	 * )
-	 */
-	protected $email;
-
-	/**
-	 * @var Collection
-	 *
 	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ContactInfoBundle\Entity\Email", mappedBy="owner_account", cascade={"all"})
 	 * @ORM\OrderBy({"primary" = "DESC"})
 	 * @Soap\ComplexType("Mekit\Bundle\ContactInfoBundle\Entity\Email[]", nillable=true)
@@ -360,27 +336,6 @@ class Account extends ExtendAccount implements Referenceable, Taggable, EmailOwn
 	 * )
 	 */
 	protected $addresses;
-
-	/**
-	 * @var User
-	 *
-	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
-	 * @ORM\JoinColumn(name="assigned_to", referencedColumnName="id", onDelete="SET NULL")
-	 * @Oro\Versioned
-	 * @ConfigField(
-	 *      defaultValues={
-	 *          "dataaudit"={
-	 *              "auditable"=true
-	 *          },
-	 *          "importexport"={
-	 *              "order"=200,
-	 *              "short"=true
-	 *          }
-	 *      }
-	 * )
-	 */
-	protected $assignedTo;
-
 
 	/**
 	 * @var User
@@ -766,22 +721,6 @@ class Account extends ExtendAccount implements Referenceable, Taggable, EmailOwn
 	}
 
 	/**
-	 * @return Collection
-	 */
-	public function getContacts() {
-		return $this->contacts;
-	}
-
-	/**
-	 * @param Collection $contacts
-	 * @return $this
-	 */
-	public function setContacts($contacts) {
-		$this->contacts = $contacts;
-		return $this;
-	}
-
-	/**
 	 * Set emails
 	 *
 	 * @param Collection|Email[] $emails
@@ -1054,24 +993,6 @@ class Account extends ExtendAccount implements Referenceable, Taggable, EmailOwn
 		}
 		return $result;
 	}
-
-
-	/**
-	 * @return User
-	 */
-	public function getAssignedTo() {
-		return $this->assignedTo;
-	}
-
-	/**
-	 * @param User $assignedTo
-	 * @return $this
-	 */
-	public function setAssignedTo(User $assignedTo) {
-		$this->assignedTo = $assignedTo;
-		return $this;
-	}
-
 
 	/**
 	 * Get created date/time

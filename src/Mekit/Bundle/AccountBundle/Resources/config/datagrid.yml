@@ -13,13 +13,11 @@ datagrid:
                     - accountIndustry.label as industry
                     - accountSource.label as source
                     - CONCAT(accountOwner.firstName, CONCAT(' ', accountOwner.lastName)) as ownerName
-                    - CONCAT(assignee.firstName, CONCAT(' ', assignee.lastName)) as AssigneeName
                 from:
                     - { table: %mekit_account.account.entity.class%, alias: a }
                 join:
                     left:
                         - { join: a.owner, alias: accountOwner }
-                        - { join: a.assignedTo, alias: assignee }
                         - { join: a.type, alias: accountType }
                         - { join: a.state, alias: accountState }
                         - { join: a.industry, alias: accountIndustry }
@@ -36,8 +34,6 @@ datagrid:
                 label:         mekit.account.industry.label
             source:
                 label:         mekit.account.source.label
-            AssigneeName:
-                label:         mekit.account.assigned_to.label
 
         sorters:
             columns:
@@ -51,8 +47,6 @@ datagrid:
                     data_name: industry
                 source:
                     data_name: source
-                AssigneeName:
-                    data_name: AssigneeName
 
 
         filters:
@@ -60,9 +54,6 @@ datagrid:
                 name:
                     type:      string
                     data_name: a.name
-                AssigneeName:
-                    type:      string
-                    data_name: AssigneeName
                 type:
                     type:      entity
                     data_name: accountType.id

@@ -45,8 +45,6 @@ class MekitAccountBundle implements Migration {
 		$table->addColumn('type', 'string', ['length' => 32]);
 		$table->addColumn('state', 'string', ['length' => 32]);
 		$table->addColumn('industry', 'string', ['length' => 32]);
-		$table->addColumn('assigned_to', 'integer', ['notnull' => false]);
-		$table->addColumn('email', 'string', ['notnull' => false, 'length' => 255]);/*do we need this?*/
 
 		//INDEXES
 		$table->setPrimaryKey(['id']);
@@ -75,13 +73,6 @@ class MekitAccountBundle implements Migration {
 			['id'],
 			['onDelete' => 'SET NULL', 'onUpdate' => null],
 			'fk_account_owner'
-		);
-		$table->addForeignKeyConstraint(
-			$schema->getTable('oro_user'),
-			['assigned_to'],
-			['id'],
-			['onDelete' => 'SET NULL', 'onUpdate' => null],
-			'fk_account_assignee'
 		);
 		$table->addForeignKeyConstraint(
 			$schema->getTable('mekit_list_item'),
