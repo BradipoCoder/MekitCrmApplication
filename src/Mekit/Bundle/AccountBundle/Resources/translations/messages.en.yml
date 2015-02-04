@@ -40,7 +40,6 @@ mekit:
         fax.label:                  Fax
         website.label:              Web Site
         description.label:          Description
-
         type.label:                 Type
         state.label:                State
         industry.label:             Industry
@@ -52,12 +51,8 @@ mekit:
         owner.label:                Owner
         organization.label:         Organization
 
-        contacts.label:             Contacts
-        tasks.label:                Tasks
         addresses.label:            Addresses
         referenceable_element.label:    ReferenceableElement
-
-
 
         contact:
             name:                   Contact name

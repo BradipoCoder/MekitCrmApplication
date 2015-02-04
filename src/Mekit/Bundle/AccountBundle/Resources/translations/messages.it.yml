@@ -38,26 +38,21 @@ mekit:
         vatid.label:                P.Iva
         nin.label:                  C.F.
         fax.label:                  Fax
-        website.label:              Web Site
-        description.label:          Description
-
-        type.label:                 Type
-        state.label:                State
-        industry.label:             Industry
-        source.label:               Source
-        assigned_to.label:          Assigned To
-        phones.label:               Phone
+        website.label:              Sito Web
+        description.label:          Descrizione
+        type.label:                 Tipo
+        state.label:                Stato
+        industry.label:             Settore
+        source.label:               Provenienza
+        assigned_to.label:          Assegnato a
+        phones.label:               Telefono
         emails.label:               Email
         email.label:                Email
-        owner.label:                Owner
-        organization.label:         Organization
+        owner.label:                Proprietario
+        organization.label:         Organizzazione
 
-        contacts.label:             Contacts
-        tasks.label:                Tasks
-        addresses.label:            Addresses
-        referenceable_element.label:    ReferenceableElement
-
-
+        addresses.label:            Indirizzi
+        referenceable_element.label:    Elemento
 
         contact:
             name:                   Contact name
