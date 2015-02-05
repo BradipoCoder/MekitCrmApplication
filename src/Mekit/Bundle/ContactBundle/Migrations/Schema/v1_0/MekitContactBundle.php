@@ -58,7 +58,6 @@ class MekitContactBundle implements Migration {
 		$table->addIndex(['updatedAt'], 'idx_contact_updated_at', []);
 		$table->addIndex(['assigned_to'], 'idx_contact_assigned_to', []);
 		$table->addIndex(['last_name', 'first_name'], 'idx_contact_name', []);
-		$table->addIndex(['account_id'], 'idx_contact_account', []);
 		$table->addIndex(['job_title'], 'idx_contact_job_title', []);
 
 		//FOREIGN KEYS
@@ -75,13 +74,6 @@ class MekitContactBundle implements Migration {
 			['id'],
 			['onDelete' => 'SET NULL', 'onUpdate' => null],
 			'fk_contact_owner'
-		);
-		$table->addForeignKeyConstraint(
-			$schema->getTable('mekit_account'),
-			['account_id'],
-			['id'],
-			['onDelete' => 'SET NULL', 'onUpdate' => null],
-			'fk_contact_account'
 		);
 		$table->addForeignKeyConstraint(
 			$schema->getTable('oro_user'),

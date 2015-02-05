@@ -5,7 +5,6 @@ use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Mekit\Bundle\AccountBundle\Entity\Account;
 use Mekit\Bundle\ContactBundle\Model\ExtendContact;
 use Mekit\Bundle\ContactInfoBundle\Entity\Address;
 use Mekit\Bundle\ContactInfoBundle\Entity\Email;
@@ -196,15 +195,6 @@ class Contact extends ExtendContact implements Referenceable, Taggable, EmailOwn
 	 * )
 	 */
 	protected $nameSuffix;
-
-	/**
-	 * @var Account
-	 *
-	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\AccountBundle\Entity\Account", inversedBy="contacts")
-	 * @ORM\JoinColumn(name="account_id", referencedColumnName="id", onDelete="SET NULL")
-	 * @Soap\ComplexType("integer", nillable=true)
-	 */
-	protected $account;
 
 	/**
 	 * @var string
@@ -555,22 +545,6 @@ class Contact extends ExtendContact implements Referenceable, Taggable, EmailOwn
 		$this->emails = new ArrayCollection();
 		$this->addresses = new ArrayCollection();
 		$this->tags = new ArrayCollection();
-	}
-
-	/**
-	 * @return Account
-	 */
-	public function getAccount() {
-		return $this->account;
-	}
-
-	/**
-	 * @param Account $account
-	 * @return $this
-	 */
-	public function setAccount($account) {
-		$this->account = $account;
-		return $this;
 	}
 
 	/**
