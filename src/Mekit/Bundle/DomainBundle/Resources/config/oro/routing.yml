@@ -1,0 +1,14 @@
+# src/Mekit/Bundle/DomainBundle/Resources/config/oro/routing.yml
+mekit_domain_bundle:
+        resource: "@MekitDomainBundle/Controller"
+        type:     annotation
+        prefix:   /domain
+
+mekit_domain_bundle_api:
+    resource: "@MekitDomainBundle/Resources/config/oro/routing_api.yml"
+    type: rest
+    prefix:       api/rest/{version}
+    requirements:
+        version:  latest|v1
+    defaults:
+        version:  latest

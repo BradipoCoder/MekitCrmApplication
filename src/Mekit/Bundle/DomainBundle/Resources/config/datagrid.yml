@@ -1,0 +1,202 @@
+datagrid:
+   domains-grid:
+        extended_entity_name: %mekit_domain.domain.entity.class%
+        source:
+            type:           orm
+            acl_resource:   mekit_domain_domain_view
+            query:
+                select:
+                    - a.id
+                    - a.name
+                    - a.description
+                    - a.provider
+                from:
+                    - { table: %mekit_domain.domain.entity.class%, alias: a }
+
+        columns:
+            name:
+                label:         mekit.domain.name.label
+            description:
+                label:         mekit.domain.description.label
+            provider:
+                label:         mekit.domain.provider.label
+            expiration:
+                label:         mekit.domain.expiration.label
+
+        sorters:
+            columns:
+                name:
+                    data_name: a.name
+                description:
+                    data_name: a.description
+                provider:
+                    data_name: a.provider
+                expiration:
+                    data_name: a.expiration
+
+
+        filters:
+            columns:
+                name:
+                    type:      string
+                    data_name: a.name
+                description:
+                    type:      string
+                    data_name: a.description
+
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      mekit_domain_view
+                params:     [ id ]
+            update_link:
+                type:       url
+                route:      mekit_domain_update
+                params:     [ id ]
+            delete_link:
+                type:       url
+                route:      mekit_api_delete_domain
+                params:     [ id ]
+
+        actions:
+            view:
+                type:          navigate
+                acl_resource:  mekit_domain_domain_view
+                label:         oro.grid.action.view
+                icon:          eye-open
+                link:          view_link
+                rowAction:     true
+            update:
+                type:          navigate
+                acl_resource:  mekit_domain_domain_update
+                label:         oro.grid.action.update
+                icon:          edit
+                link:          update_link
+            delete:
+                type:          delete
+                acl_resource:  mekit_domain_domain_delete
+                label:         oro.grid.action.delete
+                icon:          trash
+                link:          delete_link
+
+        mass_actions:
+            merge:
+                type: merge
+                entity_name: %mekit_domain.domain.entity.class%
+                data_identifier: a.id
+
+        options:
+            entityHint: domain
+            export: true
+
+#   domains-select-grid:
+#        extended_entity_name: %mekit_domain.domain.entity.class%
+#        source:
+#            type:           orm
+#            acl_resource:   mekit_domain_domain_view
+#            query:
+#                select:
+#                    - a.id
+#                    - a.name
+#                    - CONCAT(domainOwner.firstName, CONCAT(' ',domainOwner.lastName)) as ownerName
+#                from:
+#                    - { table: %mekit_domain.domain.entity.class%, alias: a }
+#                join:
+#                    left:
+#                        - { join: a.owner, alias:domainOwner }
+#        properties:
+#            id: ~
+#        columns:
+#            name:
+#                label:   mekit.domain.name.label
+#            ownerName:
+#                label:   mekit.domain.owner.label
+#        sorters:
+#            columns:
+#                name:
+#                    data_name: a.name
+#                ownerName:
+#                    data_name: ownerName
+#        filters:
+#            columns:
+#                name:
+#                    type:      string
+#                    data_name: a.name
+#                ownerName:
+#                    type:      string
+#                    data_name: ownerName
+#        options:
+#            entityHint:domain
+#
+#   domains-related-relationship:
+#        extends: relationship-related-element-source-logic
+#        source:
+#            query:
+#                select:
+#                    - a.id
+#                    - a.name
+#                    -domainType.label as type
+#                    -domainState.label as state
+#                from:
+#                   - { table: %mekit_domain.domain.entity.class%, alias: a }
+#                join:
+#                    inner:
+#                        - { join: a.referenceableElement, alias: referenceableElement }
+#                    left:
+#                        - { join: a.type, alias:domainType }
+#                        - { join: a.state, alias: domainState }
+#
+#        columns:
+#            name:
+#                label:        mekit.domain.name.label
+#            type:
+#                label:        mekit.domain.type.label
+#            state:
+#                label:        mekit.domain.state.label
+#
+#        properties:
+#            id: ~
+#            view_link:
+#                type:       url
+#                route:      mekit_domain_view
+#                params:     [ id ]
+#
+#        actions:
+#            view:
+#                type:          navigate
+#                acl_resource:  mekit_domain_domain_view
+#                label:         oro.grid.action.view
+#                icon:          eye-open
+#                link:          view_link
+#                rowAction:     true
+#
+#    domains-related-select:
+#        extends: relationship-related-elements-select-logic
+#        source:
+#            query:
+#                select:
+#                    - referenceableElement.id as refElId
+#                    - a.id
+#                    - a.name
+#                from:
+#                    - { table: %mekit_domain.domain.entity.class%, alias: a }
+#                join:
+#                    inner:
+#                        - { join: a.referenceableElement, alias: referenceableElement }
+#        columns:
+#            refElId:
+#                renderable: false
+#            name:
+#
+#        properties:
+#            id: ~
+#
+#        options:
+#            entityHint: domain
+#            rowSelection:
+#                dataField: refElId
+#                columnName: isAssigned
+#                selectors:
+#                    included: '#appendElements'
+#                    excluded: '#removeElements'

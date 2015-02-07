@@ -1,0 +1,3 @@
+mekit_domain_api:
+    resource:     "@MekitDomainBundle/Controller/Api/Rest/DomainController.php"
+    type:         rest
