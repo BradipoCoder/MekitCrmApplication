@@ -1,0 +1,43 @@
+mekit:
+    domain:
+        menu:
+            domain_list.description: List of domains
+            shortcut_new_domain.label: Create new domain
+            shortcut_new_domain.description: Create new domain instance
+            shortcut_list_domains.label: Show domains list
+            shortcut_list_domains.description: List of domains
+
+        widgets:
+            domain_information:    Domain Information
+            domain_additional:     Additional Information
+            domain_addresses:      Address Book
+
+        domain_actions:            Domain actions
+
+        sections:
+            general:                General
+            addresses:              Addresses
+
+        form:
+            choose_domain:         Choose a domain...
+            select_contacts:        Select contacts
+
+        controller:
+            domain.saved.message:  "Domain saved"
+
+        #
+        # Mekit/Bundle/DomainBundle/Entity/Domain
+        #
+        entity_label:               Domain
+        entity_plural_label:        Domains
+        entity_description:         Domain
+
+        id.label:                   Id
+        name.label:                 Domain Name
+        description.label:          Description
+        provider.label:             Provider
+        expiration.label:           Expiration Date
+
+#        referenceable_element.label:    ReferenceableElement
+
+
