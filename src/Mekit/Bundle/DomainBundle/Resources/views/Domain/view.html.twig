@@ -51,9 +51,9 @@
 		},
 	] %}
 
-	{#&#123;&#35;RENDER RELATIONSHIPS&#35;&#125;#}
-	{#{% set relationships = mekit_render_all_relationships({'referenceableElement': entity.referenceableElement}) %}#}
-	{#{% set dataBlocks = dataBlocks|merge(relationships) %}#}
+	{#RENDER RELATIONSHIPS#}
+	{% set relationships = mekit_render_all_relationships({'referenceableElement': entity.referenceableElement}) %}
+	{% set dataBlocks = dataBlocks|merge(relationships) %}
 
 	{% set id = 'domainView' %}
 	{% set data = {'dataBlocks': dataBlocks} %}

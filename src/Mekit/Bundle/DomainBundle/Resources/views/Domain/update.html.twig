@@ -56,7 +56,20 @@
                 ]
             }
         ]
-    }] %}
+    },
+    {
+        'title': 'mekit.relationship.widgets.relationships'|trans,
+        'class': 'resp',
+        'subblocks': [
+            {
+                'title': 'mekit.relationship.widgets.relationships'|trans,
+                'data': [
+                            form_widget(form.referenceableElement),
+                        ]
+            },
+        ]
+    }
+    ] %}
 
     {% if form.additional is defined and form.additional.children|length > 0 %}
         {% set additionalData = [] %}

@@ -17,9 +17,19 @@ class DomainType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('provider')
+            ->add('provider', 'url')
             ->add('expiration')
+
+            //referenceable elements (reference selector fields)
+            ->add('referenceableElement',
+                'mekit_referenceable_element',
+                [
+                    'label' => false,
+                    'required' => false
+                ]
+            )
         ;
+
     }
     
     /**

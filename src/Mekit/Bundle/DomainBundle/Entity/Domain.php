@@ -4,15 +4,20 @@ namespace Mekit\Bundle\DomainBundle\Entity;
 
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\ORM\Mapping as ORM;
+use Mekit\Bundle\RelationshipBundle\Entity\Referenceable;
+use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
-
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
+use Oro\Bundle\UserBundle\Entity\User;
 
 /**
  * @ORM\Entity()
  * @ORM\Table(name="mekit_domain",
  *      indexes={
+ *          @ORM\Index(name="idx_domain_owner", columns={"owner_id"}),
+ *          @ORM\Index(name="idx_domain_organization", columns={"organization_id"}),
  *          @ORM\Index(name="idx_domain_created_at", columns={"createdAt"}),
  *          @ORM\Index(name="idx_domain_updated_at", columns={"updatedAt"}),
  *          @ORM\Index(name="idx_domain_name", columns={"name"}),
@@ -27,6 +32,13 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
  *          "entity"={
  *              "icon"="icon-suitcase"
  *          },
+ *          "ownership"={
+ *              "owner_type"="USER",
+ *              "owner_field_name"="owner",
+ *              "owner_column_name"="owner_id",
+ *              "organization_field_name"="organization",
+ *              "organization_column_name"="organization_id"
+ *          },
  *          "security"={
  *              "type"="ACL",
  *              "group_name"=""
@@ -34,13 +46,25 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
  *          "merge"={
  *              "enable"=true
  *          },
+ *          "form"={
+ *              "form_type"="mekit_domain_select",
+ *              "grid_name"="domains-select-grid",
+ *          },
  *          "dataaudit"={
  *              "auditable"=true
  *          },
+ *          "relationship"={
+ *              "referenceable"=true,
+ *              "label"="mekit.domain.entity_plural_label",
+ *              "can_reference_itself"=false,
+ *              "datagrid_name_list"="domains-related-relationship",
+ *              "datagrid_name_select"="domains-related-select",
+ *              "autocomplete_search_columns"={"name"}
+ *          }
  *      }
  * )
  */
-class Domain
+class Domain implements Referenceable
 {
     /**
      * @ORM\Id
@@ -135,6 +159,36 @@ class Domain
     private $expiration;
 
 
+
+    /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
+     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="SET NULL")
+     * @Soap\ComplexType("string", nillable=true)
+     * @Oro\Versioned
+     * @ConfigField(
+     *      defaultValues={
+     *          "dataaudit"={
+     *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "order"=100,
+     *              "short"=true
+     *          }
+     *      }
+     * )
+     */
+    protected $owner;
+
+    /**
+     * @var Organization
+     *
+     * @ORM\ManyToOne(targetEntity="Oro\Bundle\OrganizationBundle\Entity\Organization")
+     * @ORM\JoinColumn(name="organization_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    protected $organization;
+
+
     /**
      * @var \DateTime
      *
@@ -170,6 +224,31 @@ class Domain
      * )
      */
     protected $updatedAt;
+
+
+
+    /**
+     * @var ReferenceableElement
+     *
+     * @ORM\OneToOne(targetEntity="Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement", cascade={"persist"}, orphanRemoval=true, mappedBy="domain")
+     */
+    protected $referenceableElement;
+
+    /**
+     * @return ReferenceableElement
+     */
+    public function getReferenceableElement() {
+        return $this->referenceableElement;
+    }
+
+    /**
+     * @param ReferenceableElement $referenceableElement
+     */
+    public function setReferenceableElement(ReferenceableElement $referenceableElement) {
+        $this->referenceableElement = $referenceableElement;
+        $referenceableElement->setDomain($this);
+    }
+
 
     /**
      * Get id
@@ -279,6 +358,39 @@ class Domain
         return $this->expiration;
     }
 
+    /**
+     * @return Organization
+     */
+    public function getOrganization()
+    {
+        return $this->organization;
+    }
+
+    /**
+     * @param Organization $organization
+     */
+    public function setOrganization($organization)
+    {
+        $this->organization = $organization;
+        return $this;
+    }
+
+
+    /**
+     * @return User
+     */
+    public function getOwner() {
+        return $this->owner;
+    }
+
+    /**
+     * @param User $owningUser
+     * @return $this
+     */
+    public function setOwner(User $owningUser) {
+        $this->owner = $owningUser;
+        return $this;
+    }
 
     /**
      * Get created date/time
