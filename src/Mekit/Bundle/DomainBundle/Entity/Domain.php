@@ -181,6 +181,17 @@ class Domain
         return $this->id;
     }
 
+
+    /**
+     * @param  int $id
+     * @return Domain
+     */
+    public function setId($id) {
+        $this->id = $id;
+        return $this;
+    }
+
+
     /**
      * Set name
      *
