@@ -8,6 +8,28 @@ mekit:
             entity_plural_label:        Addresses
             entity_description:         Address
 
+            id.label:                   Id
+            owner_account.label:        Owner Account
+            owner_contact.label:        Owner Contact
+            address.label:              Address
+            label.label:                Label
+            primary.label:              Primary
+            city.label:                 Town
+            country.label:              Country
+            first_name.label:           First Name
+            last_name.label:            Last Name
+            middle_name.label:          Middle Name
+            name_prefix.label:          Name Prefix
+            name_suffix.label:          Name Suffix
+            organization.label:         Organization
+            postal_code.label:          Postal Code
+            region.label:               Region
+            region_text.label:          Region
+            street.label:               Street
+            street2.label:              Street 2
+            type.label:                 Type
+
+
         #
         # Mekit/Bundle/ContactInfoBundle/Entity/Phone
         #
@@ -16,6 +38,12 @@ mekit:
             entity_plural_label:        Phones
             entity_description:         Phone
 
+            id.label:                   Id
+            owner_account.label:        Owner Account
+            owner_contact.label:        Owner Contact
+            phone.label:                Phone
+            primary.label:              Primary
+
         #
         # Mekit/Bundle/ContactInfoBundle/Entity/Email
         #
@@ -23,3 +51,9 @@ mekit:
             entity_label:               Email
             entity_plural_label:        Emails
             entity_description:         Email
+
+            id.label:                   Id
+            owner_account.label:        Owner Account
+            owner_contact.label:        Owner Contact
+            email.label:                Email
+            primary.label:              Primary

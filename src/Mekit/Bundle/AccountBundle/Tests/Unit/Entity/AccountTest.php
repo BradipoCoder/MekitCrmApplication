@@ -1,12 +1,12 @@
 <?php
-
 namespace Mekit\Bundle\AccountBundle\Tests\Unit\Entity;
+
+use Mekit\Bundle\TestBundle\Tests\Helpers\MekitEntityTests;
 
 use Mekit\Bundle\AccountBundle\Entity\Account;
 use Mekit\Bundle\ContactInfoBundle\Entity\Address;
 use Mekit\Bundle\ContactInfoBundle\Entity\Email;
 use Mekit\Bundle\ContactInfoBundle\Entity\Phone;
-use Mekit\Bundle\TestBundle\Tests\Helpers\MekitEntityTests;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\AddressBundle\Entity\Country;
 
@@ -125,7 +125,7 @@ class AccountTest extends MekitEntityTests {
 		$addressTwo = new Address();
 		$addressTwo->setCountry(new Country('UK'));
 		$addressThree = new Address();
-		$addressThree->setCountry(new Country('RU'));
+		$addressThree->setCountry(new Country('IT'));
 		$addresses = array($addressOne, $addressTwo);
 
 		$entity = new Account();
@@ -269,7 +269,6 @@ class AccountTest extends MekitEntityTests {
 			array('state', $listItem),
 			array('industry', $listItem),
 			array('source', $listItem),
-			array('assignedTo', $user),
 			array('owner', $user),
 			array('organization', $organization),
 			array('createdAt', $now),

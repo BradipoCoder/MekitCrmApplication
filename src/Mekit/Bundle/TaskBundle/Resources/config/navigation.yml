@@ -17,4 +17,6 @@ oro_menu_config:
 
 oro_titles:
     mekit_task_index: ~
-
+    mekit_task_view: '%%event.name%%'
+    mekit_task_create: 'Create Task'
+    mekit_task_update: '%%event.name%% - Edit'

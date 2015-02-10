@@ -17,4 +17,6 @@ oro_menu_config:
 
 oro_titles:
     mekit_meeting_index: ~
-
+    mekit_meeting_view: '%%event.name%%'
+    mekit_meeting_create: 'Create Meeting'
+    mekit_meeting_update: '%%event.name%% - Edit'

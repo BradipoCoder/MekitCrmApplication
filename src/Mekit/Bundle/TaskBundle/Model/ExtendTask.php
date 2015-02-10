@@ -1,13 +1,10 @@
 <?php
 namespace Mekit\Bundle\TaskBundle\Model;
 
-use Oro\Bundle\ActivityBundle\Model\ExtendActivity;
-
 /**
  * Class ExtendTask
  */
 class ExtendTask {
-	use ExtendActivity;
 	/**
 	 * Constructor
 	 *

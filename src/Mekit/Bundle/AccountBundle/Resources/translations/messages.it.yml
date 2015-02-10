@@ -1,0 +1,62 @@
+mekit:
+    account:
+        menu:
+            customers_tab.label: Anagrafica
+            account_list.description: Elenco anagrafiche
+            shortcut_new_account.label: Crea nuova anagrafica
+            shortcut_new_account.description: Crea nuova anagrafica
+            shortcut_list_accounts.label: Show accounts list
+            shortcut_list_accounts.description: Anagrafiche
+
+        widgets:
+            account_information:    Informazioni generali
+            account_additional:     Informazioni aggiuntive
+            account_addresses:      Indirizzi
+
+        account_actions:            Azioni
+
+        sections:
+            general:                Generale
+            addresses:              Indirizzi
+
+        form:
+            choose_account:         Scegli una azienda...
+            select_contacts:        Scegli un contatto
+
+        controller:
+            account.saved.message:  "Azienda salvata"
+
+        #
+        # Mekit/Bundle/AccountBundle/Entity/Account
+        #
+        entity_label:               Azienda
+        entity_plural_label:        Aziende
+        entity_description:         Azienda
+
+        id.label:                   Id
+        name.label:                 Nome
+        vatid.label:                P.Iva
+        nin.label:                  C.F.
+        fax.label:                  Fax
+        website.label:              Sito Web
+        description.label:          Descrizione
+        type.label:                 Tipo
+        state.label:                Stato
+        industry.label:             Settore
+        source.label:               Provenienza
+        assigned_to.label:          Assegnato a
+        phones.label:               Telefono
+        emails.label:               Email
+        email.label:                Email
+        owner.label:                Proprietario
+        organization.label:         Organizzazione
+
+        addresses.label:            Indirizzi
+        referenceable_element.label:    Elemento
+
+        contact:
+            name:                   Contact name
+            email:                  Contact email
+            phone:                  Contact phone
+
+

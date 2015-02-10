@@ -27,7 +27,7 @@ mekit:
             references.label:           References
             referrals.label:            Referrals
 
-            #these should go into specific bundles
+            #referenced entities
             account.label:              Account
             contact.label:              Contact
             call.label:                 Call

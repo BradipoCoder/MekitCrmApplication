@@ -22,6 +22,6 @@ mekit:
         id.label:                   Id
         event.label:                Event
         description.label:          Description
-
+        referenceable_element.label:    ReferenceableElement
 
 

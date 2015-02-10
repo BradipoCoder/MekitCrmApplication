@@ -1,8 +1,10 @@
 <?php
 namespace Mekit\Bundle\RelationshipBundle\EventListener;
 
+use Doctrine\ORM\EntityNotFoundException;
 use Mekit\Bundle\RelationshipBundle\Form\DataTransformer\ReferenceableEntitiesToIdsTransformer;
 use Mekit\Bundle\RelationshipBundle\Entity\Manager\ReferenceManager;
+use Oro\Bundle\EntityBundle\Exception\InvalidEntityException;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -48,10 +50,23 @@ class ReferenceableElementTypeListener implements EventSubscriberInterface {
 	}
 
 	/**
+	 *  If the base entity is a new entity we will create a new ReferenceableElement for it
+	 *
 	 * @param FormEvent $event
+	 * @throws InvalidEntityException
 	 */
 	public function preSetData(FormEvent $event) {
-		if($event->getData() || $event->getForm()->getParent()->getData()) {
+		if($event->getForm()->getParent()->getData()) {
+			if(!$event->getData()) {
+				/** @var Referenceable $baseEntity */
+				$baseEntity = $event->getForm()->getParent()->getData();
+				if(!$baseEntity instanceof Referenceable) {
+					throw new InvalidEntityException("Not a Referenceable entity!");
+				}
+				$referenceableElement = new ReferenceableElement();
+				$baseEntity->setReferenceableElement($referenceableElement);
+				$event->setData($referenceableElement);
+			}
 			$this->createFields($event->getForm());
 		}
 	}
@@ -114,9 +129,16 @@ class ReferenceableElementTypeListener implements EventSubscriberInterface {
 		}
 	}
 
+	/**
+	 * @param FormEvent $event
+	 * @throws EntityNotFoundException
+	 */
 	public function onSubmit(FormEvent $event) {
 		/** @var ReferenceableElement $entity */
-		if(($entity = $event->getData())) {
+		$entity = $event->getData();
+		if(!$entity) {
+			throw new EntityNotFoundException("No ReferenceableElement has been set for base entity!");
+		} else {
 			/** @var ReferenceableElement $referenceableElement */
 			foreach($this->submitReferences["add"] as $referenceableElement) {
 				$entity->addReference($referenceableElement);

@@ -2,16 +2,14 @@
 
 namespace Mekit\Bundle\AccountBundle\Form\Handler;
 
-use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 
-use Mekit\Bundle\AccountBundle\Entity\Account;
-//use Mekit\Bundle\ContactBundle\Entity\Contact;
-
 use Oro\Bundle\TagBundle\Entity\TagManager;
 use Oro\Bundle\TagBundle\Form\Handler\TagHandlerInterface;
+
+use Mekit\Bundle\AccountBundle\Entity\Account;
 
 /**
  * Class AccountHandler

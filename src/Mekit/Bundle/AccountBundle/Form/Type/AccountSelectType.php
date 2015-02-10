@@ -4,6 +4,7 @@ namespace Mekit\Bundle\AccountBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+//@todo: this class is to be removed
 class AccountSelectType extends AbstractType {
 	/**
 	 * {@inheritdoc}

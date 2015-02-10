@@ -7,20 +7,17 @@ mekit:
             shortcut_new_account.description: Create new account instance
             shortcut_list_accounts.label: Show accounts list
             shortcut_list_accounts.description: List of accounts
+
         widgets:
             account_information:    Account Information
             account_additional:     Additional Information
             account_addresses:      Address Book
-            account_contacts:       Contacts
-            account_tasks:          Tasks
 
         account_actions:            Account actions
 
         sections:
             general:                General
             addresses:              Addresses
-            contacts:               Contacts
-            tasks:                  Tasks
 
         form:
             choose_account:         Choose an account...
@@ -43,7 +40,6 @@ mekit:
         fax.label:                  Fax
         website.label:              Web Site
         description.label:          Description
-
         type.label:                 Type
         state.label:                State
         industry.label:             Industry
@@ -55,12 +51,8 @@ mekit:
         owner.label:                Owner
         organization.label:         Organization
 
-        contacts.label:             Contacts
-        tasks.label:                Tasks
         addresses.label:            Addresses
         referenceable_element.label:    ReferenceableElement
-
-
 
         contact:
             name:                   Contact name

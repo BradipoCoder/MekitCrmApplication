@@ -1,7 +1,7 @@
 {% extends 'OroUIBundle:actions:view.html.twig' %}
 
 {% set fullname = entity.event.name|default('N/A'|trans) %}
-{% oro_title_set({params : {"%call.name%": fullname} }) %}
+{% oro_title_set({params : {"%event.name%": fullname} }) %}
 
 {% block stats %}
 	{% if breadcrumbs.entity.event is defined %}
@@ -21,7 +21,7 @@
 	{% if resource_granted('DELETE', entity.event) %}
 		{{ UI.deleteButton({
 		'dataUrl': path('mekit_api_delete_event', {'id': entity.event.id}),
-		'dataRedirect': path('mekit_event_index'),
+		'dataRedirect': path('mekit_call_index'),
 		'aCss': 'no-hash remove-button',
 		'dataId': entity.event.id,
 		'id': 'btn-remove-event',
@@ -35,8 +35,8 @@
 {% block pageHeader %}
 	{% set breadcrumbs = {
 	'entity': entity,
-	'indexPath': path('mekit_event_index'),
-	'indexLabel': 'mekit.event.entity_plural_label'|trans,
+	'indexPath': path('mekit_call_index'),
+	'indexLabel': 'mekit.call.entity_plural_label'|trans,
 	'entityTitle': fullname
 	} %}
 	{{ parent() }}
