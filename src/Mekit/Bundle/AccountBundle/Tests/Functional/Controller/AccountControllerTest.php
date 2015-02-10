@@ -8,22 +8,21 @@ class AccountControllerTest extends OroWebTestCase {
 
 	protected function setUp() {
 		$this->initClient(
-			['environment'=> 'test', 'debug' => false],
+			['environment'=> 'test', 'debug' => true],
 			$this->generateBasicAuthHeader());
 	}
 
 	public function testIndexAction() {
-		//$this->client->request('GET', $this->getUrl('mekit_account_index',[]));
-		$this->client->request('GET', '/platform/information');
+		$this->client->request('GET', $this->getUrl('mekit_account_index',[]));
+		//$this->client->request('GET', '/platform/information');
 		$request = $this->client->getRequest();
 		$result = $this->client->getResponse();
 		$resCode = $result->getStatusCode();
 
-
 		echo "\n\nRESULT($resCode): ";
 
-
-
+		/*
+		echo "\n\nRESULT($resCode): ";
 		if(!$result->isOk()) {
 			echo "\nREQUEST: ";
 			foreach($request->headers as $h => $v) {
@@ -36,7 +35,7 @@ class AccountControllerTest extends OroWebTestCase {
 			}
 
 			echo "\n\n" . $result->getContent();
-		}
+		}*/
 
 		$this->assertTrue($result->isOk());
 
