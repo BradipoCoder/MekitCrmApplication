@@ -32,7 +32,7 @@ class MekitContactBundle implements Migration {
 		$table->addColumn('organization_id', 'integer', ['notnull' => false]);
 		$table->addColumn('owner_id', 'integer', ['notnull' => false]);
 		$table->addColumn('assigned_to', 'integer', ['notnull' => false]);
-		$table->addColumn('account_id', 'integer', ['notnull' => false]);
+//		$table->addColumn('account_id', 'integer', ['notnull' => false]);
 		$table->addColumn('name_prefix', 'string', ['notnull' => false, 'length' => 16]);
 		$table->addColumn('first_name', 'string', ['length' => 128]);
 		$table->addColumn('middle_name', 'string', ['notnull' => false, 'length' => 64]);
