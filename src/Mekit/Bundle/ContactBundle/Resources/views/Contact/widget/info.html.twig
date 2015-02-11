@@ -105,17 +105,17 @@
     {%- endif -%}
 {%- endset -%}
 
-{%- set accountLink -%}
-    {%- if entity.account -%}
-	    {% if resource_granted('mekit_account_account_view') %}
-		    <a href="{{ path('mekit_account_view', {'id': entity.account.id}) }}">
-			    {{ entity.account.name }}
-		    </a>
-	    {% else %}
-		    {{ entity.account.name }}
-	    {% endif %}
-    {%- endif -%}
-{%- endset -%}
+{#{%- set accountLink -%}#}
+    {#{%- if entity.account -%}#}
+	    {#{% if resource_granted('mekit_account_account_view') %}#}
+		    {#<a href="{{ path('mekit_account_view', {'id': entity.account.id}) }}">#}
+			    {#{{ entity.account.name }}#}
+		    {#</a>#}
+	    {#{% else %}#}
+		    {#{{ entity.account.name }}#}
+	    {#{% endif %}#}
+    {#{%- endif -%}#}
+{#{%- endset -%}#}
 
 {%- set birthdayData -%}
     {{ entity.birthday is not empty ? entity.birthday|oro_format_date : null }}
@@ -141,7 +141,7 @@
 		</div>
 
 		<div class="responsive-block">
-			{{ UI.renderHtmlProperty('mekit.contact.account.label'|trans, accountLink) }}
+			{#{{ UI.renderHtmlProperty('mekit.contact.account.label'|trans, accountLink) }}#}
 			{{ UI.renderHtmlProperty('mekit.contact.assigned_to.label'|trans, assignedToData) }}
 
 			{{ entityConfig.renderDynamicFields(entity) }}
