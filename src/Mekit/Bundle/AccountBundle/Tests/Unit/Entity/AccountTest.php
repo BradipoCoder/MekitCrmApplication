@@ -1,7 +1,7 @@
 <?php
 namespace Mekit\Bundle\AccountBundle\Tests\Unit\Entity;
 
-use Mekit\Bundle\TestBundle\Tests\Helpers\MekitEntityTests;
+use Mekit\Bundle\TestBundle\Helpers\MekitEntityTests;
 
 use Mekit\Bundle\AccountBundle\Entity\Account;
 use Mekit\Bundle\ContactInfoBundle\Entity\Address;

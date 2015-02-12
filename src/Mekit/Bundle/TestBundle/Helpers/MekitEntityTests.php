@@ -1,5 +1,5 @@
 <?php
-namespace Mekit\Bundle\TestBundle\Tests\Helpers;
+namespace Mekit\Bundle\TestBundle\Helpers;
 
 
 class MekitEntityTests extends MekitTests {
