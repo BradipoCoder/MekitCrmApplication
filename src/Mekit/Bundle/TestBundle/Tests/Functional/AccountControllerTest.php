@@ -15,7 +15,7 @@ class AccountControllerTest extends OroWebTestCase {
 	public function testIndexAction() {
 		$this->client->request('GET', $this->getUrl('mekit_account_index',[]));
 		//$this->client->request('GET', '/platform/information');
-		$request = $this->client->getRequest();
+		//$request = $this->client->getRequest();
 		$result = $this->client->getResponse();
 		$resCode = $result->getStatusCode();
 

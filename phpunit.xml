@@ -16,9 +16,9 @@
         <testsuite name="MekitCRM Unit Test Suite">
             <directory suffix="Test.php">src/Mekit/Bundle/*Bundle/Tests/Unit</directory>
         </testsuite>
-        <!--<testsuite name="MekitCRM Functional Test Suite">-->
-            <!--<directory suffix="Test.php">src/Mekit/Bundle/*Bundle/Tests/Functional</directory>-->
-        <!--</testsuite>-->
+        <testsuite name="MekitCRM Functional Test Suite">
+            <directory suffix="Test.php">src/Mekit/Bundle/*Bundle/Tests/Functional</directory>
+        </testsuite>
     </testsuites>
 
     <php>
