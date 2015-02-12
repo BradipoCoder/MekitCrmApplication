@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "31e5ad85b3c1a3ca8087d6488dca3ed8",
+    "hash": "ef19ab9ceb5885ac1e8f7ac6a8a2ad15",
     "packages": [
         {
             "name": "a2lix/translation-form-bundle",
@@ -3474,7 +3474,7 @@
                     "Oro\\Bundle": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "http://packagist.orocrm.com/downloads/",
             "license": [
                 "MIT"
             ],
