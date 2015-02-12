@@ -9,6 +9,8 @@ matrix:
     - php: hhvm
 
 before_script:
+  - "mkdir -p ~/.composer"
+  - cp .travis.composer.config.json ~/.composer/config.json
   - composer selfupdate
   - phpenv config-add travis.php.ini
   - composer install --prefer-dist --no-interaction
