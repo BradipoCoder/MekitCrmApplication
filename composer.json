@@ -9,8 +9,14 @@
             "homepage": "http://www.mekit.it"
         }
     ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://packagist.orocrm.com"
+        }
+    ],
     "require": {
-        "oro/platform": "1.6.0"
+        "oro/platform": "~1.6.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

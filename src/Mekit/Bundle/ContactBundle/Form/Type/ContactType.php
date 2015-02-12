@@ -110,11 +110,11 @@ class ContactType extends AbstractType {
 		);
 
 		//account
-		$builder->add(
-			'account',
-			'mekit_account_select',
-			array('required' => false, 'label' => 'mekit.contact.account.label')
-		);
+//		$builder->add(
+//			'account',
+//			'mekit_account_select',
+//			array('required' => false, 'label' => 'mekit.contact.account.label')
+//		);
 
 		//addresses
 		$builder->add(

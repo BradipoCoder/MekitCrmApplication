@@ -1,7 +1,7 @@
 <?php
 namespace Mekit\Bundle\AccountBundle\Tests\Unit\DependencyInjection;
 
-use Mekit\Bundle\TestBundle\Tests\Helpers\MekitTests;
+use Mekit\Bundle\TestBundle\Helpers\MekitTests;
 use Mekit\Bundle\AccountBundle\DependencyInjection\Configuration;
 
 class ConfigurationTest extends MekitTests {
