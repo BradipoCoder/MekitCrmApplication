@@ -10,7 +10,8 @@ matrix:
 
 before_script:
   - composer selfupdate
-  - composer install --prefer-source --no-interaction
+  - phpenv config-add travis.php.ini
+  - composer install --prefer-dist --no-interaction
 
 script:
   - phpunit -c phpunit.xml.dist --coverage-clover=coverage.clover
