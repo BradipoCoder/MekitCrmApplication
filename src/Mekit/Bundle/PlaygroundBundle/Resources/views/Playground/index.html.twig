@@ -3,6 +3,7 @@
 {% set pageTitle = 'PLAYGROUND' %}
 
 {% block content_datagrid %}
+	<p class="environment">Application Environment: {{ app.environment }}</p>
 	<pre>{{ dump(dumpdata) }}</pre>
 
 	<a href="{{ path('mekit_playground_update', { 'id': 23 }) }}">UPDATE FORM</a>
