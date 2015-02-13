@@ -1,18 +1,20 @@
 <?php
 namespace Mekit\Bundle\TestBundle\Helpers;
 
-
-class MekitEntityTests extends MekitTests {
+/**
+ * @todo: we need interface for this class
+ * Class MekitEntityTest
+ */
+class MekitEntityTest extends MekitTest {
 	/**
 	 * @var string
 	 */
 	protected $entityName;
 
-
 	/**
 	 * Tests if entity has working __toString method
 	 */
-	public function testToString() {
+	public function testToStringMethod() {
 		$class = new \ReflectionClass($this->entityName);
 		$this->assertTrue($class->hasMethod('__toString'), "Check method: __toString");
 	}
@@ -22,11 +24,12 @@ class MekitEntityTests extends MekitTests {
 	 *
 	 * Important! $entityName must be set for this to work
 	 *
-	 * @dataProvider propertyTestsProvider
+	 * @dataProvider entityPropertyProvider
 	 * @param string $property
 	 * @param mixed $value
 	 * @param mixed $expected
 	 */
+
 	public function testSettersAndGetters($property, $value, $expected=null) {
 		$entity = new $this->entityName();
 		$expected = ($expected ? $expected : $value);

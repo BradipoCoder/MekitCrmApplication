@@ -1,7 +1,8 @@
 <?php
 namespace Mekit\Bundle\AccountBundle\Tests\Unit\Entity;
 
-use Mekit\Bundle\TestBundle\Helpers\MekitEntityTests;
+use Mekit\Bundle\ListBundle\Entity\ListItem;
+use Mekit\Bundle\TestBundle\Helpers\MekitEntityTest;
 
 use Mekit\Bundle\AccountBundle\Entity\Account;
 use Mekit\Bundle\ContactInfoBundle\Entity\Address;
@@ -9,11 +10,14 @@ use Mekit\Bundle\ContactInfoBundle\Entity\Email;
 use Mekit\Bundle\ContactInfoBundle\Entity\Phone;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\AddressBundle\Entity\Country;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
+use Oro\Bundle\UserBundle\Entity\User;
 
 
-class AccountTest extends MekitEntityTests {
-
+class AccountTest extends MekitEntityTest {
+	/** @var string  */
 	protected $entityName = 'Mekit\Bundle\AccountBundle\Entity\Account';
+
 
 	public function testEmails() {
 		$emailOne = new Email('one@test.com');
@@ -244,18 +248,17 @@ class AccountTest extends MekitEntityTests {
 		$this->assertTrue($entity->hasPhone($phone));
 	}
 
-
 	/**
 	 * Data provider for simple get/set tests executed in MekitEntityTests::testSettersAndGetters(prop, value, expected)
 	 * Properties must follow getter/setter naming convention
 	 *
 	 * @return array
 	 */
-	public function propertyTestsProvider() {
+	public function entityPropertyProvider() {
 		$now = new \DateTime('now');
-		$listItem = $this->getMock('Mekit\Bundle\ListBundle\Entity\ListItem');
-		$user = $this->getMock('Oro\Bundle\UserBundle\Entity\User');
-		$organization = $this->getMock('Oro\Bundle\OrganizationBundle\Entity\Organization');
+		$listItem = new ListItem();//$this->getMock('Mekit\Bundle\ListBundle\Entity\ListItem');
+		$user = new User();
+		$organization = new Organization();
 
 		return array(
 			array('id', '123'),

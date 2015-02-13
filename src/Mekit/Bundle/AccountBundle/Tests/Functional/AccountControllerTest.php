@@ -1,14 +1,10 @@
 <?php
 namespace Mekit\Bundle\AccountBundle\Tests\Functional;
 
-use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase as OroWebTestCase;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as SfWebTestCase;
+use Mekit\Bundle\TestBundle\Helpers\MekitFunctionalTest;
 
-/**
- * @outputBuffering enabled
- * @dbIsolation
- */
-class AccountControllerTest extends OroWebTestCase {
+
+class AccountControllerTest extends MekitFunctionalTest {
 
 	protected function setUp() {
 		$this->initClient([], $this->generateBasicAuthHeader());
