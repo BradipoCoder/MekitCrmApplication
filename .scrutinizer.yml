@@ -33,6 +33,9 @@ build:
     before:
     override:
       - { command: 'composer create-project mekit/crm-platform --no-interaction', idle_timeout: 600 }
+      - { command: 'mkdir -p ~/.composer' }
+      - { command: 'cp .travis.composer.config.json ~/.composer/config.json' }
+      - { command: 'rm -rf ./vendor' }
       - { command: 'rm -rf crm-platform/vendor/mekit' }
       - { command: 'mv crm-platform/vendor ./' }
       - { command: 'mv crm-platform/app ./' }
