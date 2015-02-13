@@ -32,8 +32,19 @@ build:
   dependencies:
     before:
     override:
-      - { command: 'composer install --prefer-source --no-interaction', idle_timeout: 1800 }
-      - { command: 'true' }
+      - { command: 'composer create-project mekit/crm-platform --no-interaction', idle_timeout: 600 }
+      - { command: 'rm -rf crm-platform/vendor/mekit' }
+      - { command: 'mv crm-platform/vendor ./' }
+      - { command: 'mv crm-platform/app ./' }
+      - { command: 'mv crm-platform/web ./' }
+      - { command: 'rm -rf crm-platform' }
+      - { command: 'composer dump-autoload --optimize'}
+      - { command: 'mv app/config/parameters_test.yml.dist app/config/parameters_test.yml' }
+      - { command: 'mysql -e "CREATE DATABASE mekit_test;" -uroot' }
+      - { command: 'app/console oro:install --env=test --force --organization-name Mekit --user-name admin --user-password admin --user-email admin@example.com --user-firstname Mekit --user-lastname Tester --sample-data n --application-url http://localhost/' }
+      - { command: 'app/console doctrine:fixture:load --env=test --no-debug --append --no-interaction --fixtures ./vendor/oro/platform/src/Oro/Bundle/TestFrameworkBundle/Fixtures' }
+#     - { command: 'composer install --prefer-source --no-interaction', idle_timeout: 1800 }
+#     - { command: 'true' }
     after:
   tests:
 
