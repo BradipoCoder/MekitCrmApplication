@@ -9,7 +9,7 @@
         processIsolation            = "false"
         stopOnFailure               = "false"
         syntaxCheck                 = "false"
-        bootstrap                   = "src/Mekit/Bundle/TestBundle/phpunitBootstrap/bootstrap.php"
+        bootstrap                   = "src/Mekit/Bundle/TestBundle/phpunitBootstrap/bootstrapWithKernel.php"
         >
 
     <testsuites>

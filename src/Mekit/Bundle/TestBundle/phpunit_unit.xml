@@ -9,7 +9,7 @@
         processIsolation            = "false"
         stopOnFailure               = "false"
         syntaxCheck                 = "false"
-        bootstrap                   = "phpunitBootstrap/bootstrap.php"
+        bootstrap                   = "phpunitBootstrap/bootstrapNoKernel.php"
         >
 
     <testsuites>

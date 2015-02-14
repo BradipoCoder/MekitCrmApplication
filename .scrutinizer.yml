@@ -34,6 +34,7 @@ build:
         'date.timezone': 'Europe/Rome'
   dependencies:
     before:
+      - { command: 'src/Mekit/Bundle/TestBundle/CI/Scrutinizer/build_dependencies_before.sh', idle_timeout: 600 }
     override:
       - { command: 'mkdir -p ~/.composer' }
       - { command: 'cp .travis.composer.config.json ~/.composer/config.json' }
@@ -47,7 +48,7 @@ build:
       - { command: 'composer dump-autoload --optimize'}
       - { command: 'mv app/config/parameters_test.yml.dist app/config/parameters_test.yml' }
       - { command: 'mysql -e "CREATE DATABASE mekit_test;" -uroot' }
-      - { command: 'app/console oro:install --env=test --force --organization-name Mekit --user-name admin --user-password admin --user-email admin@example.com --user-firstname Mekit --user-lastname Tester --sample-data n --application-url http://localhost/' }
+      - { command: 'app/console oro:install --env=test --force --organization-name Mekit --user-name admin --user-password admin --user-email admin@example.com --user-firstname Mekit --user-lastname Tester --sample-data n --application-url http://localhost/' , idle_timeout: 600 }
       - { command: 'app/console doctrine:fixture:load --env=test --no-debug --append --no-interaction --fixtures ./vendor/oro/platform/src/Oro/Bundle/TestFrameworkBundle/Fixtures' }
 #     - { command: 'composer install --prefer-source --no-interaction', idle_timeout: 1800 }
 #     - { command: 'true' }
