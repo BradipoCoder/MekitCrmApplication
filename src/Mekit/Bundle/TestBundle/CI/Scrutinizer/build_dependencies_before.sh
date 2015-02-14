@@ -7,9 +7,4 @@ echo "------------------------------------------------------------"
 echo "Configuring composer..."
 mkdir -p ~/.composer
 cp src/Mekit/Bundle/TestBundle/CI/Common/composer.config.json ~/.composer/config.json
-composer selfupdate
-
-
-
-
 
