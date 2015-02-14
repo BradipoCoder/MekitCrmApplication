@@ -3,8 +3,10 @@
 # must also be from project root
 
 echo "Configuring php MySql..."
-ls -la /etc/mysql/conf.d
-/usr/sbin/mysqld --verbose --help | grep -A 1 "Default options"
+mysql -e "SHOW VARIABLES LIKE 'max_allowed_packet';"
+cp src/Mekit/Bundle/TestBundle/CI/Travis/.my.cnf ~/
+sudo service mysql restart
+mysql -e "SET GLOBAL wait_timeout=300;"
 
 
 echo "Configuring php CLI..."
