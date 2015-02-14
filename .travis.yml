@@ -21,6 +21,7 @@ before_script:
   - rm -rf crm-platform
   - composer dump-autoload --optimize
   - mv app/config/parameters_test.yml.dist app/config/parameters_test.yml
+  - sed -i -e 's/root/travis/g' app/config/parameters_test.yml
   - mysql -e "CREATE DATABASE mekit_test;" -uroot
   - app/console oro:install --env=test --force --organization-name Mekit --user-name admin --user-password admin --user-email admin@example.com --user-firstname Mekit --user-lastname Tester --sample-data n --application-url http://localhost/
   - app/console doctrine:fixture:load --env=test --no-debug --append --no-interaction --fixtures ./vendor/oro/platform/src/Oro/Bundle/TestFrameworkBundle/Fixtures

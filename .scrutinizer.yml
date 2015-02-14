@@ -28,7 +28,10 @@ checks:
 
 build:
   environment:
-    php: 5.5.12
+    php:
+      version: 5.5.12
+      ini:
+        'date.timezone': 'Europe/Rome'
   dependencies:
     before:
     override:
