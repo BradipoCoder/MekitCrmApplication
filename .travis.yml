@@ -10,23 +10,6 @@ matrix:
 
 before_script:
   - "/bin/bash src/Mekit/Bundle/TestBundle/CI/Travis/before_script.sh"
-  - "mkdir -p ~/.composer"
-  - cp .travis.composer.config.json ~/.composer/config.json
-  - composer selfupdate
-  - phpenv config-add travis.php.ini
-  - composer create-project mekit/crm-platform --no-interaction
-  - rm -rf crm-platform/vendor/mekit
-  - mv crm-platform/vendor ./
-  - mv crm-platform/app ./
-  - mv crm-platform/web ./
-  - rm -rf crm-platform
-  - composer dump-autoload --optimize
-  - mv app/config/parameters_test.yml.dist app/config/parameters_test.yml
-  - sed -i -e 's/root/travis/g' app/config/parameters_test.yml
-  - mysql -e "CREATE DATABASE mekit_test;" -uroot
-  - app/console oro:install --env=test --force --organization-name Mekit --user-name admin --user-password admin --user-email admin@example.com --user-firstname Mekit --user-lastname Tester --sample-data n --application-url http://localhost/
-  - app/console doctrine:fixture:load --env=test --no-debug --append --no-interaction --fixtures ./vendor/oro/platform/src/Oro/Bundle/TestFrameworkBundle/Fixtures
-# - composer install --prefer-dist --no-interaction
 
 script:
   - phpunit -c phpunit.xml.dist --coverage-clover=coverage.clover
@@ -34,10 +17,6 @@ script:
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
-
-cache:
-  directories:
-    - $COMPOSER_CACHE_DIR
 
 notifications:
     on_success: never
