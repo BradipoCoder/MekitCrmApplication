@@ -12,15 +12,15 @@ before_script:
   - "/bin/bash src/Mekit/Bundle/TestBundle/CI/Travis/before_script.sh"
 
 script:
-#  - phpunit -c phpunit.xml.dist --coverage-clover=coverage.clover
-  - phpunit -c src/Mekit/Bundle/TestBundle/phpunit_unit.xml --coverage-clover=coverage.clover.unit
-  - phpunit -c src/Mekit/Bundle/TestBundle/phpunit_functional.xml --coverage-clover=coverage.clover.functional
+  - phpunit -c phpunit.xml.dist --coverage-clover=coverage.clover
+#  - phpunit -c src/Mekit/Bundle/TestBundle/phpunit_unit.xml --coverage-clover=coverage.clover.unit
+#  - phpunit -c src/Mekit/Bundle/TestBundle/phpunit_functional.xml --coverage-clover=coverage.clover.functional
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
-#  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
-  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover.unit
-  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover.functional
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+#  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover.unit
+#  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover.functional
 
 notifications:
     on_success: never

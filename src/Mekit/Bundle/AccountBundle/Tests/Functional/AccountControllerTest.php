@@ -27,7 +27,6 @@ class AccountControllerTest extends MekitFunctionalTest {
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         //check if we are on view page
-
     }
 
 }
