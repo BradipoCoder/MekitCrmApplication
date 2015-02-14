@@ -39,6 +39,8 @@ build:
      - { command: 'composer install --no-interaction', idle_timeout: 1800 }
     after:
   tests:
+    override:
+      - { command: 'true' }
 
 application:
   type: none
