@@ -1,0 +1,6 @@
+Mekit\Bundle\DomainBundle\Entity\Domain:
+    properties:
+        name:
+            - NotBlank: ~
+            - Length:
+                max: 255

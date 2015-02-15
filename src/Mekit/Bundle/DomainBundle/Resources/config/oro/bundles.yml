@@ -1,0 +1,3 @@
+# src/Mekit/Bundle/DomainBundle/Resources/config/oro/bundles.yml
+bundles:
+    - Mekit\Bundle\DomainBundle\MekitDomainBundle

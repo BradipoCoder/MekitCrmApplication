@@ -1,0 +1,62 @@
+{% extends 'OroUIBundle:actions:view.html.twig' %}
+
+{% oro_title_set({params : {"%domain.name%": entity.name|default('N/A')} }) %}
+
+{% block navButtons %}
+	{% if resource_granted('EDIT', entity) %}
+		{{ UI.editButton({
+		'path': path('mekit_domain_update', {'id': entity.id}),
+		'entity_label': 'mekit.domain.entity_label'|trans
+		}) }}
+	{% endif %}
+
+	{% if resource_granted('DELETE', entity) %}
+		{{ UI.deleteButton({
+		'dataUrl': path('mekit_api_delete_domain', {'id': entity.id}),
+		'dataRedirect': path('mekit_domain_index'),
+		'aCss': 'no-hash remove-button',
+		'dataId': entity.id,
+		'id': 'btn-remove-domain',
+		'entity_label': 'mekit.domain.entity_label'|trans
+		}) }}
+	{% endif %}
+
+{% endblock navButtons %}
+
+{% block pageHeader %}
+	{% set breadcrumbs = {
+	'entity': entity,
+	'indexPath': path('mekit_domain_index'),
+	'indexLabel': 'mekit.domain.entity_plural_label'|trans,
+	'entityTitle': entity.name|default('N/A')
+	} %}
+	{{ parent() }}
+{% endblock pageHeader %}
+
+
+{% block content_data %}
+	{% set domainInformationWidget %}
+		{{ oro_widget_render({
+		'widgetType': 'block',
+		'title': 'mekit.domain.widgets.domain_information'|trans,
+		'url': path('mekit_domain_widget_info', {id: entity.id})
+		}) }}
+	{% endset %}
+
+	{% set dataBlocks = [
+		{
+		'title': 'mekit.domain.sections.general'|trans,
+		'class': 'active',
+		'subblocks': [ {'data' : [domainInformationWidget]} ]
+		},
+	] %}
+
+	{#RENDER RELATIONSHIPS#}
+	{% set relationships = mekit_render_all_relationships({'referenceableElement': entity.referenceableElement}) %}
+	{% set dataBlocks = dataBlocks|merge(relationships) %}
+
+	{% set id = 'domainView' %}
+	{% set data = {'dataBlocks': dataBlocks} %}
+
+	{{ parent() }}
+{% endblock content_data %}

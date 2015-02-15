@@ -1,0 +1,29 @@
+oro_menu_config:
+    items:
+        customers_tab:
+            label: 'mekit.domain.menu.marketing_tab.label'
+            uri: '#'
+            extras:
+                icon: icon-group
+                position: 11
+
+        domain_list:
+            label: 'mekit.domain.entity_plural_label'
+            route: 'mekit_domain_index'
+            extras:
+                position: 2
+                routes: ['mekit_domain_*']
+#                description: 'mekit.domain.menu.domain_list.description'
+
+    tree:
+        application_menu:
+            children:
+                marketing_tab:
+                    children:
+                        domain_list: ~
+
+oro_titles:
+    mekit_domain_index: ~
+    mekit_domain_view: '%%domain.name%%'
+    mekit_domain_create: 'Create Domain'
+    mekit_domain_update: '%%domain.name%% - Edit'

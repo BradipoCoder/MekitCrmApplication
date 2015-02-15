@@ -1,0 +1,42 @@
+mekit:
+    domain:
+        menu:
+            domain_list.description: Elenco anagrafiche
+            shortcut_new_domain.label: Crea nuova anagrafica
+            shortcut_new_domain.description: Crea nuova anagrafica
+            shortcut_list_domains.label: Mostra lista domini
+            shortcut_list_domains.description: Anagrafiche
+
+        widgets:
+            domain_information:    Informazioni generali
+            domain_additional:     Informazioni aggiuntive
+            domain_addresses:      Indirizzi
+
+        domain_actions:            Azioni
+
+        sections:
+            general:                Generale
+
+        form:
+            choose_domain:         Scegli un dominio...
+
+        controller:
+            domain.saved.message:  "Dominio salvato"
+
+        #
+        # Mekit/Bundle/DomainBundle/Entity/Domain
+        #
+        entity_label:               Dominio
+        entity_plural_label:        Domini
+        entity_description:         Dominio
+
+        id.label:                   Id
+        name.label:                 Nome
+        description.label:          Descrizione
+        provider.label:             Provider
+        expiration.label:           Data di scadenza
+
+#        referenceable_element.label:    Elemento
+
+
+

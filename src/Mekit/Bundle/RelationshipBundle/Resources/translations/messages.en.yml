@@ -33,3 +33,4 @@ mekit:
             call.label:                 Call
             meeting.label:              Meeting
             task.label:                 Task
+            domain.label:               Domain

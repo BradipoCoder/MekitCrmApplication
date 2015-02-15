@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Mekit\Bundle\CallBundle\Entity\Call;
+use Mekit\Bundle\DomainBundle\Entity\Domain;
 use Mekit\Bundle\MeetingBundle\Entity\Meeting;
 use Mekit\Bundle\TaskBundle\Entity\Task;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
@@ -170,7 +171,28 @@ class ReferenceableElement {
 		$this->task = $task;
 	}
 
+	//------------------------------------------------------------------------------------------------------------DOMAIN
+	/**
+	 * @var Domain
+	 *
+	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\DomainBundle\Entity\Domain", inversedBy="referenceableElement")
+	 * @ORM\JoinColumn(onDelete="RESTRICT", nullable=true)
+	 */
+	protected $domain;
 
+	/**
+	 * @return Domain
+	 */
+	public function getDomain() {
+		return $this->domain;
+	}
+
+	/**
+	 * @param Domain $domain
+	 */
+	public function setDomain($domain) {
+		$this->domain = $domain;
+	}
 
 	/**
 	 */

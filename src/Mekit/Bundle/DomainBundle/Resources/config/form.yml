@@ -1,0 +1,43 @@
+parameters:
+
+    mekit_domain.domain.entity.class:                         Mekit\Bundle\DomainBundle\Entity\Domain
+    mekit_domain.domain.manager.api.class:                    Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
+    mekit_domain.type.domain.class:                           Mekit\Bundle\DomainBundle\Form\Type\DomainType
+    mekit_domain.handler.domain.class:                        Mekit\Bundle\DomainBundle\Form\Handler\DomainHandler
+
+
+
+services:
+
+
+    # Domain
+    mekit_domain.domain.manager.api:
+        class: %mekit_domain.domain.manager.api.class%
+        parent: oro_soap.manager.entity_manager.abstract
+        arguments:
+            - %mekit_domain.domain.entity.class%
+            - @doctrine.orm.entity_manager
+
+    mekit_domain.form.domain:
+        class: Symfony\Component\Form\Form
+        factory_method: createNamed
+        factory_service: form.factory
+        arguments: ["mekit_domain_form", "mekit_domain", null]
+
+    mekit_domain.form.type.domain:
+        class: %mekit_domain.type.domain.class%
+        arguments:
+            - @router
+            - @oro_locale.formatter.name
+            - @oro_security.security_facade
+            - @mekit_list.form_helper
+        tags:
+            - { name: form.type, alias: mekit_domain }
+
+    mekit_domain.form.handler.domain:
+        class: %mekit_domain.handler.domain.class%
+        scope: request
+        arguments:
+            - @mekit_domain.form.domain
+            - @request
+            - @doctrine.orm.entity_manager
