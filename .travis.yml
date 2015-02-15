@@ -13,6 +13,8 @@ before_script:
 
 script:
   - phpunit -c phpunit.xml --coverage-clover=coverage.clover.unit
+  # Find a way to skip running application installation + functional tests if unit tests fail
+  - "/bin/bash src/Mekit/Bundle/TestBundle/CI/Travis/install_application.sh"
   - phpunit -c phpunit_functional.xml
 
 after_script:
