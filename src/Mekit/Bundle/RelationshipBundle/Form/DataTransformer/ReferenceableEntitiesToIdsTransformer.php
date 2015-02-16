@@ -25,7 +25,7 @@ class ReferenceableEntitiesToIdsTransformer extends EntitiesToIdsTransformer {
 		}
 
 		if (!is_array($value) && !$value instanceof \Traversable) {
-			throw new UnexpectedTypeException($value, 'array');
+			throw new UnexpectedTypeException($value, 'array|\Traversable');
 		}
 
 		$result = array();
@@ -43,16 +43,24 @@ class ReferenceableEntitiesToIdsTransformer extends EntitiesToIdsTransformer {
 	 */
 	public function reverseTransform($value) {
 		if (!is_array($value) && !$value instanceof \Traversable) {
-			throw new UnexpectedTypeException($value, 'array');
+			throw new UnexpectedTypeException($value, 'array|\Traversable');
 		}
 
-		if (!$value) {
+		//Convert \Traversable to Array for loadEntitiesByIds
+		$ids = [];
+		if(count($value)) {
+			foreach($value as $v) {
+				$ids[] = $v;
+			}
+		}
+
+		if (!count($ids)) {
 			return array();
 		}
 
-		$entities = $this->loadEntitiesByIds($value);
+		$entities = $this->loadEntitiesByIds($ids);
 
-		if (count($entities) !== count($value)) {
+		if (count($entities) !== count($ids)) {
 			throw new TransformationFailedException('Could not find all entities for the given IDs');
 		}
 		return $entities;
