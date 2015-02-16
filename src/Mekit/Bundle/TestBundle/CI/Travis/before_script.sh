@@ -2,7 +2,7 @@
 # This configuration script is executed from project root so references to files
 # must also be from project root
 
-# MySql - fix "Mysql has gone away" problem
+# MySql
 echo "------------------------------------------------------------"
 echo "Configuring php MySql..."
 sudo mkdir -p /usr/etc/
@@ -37,5 +37,4 @@ mv crm-platform/app ./
 mv crm-platform/web ./
 rm -rf crm-platform
 composer dump-autoload --optimize
-
 

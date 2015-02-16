@@ -12,14 +12,10 @@ before_script:
   - "/bin/bash src/Mekit/Bundle/TestBundle/CI/Travis/before_script.sh"
 
 script:
-  - phpunit -c phpunit.xml --coverage-clover=coverage.clover.unit
-  # Find a way to skip running application installation + functional tests if unit tests fail
-  - "/bin/bash src/Mekit/Bundle/TestBundle/CI/Travis/install_application.sh"
-  - phpunit -c phpunit_functional.xml
+  - "/bin/bash src/Mekit/Bundle/TestBundle/CI/Travis/script.sh"
 
 after_script:
-  - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover.unit
+  - "/bin/bash src/Mekit/Bundle/TestBundle/CI/Travis/after_script.sh"
 
 notifications:
     on_success: never
