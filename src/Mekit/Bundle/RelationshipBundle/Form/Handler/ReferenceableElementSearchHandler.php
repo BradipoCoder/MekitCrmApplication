@@ -23,8 +23,13 @@ class ReferenceableElementSearchHandler extends SearchHandler {
 	 */
 	public function initForEntity($entityName, $targetFields) {
 		$this->entityName = str_replace('_', '\\', $entityName);
-		$this->initDoctrinePropertiesByEntityManager($this->registry->getManagerForClass($this->entityName));
-		$this->properties = array_unique($targetFields);
+		$manager = $this->registry->getManagerForClass($this->entityName);
+		if(!is_null($manager)) {
+			$this->initDoctrinePropertiesByEntityManager($manager);
+			$this->properties = array_unique($targetFields);
+		} else {
+			throw new \RuntimeException('Cannot get object manager for entity with name: ' . $entityName);
+		}
 	}
 
 	/**
@@ -128,7 +133,7 @@ class ReferenceableElementSearchHandler extends SearchHandler {
 	 * @throws \RuntimeException
 	 */
 	protected function checkAllDependenciesInjected() {
-		if (!$this->properties || !$this->entityRepository || !$this->idFieldName) {
+		if (empty($this->properties) || !$this->entityRepository || !$this->idFieldName) {
 			throw new \RuntimeException('ReferenceableElementSearchHandler handler is not fully configured');
 		}
 	}
