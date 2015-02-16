@@ -53,7 +53,7 @@ class EventTypeSpecific extends \Twig_Extension {
 	 */
 	public function dumpEntityConfig($entityName) {
 		$config = $this->getEntityConfig($entityName);
-		var_dump($config);
+		echo json_encode($config->all());
 	}
 
 	/**
