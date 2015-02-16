@@ -6,7 +6,7 @@
         convertErrorsToExceptions   = "true"
         convertNoticesToExceptions  = "true"
         convertWarningsToExceptions = "true"
-        processIsolation            = "false"
+        processIsolation            = "true"
         stopOnFailure               = "false"
         syntaxCheck                 = "false"
         bootstrap                   = "src/Mekit/Bundle/TestBundle/Phpunit/bootstrap.php"
