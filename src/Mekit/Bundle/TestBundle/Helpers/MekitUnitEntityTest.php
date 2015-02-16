@@ -3,9 +3,9 @@ namespace Mekit\Bundle\TestBundle\Helpers;
 
 /**
  * @todo: we need interface for this class
- * Class MekitEntityTest
+ * Class MekitUnitEntityTest
  */
-class MekitEntityTest extends MekitTest {
+class MekitUnitEntityTest extends MekitUnitTest {
 	/**
 	 * @var string
 	 */

@@ -2,7 +2,7 @@
 namespace Mekit\Bundle\AccountBundle\Tests\Unit\Entity;
 
 use Mekit\Bundle\ListBundle\Entity\ListItem;
-use Mekit\Bundle\TestBundle\Helpers\MekitEntityTest;
+use Mekit\Bundle\TestBundle\Helpers\MekitUnitEntityTest;
 
 use Mekit\Bundle\AccountBundle\Entity\Account;
 use Mekit\Bundle\ContactInfoBundle\Entity\Address;
@@ -14,7 +14,7 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
 
 
-class AccountTest extends MekitEntityTest {
+class AccountTest extends MekitUnitEntityTest {
 	/** @var string  */
 	protected $entityName = 'Mekit\Bundle\AccountBundle\Entity\Account';
 

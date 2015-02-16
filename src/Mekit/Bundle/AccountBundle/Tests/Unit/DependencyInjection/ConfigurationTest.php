@@ -1,10 +1,10 @@
 <?php
 namespace Mekit\Bundle\AccountBundle\Tests\Unit\DependencyInjection;
 
-use Mekit\Bundle\TestBundle\Helpers\MekitTest;
+use Mekit\Bundle\TestBundle\Helpers\MekitUnitTest;
 use Mekit\Bundle\AccountBundle\DependencyInjection\Configuration;
 
-class ConfigurationTest extends MekitTest {
+class ConfigurationTest extends MekitUnitTest {
 	public function testGetConfigTreeBuilder() {
 		$configuration = new Configuration();
 		$builder = $configuration->getConfigTreeBuilder();
