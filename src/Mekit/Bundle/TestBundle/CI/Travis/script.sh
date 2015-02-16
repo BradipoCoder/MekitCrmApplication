@@ -11,6 +11,14 @@ echo "Running unit tests..."
 phpunit -c phpunit.xml --coverage-clover=coverage.clover.unit
 RETURNVAL="$?"
 
+
+# Upload test coverage data to Scrutinizer in any case - we do this before functional tests begin so Scrutinizer can proceed
+echo "------------------------------------------------------------"
+echo "Uploading coverage data to Scrutinizer..."
+wget https://scrutinizer-ci.com/ocular.phar
+php ocular.phar code-coverage:upload --format=php-clover coverage.clover.unit
+
+
 # We will only be running functional tests if unit tests pass
 if [ ${RETURNVAL} -eq "0" ] ; then
 
