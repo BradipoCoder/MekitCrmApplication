@@ -73,7 +73,7 @@ class RelationshipLists extends \Twig_Extension {
 		$referenceableEntityConfigs = $this->referenceManager->getReferenceableEntityConfigurations();
 		$blocks = [];
 		foreach($referenceableEntityConfigs as $referenceableEntityConfig) {
-			$refClassName = $referenceableEntityConfig->getId()->getClassName();
+			//$refClassName = $referenceableEntityConfig->getId()->getClassName();
 			$blocks[] = [
 				"title" => $this->translator->trans($referenceableEntityConfig->get("label")),
 				"subblocks" => [

@@ -44,6 +44,7 @@ class RelationshipExtension implements ExtendExtensionAwareInterface {
 
 		die("UNUSABLE!!! Missing addOneToOneRelation method on ExtendExtension");
 
+		/*
 		//SOURCE
 		$sourceTable = $schema->getTable($sourceTableName);
 		$sourceClassName = $this->extendExtension->getEntityClassByTableName($sourceTableName);
@@ -70,7 +71,6 @@ class RelationshipExtension implements ExtendExtensionAwareInterface {
 		if(true) {
 			$options = new OroOptions();
 			$options->set('relationship', 'enabled', true);
-			/*
 			$options->append(
 				'relationship',
 				'relationships',
@@ -82,7 +82,7 @@ class RelationshipExtension implements ExtendExtensionAwareInterface {
 					'immutable',
 					$sourceClassName
 				);
-			}*/
+			}
 			$targetTable->addOption(OroOptions::KEY, $options);
 		}
 
@@ -93,6 +93,7 @@ class RelationshipExtension implements ExtendExtensionAwareInterface {
 			$relationshipOptions = [];
 		}
 		$relationshipOptions['extend']['without_default'] = true;
+		*/
 
 		//CREATE THE ASSOCIATION
 		/*

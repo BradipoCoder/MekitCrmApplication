@@ -8,13 +8,15 @@ use Doctrine\ORM\Mapping\MappingException;
 
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class ReferenceableEntitiesToIdsTransformer extends EntitiesToIdsTransformer {
-
+	/** @var  PropertyAccessor */
+	protected $propertyAccessor;
 
 	/**
 	 * @todo: this is not good - it should receive an array of ReferenceableElements as input and return their ids
-	 * @param array $value - array of referenceable entities
+	 * @param array|\Traversable $value - array of referenceable entities
 	 * @return array - array of ids of referenceableElements
 	 */
 	public function transform($value) {
@@ -36,7 +38,7 @@ class ReferenceableEntitiesToIdsTransformer extends EntitiesToIdsTransformer {
 	}
 
 	/**
-	 * @param mixed $value - array of ids of referenceableElements
+	 * @param array|\Traversable $value - array of ids of referenceableElements
 	 * @return array - array of referenceable elements
 	 */
 	public function reverseTransform($value) {
