@@ -15,7 +15,6 @@ class ReferenceableEntitiesToIdsTransformer extends EntitiesToIdsTransformer {
 	protected $propertyAccessor;
 
 	/**
-	 * @todo: this is not good - it should receive an array of ReferenceableElements as input and return their ids
 	 * @param array|\Traversable $value - array of referenceable entities
 	 * @return array - array of ids of referenceableElements
 	 */
@@ -30,7 +29,6 @@ class ReferenceableEntitiesToIdsTransformer extends EntitiesToIdsTransformer {
 
 		$result = array();
 		foreach ($value as $entity) {
-			//$id = $this->propertyAccessor->getValue($entity, 'referenceableElement.id');
 			$id = $this->propertyAccessor->getValue($entity, 'id');
 			$result[] = $id;
 		}
@@ -74,7 +72,7 @@ class ReferenceableEntitiesToIdsTransformer extends EntitiesToIdsTransformer {
 	 * @throws UnexpectedTypeException if query builder callback returns invalid type
 	 */
 	protected function loadEntitiesByIds(array $ids) {
-		$repository = $this->em->getRepository('Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement');//$this->className
+		$repository = $this->em->getRepository($this->className);//'Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement'
 		if ($this->queryBuilderCallback) {
 			/** @var $qb QueryBuilder */
 			$qb = call_user_func($this->queryBuilderCallback, $repository, $ids);
