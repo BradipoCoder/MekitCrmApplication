@@ -1,5 +1,6 @@
 parameters:
     mekit_relationship.relationship.extension.relationship.class:            Mekit\Bundle\RelationshipBundle\Migration\Extension\RelationshipExtension
+    mekit_relationship.relationship.extension.extend.class:                  Mekit\Bundle\RelationshipBundle\Migration\Extension\ExtendExtension
 
     mekit_relationship.referenceable_element.entity.class:                   Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement
 
@@ -7,4 +8,12 @@ services:
     mekit_relationship.migration.extension.relationship:
         class: %mekit_relationship.relationship.extension.relationship.class%
         tags:
-            - { name: oro_migration.extension, extension_name: relationship }
+            - { name: mekit_relationship.extension, extension_name: relationship }
+
+    mekit_relationship.migration.extension.extend:
+        class: %mekit_relationship.relationship.extension.extend.class%
+        arguments:
+            - @oro_entity_extend.migration.options_manager
+            - @oro_entity_extend.migration.entity_metadata_helper
+        tags:
+            - { name: mekit_relationship.extension, extension_name: extend }
