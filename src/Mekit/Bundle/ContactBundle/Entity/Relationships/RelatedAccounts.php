@@ -1,5 +1,5 @@
 <?php
-namespace Mekit\Bundle\ContactBundle\Entity;
+namespace Mekit\Bundle\ContactBundle\Entity\Relationships;
 
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\Common\Collections\ArrayCollection;

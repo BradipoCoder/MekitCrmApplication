@@ -1,6 +1,6 @@
 <?php
 namespace Mekit\Bundle\ContactBundle\Model;
-use Mekit\Bundle\ContactBundle\Entity\RelatedAccounts;
+use Mekit\Bundle\ContactBundle\Entity\Relationships\RelatedAccounts;
 
 class ExtendContact extends RelatedAccounts {
 	/**

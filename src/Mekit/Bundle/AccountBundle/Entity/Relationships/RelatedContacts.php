@@ -1,10 +1,9 @@
 <?php
-namespace Mekit\Bundle\AccountBundle\Entity;
+namespace Mekit\Bundle\AccountBundle\Entity\Relationships;
 
-use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Doctrine\Common\Collections\ArrayCollection;
+use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 
 use Mekit\Bundle\ContactBundle\Entity\Contact;
