@@ -10,8 +10,8 @@ use Mekit\Bundle\ContactInfoBundle\Entity\Address;
 use Mekit\Bundle\ContactInfoBundle\Entity\Email;
 use Mekit\Bundle\ContactInfoBundle\Entity\Phone;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
-use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
 use Mekit\Bundle\RelationshipBundle\Entity\Referenceable;
+use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
@@ -515,6 +515,8 @@ class Contact extends ExtendContact implements Referenceable, Taggable, EmailOwn
 	protected $tags;
 
 
+
+
 	/**
 	 * @var ReferenceableElement
 	 *
@@ -536,7 +538,6 @@ class Contact extends ExtendContact implements Referenceable, Taggable, EmailOwn
 		$this->referenceableElement = $referenceableElement;
 		$referenceableElement->setContact($this);
 	}
-
 
 
 	public function __construct() {
@@ -883,7 +884,7 @@ class Contact extends ExtendContact implements Referenceable, Taggable, EmailOwn
 	 * @return $this
 	 */
 	public function resetAddresses($addresses) {
-		if($this->addresses) {
+		if ($this->addresses) {
 			$this->addresses->clear();
 		}
 		foreach ($addresses as $address) {
@@ -975,7 +976,7 @@ class Contact extends ExtendContact implements Referenceable, Taggable, EmailOwn
 	/**
 	 * Gets address type if it's available.
 	 *
-	 * @param Address $address
+	 * @param Address     $address
 	 * @param AddressType $addressType
 	 * @return $this
 	 */

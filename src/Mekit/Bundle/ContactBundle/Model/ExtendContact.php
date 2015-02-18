@@ -1,9 +1,8 @@
 <?php
 namespace Mekit\Bundle\ContactBundle\Model;
+use Mekit\Bundle\ContactBundle\Entity\RelatedAccounts;
 
-use Oro\Bundle\BusinessEntitiesBundle\Entity\BasePerson;
-
-class ExtendContact extends BasePerson {
+class ExtendContact extends RelatedAccounts {
 	/**
 	 * Constructor
 	 *
@@ -11,8 +10,7 @@ class ExtendContact extends BasePerson {
 	 *
 	 * IMPORTANT: If the derived class has own constructor it must call parent constructor.
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		parent::__construct();
 	}
 }

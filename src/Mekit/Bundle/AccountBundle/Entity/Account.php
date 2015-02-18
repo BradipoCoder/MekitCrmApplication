@@ -5,13 +5,14 @@ use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Mekit\Bundle\AccountBundle\Entity\RelatedContacts;
 use Mekit\Bundle\AccountBundle\Model\ExtendAccount;
 use Mekit\Bundle\ContactInfoBundle\Entity\Address;
 use Mekit\Bundle\ContactInfoBundle\Entity\Email;
 use Mekit\Bundle\ContactInfoBundle\Entity\Phone;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
-use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
 use Mekit\Bundle\RelationshipBundle\Entity\Referenceable;
+use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
@@ -437,10 +438,6 @@ class Account extends ExtendAccount implements Referenceable, Taggable, EmailOwn
 	}
 
 
-
-
-
-
 	public function __construct() {
 		parent::__construct();
 		$this->phones = new ArrayCollection();
@@ -855,7 +852,7 @@ class Account extends ExtendAccount implements Referenceable, Taggable, EmailOwn
 	 * @return $this
 	 */
 	public function resetAddresses($addresses) {
-		if($this->addresses) {
+		if ($this->addresses) {
 			$this->addresses->clear();
 		}
 		foreach ($addresses as $address) {
@@ -947,7 +944,7 @@ class Account extends ExtendAccount implements Referenceable, Taggable, EmailOwn
 	/**
 	 * Gets address type if it's available.
 	 *
-	 * @param Address $address
+	 * @param Address     $address
 	 * @param AddressType $addressType
 	 * @return $this
 	 */
