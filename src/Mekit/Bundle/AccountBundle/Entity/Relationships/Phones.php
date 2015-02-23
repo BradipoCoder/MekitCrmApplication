@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Mekit\Bundle\ContactInfoBundle\Entity\Phone;
 
 
-class Phones extends ListItems {
+class Phones extends Addresses {
 	/**
 	 * @var Collection
 	 *
