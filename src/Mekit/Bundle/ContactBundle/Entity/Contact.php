@@ -22,8 +22,6 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\TagBundle\Entity\Taggable;
 use Oro\Bundle\UserBundle\Entity\User;
 
-// Traits
-use Mekit\Bundle\CrmBundle\Traits\Entity\Taggable as TaggableTrait;
 
 /**
  * @ORM\Entity()
@@ -82,8 +80,6 @@ use Mekit\Bundle\CrmBundle\Traits\Entity\Taggable as TaggableTrait;
  * )
  */
 class Contact extends ExtendContact implements Referenceable, Taggable, EmailOwnerInterface {
-	use TaggableTrait;
-
 	/*
 	 * Fields have to be duplicated here to enable dataaudit and soap transformation only for contact
 	 */
@@ -507,6 +503,18 @@ class Contact extends ExtendContact implements Referenceable, Taggable, EmailOwn
 	 */
 	protected $updatedAt;
 
+	/**
+	 * @var ArrayCollection $tags
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "merge"={
+	 *              "display"=true
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $tags;
+
 
 
 
@@ -538,14 +546,6 @@ class Contact extends ExtendContact implements Referenceable, Taggable, EmailOwn
 		$this->phones = new ArrayCollection();
 		$this->emails = new ArrayCollection();
 		$this->addresses = new ArrayCollection();
-	}
-
-	/**
-	 * Taggable interface requirement
-	 * {@inheritdoc}
-	 */
-	public function getTaggableId() {
-		return $this->getId();
 	}
 
 	/**
@@ -1056,6 +1056,31 @@ class Contact extends ExtendContact implements Referenceable, Taggable, EmailOwn
 	 */
 	public function getOrganization() {
 		return $this->organization;
+	}
+
+	/**
+	 * Taggable interface requirement
+	 * {@inheritdoc}
+	 */
+	public function getTaggableId() {
+		return $this->getId();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getTags() {
+		$this->tags = $this->tags ?: new ArrayCollection();
+		return $this->tags;
+	}
+
+	/**
+	 * @param $tags
+	 * @return $this
+	 */
+	public function setTags($tags) {
+		$this->tags = $tags;
+		return $this;
 	}
 
 	/**

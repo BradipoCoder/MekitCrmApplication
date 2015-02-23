@@ -1,12 +1,12 @@
 <?php
 namespace Mekit\Bundle\AccountBundle\Model;
 
-use Mekit\Bundle\AccountBundle\Entity\Relationships\RelatedContacts;
+use Mekit\Bundle\AccountBundle\Entity\Relationships\EmailOwner;
 
 /**
  * Class ExtendAccount
  */
-class ExtendAccount extends RelatedContacts {
+class ExtendAccount extends EmailOwner {
 	/**
 	 * Constructor
 	 *

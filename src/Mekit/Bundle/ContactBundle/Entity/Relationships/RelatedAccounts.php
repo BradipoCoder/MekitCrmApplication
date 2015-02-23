@@ -8,7 +8,6 @@ use Mekit\Bundle\ContactBundle\Model\ExtendContact;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Mekit\Bundle\AccountBundle\Entity\Account;
-
 use Oro\Bundle\BusinessEntitiesBundle\Entity\BasePerson;
 
 /**

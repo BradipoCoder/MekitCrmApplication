@@ -1,11 +1,39 @@
 <?php
-namespace Mekit\Bundle\CrmBundle\Traits\Entity;
+namespace Mekit\Bundle\AccountBundle\Entity\Relationships;
 
+use Doctrine\ORM\Mapping as ORM;
+use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
+use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Mekit\Bundle\ContactInfoBundle\Entity\Email;
 
+/**
+ * @ORM\MappedSuperclass
+ */
+class EmailOwner extends ListItems {
+	/**
+	 * @var Collection
+	 *
+	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ContactInfoBundle\Entity\Email", mappedBy="owner_account", cascade={"all"})
+	 * @ORM\OrderBy({"primary" = "DESC"})
+	 * @Soap\ComplexType("Mekit\Bundle\ContactInfoBundle\Entity\Email[]", nillable=true)
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "importexport"={
+	 *              "order"=210
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $emails;
 
-trait EmailOwner {
+	public function __construct() {
+		parent::__construct();
+		$this->emails = new ArrayCollection();
+	}
+
 	/**
 	 * Set emails
 	 *
@@ -115,4 +143,7 @@ trait EmailOwner {
 	public function getEmailFields() {
 		return null;
 	}
+
+
+
 }
