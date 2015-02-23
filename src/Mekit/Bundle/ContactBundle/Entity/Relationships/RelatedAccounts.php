@@ -4,8 +4,6 @@ namespace Mekit\Bundle\ContactBundle\Entity\Relationships;
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Mekit\Bundle\ContactBundle\Model\ExtendContact;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Mekit\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\BusinessEntitiesBundle\Entity\BasePerson;

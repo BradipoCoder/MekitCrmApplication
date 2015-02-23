@@ -3,18 +3,11 @@ namespace Mekit\Bundle\ContactBundle\Entity;
 
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Mekit\Bundle\ContactBundle\Model\ExtendContact;
-use Mekit\Bundle\ContactInfoBundle\Entity\Address;
-use Mekit\Bundle\ContactInfoBundle\Entity\Email;
-use Mekit\Bundle\ContactInfoBundle\Entity\Phone;
-use Mekit\Bundle\ListBundle\Entity\ListItem;
-use Mekit\Bundle\RelationshipBundle\Entity\Referenceable;
-use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
-use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
-use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
+
+use Mekit\Bundle\ContactBundle\Model\ExtendContact;
+
 use Oro\Bundle\EmailBundle\Entity\EmailOwnerInterface;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
@@ -67,19 +60,11 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          },
  *          "dataaudit"={
  *              "auditable"=true
- *          },
- *          "relationship"={
- *              "referenceable"=true,
- *              "label"="mekit.contact.entity_plural_label",
- *              "can_reference_itself"=false,
- *              "datagrid_name_list"="contacts-related-relationship",
- *              "datagrid_name_select"="contacts-related-select",
- *              "autocomplete_search_columns"={"firstName","lastName"}
  *          }
  *      }
  * )
  */
-class Contact extends ExtendContact implements Referenceable, Taggable, EmailOwnerInterface {
+class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	/*
 	 * Fields have to be duplicated here to enable dataaudit and soap transformation only for contact
 	 */
@@ -350,75 +335,6 @@ class Contact extends ExtendContact implements Referenceable, Taggable, EmailOwn
 	protected $linkedIn;
 
 	/**
-	 * @var ListItem
-	 *
-	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ListBundle\Entity\ListItem")
-	 * @ORM\JoinColumn(name="job_title", referencedColumnName="id", nullable=true)
-	 * @Oro\Versioned
-	 * @ConfigField(
-	 *      defaultValues={
-	 *          "dataaudit"={
-	 *              "auditable"=true
-	 *          },
-	 *          "importexport"={
-	 *              "order"=93,
-	 *              "short"=true
-	 *          }
-	 *      }
-	 * )
-	 */
-	protected $jobTitle;
-
-	/**
-	 * @var Collection
-	 *
-	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ContactInfoBundle\Entity\Phone", mappedBy="owner_contact", cascade={"all"})
-	 * @ORM\OrderBy({"primary" = "DESC"})
-	 * @Soap\ComplexType("Mekit\Bundle\ContactInfoBundle\Entity\Phone[]", nillable=true)
-	 * @ConfigField(
-	 *      defaultValues={
-	 *          "importexport"={
-	 *              "order"=220
-	 *          }
-	 *      }
-	 * )
-	 */
-	protected $phones;
-
-	/**
-	 * @var Collection
-	 *
-	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ContactInfoBundle\Entity\Email", mappedBy="owner_contact", cascade={"all"})
-	 * @ORM\OrderBy({"primary" = "DESC"})
-	 * @Soap\ComplexType("Mekit\Bundle\ContactInfoBundle\Entity\Email[]", nillable=true)
-	 * @ConfigField(
-	 *      defaultValues={
-	 *          "importexport"={
-	 *              "order"=210
-	 *          }
-	 *      }
-	 * )
-	 */
-	protected $emails;
-
-	/**
-	 * @var Collection
-	 *
-	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ContactInfoBundle\Entity\Address", mappedBy="owner_contact", cascade={"all"})
-	 * @ORM\OrderBy({"primary" = "DESC"})
-	 * @Soap\ComplexType("Mekit\Bundle\ContactInfoBundle\Entity\Address[]", nillable=true)
-	 * @ConfigField(
-	 *      defaultValues={
-	 *          "importexport"={
-	 *              "full"=true,
-	 *              "order"=250
-	 *          }
-	 *      }
-	 * )
-	 */
-	protected $addresses;
-
-	/**
 	 * @var User
 	 *
 	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
@@ -516,36 +432,8 @@ class Contact extends ExtendContact implements Referenceable, Taggable, EmailOwn
 	protected $tags;
 
 
-
-
-	/**
-	 * @var ReferenceableElement
-	 *
-	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement", cascade={"persist"}, orphanRemoval=true, mappedBy="contact")
-	 */
-	protected $referenceableElement;
-
-	/**
-	 * @return ReferenceableElement
-	 */
-	public function getReferenceableElement() {
-		return $this->referenceableElement;
-	}
-
-	/**
-	 * @param ReferenceableElement $referenceableElement
-	 */
-	public function setReferenceableElement(ReferenceableElement $referenceableElement) {
-		$this->referenceableElement = $referenceableElement;
-		$referenceableElement->setContact($this);
-	}
-
-
 	public function __construct() {
 		parent::__construct();
-		$this->phones = new ArrayCollection();
-		$this->emails = new ArrayCollection();
-		$this->addresses = new ArrayCollection();
 	}
 
 	/**
@@ -661,368 +549,6 @@ class Contact extends ExtendContact implements Referenceable, Taggable, EmailOwn
 	}
 
 	/**
-	 * @return ListItem
-	 */
-	public function getJobTitle() {
-		return $this->jobTitle;
-	}
-
-	/**
-	 * @param ListItem $jobTitle
-	 * @return $this
-	 */
-	public function setJobTitle($jobTitle) {
-		$this->jobTitle = $jobTitle;
-		return $this;
-	}
-
-	/**
-	 * Set phones.
-	 * This method could not be named setPhones because of bug CRM-253.
-	 *
-	 * @param Collection|Phone[] $phones
-	 * @return $this
-	 */
-	public function resetPhones($phones) {
-		$this->phones->clear();
-		foreach ($phones as $phone) {
-			$this->addPhone($phone);
-		}
-		return $this;
-	}
-
-	/**
-	 * Add phone
-	 *
-	 * @param Phone $phone
-	 * @return $this
-	 */
-	public function addPhone(Phone $phone) {
-		if (!$this->phones->contains($phone)) {
-			$this->phones->add($phone);
-			$phone->setOwnerContact($this);
-		}
-		return $this;
-	}
-
-	/**
-	 * Remove phone
-	 *
-	 * @param Phone $phone
-	 * @return $this
-	 */
-	public function removePhone(Phone $phone) {
-		if ($this->phones->contains($phone)) {
-			$this->phones->removeElement($phone);
-		}
-		return $this;
-	}
-
-	/**
-	 * Get phones
-	 *
-	 * @return Collection|Phone[]
-	 */
-	public function getPhones() {
-		return $this->phones;
-	}
-
-	/**
-	 * @param Phone $phone
-	 * @return bool
-	 */
-	public function hasPhone(Phone $phone) {
-		return $this->getPhones()->contains($phone);
-	}
-
-	/**
-	 * Gets primary phone if it's available.
-	 *
-	 * @return Phone|null
-	 */
-	public function getPrimaryPhone() {
-		$result = null;
-		foreach ($this->getPhones() as $phone) {
-			if ($phone->isPrimary()) {
-				$result = $phone;
-				break;
-			}
-		}
-		return $result;
-	}
-
-	/**
-	 * @param Phone $phone
-	 * @return $this
-	 */
-	public function setPrimaryPhone(Phone $phone) {
-		if ($this->hasPhone($phone)) {
-			$phone->setPrimary(true);
-			foreach ($this->getPhones() as $otherPhone) {
-				if (!$phone->isEqual($otherPhone)) {
-					$otherPhone->setPrimary(false);
-				}
-			}
-		}
-		return $this;
-	}
-
-	/**
-	 * Set emails
-	 *
-	 * @param Collection|Email[] $emails
-	 * @return $this
-	 */
-	public function resetEmails($emails) {
-		$this->emails->clear();
-		foreach ($emails as $email) {
-			$this->addEmail($email);
-		}
-		return $this;
-	}
-
-	/**
-	 * Add email
-	 *
-	 * @param Email $email
-	 * @return $this
-	 */
-	public function addEmail(Email $email) {
-		if (!$this->emails->contains($email)) {
-			$this->emails->add($email);
-			$email->setOwnerContact($this);
-		}
-		return $this;
-	}
-
-	/**
-	 * Remove email
-	 *
-	 * @param Email $email
-	 * @return $this
-	 */
-	public function removeEmail(Email $email) {
-		if ($this->emails->contains($email)) {
-			$this->emails->removeElement($email);
-		}
-		return $this;
-	}
-
-	/**
-	 * Get emails
-	 *
-	 * @return Collection|Email[]
-	 */
-	public function getEmails() {
-		return $this->emails;
-	}
-
-	/**
-	 * @return null|string
-	 */
-	public function getEmail() {
-		$primaryEmail = $this->getPrimaryEmail();
-		if (!$primaryEmail) {
-			return null;
-		}
-		return $primaryEmail->getEmail();
-	}
-
-	/**
-	 * @param Email $email
-	 * @return bool
-	 */
-	public function hasEmail(Email $email) {
-		return $this->getEmails()->contains($email);
-	}
-
-	/**
-	 * Gets primary email if it's available.
-	 *
-	 * @return Email|null
-	 */
-	public function getPrimaryEmail() {
-		$result = null;
-		foreach ($this->getEmails() as $email) {
-			if ($email->isPrimary()) {
-				$result = $email;
-				break;
-			}
-		}
-		return $result;
-	}
-
-	/**
-	 * @param Email $email
-	 * @return $this
-	 */
-	public function setPrimaryEmail(Email $email) {
-		if ($this->hasEmail($email)) {
-			$email->setPrimary(true);
-			foreach ($this->getEmails() as $otherEmail) {
-				if (!$email->isEqual($otherEmail)) {
-					$otherEmail->setPrimary(false);
-				}
-			}
-		}
-		return $this;
-	}
-
-	/**
-	 * Get names of fields contain email addresses
-	 *
-	 * @return string[]|null
-	 */
-	public function getEmailFields() {
-		return null;
-	}
-
-	/**
-	 * Set addresses.
-	 *
-	 * @param Collection|AbstractAddress[] $addresses
-	 * @return $this
-	 */
-	public function resetAddresses($addresses) {
-		if ($this->addresses) {
-			$this->addresses->clear();
-		}
-		foreach ($addresses as $address) {
-			$this->addAddress($address);
-		}
-		return $this;
-	}
-
-	/**
-	 * Remove address
-	 *
-	 * @param AbstractAddress $address
-	 * @return $this
-	 */
-	public function removeAddress(AbstractAddress $address) {
-		if ($this->addresses->contains($address)) {
-			$this->addresses->removeElement($address);
-		}
-		return $this;
-	}
-
-	/**
-	 * Get addresses
-	 *
-	 * @return Collection|AbstractAddress[]
-	 */
-	public function getAddresses() {
-		return $this->addresses;
-	}
-
-	/**
-	 * @param AbstractAddress $address
-	 * @return bool
-	 */
-	public function hasAddress(AbstractAddress $address) {
-		return $this->getAddresses()->contains($address);
-	}
-
-	/**
-	 * Add address
-	 *
-	 * @param AbstractAddress $address
-	 *
-	 * @return $this
-	 */
-	public function addAddress(AbstractAddress $address) {
-		/** @var Address $address */
-		if (!$this->addresses->contains($address)) {
-			$this->addresses->add($address);
-			$address->setOwnerContact($this);
-		}
-		return $this;
-	}
-
-	/**
-	 * Gets primary address if it's available.
-	 *
-	 * @return Address|null
-	 */
-	public function getPrimaryAddress() {
-		$result = null;
-		/** @var Address $address */
-		foreach ($this->getAddresses() as $address) {
-			if ($address->isPrimary()) {
-				$result = $address;
-				break;
-			}
-		}
-		return $result;
-	}
-
-	/**
-	 * @param Address $address
-	 * @return $this
-	 */
-	public function setPrimaryAddress(Address $address) {
-		if ($this->hasAddress($address)) {
-			$address->setPrimary(true);
-			/** @var Address $otherAddress */
-			foreach ($this->getAddresses() as $otherAddress) {
-				if (!$address->isEqual($otherAddress)) {
-					$otherAddress->setPrimary(false);
-				}
-			}
-		}
-		return $this;
-	}
-
-	/**
-	 * Gets address type if it's available.
-	 *
-	 * @param Address     $address
-	 * @param AddressType $addressType
-	 * @return $this
-	 */
-	public function setAddressType(Address $address, AddressType $addressType) {
-		if ($this->hasAddress($address)) {
-			$address->addType($addressType);
-			/** @var Address $otherAddress */
-			foreach ($this->getAddresses() as $otherAddress) {
-				if (!$address->isEqual($otherAddress)) {
-					$otherAddress->removeType($addressType);
-				}
-			}
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Gets one address that has specified type.
-	 *
-	 * @param AddressType $type
-	 * @return Address|null
-	 */
-	public function getAddressByType(AddressType $type) {
-		return $this->getAddressByTypeName($type->getName());
-	}
-
-	/**
-	 * Gets one address that has specified type name.
-	 *
-	 * @param string $typeName
-	 * @return Address|null
-	 */
-	public function getAddressByTypeName($typeName) {
-		$result = null;
-		/** @var Address $address */
-		foreach ($this->getAddresses() as $address) {
-			if ($address->hasTypeWithName($typeName)) {
-				$result = $address;
-				break;
-			}
-		}
-		return $result;
-	}
-
-	/**
 	 * @return User
 	 */
 	public function getOwner() {
@@ -1084,6 +610,24 @@ class Contact extends ExtendContact implements Referenceable, Taggable, EmailOwn
 	}
 
 	/**
+	 * Get entity class name.
+	 * TODO: Remove this temporary solution for get 'view' route in twig after EntityConfigBundle is finished
+	 * @return string
+	 */
+	public function getClass() {
+		return 'OroCRM\Bundle\ContactBundle\Entity\Contact';
+	}
+
+	/**
+	 * Get names of fields contain email addresses
+	 *
+	 * @return string[]|null
+	 */
+	public function getEmailFields() {
+		return null;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function __toString() {
@@ -1094,15 +638,6 @@ class Contact extends ExtendContact implements Referenceable, Taggable, EmailOwn
 			. $this->getNameSuffix();
 		$name = preg_replace('/ +/', ' ', $name);
 		return (string)trim($name);
-	}
-
-	/**
-	 * Get entity class name.
-	 * TODO: Remove this temporary solution for get 'view' route in twig after EntityConfigBundle is finished
-	 * @return string
-	 */
-	public function getClass() {
-		return 'OroCRM\Bundle\ContactBundle\Entity\Contact';
 	}
 
 	/**

@@ -151,16 +151,6 @@ class ContactType extends AbstractType {
 				'options'  => array('data_class' => 'Mekit\Bundle\ContactInfoBundle\Entity\Phone')
 			)
 		);
-
-		//referenceable elements (reference selector fields)
-		$builder->add('referenceableElement',
-			'mekit_referenceable_element',
-			[
-				'label' => false,
-				'required' => false
-			]
-		);
-
 	}
 
 	/**

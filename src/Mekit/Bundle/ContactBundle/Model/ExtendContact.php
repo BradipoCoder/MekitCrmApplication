@@ -1,8 +1,8 @@
 <?php
 namespace Mekit\Bundle\ContactBundle\Model;
-use Mekit\Bundle\ContactBundle\Entity\Relationships\RelatedAccounts;
+use Mekit\Bundle\ContactBundle\Entity\Relationships\EmailOwner;
 
-class ExtendContact extends RelatedAccounts {
+class ExtendContact extends EmailOwner {
 	/**
 	 * Constructor
 	 *
@@ -14,3 +14,4 @@ class ExtendContact extends RelatedAccounts {
 		parent::__construct();
 	}
 }
+

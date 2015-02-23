@@ -1,5 +1,5 @@
 <?php
-namespace Mekit\Bundle\AccountBundle\Entity\Relationships;
+namespace Mekit\Bundle\ContactBundle\Entity\Relationships;
 
 use Doctrine\ORM\Mapping as ORM;
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
@@ -7,14 +7,14 @@ use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Mekit\Bundle\ContactInfoBundle\Entity\Email;
 
+use Mekit\Bundle\ContactInfoBundle\Entity\Email;
 
 class EmailOwner extends Phones {
 	/**
 	 * @var Collection
 	 *
-	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ContactInfoBundle\Entity\Email", mappedBy="owner_account", cascade={"all"})
+	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ContactInfoBundle\Entity\Email", mappedBy="owner_contact", cascade={"all"})
 	 * @ORM\OrderBy({"primary" = "DESC"})
 	 * @Soap\ComplexType("Mekit\Bundle\ContactInfoBundle\Entity\Email[]", nillable=true)
 	 * @ConfigField(
@@ -55,7 +55,7 @@ class EmailOwner extends Phones {
 	public function addEmail(Email $email) {
 		if (!$this->emails->contains($email)) {
 			$this->emails->add($email);
-			$email->setOwnerAccount($this);
+			$email->setOwnerContact($this);
 		}
 		return $this;
 	}
@@ -132,4 +132,5 @@ class EmailOwner extends Phones {
 		}
 		return $this;
 	}
+
 }
