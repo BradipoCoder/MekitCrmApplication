@@ -1,0 +1,19 @@
+#also needed for tagging
+Mekit\Bundle\ContactBundle\Entity\Contact:
+    alias: mekit_contact
+    label: mekit.contact.entity_plural_label
+    title_fields: [firstName, lastName]
+    route:
+        name: mekit_contact_view
+        parameters:
+            id: id
+    search_template: MekitContactBundle:Contact:searchResult.html.twig
+    fields:
+        -
+            name: firstName
+            target_type: text
+            target_fields: [firstName]
+        -
+            name: lastName
+            target_type: text
+            target_fields: [lastName]

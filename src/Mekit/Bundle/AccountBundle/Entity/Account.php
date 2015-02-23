@@ -12,6 +12,7 @@ use Mekit\Bundle\ContactInfoBundle\Entity\Phone;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
 use Mekit\Bundle\RelationshipBundle\Entity\Referenceable;
 use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
+use Oro\Bundle\TagBundle\Entity\Taggable;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
@@ -19,8 +20,11 @@ use Oro\Bundle\EmailBundle\Entity\EmailOwnerInterface;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
-use Oro\Bundle\TagBundle\Entity\Taggable;
 use Oro\Bundle\UserBundle\Entity\User;
+
+// Traits
+use Mekit\Bundle\CrmBundle\Traits\Entity\Taggable as TaggableTrait;
+use Mekit\Bundle\CrmBundle\Traits\Entity\EmailOwner as EmailOwnerTrait;
 
 
 /**
@@ -77,6 +81,9 @@ use Oro\Bundle\UserBundle\Entity\User;
  * )
  */
 class Account extends ExtendAccount implements Referenceable, Taggable, EmailOwnerInterface {
+	use TaggableTrait;
+	use EmailOwnerTrait;
+
 	/**
 	 * @ORM\Id
 	 * @ORM\Column(type="integer")
@@ -401,17 +408,7 @@ class Account extends ExtendAccount implements Referenceable, Taggable, EmailOwn
 	 */
 	protected $updatedAt;
 
-	/**
-	 * @var ArrayCollection $tags
-	 * @ConfigField(
-	 *      defaultValues={
-	 *          "merge"={
-	 *              "display"=true
-	 *          }
-	 *      }
-	 * )
-	 */
-	protected $tags;
+
 
 
 	/**
@@ -442,7 +439,7 @@ class Account extends ExtendAccount implements Referenceable, Taggable, EmailOwn
 		$this->phones = new ArrayCollection();
 		$this->emails = new ArrayCollection();
 		$this->addresses = new ArrayCollection();
-		$this->tags = new ArrayCollection();
+
 	}
 
 	/**
@@ -461,6 +458,14 @@ class Account extends ExtendAccount implements Referenceable, Taggable, EmailOwn
 	public function setId($id) {
 		$this->id = $id;
 		return $this;
+	}
+
+	/**
+	 * Taggable interface requirement
+	 * {@inheritdoc}
+	 */
+	public function getTaggableId() {
+		return $this->getId();
 	}
 
 	/**
@@ -716,115 +721,7 @@ class Account extends ExtendAccount implements Referenceable, Taggable, EmailOwn
 		return $this;
 	}
 
-	/**
-	 * Set emails
-	 *
-	 * @param Collection|Email[] $emails
-	 * @return $this
-	 */
-	public function resetEmails($emails) {
-		$this->emails->clear();
-		foreach ($emails as $email) {
-			$this->addEmail($email);
-		}
-		return $this;
-	}
 
-	/**
-	 * Add email
-	 *
-	 * @param Email $email
-	 * @return $this
-	 */
-	public function addEmail(Email $email) {
-		if (!$this->emails->contains($email)) {
-			$this->emails->add($email);
-			$email->setOwnerAccount($this);
-		}
-		return $this;
-	}
-
-	/**
-	 * Remove email
-	 *
-	 * @param Email $email
-	 * @return $this
-	 */
-	public function removeEmail(Email $email) {
-		if ($this->emails->contains($email)) {
-			$this->emails->removeElement($email);
-		}
-		return $this;
-	}
-
-	/**
-	 * Get emails
-	 *
-	 * @return Collection|Email[]
-	 */
-	public function getEmails() {
-		return $this->emails;
-	}
-
-	/**
-	 * @return null|string
-	 */
-	public function getEmail() {
-		$primaryEmail = $this->getPrimaryEmail();
-		if (!$primaryEmail) {
-			return null;
-		}
-		return $primaryEmail->getEmail();
-	}
-
-	/**
-	 * @param Email $email
-	 * @return bool
-	 */
-	public function hasEmail(Email $email) {
-		return $this->getEmails()->contains($email);
-	}
-
-	/**
-	 * Gets primary email if it's available.
-	 *
-	 * @return Email|null
-	 */
-	public function getPrimaryEmail() {
-		$result = null;
-		foreach ($this->getEmails() as $email) {
-			if ($email->isPrimary()) {
-				$result = $email;
-				break;
-			}
-		}
-		return $result;
-	}
-
-	/**
-	 * @param Email $email
-	 * @return $this
-	 */
-	public function setPrimaryEmail(Email $email) {
-		if ($this->hasEmail($email)) {
-			$email->setPrimary(true);
-			foreach ($this->getEmails() as $otherEmail) {
-				if (!$email->isEqual($otherEmail)) {
-					$otherEmail->setPrimary(false);
-				}
-			}
-		}
-		return $this;
-	}
-
-	/**
-	 * Get names of fields contain email addresses
-	 *
-	 * @return string[]|null
-	 */
-	public function getEmailFields() {
-		return null;
-	}
 
 	/**
 	 * This is an EmailOwnerInterface requirement
@@ -1060,31 +957,6 @@ class Account extends ExtendAccount implements Referenceable, Taggable, EmailOwn
 	 */
 	public function getOrganization() {
 		return $this->organization;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getTaggableId() {
-		return $this->getId();
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getTags() {
-		$this->tags = $this->tags ?: new ArrayCollection();
-
-		return $this->tags;
-	}
-
-	/**
-	 * @param $tags
-	 * @return $this
-	 */
-	public function setTags($tags) {
-		$this->tags = $tags;
-		return $this;
 	}
 
 	/**
