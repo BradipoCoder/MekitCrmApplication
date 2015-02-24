@@ -96,6 +96,20 @@ datagrid:
 
 
     contacts-related-to-accounts:
+        extends: contacts-related-generic
+        source:
+            query:
+                join:
+                    inner:
+                        - { join: c.accounts, alias: ref }
+                where:
+                    and:
+                        - ref.id = :ref_id
+            bind_parameters:
+                - ref_id
+
+
+    contacts-related-generic:
         extended_entity_name: %mekit_contact.contact.entity.class%
         source:
             type:           orm
@@ -107,17 +121,22 @@ datagrid:
                     - c.lastName
                 from:
                     - { table: %mekit_contact.contact.entity.class%, alias: c }
-                join:
-                    inner:
-                        - { join: c.accounts, alias: ref }
-                where:
-                    and:
-                        - ref.id = :ref_id
-            bind_parameters:
-                - ref_id
         columns:
             lastName:
                 label:         mekit.contact.last_name.label
             firstName:
                 label:         mekit.contact.first_name.label
-
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      mekit_contact_view
+                params:     [ id ]
+        actions:
+            view:
+                type:          navigate
+                acl_resource:  mekit_contact_view
+                label:         oro.grid.action.view
+                icon:          eye-open
+                link:          view_link
+                rowAction:     true

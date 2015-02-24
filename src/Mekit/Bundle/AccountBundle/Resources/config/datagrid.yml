@@ -145,7 +145,22 @@ datagrid:
             entityHint: account
             export: true
 
+
     accounts-related-to-contacts:
+        extends: accounts-related-generic
+        source:
+            query:
+                join:
+                    inner:
+                        - { join: a.contacts, alias: ref }
+                where:
+                    and:
+                        - ref.id = :ref_id
+            bind_parameters:
+                - ref_id
+
+
+    accounts-related-generic:
         extended_entity_name: %mekit_account.account.entity.class%
         source:
             type:           orm
@@ -156,14 +171,21 @@ datagrid:
                     - a.name
                 from:
                     - { table: %mekit_account.account.entity.class%, alias: a }
-                join:
-                    inner:
-                        - { join: a.contacts, alias: ref }
-                where:
-                    and:
-                        - ref.id = :ref_id
-            bind_parameters:
-                - ref_id
         columns:
             name:
                 label:         mekit.account.name.label
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      mekit_account_view
+                params:     [ id ]
+        actions:
+            view:
+                type:          navigate
+                acl_resource:  mekit_account_account_view
+                label:         oro.grid.action.view
+                icon:          eye-open
+                link:          view_link
+                rowAction:     true
+
