@@ -48,7 +48,7 @@
         'class': 'active',
         'subblocks': [
             {
-                'title': 'Basic Information'|trans,
+                'title': 'mekit.contact.widgets.contact_information'|trans,
                 'data': [
 				    form_row(form.namePrefix),
 				    form_row(form.firstName),
@@ -67,7 +67,7 @@
                 ]
             },
 	        {
-                'title': 'Advanced Information'|trans,
+                'title': 'mekit.contact.widgets.contact_additional'|trans,
                 'data': [
 
                     form_row(form.owner),
@@ -78,6 +78,18 @@
                     form_row(form.tags)
                 ]
             }
+        ]
+    },
+    {
+	    'title': 'mekit.contact.widgets.contact_references'|trans,
+	    'class': 'resp',
+        'subblocks': [
+	        {
+                'title': 'mekit.contact.widgets.contact_references'|trans,
+                'data': [
+                    form_row(form.accounts),
+                ]
+            },
         ]
     },
     {

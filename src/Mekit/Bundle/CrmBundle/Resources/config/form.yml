@@ -1,0 +1,13 @@
+parameters:
+    mekit_crm.type.entity_multi_select.class:              Mekit\Bundle\CrmBundle\Form\Type\EntityMultiSelectType
+
+services:
+    mekit_crm.form.type.entity_multi_select:
+        class: %mekit_crm.type.entity_multi_select.class%
+        arguments:
+            - @doctrine.orm.entity_manager
+            - @oro_form.autocomplete.search_registry
+            - @oro_entity_config.provider.form
+        tags:
+            - { name: form.type, alias: mekit_entity_multi_select }
+

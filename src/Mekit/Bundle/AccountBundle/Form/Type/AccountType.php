@@ -1,5 +1,4 @@
 <?php
-
 namespace Mekit\Bundle\AccountBundle\Form\Type;
 
 use Doctrine\Common\Collections\Collection;
@@ -92,6 +91,20 @@ class AccountType extends AbstractType {
 		$this->listBundleHelper->addListSelectorToFormBuilder($builder, 'state', 'ACCOUNT_STATE', 'mekit.account.state.label');
 		$this->listBundleHelper->addListSelectorToFormBuilder($builder, 'industry', 'ACCOUNT_INDUSTRY', 'mekit.account.industry.label');
 		$this->listBundleHelper->addListSelectorToFormBuilder($builder, 'source', 'ACCOUNT_SOURCE', 'mekit.account.source.label');
+
+
+		//contacts
+		$builder->add(
+			'contacts',
+			'mekit_entity_multi_select',
+			[
+				'required' => false,
+				'label' => 'mekit.account.contacts.label',
+				'autocomplete_alias' => 'mekit_contact_search',
+				'entity_class' => 'Mekit\Bundle\ContactBundle\Entity\Contact',
+				'configs' => []
+			]
+		);
 
 		//addresses
 		$builder->add(

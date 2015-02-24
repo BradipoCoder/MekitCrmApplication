@@ -52,6 +52,14 @@
         }) }}
     {% endset %}
 
+	{% set relatedAccounts %}
+		{{ oro_widget_render({
+			'widgetType': 'block',
+			'title': 'mekit.contact.accounts.label'|trans,
+			'url': path('mekit_crm_widget_related', {datagrid_name: "accounts-related-to-contacts", id: entity.id})
+		}) }}
+	{% endset %}
+
 	{% set dataBlocks = [
 		{
 		'title': 'mekit.contact.sections.general'|trans,
@@ -62,6 +70,11 @@
 		'title': 'mekit.contact.sections.addresses'|trans,
 		'subblocks': [ {'data' : [addressBookWidget]} ]
 		},
+		{
+		'title': 'mekit.contact.accounts.label'|trans,
+		'class': 'resp',
+		'subblocks': [ {'data' : [relatedAccounts]} ]
+		}
 	] %}
 
 

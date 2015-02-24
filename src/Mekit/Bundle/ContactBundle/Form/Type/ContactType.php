@@ -101,6 +101,19 @@ class ContactType extends AbstractType {
 		//dynamic lists from ListBundle(using temporary helper service solution)
 		$this->listBundleHelper->addListSelectorToFormBuilder($builder, 'jobTitle', 'CONTACT_JOBTITLE', 'mekit.contact.job_title.label');
 
+		//accounts
+		$builder->add(
+			'accounts',
+			'mekit_entity_multi_select',
+			[
+				'required' => false,
+				'label' => 'mekit.contact.accounts.label',
+				'autocomplete_alias' => 'mekit_account_search',
+				'entity_class' => 'Mekit\Bundle\AccountBundle\Entity\Account',
+				'configs' => []
+			]
+		);
+
 
 		//assigned to (user)
 		$builder->add(
@@ -109,12 +122,7 @@ class ContactType extends AbstractType {
 			array('required' => false, 'label' => 'mekit.contact.assigned_to.label')
 		);
 
-		//account
-//		$builder->add(
-//			'account',
-//			'mekit_account_select',
-//			array('required' => false, 'label' => 'mekit.contact.account.label')
-//		);
+
 
 		//addresses
 		$builder->add(

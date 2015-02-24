@@ -58,7 +58,7 @@ class RelatedContacts {
 	public function addContact(Contact $contact) {
 		if (!$this->contacts->contains($contact)) {
 			$this->contacts->add($contact);
-			//$contact->addAccount($this);
+			$contact->addAccount($this);
 		}
 		return $this;
 	}
@@ -70,6 +70,7 @@ class RelatedContacts {
 	public function removeContact(Contact $contact) {
 		if ($this->contacts->contains($contact)) {
 			$this->contacts->removeElement($contact);
+			$contact->removeAccount($this);
 		}
 		return $this;
 	}

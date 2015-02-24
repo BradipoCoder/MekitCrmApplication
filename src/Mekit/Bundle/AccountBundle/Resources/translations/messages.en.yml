@@ -11,6 +11,7 @@ mekit:
         widgets:
             account_information:    Account Information
             account_additional:     Additional Information
+            account_references:     References
             account_addresses:      Address Book
 
         account_actions:            Account actions
@@ -45,18 +46,15 @@ mekit:
         industry.label:             Industry
         source.label:               Source
         assigned_to.label:          Assigned To
-        phones.label:               Phone
-        emails.label:               Email
         email.label:                Email
         owner.label:                Owner
         organization.label:         Organization
 
         addresses.label:            Addresses
-        referenceable_element.label:    ReferenceableElement
+        phones.label:               Phone
+        emails.label:               Email
 
-        contact:
-            name:                   Contact name
-            email:                  Contact email
-            phone:                  Contact phone
+        contacts.label:             Contacts
+
 
 

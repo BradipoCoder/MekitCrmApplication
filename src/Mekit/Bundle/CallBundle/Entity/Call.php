@@ -60,7 +60,7 @@ use Oro\Bundle\UserBundle\Entity\User;
  *      }
  * )
  */
-class Call extends ExtendCall implements Referenceable {
+class Call extends ExtendCall {
 	/**
 	 * @var int
 	 *
@@ -139,29 +139,6 @@ class Call extends ExtendCall implements Referenceable {
 	 * )
 	 */
 	protected $event;
-
-	/**
-	 * @var ReferenceableElement
-	 *
-	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement", cascade={"persist"}, orphanRemoval=true, mappedBy="call")
-	 */
-	protected $referenceableElement;
-
-	/**
-	 * @return ReferenceableElement
-	 */
-	public function getReferenceableElement() {
-		return $this->referenceableElement;
-	}
-
-	/**
-	 * @param ReferenceableElement $referenceableElement
-	 */
-	public function setReferenceableElement(ReferenceableElement $referenceableElement) {
-		$this->referenceableElement = $referenceableElement;
-		$referenceableElement->setCall($this);
-	}
-
 
 	/**
 	 * Constructor

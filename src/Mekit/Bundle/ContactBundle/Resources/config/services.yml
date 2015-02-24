@@ -4,6 +4,14 @@ parameters:
     mekit_contact.social_url_formatter.class:                 Mekit\Bundle\ContactBundle\Formatter\SocialUrlFormatter
 
 services:
+    mekit_contact.autocomplete.contact.search_handler:
+        parent: oro_form.autocomplete.search_handler
+        arguments:
+            - %mekit_contact.contact.entity.class%
+            - ["firstName", "lastName"]
+        tags:
+            - { name: oro_form.autocomplete.search_handler, alias: mekit_contact_search, acl_resource: mekit_contact_view }
+
     mekit_contact.social_url_formatter:
         class: %mekit_contact.social_url_formatter.class%
         arguments:

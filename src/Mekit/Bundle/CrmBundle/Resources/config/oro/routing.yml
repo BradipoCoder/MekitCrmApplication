@@ -1,0 +1,5 @@
+mekit_crm_bundle:
+    resource:     "@MekitCrmBundle/Controller"
+    type:         annotation
+    prefix:       /crm
+

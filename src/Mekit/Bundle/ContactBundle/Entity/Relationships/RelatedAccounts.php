@@ -56,7 +56,7 @@ class RelatedAccounts extends BasePerson {
 	public function addAccount(Account $account) {
 		if (!$this->accounts->contains($account)) {
 			$this->accounts->add($account);
-			//$account->addContact($this);
+			$account->addContact($this);
 		}
 		return $this;
 	}
@@ -68,6 +68,7 @@ class RelatedAccounts extends BasePerson {
 	public function removeAccount(Account $account) {
 		if ($this->accounts->contains($account)) {
 			$this->accounts->removeElement($account);
+			$account->removeContact($this);
 		}
 		return $this;
 	}

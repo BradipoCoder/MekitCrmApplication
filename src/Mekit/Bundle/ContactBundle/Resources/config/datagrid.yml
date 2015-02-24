@@ -11,14 +11,12 @@ datagrid:
                     - c.lastName
                     - CONCAT(Owner.firstName, CONCAT(' ', Owner.lastName)) as ownerName
                     - CONCAT(assignee.firstName, CONCAT(' ', assignee.lastName)) as AssigneeName
-#                    - Account.name as accountName
                 from:
                     - { table: %mekit_contact.contact.entity.class%, alias: c }
                 join:
                     left:
                         - { join: c.owner, alias: Owner }
                         - { join: c.assignedTo, alias: assignee }
-#                        - { join: c.account, alias: Account }
                 groupBy: c.id
 
         columns:
@@ -26,8 +24,6 @@ datagrid:
                 label:         mekit.contact.last_name.label
             firstName:
                 label:         mekit.contact.first_name.label
-#            accountName:
-#                 label:        mekit.contact.account.label
             AssigneeName:
                  label:        mekit.account.assigned_to.label
 
@@ -99,54 +95,13 @@ datagrid:
             export: true
 
 
-    contacts-related-relationship:
-        extends: relationship-related-element-source-logic
+    contacts-related-to-accounts:
+        extended_entity_name: %mekit_contact.contact.entity.class%
         source:
+            type:           orm
             acl_resource:   mekit_contact_view
             query:
                 select:
-                    - c.id
-                    - c.firstName
-                    - c.lastName
-                    - jobTitleItem.label as jobTitle
-                from:
-                   - { table: %mekit_contact.contact.entity.class%, alias: c }
-                join:
-                    inner:
-                        - { join: c.referenceableElement, alias: referenceableElement }
-                    left:
-                        - { join: c.jobTitle, alias: jobTitleItem }
-
-        columns:
-            lastName:
-                label:        mekit.contact.last_name.label
-            firstName:
-                label:        mekit.contact.first_name.label
-            jobTitle:
-                label:        mekit.contact.job_title.label
-
-        properties:
-            id: ~
-            view_link:
-                type:       url
-                route:      mekit_contact_view
-                params:     [ id ]
-
-        actions:
-            view:
-                type:          navigate
-                acl_resource:  mekit_contact_view
-                label:         oro.grid.action.view
-                icon:          eye-open
-                link:          view_link
-                rowAction:     true
-
-    contacts-related-select:
-        extends: relationship-related-elements-select-logic
-        source:
-            query:
-                select:
-                    - referenceableElement.id as refElId
                     - c.id
                     - c.firstName
                     - c.lastName
@@ -154,23 +109,15 @@ datagrid:
                     - { table: %mekit_contact.contact.entity.class%, alias: c }
                 join:
                     inner:
-                        - { join: c.referenceableElement, alias: referenceableElement }
+                        - { join: c.accounts, alias: ref }
+                where:
+                    and:
+                        - ref.id = :ref_id
+            bind_parameters:
+                - ref_id
         columns:
-            refElId:
-                renderable: false
             lastName:
-                label:        mekit.contact.last_name.label
+                label:         mekit.contact.last_name.label
             firstName:
-                label:        mekit.contact.first_name.label
+                label:         mekit.contact.first_name.label
 
-        properties:
-            id: ~
-
-        options:
-            entityHint: contact
-            rowSelection:
-                dataField: refElId
-                columnName: isAssigned
-                selectors:
-                    included: '#appendElements'
-                    excluded: '#removeElements'

@@ -1,6 +1,6 @@
 #also needed for tagging
 Mekit\Bundle\ContactBundle\Entity\Contact:
-    alias: mekit_contact
+    alias: mekit_contact_search
     label: mekit.contact.entity_plural_label
     title_fields: [firstName, lastName]
     route:
@@ -17,3 +17,7 @@ Mekit\Bundle\ContactBundle\Entity\Contact:
             name: lastName
             target_type: text
             target_fields: [lastName]
+        -
+            name: description
+            target_type: text
+            target_fields: [description]
