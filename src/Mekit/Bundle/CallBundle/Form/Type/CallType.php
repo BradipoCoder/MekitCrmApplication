@@ -91,25 +91,8 @@ class CallType extends AbstractType {
 		//dynamic lists from ListBundle(using temporary helper service solution)
 		$this->listBundleHelper->addListSelectorToFormBuilder($builder, 'outcome', 'CALL_OUTCOME', 'mekit.call.outcome.label');
 
-
-		//assigned to (user)
-//		$builder->add(
-//			'assignedTo',
-//			'oro_user_select',
-//			array('required' => false, 'label' => 'mekit.contact.assigned_to.label')
-//		);
-
 		//add event form
 		$builder->add('event', new EventType($this->router, $this->nameFormatter, $this->securityFacade, $this->listBundleHelper));
-
-		//referenceable elements (reference selector fields)
-		$builder->add('referenceableElement',
-			'mekit_referenceable_element',
-			[
-				'label' => false,
-				'required' => false
-			]
-		);
 	}
 
 	/**

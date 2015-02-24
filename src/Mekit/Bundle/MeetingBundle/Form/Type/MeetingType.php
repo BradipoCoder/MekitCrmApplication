@@ -77,29 +77,8 @@ class MeetingType extends AbstractType {
 			->add('description', 'textarea', array('required' => false, 'label' => 'mekit.meeting.description.label'));
 			/*->add('tags', 'oro_tag_select', ['label' => 'oro.tag.entity_plural_label']);*/
 
-		//dynamic lists from ListBundle(using temporary helper service solution)
-		//$this->listBundleHelper->addListSelectorToFormBuilder($builder, 'jobTitle', 'CONTACT_JOBTITLE', 'mekit.contact.job_title.label');
-
-
-		//assigned to (user)
-//		$builder->add(
-//			'assignedTo',
-//			'oro_user_select',
-//			array('required' => false, 'label' => 'mekit.contact.assigned_to.label')
-//		);
-
 		//add event form
 		$builder->add('event', new EventType($this->router, $this->nameFormatter, $this->securityFacade, $this->listBundleHelper));
-
-		//referenceable elements (reference selector fields)
-		$builder->add('referenceableElement',
-			'mekit_referenceable_element',
-			[
-				'label' => false,
-				'required' => false
-			]
-		);
-
 	}
 
 	/**

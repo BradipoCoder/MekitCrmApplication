@@ -17,7 +17,7 @@ mysql -e "CREATE DATABASE mekit_test;" -uroot
 echo "------------------------------------------------------------"
 echo "Configuring php CLI..."
 phpenv config-add src/Mekit/Bundle/TestBundle/CI/Travis/travis.php.ini
-
+php -i
 
 # Composer
 echo "------------------------------------------------------------"

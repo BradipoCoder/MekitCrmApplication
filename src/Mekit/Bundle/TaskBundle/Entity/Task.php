@@ -9,8 +9,6 @@ use Mekit\Bundle\AccountBundle\Model\ExtendAccount;
 use Mekit\Bundle\EventBundle\Entity\Event;
 use Mekit\Bundle\EventBundle\Model\ExtendEvent;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
-use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
-use Mekit\Bundle\RelationshipBundle\Entity\Referenceable;
 use Mekit\Bundle\TaskBundle\Model\ExtendTask;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\AddressBundle\Entity\AddressType;

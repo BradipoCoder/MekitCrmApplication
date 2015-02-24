@@ -10,8 +10,6 @@ use Mekit\Bundle\EventBundle\Entity\Event;
 use Mekit\Bundle\EventBundle\Model\ExtendEvent;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
 use Mekit\Bundle\MeetingBundle\Model\ExtendMeeting;
-use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
-use Mekit\Bundle\RelationshipBundle\Entity\Referenceable;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
