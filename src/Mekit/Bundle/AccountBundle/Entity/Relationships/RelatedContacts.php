@@ -11,7 +11,7 @@ use Mekit\Bundle\ContactBundle\Entity\Contact;
 /**
  * @ORM\MappedSuperclass
  */
-class RelatedContacts {
+class RelatedContacts extends RelatedTasks {
 	/**
 	 * @var ArrayCollection
 	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\ContactBundle\Entity\Contact", inversedBy="accounts")
@@ -28,7 +28,7 @@ class RelatedContacts {
 
 
 	public function __construct() {
-		//parent::__construct();
+		parent::__construct();
 		$this->contacts = new ArrayCollection();
 	}
 

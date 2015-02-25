@@ -100,8 +100,50 @@ class AccountType extends AbstractType {
 			[
 				'required' => false,
 				'label' => 'mekit.account.contacts.label',
-				'autocomplete_alias' => 'mekit_contact_search',
+				'autocomplete_alias' => 'mekit_contact',
 				'entity_class' => 'Mekit\Bundle\ContactBundle\Entity\Contact',
+				'configs' => []
+			]
+		);
+
+		//tasks
+		$builder->add(
+			'tasks',
+			'mekit_entity_multi_select',
+			[
+				'required' => false,
+				'label' => 'mekit.account.tasks.label',
+				'autocomplete_alias' => 'mekit_task',
+				'entity_class' => 'Mekit\Bundle\TaskBundle\Entity\Task',
+				'configs' => [
+					/*'result_template' => '<%= highlight(_.escape(event.name)) %>',
+					'select_template' => '<%= _.escape(event.name) %>'*/
+				]
+			]
+		);
+
+		//meetings
+		$builder->add(
+			'meetings',
+			'mekit_entity_multi_select',
+			[
+				'required' => false,
+				'label' => 'mekit.account.meetings.label',
+				'autocomplete_alias' => 'mekit_meeting',
+				'entity_class' => 'Mekit\Bundle\MeetingBundle\Entity\Meeting',
+				'configs' => []
+			]
+		);
+
+		//calls
+		$builder->add(
+			'calls',
+			'mekit_entity_multi_select',
+			[
+				'required' => false,
+				'label' => 'mekit.account.calls.label',
+				'autocomplete_alias' => 'mekit_call',
+				'entity_class' => 'Mekit\Bundle\CallBundle\Entity\Call',
 				'configs' => []
 			]
 		);

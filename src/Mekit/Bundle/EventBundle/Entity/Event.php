@@ -29,7 +29,6 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          @ORM\Index(name="idx_event_organization", columns={"organization_id"}),
  *          @ORM\Index(name="idx_event_created_at", columns={"createdAt"}),
  *          @ORM\Index(name="idx_event_updated_at", columns={"updatedAt"}),
- *          @ORM\Index(name="idx_event_name", columns={"name"}),
  *          @ORM\Index(name="idx_event_type", columns={"type"}),
  *          @ORM\Index(name="idx_event_start_date", columns={"start_date"}),
  *          @ORM\Index(name="idx_event_end_date", columns={"end_date"}),
@@ -72,14 +71,6 @@ class Event extends ExtendEvent{
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 */
 	protected $id;
-
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="name", type="string", length=255, nullable=false)
-	 * @Oro\Versioned
-	 */
-	protected $name;
 
 	/**
 	 * @var string
@@ -130,6 +121,25 @@ class Event extends ExtendEvent{
 	 * @Oro\Versioned
 	 */
 	protected $priority;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(type="text", length=65535, nullable=true)
+	 * @Soap\ComplexType("string", nillable=true)
+	 * @Oro\Versioned
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "importexport"={
+	 *              "order"=250
+	 *          },
+	 *          "dataaudit"={
+	 *              "auditable"=true
+	 *          },
+	 *      }
+	 * )
+	 */
+	protected $description;
 
 	/**
 	 * @var User
@@ -213,22 +223,6 @@ class Event extends ExtendEvent{
 	 */
 	public function setId($id) {
 		$this->id = $id;
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getName() {
-		return $this->name;
-	}
-
-	/**
-	 * @param string $name
-	 * @return $this
-	 */
-	public function setName($name) {
-		$this->name = $name;
 		return $this;
 	}
 
@@ -325,6 +319,22 @@ class Event extends ExtendEvent{
 	 */
 	public function setPriority($priority) {
 		$this->priority = $priority;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDescription() {
+		return $this->description;
+	}
+
+	/**
+	 * @param string $description
+	 * @return $this
+	 */
+	public function setDescription($description) {
+		$this->description = $description;
 		return $this;
 	}
 

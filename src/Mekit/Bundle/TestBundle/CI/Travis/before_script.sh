@@ -16,7 +16,7 @@ mysql -e "CREATE DATABASE mekit_test;" -uroot
 # Php
 echo "------------------------------------------------------------"
 echo "Configuring php CLI..."
-sudo php5enmod -s cli opcache
+# sudo php5enmod -s cli opcache - there is no command by this name
 phpenv config-add src/Mekit/Bundle/TestBundle/CI/Travis/travis.php.ini
 
 # Composer

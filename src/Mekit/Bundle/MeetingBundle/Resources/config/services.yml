@@ -2,4 +2,11 @@ parameters:
     mekit_meeting.meeting.entity.class: Mekit\Bundle\MeetingBundle\Entity\Meeting
 
 services:
+    mekit_meeting.autocomplete.meeting.search_handler:
+        parent: oro_form.autocomplete.search_handler
+        arguments:
+            - %mekit_meeting.meeting.entity.class%
+            - ["name"]
+        tags:
+            - { name: oro_form.autocomplete.search_handler, alias: mekit_meeting, acl_resource: mekit_event_view }
 

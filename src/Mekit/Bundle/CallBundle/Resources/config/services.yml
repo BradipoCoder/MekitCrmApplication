@@ -2,4 +2,11 @@ parameters:
     mekit_call.call.entity.class: Mekit\Bundle\CallBundle\Entity\Call
 
 services:
+    mekit_call.autocomplete.call.search_handler:
+        parent: oro_form.autocomplete.search_handler
+        arguments:
+            - %mekit_call.call.entity.class%
+            - ["name"]
+        tags:
+            - { name: oro_form.autocomplete.search_handler, alias: mekit_call, acl_resource: mekit_event_view }
 

@@ -55,6 +55,9 @@ mekit:
         emails.label:               Email
 
         contacts.label:             Contacts
+        tasks.label:                Tasks
+        calls.label:                Calls
+        meetings.label:             Meetings
 
 
 

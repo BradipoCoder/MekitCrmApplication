@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Mekit\Bundle\AccountBundle\Model\ExtendAccount;
 use Mekit\Bundle\CallBundle\Model\ExtendCall;
 use Mekit\Bundle\EventBundle\Entity\Event;
+use Mekit\Bundle\EventBundle\Entity\EventInterface;
 use Mekit\Bundle\EventBundle\Model\ExtendEvent;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
@@ -23,7 +24,8 @@ use Oro\Bundle\UserBundle\Entity\User;
 /**
  * @ORM\Entity(repositoryClass="Mekit\Bundle\CallBundle\Entity\Repository\CallRepository")
  * @ORM\Table(name="mekit_call", indexes={
- *      @ORM\Index(name="idx_call_direction", columns={"direction"}),
+ *      @ORM\Index(name="idx_call_name", columns={"name"}),
+ *      @ORM\Index(name="idx_call_direction", columns={"direction"})
  * })
  * @Oro\Loggable
  * @Config(
@@ -46,19 +48,11 @@ use Oro\Bundle\UserBundle\Entity\User;
  *              "icon"="icon-phone",
  *              "view_route_name"="mekit_call_view",
  *              "edit_route_name"="mekit_call_edit"
- *          },
- *          "relationship"={
- *              "referenceable"=true,
- *              "label"="mekit.call.entity_plural_label",
- *              "can_reference_itself"=false,
- *              "datagrid_name_list"="calls-related-relationship",
- *              "datagrid_name_select"="calls-related-select",
- *              "autocomplete_search_columns"={"i2s"}
  *          }
  *      }
  * )
  */
-class Call extends ExtendCall {
+class Call extends ExtendCall implements EventInterface {
 	/**
 	 * @var int
 	 *
@@ -72,21 +66,10 @@ class Call extends ExtendCall {
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(type="text", length=65535, nullable=true)
-	 * @Soap\ComplexType("string", nillable=true)
+	 * @ORM\Column(name="name", type="string", length=255, nullable=false)
 	 * @Oro\Versioned
-	 * @ConfigField(
-	 *      defaultValues={
-	 *          "importexport"={
-	 *              "order"=250
-	 *          },
-	 *          "dataaudit"={
-	 *              "auditable"=true
-	 *          },
-	 *      }
-	 * )
 	 */
-	protected $description;
+	protected $name;
 
 	/**
 	 * @var string
@@ -164,16 +147,16 @@ class Call extends ExtendCall {
 	/**
 	 * @return string
 	 */
-	public function getDescription() {
-		return $this->description;
+	public function getName() {
+		return $this->name;
 	}
 
 	/**
-	 * @param string $description
+	 * @param string $name
 	 * @return $this
 	 */
-	public function setDescription($description) {
-		$this->description = $description;
+	public function setName($name) {
+		$this->name = $name;
 		return $this;
 	}
 
@@ -220,7 +203,7 @@ class Call extends ExtendCall {
 	 * @param Event $event
 	 * @return $this
 	 */
-	public function setEvent($event) {
+	public function setEvent(Event $event) {
 		$this->event = $event;
 		return $this;
 	}
@@ -229,6 +212,6 @@ class Call extends ExtendCall {
 	 * @return string
 	 */
 	public function __toString() {
-		return (string)$this->getEvent()->getName();
+		return (string)$this->getName();
 	}
 }

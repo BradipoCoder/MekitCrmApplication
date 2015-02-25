@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Mekit\Bundle\AccountBundle\Model\ExtendAccount;
 use Mekit\Bundle\EventBundle\Entity\Event;
+use Mekit\Bundle\EventBundle\Entity\EventInterface;
 use Mekit\Bundle\EventBundle\Model\ExtendEvent;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
 use Mekit\Bundle\TaskBundle\Model\ExtendTask;
@@ -22,7 +23,9 @@ use Oro\Bundle\UserBundle\Entity\User;
 
 /**
  * @ORM\Entity(repositoryClass="Mekit\Bundle\TaskBundle\Entity\Repository\TaskRepository")
- * @ORM\Table(name="mekit_task")
+ * @ORM\Table(name="mekit_task", indexes={
+ *      @ORM\Index(name="idx_task_name", columns={"name"})
+ * })
  * @Oro\Loggable
  * @Config(
  *      routeName="mekit_task_index",
@@ -53,19 +56,11 @@ use Oro\Bundle\UserBundle\Entity\User;
  *              "icon"="icon-flag",
  *              "view_route_name"="mekit_task_view",
  *              "edit_route_name"="mekit_task_edit"
- *          },
- *          "relationship"={
- *              "referenceable"=true,
- *              "label"="mekit.task.entity_plural_label",
- *              "can_reference_itself"=true,
- *              "datagrid_name_list"="tasks-related-relationship",
- *              "datagrid_name_select"="tasks-related-select",
- *              "autocomplete_search_columns"={"i2s"}
  *          }
  *      }
  * )
  */
-class Task extends ExtendTask {
+class Task extends ExtendTask implements EventInterface {
 	/**
 	 * @var int
 	 *
@@ -79,21 +74,10 @@ class Task extends ExtendTask {
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(type="text", length=65535, nullable=true)
-	 * @Soap\ComplexType("string", nillable=true)
+	 * @ORM\Column(name="name", type="string", length=255, nullable=false)
 	 * @Oro\Versioned
-	 * @ConfigField(
-	 *      defaultValues={
-	 *          "importexport"={
-	 *              "order"=250
-	 *          },
-	 *          "dataaudit"={
-	 *              "auditable"=true
-	 *          },
-	 *      }
-	 * )
 	 */
-	protected $description;
+	protected $name;
 
 	/**
 	 * @var Event
@@ -105,8 +89,6 @@ class Task extends ExtendTask {
 	 * )
 	 */
 	protected $event;
-
-
 
 	/**
 	 * Constructor
@@ -134,16 +116,16 @@ class Task extends ExtendTask {
 	/**
 	 * @return string
 	 */
-	public function getDescription() {
-		return $this->description;
+	public function getName() {
+		return $this->name;
 	}
 
 	/**
-	 * @param string $description
+	 * @param string $name
 	 * @return $this
 	 */
-	public function setDescription($description) {
-		$this->description = $description;
+	public function setName($name) {
+		$this->name = $name;
 		return $this;
 	}
 
@@ -158,7 +140,7 @@ class Task extends ExtendTask {
 	 * @param Event $event
 	 * @return $this
 	 */
-	public function setEvent($event) {
+	public function setEvent(Event $event) {
 		$this->event = $event;
 		return $this;
 	}
@@ -167,6 +149,6 @@ class Task extends ExtendTask {
 	 * @return string
 	 */
 	public function __toString() {
-		return (string)$this->getEvent()->getName();
+		return (string)$this->getName();
 	}
 }

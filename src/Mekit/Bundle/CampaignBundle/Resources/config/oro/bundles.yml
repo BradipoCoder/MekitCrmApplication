@@ -1,2 +1,2 @@
 bundles:
-    - { name: Mekit\Bundle\CampaignBundle\MekitCampaignBundle, priority: 190 }
+    - { name: Mekit\Bundle\CampaignBundle\MekitCampaignBundle, priority: 120 }

@@ -1,6 +1,6 @@
 #also needed for tagging
 Mekit\Bundle\AccountBundle\Entity\Account:
-    alias: mekit_account_search
+    alias: mekit_account
     label: mekit.account.entity_plural_label
     title_fields: [name]
     route:
@@ -13,3 +13,7 @@ Mekit\Bundle\AccountBundle\Entity\Account:
             name: name
             target_type: text
             target_fields: [name]
+        -
+            name: description
+            target_type: text
+            target_fields: [description]

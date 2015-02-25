@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Mekit\Bundle\AccountBundle\Model\ExtendAccount;
 use Mekit\Bundle\EventBundle\Entity\Event;
+use Mekit\Bundle\EventBundle\Entity\EventInterface;
 use Mekit\Bundle\EventBundle\Model\ExtendEvent;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
 use Mekit\Bundle\MeetingBundle\Model\ExtendMeeting;
@@ -22,7 +23,9 @@ use Oro\Bundle\UserBundle\Entity\User;
 
 /**
  * @ORM\Entity(repositoryClass="Mekit\Bundle\MeetingBundle\Entity\Repository\MeetingRepository")
- * @ORM\Table(name="mekit_meeting")
+ * @ORM\Table(name="mekit_meeting", indexes={
+ *      @ORM\Index(name="idx_meeting_name", columns={"name"})
+ * })
  * @Oro\Loggable
  * @Config(
  *      routeName="mekit_meeting_index",
@@ -44,19 +47,11 @@ use Oro\Bundle\UserBundle\Entity\User;
  *              "icon"="icon-group",
  *              "view_route_name"="mekit_meeting_view",
  *              "edit_route_name"="mekit_meeting_edit"
- *          },
- *          "relationship"={
- *              "referenceable"=true,
- *              "label"="mekit.meeting.entity_plural_label",
- *              "can_reference_itself"=false,
- *              "datagrid_name_list"="meetings-related-relationship",
- *              "datagrid_name_select"="meetings-related-select",
- *              "autocomplete_search_columns"={"i2s"}
  *          }
  *      }
  * )
  */
-class Meeting extends ExtendMeeting {
+class Meeting extends ExtendMeeting implements EventInterface {
 	/**
 	 * @var int
 	 *
@@ -70,21 +65,10 @@ class Meeting extends ExtendMeeting {
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(type="text", length=65535, nullable=true)
-	 * @Soap\ComplexType("string", nillable=true)
+	 * @ORM\Column(name="name", type="string", length=255, nullable=false)
 	 * @Oro\Versioned
-	 * @ConfigField(
-	 *      defaultValues={
-	 *          "importexport"={
-	 *              "order"=250
-	 *          },
-	 *          "dataaudit"={
-	 *              "auditable"=true
-	 *          },
-	 *      }
-	 * )
 	 */
-	protected $description;
+	protected $name;
 
 	/**
 	 * @var Event
@@ -123,16 +107,16 @@ class Meeting extends ExtendMeeting {
 	/**
 	 * @return string
 	 */
-	public function getDescription() {
-		return $this->description;
+	public function getName() {
+		return $this->name;
 	}
 
 	/**
-	 * @param string $description
+	 * @param string $name
 	 * @return $this
 	 */
-	public function setDescription($description) {
-		$this->description = $description;
+	public function setName($name) {
+		$this->name = $name;
 		return $this;
 	}
 
@@ -147,7 +131,7 @@ class Meeting extends ExtendMeeting {
 	 * @param Event $event
 	 * @return $this
 	 */
-	public function setEvent($event) {
+	public function setEvent(Event $event) {
 		$this->event = $event;
 		return $this;
 	}
@@ -156,6 +140,6 @@ class Meeting extends ExtendMeeting {
 	 * @return string
 	 */
 	public function __toString() {
-		return (string)$this->getEvent()->getName();
+		return (string)$this->getName();
 	}
 }

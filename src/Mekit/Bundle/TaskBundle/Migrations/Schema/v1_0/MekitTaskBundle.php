@@ -25,9 +25,10 @@ class MekitTaskBundle implements Migration {
 	protected function createMekitTaskTable(Schema $schema) {
 		$table = $schema->createTable(self::$tableNameTask);
 		$table->addColumn('id', 'integer', ['autoincrement' => true]);
-		$table->addColumn('description', 'text', ['notnull' => false]);
+		$table->addColumn('name', 'string', ['length' => 255]);
 
 		//INDEXES
 		$table->setPrimaryKey(['id']);
+		$table->addIndex(['name'], 'idx_task_name', []);
 	}
 }

@@ -1,0 +1,33 @@
+#also needed for tagging
+Mekit\Bundle\CallBundle\Entity\Call:
+    alias: mekit_call
+    label: mekit.call.entity_plural_label
+    title_fields: [name]
+    route:
+        name: mekit_call_view
+        parameters:
+            id: id
+    search_template: MekitCallBundle:Call:searchResult.html.twig
+    fields:
+        -
+            name: name
+            target_type: text
+            target_fields: [name]
+        -
+            name: event
+            relation_type: one-to-one
+            relation_fields:
+                -
+                    name: description
+                    target_type: text
+                    target_fields: [description]
+                -
+                    name: startDate
+                    target_type: datetime
+                    target_fields: [startDate]
+                -
+                    name: endDate
+                    target_type: datetime
+                    target_fields: [endDate]
+
+

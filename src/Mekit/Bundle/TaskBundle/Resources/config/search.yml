@@ -1,0 +1,33 @@
+#also needed for tagging
+Mekit\Bundle\TaskBundle\Entity\Task:
+    alias: mekit_task
+    label: mekit.task.entity_plural_label
+    title_fields: [name]
+    route:
+        name: mekit_task_view
+        parameters:
+            id: id
+    search_template: MekitTaskBundle:Task:searchResult.html.twig
+    fields:
+        -
+            name: name
+            target_type: text
+            target_fields: [name]
+        -
+            name: event
+            relation_type: one-to-one
+            relation_fields:
+                -
+                    name: description
+                    target_type: text
+                    target_fields: [description]
+                -
+                    name: startDate
+                    target_type: datetime
+                    target_fields: [startDate]
+                -
+                    name: endDate
+                    target_type: datetime
+                    target_fields: [endDate]
+
+
