@@ -10,7 +10,7 @@ use Mekit\Bundle\AccountBundle\Entity\Account;
 /**
  * @ORM\MappedSuperclass
  */
-class RelatedAccounts extends RelatedContacts{
+class RelatedAccounts extends RelatedContacts {
 	/**
 	 * @var ArrayCollection
 	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\AccountBundle\Entity\Account", mappedBy="tasks")

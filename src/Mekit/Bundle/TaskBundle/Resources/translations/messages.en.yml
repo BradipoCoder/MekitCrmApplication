@@ -27,6 +27,7 @@ mekit:
         name.label:                 Name
         event.label:                Event
 
+        users.label:                Users
         accounts.label:             Accounts
         contacts.label:             Contacts
         calls.label:                Calls

@@ -1,5 +1,5 @@
 <?php
-namespace Mekit\Bundle\AccountBundle\Entity\Relationships;
+namespace Mekit\Bundle\TaskBundle\Entity\Relationships;
 
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -10,11 +10,11 @@ use Oro\Bundle\UserBundle\Entity\User;
 /**
  * @ORM\MappedSuperclass
  */
-class RelatedUsers extends RelatedContacts {
+class RelatedUsers extends RelatedAccounts {
 	/**
 	 * @var ArrayCollection
 	 * @ORM\ManyToMany(targetEntity="Oro\Bundle\UserBundle\Entity\User")
-	 * @ORM\JoinTable(name="mekit_rel_account_user")
+	 * @ORM\JoinTable(name="mekit_rel_task_user")
 	 * @ConfigField(
 	 *      defaultValues={
 	 *          "dataaudit"={
@@ -24,7 +24,6 @@ class RelatedUsers extends RelatedContacts {
 	 * )
 	 */
 	protected $users;
-
 
 	public function __construct() {
 		parent::__construct();
@@ -57,7 +56,7 @@ class RelatedUsers extends RelatedContacts {
 	public function addUser(User $user) {
 		if (!$this->users->contains($user)) {
 			$this->users->add($user);
-			//$user->addAccount($this);
+			//$user->addTask($this);
 		}
 		return $this;
 	}
@@ -69,7 +68,7 @@ class RelatedUsers extends RelatedContacts {
 	public function removeUser(User $user) {
 		if ($this->users->contains($user)) {
 			$this->users->removeElement($user);
-			//$user->removeAccount($this);
+			//$user->removeTask($this);
 		}
 		return $this;
 	}
