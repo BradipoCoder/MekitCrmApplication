@@ -11,7 +11,7 @@ use Mekit\Bundle\ListBundle\Entity\ListItem;
 /**
  * @ORM\MappedSuperclass
  */
-class ListItems extends RelatedAccounts {
+class ListItems extends RelatedUsers {
 	/**
 	 * @var ListItem
 	 *

@@ -60,6 +60,7 @@ mekit:
         phones.label:               Phone
         emails.label:               Email
 
+        users.label:                Users
         accounts.label:             Accounts
         tasks.label:                Tasks
         meetings.label:             Meetings

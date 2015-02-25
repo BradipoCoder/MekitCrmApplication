@@ -86,6 +86,21 @@ class ContactType extends AbstractType {
 		//dynamic lists from ListBundle(using temporary helper service solution)
 		$this->listBundleHelper->addListSelectorToFormBuilder($builder, 'jobTitle', 'CONTACT_JOBTITLE', 'mekit.contact.job_title.label');
 
+		//users
+		$builder->add(
+			'users',
+			'mekit_entity_multi_select',
+			[
+				'required' => false,
+				'label' => 'mekit.contact.users.label',
+				'autocomplete_alias' => 'users',
+				'entity_class' => 'Oro\Bundle\UserBundle\Entity\User',
+				'configs' => [
+					'result_template' => '<%= _.escape(fullName) %>',
+				]
+			]
+		);
+
 		//accounts
 		$builder->add(
 			'accounts',
