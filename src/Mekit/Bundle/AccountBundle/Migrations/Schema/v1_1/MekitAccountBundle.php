@@ -14,10 +14,35 @@ class MekitAccountBundle implements Migration {
 	 * @param QueryBag $queries
 	 */
 	public function up(Schema $schema, QueryBag $queries) {
+		$this->create_user_relations($schema);
 		$this->create_contact_relations($schema);
 		$this->create_task_relations($schema);
 		$this->create_call_relations($schema);
 		$this->create_meeting_relations($schema);
+	}
+
+	protected function create_user_relations(Schema $schema) {
+		$relationTableName = "mekit_rel_account_user";
+		$table = $schema->createTable($relationTableName);
+		$table->addColumn('account_id', 'integer', ['notnull' => true]);
+		$table->addColumn('user_id', 'integer', ['notnull' => true]);
+		// INDEXES
+		$table->setPrimaryKey(['account_id', 'user_id']);
+		$table->addIndex(['account_id'], 'idx_account', []);
+		$table->addIndex(['user_id'], 'idx_user', []);
+		// FOREIGN KEYS
+		$table->addForeignKeyConstraint(
+			$schema->getTable('mekit_account'),
+			['account_id'],
+			['id'],
+			['onDelete' => 'CASCADE', 'onUpdate' => null]
+		);
+		$table->addForeignKeyConstraint(
+			$schema->getTable('oro_user'),
+			['user_id'],
+			['id'],
+			['onDelete' => 'CASCADE', 'onUpdate' => null]
+		);
 	}
 
 	protected function create_contact_relations(Schema $schema) {

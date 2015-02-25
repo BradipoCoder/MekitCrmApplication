@@ -93,6 +93,21 @@ class AccountType extends AbstractType {
 		$this->listBundleHelper->addListSelectorToFormBuilder($builder, 'source', 'ACCOUNT_SOURCE', 'mekit.account.source.label');
 
 
+		//users
+		$builder->add(
+			'users',
+			'mekit_entity_multi_select',
+			[
+				'required' => false,
+				'label' => 'mekit.account.users.label',
+				'autocomplete_alias' => 'users',
+				'entity_class' => 'Oro\Bundle\UserBundle\Entity\User',
+				'configs' => [
+					'result_template' => '<%= _.escape(fullName) %>',
+				]
+			]
+		);
+
 		//contacts
 		$builder->add(
 			'contacts',

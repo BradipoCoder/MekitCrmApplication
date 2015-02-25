@@ -54,10 +54,12 @@ mekit:
         phones.label:               Phone
         emails.label:               Email
 
+        users.label:                Users
         contacts.label:             Contacts
         tasks.label:                Tasks
         calls.label:                Calls
         meetings.label:             Meetings
+
 
 
 
