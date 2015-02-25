@@ -3,7 +3,6 @@ namespace Mekit\Bundle\ContactBundle\Tests\Functional;
 
 use Mekit\Bundle\TestBundle\Helpers\MekitFunctionalTest;
 
-
 class ContactControllerTest extends MekitFunctionalTest {
     protected function setUp() {
         $this->initClient([], $this->generateBasicAuthHeader());

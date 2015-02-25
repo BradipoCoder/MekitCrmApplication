@@ -19,11 +19,7 @@ class AccountType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder->add('name', 'text', ['required' => true, 'label' => 'mekit.account.name.label']);
 
-		//select referenceable elements
-		$builder->add('referenceableElement', 'mekit_referenceable_element', [
-			'label' => false,
-			'required' => false
-		]);
+
 	}
 
 	/**

@@ -5,11 +5,7 @@ use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
-
 use Mekit\Bundle\AccountBundle\Model\ExtendAccount;
-use Mekit\Bundle\RelationshipBundle\Entity\Referenceable;
-use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
-
 use Oro\Bundle\TagBundle\Entity\Taggable;
 use Oro\Bundle\EmailBundle\Entity\EmailOwnerInterface;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
