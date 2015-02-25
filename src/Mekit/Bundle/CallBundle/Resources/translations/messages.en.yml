@@ -30,6 +30,7 @@ mekit:
         direction.in.label:         In
         direction.out.label:        Out
 
+        users.label:                Users
         accounts.label:             Accounts
         contacts.label:             Contacts
         tasks.label:                Tasks

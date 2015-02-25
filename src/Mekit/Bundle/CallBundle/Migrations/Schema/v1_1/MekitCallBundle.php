@@ -14,7 +14,36 @@ class MekitCallBundle implements Migration {
 	 * @param QueryBag $queries
 	 */
 	public function up(Schema $schema, QueryBag $queries) {
+		$this->create_user_relations($schema);
 		$this->create_meeting_relations($schema);
+	}
+
+	/**
+	 * @param Schema $schema
+	 * @throws \Doctrine\DBAL\Schema\SchemaException
+	 */
+	protected function create_user_relations(Schema $schema) {
+		$relationTableName = "mekit_rel_call_user";
+		$table = $schema->createTable($relationTableName);
+		$table->addColumn('call_id', 'integer', ['notnull' => true]);
+		$table->addColumn('user_id', 'integer', ['notnull' => true]);
+		// INDEXES
+		$table->setPrimaryKey(['call_id', 'user_id']);
+		$table->addIndex(['call_id'], 'idx_call', []);
+		$table->addIndex(['user_id'], 'idx_user', []);
+		// FOREIGN KEYS
+		$table->addForeignKeyConstraint(
+			$schema->getTable('mekit_call'),
+			['call_id'],
+			['id'],
+			['onDelete' => 'CASCADE', 'onUpdate' => null]
+		);
+		$table->addForeignKeyConstraint(
+			$schema->getTable('oro_user'),
+			['user_id'],
+			['id'],
+			['onDelete' => 'CASCADE', 'onUpdate' => null]
+		);
 	}
 
 	/**
