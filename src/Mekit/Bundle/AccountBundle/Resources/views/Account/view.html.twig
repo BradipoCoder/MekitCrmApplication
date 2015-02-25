@@ -52,12 +52,20 @@
         }) }}
     {% endset %}
 
-	{% set relatedContacts %}
+	{% set relatedUsers %}
 		{{ oro_widget_render({
 			'widgetType': 'block',
-			'title': 'mekit.account.contacts.label'|trans,
-			'url': path('mekit_crm_widget_related', {datagrid_name: "contacts-related-to-accounts", id: entity.id})
+			'title': 'mekit.account.users.label'|trans,
+			'url': path('mekit_crm_widget_related', {datagrid_name: "accounts-related-users", id: entity.id})
 		}) }}
+	{% endset %}
+
+	{% set relatedContacts %}
+	{{ oro_widget_render({
+		'widgetType': 'block',
+		'title': 'mekit.account.contacts.label'|trans,
+		'url': path('mekit_crm_widget_related', {datagrid_name: "contacts-related-to-accounts", id: entity.id})
+	}) }}
 	{% endset %}
 
 	{% set dataBlocks = [
@@ -73,7 +81,7 @@
 		{
 		'title': 'mekit.account.contacts.label'|trans,
 		'class': 'resp',
-		'subblocks': [ {'data' : [relatedContacts]} ]
+		'subblocks': [ {'data' : [relatedUsers, relatedContacts]} ]
 		}
 	] %}
 
