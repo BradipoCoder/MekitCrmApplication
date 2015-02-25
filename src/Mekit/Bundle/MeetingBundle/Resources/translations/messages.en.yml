@@ -5,6 +5,7 @@ mekit:
 
         widgets:
             meeting_information:    Meeting Information
+            meeting_references:     References
 
         sections:
             general:                General Information
@@ -23,5 +24,8 @@ mekit:
         name.label:                 Name
         event.label:                Event
 
-
+        accounts.label:             Accounts
+        contacts.label:             Contacts
+        tasks.label:                Tasks
+        calls.label:                Calls
 

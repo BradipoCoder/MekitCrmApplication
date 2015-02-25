@@ -108,21 +108,50 @@ class ContactType extends AbstractType {
 			[
 				'required' => false,
 				'label' => 'mekit.contact.accounts.label',
-				'autocomplete_alias' => 'mekit_account_search',
+				'autocomplete_alias' => 'mekit_account',
 				'entity_class' => 'Mekit\Bundle\AccountBundle\Entity\Account',
 				'configs' => []
 			]
 		);
 
-
-		//assigned to (user)
+		//tasks
 		$builder->add(
-			'assignedTo',
-			'oro_user_select',
-			array('required' => false, 'label' => 'mekit.contact.assigned_to.label')
+			'tasks',
+			'mekit_entity_multi_select',
+			[
+				'required' => false,
+				'label' => 'mekit.contact.tasks.label',
+				'autocomplete_alias' => 'mekit_task',
+				'entity_class' => 'Mekit\Bundle\TaskBundle\Entity\Task',
+				'configs' => []
+			]
 		);
 
+		//meetings
+		$builder->add(
+			'meetings',
+			'mekit_entity_multi_select',
+			[
+				'required' => false,
+				'label' => 'mekit.contact.meetings.label',
+				'autocomplete_alias' => 'mekit_meeting',
+				'entity_class' => 'Mekit\Bundle\MeetingBundle\Entity\Meeting',
+				'configs' => []
+			]
+		);
 
+		//calls
+		$builder->add(
+			'calls',
+			'mekit_entity_multi_select',
+			[
+				'required' => false,
+				'label' => 'mekit.contact.calls.label',
+				'autocomplete_alias' => 'mekit_call',
+				'entity_class' => 'Mekit\Bundle\CallBundle\Entity\Call',
+				'configs' => []
+			]
+		);
 
 		//addresses
 		$builder->add(

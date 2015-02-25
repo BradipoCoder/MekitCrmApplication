@@ -6,12 +6,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Mekit\Bundle\AccountBundle\Entity\Account;
-use Oro\Bundle\BusinessEntitiesBundle\Entity\BasePerson;
 
 /**
  * @ORM\MappedSuperclass
  */
-class RelatedAccounts extends BasePerson {
+class RelatedAccounts extends RelatedTasks {
 	/**
 	 * @var ArrayCollection
 	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\AccountBundle\Entity\Account", mappedBy="contacts")

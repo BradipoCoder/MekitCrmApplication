@@ -10,7 +10,7 @@ use Mekit\Bundle\AccountBundle\Entity\Account;
 /**
  * @ORM\MappedSuperclass
  */
-class RelatedAccounts {
+class RelatedAccounts extends RelatedContacts {
 	/**
 	 * @var ArrayCollection
 	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\AccountBundle\Entity\Account", mappedBy="meetings")
@@ -25,7 +25,7 @@ class RelatedAccounts {
 	protected $accounts;
 
 	public function __construct() {
-		//parent::__construct();
+		parent::__construct();
 		$this->accounts = new ArrayCollection();
 	}
 

@@ -61,3 +61,6 @@ mekit:
         emails.label:               Email
 
         accounts.label:             Accounts
+        tasks.label:                Tasks
+        meetings.label:             Meetings
+        calls.label:                Calls

@@ -68,7 +68,21 @@
                     ]
                 }
             ]
-        }
+        },
+	    {
+		    'title': 'mekit.task.widgets.task_references'|trans,
+		    'class': 'resp',
+	        'subblocks': [
+		        {
+	                'data': [
+	                    form_row(form.accounts),
+                        form_row(form.contacts),
+					    form_row(form.meetings),
+					    form_row(form.calls),
+	                ]
+	            },
+	        ]
+	    }
     ] %}
 
     {% if form.additional is defined and form.additional.children|length > 0 %}

@@ -336,27 +336,6 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 
 	/**
 	 * @var User
-	 *
-	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
-	 * @ORM\JoinColumn(name="assigned_to", referencedColumnName="id", onDelete="SET NULL")
-	 * @Oro\Versioned
-	 * @ConfigField(
-	 *      defaultValues={
-	 *          "dataaudit"={
-	 *              "auditable"=true
-	 *          },
-	 *          "importexport"={
-	 *              "order"=200,
-	 *              "short"=true
-	 *          }
-	 *      }
-	 * )
-	 */
-	protected $assignedTo;
-
-
-	/**
-	 * @var User
 	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
 	 * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="SET NULL")
 	 * @Soap\ComplexType("string", nillable=true)
@@ -434,22 +413,6 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 
 	public function __construct() {
 		parent::__construct();
-	}
-
-	/**
-	 * @param User $assignedTo
-	 * @return $this
-	 */
-	public function setAssignedTo($assignedTo) {
-		$this->assignedTo = $assignedTo;
-		return $this;
-	}
-
-	/**
-	 * @return User
-	 */
-	public function getAssignedTo() {
-		return $this->assignedTo;
 	}
 
 	/**

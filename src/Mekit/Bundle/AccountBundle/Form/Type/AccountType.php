@@ -115,10 +115,7 @@ class AccountType extends AbstractType {
 				'label' => 'mekit.account.tasks.label',
 				'autocomplete_alias' => 'mekit_task',
 				'entity_class' => 'Mekit\Bundle\TaskBundle\Entity\Task',
-				'configs' => [
-					/*'result_template' => '<%= highlight(_.escape(event.name)) %>',
-					'select_template' => '<%= _.escape(event.name) %>'*/
-				]
+				'configs' => []
 			]
 		);
 

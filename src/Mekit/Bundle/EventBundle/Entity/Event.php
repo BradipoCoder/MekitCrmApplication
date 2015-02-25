@@ -62,7 +62,7 @@ use Oro\Bundle\UserBundle\Entity\User;
  *      }
  * )
  */
-class Event extends ExtendEvent{
+class Event extends ExtendEvent {
 	/**
 	 * @var int
 	 *
@@ -459,10 +459,25 @@ class Event extends ExtendEvent{
 	}
 
 	/**
+	 * @return bool|EventInterface
+	 */
+	public function getBaseEntity() {
+		if($this->task) {
+			return $this->task;
+		} else if($this->call) {
+			return $this->call;
+		} else if($this->meeting) {
+			return $this->meeting;
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * @return string
 	 */
 	public function __toString() {
-		return (string)$this->getName();
+		return (string)$this->getBaseEntity()->getName();
 	}
 
 	/**

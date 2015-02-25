@@ -5,6 +5,7 @@ mekit:
 
         widgets:
             task_information:       Task Information
+            task_references:        References
 
         sections:
             general:                General Information
@@ -25,6 +26,12 @@ mekit:
         id.label:                   Id
         name.label:                 Name
         event.label:                Event
+
+        accounts.label:             Accounts
+        contacts.label:             Contacts
+        calls.label:                Calls
+        meetings.label:             Meetings
+
 
 
 
