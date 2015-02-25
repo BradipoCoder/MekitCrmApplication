@@ -6,10 +6,9 @@ datagrid:
             acl_resource:   mekit_event_view
             query:
                 select:
-                    - c.id
-                    - c.description
+                    - m.id
+                    - m.name
                     - e.id as eventId
-                    - e.name
                     - e.type
                     - e.startDate
                     - e.endDate
@@ -17,10 +16,10 @@ datagrid:
                     - eventState.label as state
                     - eventPriority.label as priority
                 from:
-                    - { table: %mekit_meeting.meeting.entity.class%, alias: c }
+                    - { table: %mekit_meeting.meeting.entity.class%, alias: m }
                 join:
                     left:
-                        - { join: c.event, alias: e }
+                        - { join: m.event, alias: e }
                         - { join: e.owner, alias: eventOwner }
                         - { join: e.state, alias: eventState }
                         - { join: e.priority, alias: eventPriority }
@@ -33,7 +32,7 @@ datagrid:
                 frontend_type:  html
                 template:       MekitEventBundle:Event:Datagrid/Property/eventIcon.html.twig
             name:
-                label:          mekit.event.name.label
+                label:          mekit.meeting.name.label
             state:
                 label:         mekit.event.state.label
             startDate:
@@ -88,7 +87,7 @@ datagrid:
         sorters:
             columns:
                 name:
-                    data_name: e.name
+                    data_name: m.name
                 state:
                     data_name: eventState.label
                 startDate:
@@ -104,7 +103,7 @@ datagrid:
             columns:
                 name:
                     type:      string
-                    data_name: e.name
+                    data_name: m.name
                 state:
                     type:      entity
                     data_name: eventState.id
@@ -127,74 +126,4 @@ datagrid:
                         attr:
                             group_name: 'EVENT_PRIORITY'
                         multiple: true
-
-    meetings-related-relationship:
-        extends: relationship-related-element-source-logic
-        source:
-            acl_resource:   mekit_event_view
-            query:
-                select:
-                    - e.id
-                    - ev.name as eventName
-                from:
-                   - { table: %mekit_meeting.meeting.entity.class%, alias: e }
-                join:
-                    inner:
-                        - { join: e.referenceableElement, alias: referenceableElement }
-                    left:
-                        - { join: e.event, alias: ev }
-
-        columns:
-            id:
-                label:        mekit.meeting.id.label
-            eventName:
-                label:        mekit.event.name.label
-
-        properties:
-            id: ~
-            view_link:
-                type:       url
-                route:      mekit_meeting_view
-                params:     [ id ]
-
-        actions:
-            view:
-                type:          navigate
-                acl_resource:  mekit_event_view
-                label:         oro.grid.action.view
-                icon:          eye-open
-                link:          view_link
-                rowAction:     true
-
-    meetings-related-select:
-        extends: relationship-related-elements-select-logic
-        source:
-            query:
-                select:
-                    - referenceableElement.id as refElId
-                    - ev.name as eventName
-                from:
-                    - { table: %mekit_meeting.meeting.entity.class%, alias: m }
-                join:
-                    inner:
-                        - { join: m.referenceableElement, alias: referenceableElement }
-                        - { join: m.event, alias: ev }
-        columns:
-            refElId:
-                renderable: false
-            eventName:
-                label:        mekit.event.name.label
-
-        properties:
-            id: ~
-
-        options:
-            entityHint: meeting
-            rowSelection:
-                dataField: refElId
-                columnName: isAssigned
-                selectors:
-                    included: '#appendElements'
-                    excluded: '#removeElements'
-
 

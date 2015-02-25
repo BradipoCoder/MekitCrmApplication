@@ -74,25 +74,16 @@ class EventType extends AbstractType {
 
 		// basic fields
 		$builder
-			->add('name', 'text', array('required' => true, 'label' => 'mekit.event.name.label'))
 			->add('type', 'hidden', array('required' => true, 'label' => 'mekit.event.type.label'))
 			->add('startDate', 'oro_datetime', array('required' => true, 'label' => 'mekit.event.start_date.label'))
 			->add('endDate', 'oro_datetime', array('required' => false, 'label' => 'mekit.event.end_date.label'))
-			->add('duration', 'number', array('required' => false, 'label' => 'mekit.event.duration.label'));
-
+			->add('duration', 'number', array('required' => false, 'label' => 'mekit.event.duration.label'))
+			->add('description', 'textarea', array('required' => false, 'label' => 'mekit.event.description.label'));
 
 
 		//dynamic lists from ListBundle(using temporary helper service solution)
 		$this->listBundleHelper->addListSelectorToFormBuilder($builder, 'state', 'EVENT_STATE', 'mekit.event.state.label');
 		$this->listBundleHelper->addListSelectorToFormBuilder($builder, 'priority', 'EVENT_PRIORITY', 'mekit.event.priority.label');
-
-
-		//assigned to (user)
-//		$builder->add(
-//			'assignedTo',
-//			'oro_user_select',
-//			array('required' => false, 'label' => 'mekit.contact.assigned_to.label')
-//		);
 
 
 		//Set the correct type of the entity bound to the parent form

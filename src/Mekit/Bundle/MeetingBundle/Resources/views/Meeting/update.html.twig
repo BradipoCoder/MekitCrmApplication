@@ -2,7 +2,7 @@
 
 {% form_theme form with ['OroFormBundle:Form:fields.html.twig', 'OroTagBundle:Form:fields.html.twig'] %}
 
-{% set fullname = entity.event.name|default('N/A'|trans) %}
+{% set fullname = entity.name|default('N/A'|trans) %}
 {% oro_title_set({ params : {"%event.name%": fullname} }) %}
 
 {% set formAction = form.vars.value.id ? path('mekit_meeting_update', { 'id': form.vars.value.id }) : path('mekit_meeting_create')  %}
@@ -51,16 +51,16 @@
                 {
                     'title': 'Meeting Information'|trans,
                     'data': [
-                        form_row(form.event.name),
-                        form_row(form.description),
+                        form_row(form.name),
+                        form_row(form.event.description),
+					    form_row(form.event.state),
+					    form_row(form.event.priority),
                     ]
                 },
                 {
                     'title': 'Event Information'|trans,
                     'data': [
                         form_row(form.event.startDate),
-                        form_row(form.event.state),
-                        form_row(form.event.priority),
                         form_row(form.event.endDate),
                         form_row(form.event.duration),
                         form_row(form.event.owner),

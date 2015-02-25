@@ -13,7 +13,6 @@ datagrid:
                     - e.startDate
                     - e.endDate
                     - e.duration
-                    - e.description
                     - eventState.label as state
                     - eventPriority.label as priority
                 from:
@@ -33,7 +32,7 @@ datagrid:
                 frontend_type:  html
                 template:       MekitEventBundle:Event:Datagrid/Property/eventIcon.html.twig
             name:
-                label:          mekit.event.name.label
+                label:          mekit.task.name.label
             state:
                 label:         mekit.event.state.label
             startDate:
@@ -128,52 +127,52 @@ datagrid:
                             group_name: 'EVENT_PRIORITY'
                         multiple: true
 
-    task-activity-grid:
-        extended_entity_name: %mekit_task.task.entity.class%
-        source:
-            type:           orm
-            acl_resource:   mekit_event_view
-            query:
-                select:
-                    - c.id
-                    - c.description
-                    - e.name
-                    - e.type
-                    - e.startDate
-                    - e.endDate
-                    - e.duration
-                    - eventState.label as state
-                    - eventPriority.label as priority
-                from:
-                    - { table: %mekit_task.task.entity.class%, alias: c }
-                join:
-                    left:
-                        - { join: c.event, alias: e }
-                        - { join: e.owner, alias: eventOwner }
-                        - { join: e.state, alias: eventState }
-                        - { join: e.priority, alias: eventPriority }
-
-        columns:
-            type_icon:
-                data_name:      type
-                label:          mekit.event.type.label
-                type:           twig
-                frontend_type:  html
-                template:       MekitEventBundle:Event:Datagrid/Property/eventIcon.html.twig
-            name:
-                label:         mekit.event.name.label
-            state:
-                label:         mekit.event.state.label
-            startDate:
-                label:         mekit.event.start_date.label
-                frontend_type: datetime
-            endDate:
-                label:         mekit.event.end_date.label
-                frontend_type: datetime
-            duration:
-                label:         mekit.event.duration.label
-            priority:
-                label:         mekit.event.priority.label
-
-        sorters:
-        filters:
+#    task-activity-grid:
+#        extended_entity_name: %mekit_task.task.entity.class%
+#        source:
+#            type:           orm
+#            acl_resource:   mekit_event_view
+#            query:
+#                select:
+#                    - c.id
+#                    - c.description
+#                    - e.name
+#                    - e.type
+#                    - e.startDate
+#                    - e.endDate
+#                    - e.duration
+#                    - eventState.label as state
+#                    - eventPriority.label as priority
+#                from:
+#                    - { table: %mekit_task.task.entity.class%, alias: c }
+#                join:
+#                    left:
+#                        - { join: c.event, alias: e }
+#                        - { join: e.owner, alias: eventOwner }
+#                        - { join: e.state, alias: eventState }
+#                        - { join: e.priority, alias: eventPriority }
+#
+#        columns:
+#            type_icon:
+#                data_name:      type
+#                label:          mekit.event.type.label
+#                type:           twig
+#                frontend_type:  html
+#                template:       MekitEventBundle:Event:Datagrid/Property/eventIcon.html.twig
+#            name:
+#                label:         mekit.event.name.label
+#            state:
+#                label:         mekit.event.state.label
+#            startDate:
+#                label:         mekit.event.start_date.label
+#                frontend_type: datetime
+#            endDate:
+#                label:         mekit.event.end_date.label
+#                frontend_type: datetime
+#            duration:
+#                label:         mekit.event.duration.label
+#            priority:
+#                label:         mekit.event.priority.label
+#
+#        sorters:
+#        filters:

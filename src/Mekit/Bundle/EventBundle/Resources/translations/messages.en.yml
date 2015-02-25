@@ -23,12 +23,12 @@ mekit:
         entity_description:         Event
 
         id.label:                   Id
-        name.label:                 Name
         type.label:                 Type
         start_date.label:           Start Date
         end_date.label:             End Date
         duration.label:             Duration
         state.label:                State
         priority.label:             Priority
+        description.label:          Description
         owner.label:                Owner
         organization.label:         Organization

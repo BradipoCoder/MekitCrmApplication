@@ -4,7 +4,7 @@ oro_menu_config:
             label: 'mekit.meeting.entity_plural_label'
             route: 'mekit_meeting_index'
             extras:
-                position: 35
+                position: 25
                 routes: ['mekit_meeting_*']
                 description: 'mekit.meeting.menu.meeting_list.description'
 

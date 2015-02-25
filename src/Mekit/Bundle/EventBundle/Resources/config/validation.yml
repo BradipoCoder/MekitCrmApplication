@@ -1,9 +1,5 @@
 Mekit\Bundle\EventBundle\Entity\Event:
     properties:
-        name:
-            - NotBlank: ~
-            - Length:
-                max: 255
         startDate:
             - NotBlank: ~
             - DateTime: ~
@@ -13,5 +9,4 @@ Mekit\Bundle\EventBundle\Entity\Event:
             - Type:
                 type: numeric
                 message: The value {{ value }} is not a valid {{ type }}
-
 

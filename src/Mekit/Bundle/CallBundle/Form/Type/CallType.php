@@ -73,8 +73,7 @@ class CallType extends AbstractType {
 
 		// basic fields
 		$builder
-			->add('description', 'textarea', array('required' => false, 'label' => 'mekit.call.description.label'));
-			/*->add('tags', 'oro_tag_select', ['label' => 'oro.tag.entity_plural_label']);*/
+			->add('name', 'text', array('required' => true, 'label' => 'mekit.call.name.label'));
 
 		//static list - call direction(in/out)
 		$builder->add('direction', 'choice', [

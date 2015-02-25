@@ -1,0 +1,6 @@
+Mekit\Bundle\TaskBundle\Entity\Task:
+    properties:
+        name:
+            - NotBlank: ~
+            - Length:
+                max: 255

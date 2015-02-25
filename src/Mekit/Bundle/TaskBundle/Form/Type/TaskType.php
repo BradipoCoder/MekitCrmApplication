@@ -74,9 +74,7 @@ class TaskType extends AbstractType {
 
 		// basic fields
 		$builder
-			->add('description', 'textarea', array('required' => false, 'label' => 'mekit.task.description.label'));
-			/*->add('tags', 'oro_tag_select', ['label' => 'oro.tag.entity_plural_label']);*/
-
+			->add('name', 'text', array('required' => true, 'label' => 'mekit.task.name.label'));
 
 		//add event form
 		$builder->add('event', new EventType($this->router, $this->nameFormatter, $this->securityFacade, $this->listBundleHelper));
