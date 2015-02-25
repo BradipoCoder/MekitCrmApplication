@@ -1,11 +1,11 @@
 <?php
 namespace Mekit\Bundle\MeetingBundle\Model;
 
-use Mekit\Bundle\MeetingBundle\Entity\Relationships\RelatedAccounts;
+use Mekit\Bundle\MeetingBundle\Entity\Relationships\RelatedUsers;
 /**
  * Class ExtendMeeting
  */
-class ExtendMeeting extends RelatedAccounts {
+class ExtendMeeting extends RelatedUsers {
 	/**
 	 * Constructor
 	 *

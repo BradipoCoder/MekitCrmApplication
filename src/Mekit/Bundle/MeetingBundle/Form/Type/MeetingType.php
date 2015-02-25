@@ -76,6 +76,21 @@ class MeetingType extends AbstractType {
 		$builder
 			->add('name', 'text', array('required' => true, 'label' => 'mekit.meeting.name.label'));
 
+		//users
+		$builder->add(
+			'users',
+			'mekit_entity_multi_select',
+			[
+				'required' => false,
+				'label' => 'mekit.meeting.users.label',
+				'autocomplete_alias' => 'users',
+				'entity_class' => 'Oro\Bundle\UserBundle\Entity\User',
+				'configs' => [
+					'result_template' => '<%= _.escape(fullName) %>',
+				]
+			]
+		);
+
 		//accounts
 		$builder->add(
 			'accounts',
