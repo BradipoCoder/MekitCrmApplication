@@ -22,6 +22,6 @@ oro_menu_config:
 #                    children:
 #                        event_list: ~
 
-oro_titles:
-    mekit_event_index: ~
+#oro_titles:
+#    mekit_event_index: ~
 

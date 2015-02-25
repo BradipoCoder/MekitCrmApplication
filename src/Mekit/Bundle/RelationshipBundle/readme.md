@@ -1,5 +1,6 @@
 Relationship Bundle
 ===================
 
-This bundle is responsible for managing multiple relationships between entities. 
+This bundle is being removed - DO NOT USE!
+
 
