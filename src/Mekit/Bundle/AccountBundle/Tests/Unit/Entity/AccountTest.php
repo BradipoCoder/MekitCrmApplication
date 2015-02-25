@@ -1,13 +1,14 @@
 <?php
 namespace Mekit\Bundle\AccountBundle\Tests\Unit\Entity;
 
-use Mekit\Bundle\ListBundle\Entity\ListItem;
-use Mekit\Bundle\TestBundle\Helpers\MekitUnitEntityTest;
-
+use Doctrine\Common\Collections\ArrayCollection;
 use Mekit\Bundle\AccountBundle\Entity\Account;
+use Mekit\Bundle\ContactBundle\Entity\Contact;
 use Mekit\Bundle\ContactInfoBundle\Entity\Address;
 use Mekit\Bundle\ContactInfoBundle\Entity\Email;
 use Mekit\Bundle\ContactInfoBundle\Entity\Phone;
+use Mekit\Bundle\ListBundle\Entity\ListItem;
+use Mekit\Bundle\TestBundle\Helpers\MekitUnitEntityTest;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\AddressBundle\Entity\Country;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
@@ -15,7 +16,7 @@ use Oro\Bundle\UserBundle\Entity\User;
 
 
 class AccountTest extends MekitUnitEntityTest {
-	/** @var string  */
+	/** @var string */
 	protected $entityName = 'Mekit\Bundle\AccountBundle\Entity\Account';
 
 
@@ -248,6 +249,50 @@ class AccountTest extends MekitUnitEntityTest {
 		$this->assertTrue($entity->hasPhone($phone));
 	}
 
+	public function testRelatedContacts() {
+		$contactOne = new Contact();
+		$contactOne->setFirstName("contact-one");
+		$contactTwo = new Contact();
+		$contactTwo->setFirstName("contact-two");
+
+		$entity = new Account();
+		$actual = $entity->getContacts();
+		$this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $actual);
+		$this->assertTrue($actual->isEmpty());
+
+		$this->assertSame($entity, $entity->addContact($contactOne));
+		$this->assertTrue($entity->hasContact($contactOne));
+		$actual = $entity->getContacts();
+		$this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $actual);
+		$this->assertEquals(array($contactOne), $actual->toArray());
+
+		$this->assertSame($entity, $entity->addContact($contactTwo));
+		$this->assertTrue($entity->hasContact($contactTwo));
+		$actual = $entity->getContacts();
+		$this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $actual);
+		$this->assertEquals(array($contactOne, $contactTwo), $actual->toArray());
+
+		$this->assertSame($entity, $entity->removeContact($contactOne));
+		$this->assertFalse($entity->hasContact($contactOne));
+		$actual = $entity->getContacts();
+		$this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $actual);
+		$this->assertEquals(array($contactTwo), array_values($actual->toArray()));
+
+		$this->assertSame($entity, $entity->removeContact($contactTwo));
+		$this->assertFalse($entity->hasContact($contactTwo));
+		$actual = $entity->getContacts();
+		$this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $actual);
+		$this->assertTrue($actual->isEmpty());
+
+		$contacts = new ArrayCollection(array($contactOne, $contactTwo));
+		$this->assertSame($entity, $entity->setContacts($contacts));
+		$this->assertTrue($entity->hasContact($contactOne));
+		$this->assertTrue($entity->hasContact($contactTwo));
+		$actual = $entity->getContacts();
+		$this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $actual);
+		$this->assertEquals($contacts, $actual);
+	}
+
 	/**
 	 * Data provider for simple get/set tests executed in MekitEntityTests::testSettersAndGetters(prop, value, expected)
 	 * Properties must follow getter/setter naming convention
@@ -256,7 +301,7 @@ class AccountTest extends MekitUnitEntityTest {
 	 */
 	public function entityPropertyProvider() {
 		$now = new \DateTime('now');
-		$listItem = new ListItem();//$this->getMock('Mekit\Bundle\ListBundle\Entity\ListItem');
+		$listItem = new ListItem();
 		$user = new User();
 		$organization = new Organization();
 
