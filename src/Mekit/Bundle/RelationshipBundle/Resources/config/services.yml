@@ -1,4 +1,0 @@
-parameters:
-    mekit_relationship.referenceable_element.entity.class:                   Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement
-
-services:
