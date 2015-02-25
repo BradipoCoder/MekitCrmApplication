@@ -21,6 +21,10 @@ class MekitAccountBundle implements Migration {
 		$this->create_meeting_relations($schema);
 	}
 
+	/**
+	 * @param Schema $schema
+	 * @throws \Doctrine\DBAL\Schema\SchemaException
+	 */
 	protected function create_user_relations(Schema $schema) {
 		$relationTableName = "mekit_rel_account_user";
 		$table = $schema->createTable($relationTableName);
@@ -45,6 +49,10 @@ class MekitAccountBundle implements Migration {
 		);
 	}
 
+	/**
+	 * @param Schema $schema
+	 * @throws \Doctrine\DBAL\Schema\SchemaException
+	 */
 	protected function create_contact_relations(Schema $schema) {
 		$relationTableName = "mekit_rel_account_contact";
 		$table = $schema->createTable($relationTableName);
@@ -69,6 +77,10 @@ class MekitAccountBundle implements Migration {
 		);
 	}
 
+	/**
+	 * @param Schema $schema
+	 * @throws \Doctrine\DBAL\Schema\SchemaException
+	 */
 	protected function create_task_relations(Schema $schema) {
 		$relationTableName = "mekit_rel_account_task";
 		$table = $schema->createTable($relationTableName);
@@ -93,6 +105,10 @@ class MekitAccountBundle implements Migration {
 		);
 	}
 
+	/**
+	 * @param Schema $schema
+	 * @throws \Doctrine\DBAL\Schema\SchemaException
+	 */
 	protected function create_call_relations(Schema $schema) {
 		$relationTableName = "mekit_rel_account_call";
 		$table = $schema->createTable($relationTableName);
@@ -117,6 +133,10 @@ class MekitAccountBundle implements Migration {
 		);
 	}
 
+	/**
+	 * @param Schema $schema
+	 * @throws \Doctrine\DBAL\Schema\SchemaException
+	 */
 	protected function create_meeting_relations(Schema $schema) {
 		$relationTableName = "mekit_rel_account_meeting";
 		$table = $schema->createTable($relationTableName);
