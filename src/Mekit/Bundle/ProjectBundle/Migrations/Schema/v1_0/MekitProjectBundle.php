@@ -27,6 +27,7 @@ class MekitProjectBundle implements Migration {
 		$table->addColumn('id', 'integer', ['autoincrement' => true]);
 		$table->addColumn('name', 'string', ['length' => 255]);
 		$table->addColumn('description', 'text', ['notnull' => false]);
+		$table->addColumn('account_id', 'integer', ['notnull' => false]);
 		$table->addColumn('organization_id', 'integer', ['notnull' => false]);
 		$table->addColumn('owner_id', 'integer', ['notnull' => false]);
 		$table->addColumn('createdAt', 'datetime', []);
@@ -39,6 +40,7 @@ class MekitProjectBundle implements Migration {
 		$table->addIndex(['createdAt'], 'idx_project_created_at', []);
 		$table->addIndex(['updatedAt'], 'idx_project_updated_at', []);
 		$table->addIndex(['name'], 'idx_project_name', []);
+		$table->addIndex(['account_id'], 'idx_project_account', []);
 
 		//FOREIGN KEYS
 		$table->addForeignKeyConstraint(
@@ -54,6 +56,13 @@ class MekitProjectBundle implements Migration {
 			['id'],
 			['onDelete' => 'SET NULL', 'onUpdate' => null],
 			'fk_project_owner'
+		);
+		$table->addForeignKeyConstraint(
+			$schema->getTable('mekit_account'),
+			['account_id'],
+			['id'],
+			['onDelete' => 'SET NULL', 'onUpdate' => null],
+			'fk_project_account'
 		);
 	}
 

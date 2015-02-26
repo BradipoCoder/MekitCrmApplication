@@ -10,7 +10,7 @@ use Oro\Bundle\UserBundle\Entity\User;
 /**
  * @ORM\MappedSuperclass
  */
-class RelatedUsers {//extends RelatedAccounts
+class RelatedUsers extends RelatedTasks {
 	/**
 	 * @var ArrayCollection
 	 * @ORM\ManyToMany(targetEntity="Oro\Bundle\UserBundle\Entity\User")
@@ -26,7 +26,7 @@ class RelatedUsers {//extends RelatedAccounts
 	protected $users;
 
 	public function __construct() {
-		//parent::__construct();
+		parent::__construct();
 		$this->users = new ArrayCollection();
 	}
 

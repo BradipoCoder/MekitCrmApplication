@@ -1,19 +1,21 @@
 <?php
-namespace Mekit\Bundle\MeetingBundle\Entity\Relationships;
+namespace Mekit\Bundle\ProjectBundle\Entity\Relationships;
 
-use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+
 use Mekit\Bundle\CallBundle\Entity\Call;
 
 /**
  * @ORM\MappedSuperclass
  */
-class RelatedCalls extends RelatedProjects {
+class RelatedCalls extends RelatedMeetings {
 	/**
 	 * @var ArrayCollection
-	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\CallBundle\Entity\Call", mappedBy="meetings")
+	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\CallBundle\Entity\Call", inversedBy="projects")
+	 * @ORM\JoinTable(name="mekit_rel_project_call")
 	 * @ConfigField(
 	 *      defaultValues={
 	 *          "dataaudit"={
@@ -23,6 +25,7 @@ class RelatedCalls extends RelatedProjects {
 	 * )
 	 */
 	protected $calls;
+
 
 	public function __construct() {
 		parent::__construct();
@@ -55,7 +58,7 @@ class RelatedCalls extends RelatedProjects {
 	public function addCall(Call $call) {
 		if (!$this->calls->contains($call)) {
 			$this->calls->add($call);
-			$call->addMeeting($this);
+			$call->addProject($this);
 		}
 		return $this;
 	}
@@ -67,7 +70,7 @@ class RelatedCalls extends RelatedProjects {
 	public function removeCall(Call $call) {
 		if ($this->calls->contains($call)) {
 			$this->calls->removeElement($call);
-			$call->removeMeeting($this);
+			$call->removeProject($this);
 		}
 		return $this;
 	}

@@ -1,5 +1,5 @@
 <?php
-namespace Mekit\Bundle\AccountBundle\Entity\Relationships;
+namespace Mekit\Bundle\ProjectBundle\Entity\Relationships;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -11,11 +11,11 @@ use Mekit\Bundle\MeetingBundle\Entity\Meeting;
 /**
  * @ORM\MappedSuperclass
  */
-class RelatedMeetings extends RelatedProjects {
+class RelatedMeetings extends RelatedAccount {
 	/**
 	 * @var ArrayCollection
-	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\MeetingBundle\Entity\Meeting", inversedBy="accounts")
-	 * @ORM\JoinTable(name="mekit_rel_account_meeting")
+	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\MeetingBundle\Entity\Meeting", inversedBy="projects")
+	 * @ORM\JoinTable(name="mekit_rel_project_meeting")
 	 * @ConfigField(
 	 *      defaultValues={
 	 *          "dataaudit"={
@@ -58,7 +58,7 @@ class RelatedMeetings extends RelatedProjects {
 	public function addMeeting(Meeting $meeting) {
 		if (!$this->meetings->contains($meeting)) {
 			$this->meetings->add($meeting);
-			$meeting->addAccount($this);
+			$meeting->addProject($this);
 		}
 		return $this;
 	}
@@ -70,7 +70,7 @@ class RelatedMeetings extends RelatedProjects {
 	public function removeMeeting(Meeting $meeting) {
 		if ($this->meetings->contains($meeting)) {
 			$this->meetings->removeElement($meeting);
-			$meeting->removeAccount($this);
+			$meeting->removeProject($this);
 		}
 		return $this;
 	}

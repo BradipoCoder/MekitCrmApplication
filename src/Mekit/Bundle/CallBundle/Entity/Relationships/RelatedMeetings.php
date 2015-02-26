@@ -11,7 +11,7 @@ use Mekit\Bundle\MeetingBundle\Entity\Meeting;
 /**
  * @ORM\MappedSuperclass
  */
-class RelatedMeetings {
+class RelatedMeetings extends RelatedProjects {
 	/**
 	 * @var ArrayCollection
 	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\MeetingBundle\Entity\Meeting", inversedBy="calls")
@@ -28,7 +28,7 @@ class RelatedMeetings {
 
 
 	public function __construct() {
-		//parent::__construct();
+		parent::__construct();
 		$this->meetings = new ArrayCollection();
 	}
 
