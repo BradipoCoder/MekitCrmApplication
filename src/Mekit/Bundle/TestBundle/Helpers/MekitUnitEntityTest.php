@@ -2,40 +2,36 @@
 namespace Mekit\Bundle\TestBundle\Helpers;
 
 /**
- * @todo: we need interface for this class
+ * Some common helper methods
  * Class MekitUnitEntityTest
  */
 class MekitUnitEntityTest extends MekitUnitTest {
 	/**
-	 * @var string
+	 * Test if entity has __toString method
+	 * @param string $entityName
 	 */
-	protected $entityName;
-
-	/**
-	 * Tests if entity has working __toString method
-	 */
-	public function testToStringMethod() {
-		$class = new \ReflectionClass($this->entityName);
+	protected function hasToStringMethod($entityName) {
+		$class = new \ReflectionClass($entityName);
 		$this->assertTrue($class->hasMethod('__toString'), "Check method: __toString");
 	}
 
-
 	/**
-	 *
-	 * Important! $entityName must be set for this to work
-	 *
-	 * @dataProvider entityPropertyProvider
+	 * Test getter/setter methods on entity
+	 * @param string $entityName
 	 * @param string $property
 	 * @param mixed $value
 	 * @param mixed $expected
 	 */
-
-	public function testSettersAndGetters($property, $value, $expected=null) {
-		$entity = new $this->entityName();
+	protected function checkGetterSetterMethods($entityName, $property, $value, $expected=null) {
 		$expected = ($expected ? $expected : $value);
+		$class = new \ReflectionClass($entityName);
+		$entity = new $entityName();
 		$getter = 'get' . ucfirst($property);
 		$setter = 'set' . ucfirst($property);
-		call_user_func_array(array($entity, $setter), array($value));
+		$this->assertTrue($class->hasMethod($getter), "Check method: " . $getter);
+		$this->assertTrue($class->hasMethod($setter), "Check method: " . $setter);
+		$actual = call_user_func_array(array($entity, $setter), array($value));
+		$this->assertSame($entity, $actual);
 		$this->assertEquals($expected, call_user_func_array(array($entity, $getter), array()));
 	}
 }
