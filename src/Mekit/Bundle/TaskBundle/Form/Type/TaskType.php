@@ -79,15 +79,10 @@ class TaskType extends AbstractType {
 		//users
 		$builder->add(
 			'users',
-			'mekit_entity_multi_select',
+			'oro_user_multiselect',
 			[
 				'required' => false,
 				'label' => 'mekit.task.users.label',
-				'autocomplete_alias' => 'users',
-				'entity_class' => 'Oro\Bundle\UserBundle\Entity\User',
-				'configs' => [
-					'result_template' => '<%= _.escape(fullName) %>',
-				]
 			]
 		);
 
