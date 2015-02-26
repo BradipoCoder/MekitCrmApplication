@@ -3,7 +3,6 @@ parameters:
 
     mekit_contact.type.contact.class:                           Mekit\Bundle\ContactBundle\Form\Type\ContactType
     mekit_contact.type.contact.api.class:                       Mekit\Bundle\ContactBundle\Form\Type\ContactApiType
-    #mekit_contact.type.contact_select.class:                    Mekit\Bundle\ContactBundle\Form\Type\ContactSelectType
 
     mekit_contact.handler.contact.class:                        Mekit\Bundle\ContactBundle\Form\Handler\ContactHandler
 
@@ -67,8 +66,3 @@ services:
             - @doctrine.orm.entity_manager
         tags:
             - { name: oro_tag.tag_manager }
-
-#    mekit_contact.form.type.contact_select:
-#        class: %mekit_contact.type.contact_select.class%
-#        tags:
-#            - { name: form.type, alias: mekit_contact_select }

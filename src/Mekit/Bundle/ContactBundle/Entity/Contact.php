@@ -608,7 +608,7 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	 *
 	 * @ORM\PrePersist
 	 */
-	public function beforeSave() {
+	public function doPrePersist() {
 		$this->createdAt = new \DateTime('now', new \DateTimeZone('UTC'));
 		$this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
 	}

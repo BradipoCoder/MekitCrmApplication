@@ -1,0 +1,29 @@
+oro_menu_config:
+    items:
+        project_tab:
+            label: 'mekit.project.menu.project_tab.label'
+            uri: '#'
+            extras:
+                icon: icon-group
+                position: 12
+
+        project_list:
+            label: 'mekit.project.entity_plural_label'
+            route: 'mekit_project_index'
+            extras:
+                position: 5
+                routes: ['mekit_project_*']
+                description: 'mekit.project.menu.project_list.description'
+
+    tree:
+        application_menu:
+            children:
+                project_tab:
+                    children:
+                        project_list: ~
+
+oro_titles:
+    mekit_project_index: ~
+    mekit_project_view: '%%project.name%%'
+    mekit_project_create: 'Create Project'
+    mekit_project_update: '%%project.name%% - Edit'

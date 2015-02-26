@@ -9,10 +9,7 @@ use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager;
 
-use Mekit\Bundle\AccountBundle\Entity\Account;
 use Mekit\Bundle\ContactBundle\Entity\Contact;
-use Mekit\Bundle\ListBundle\Entity\ListItem;
-use Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository;
 
 /**
  * Class ContactController

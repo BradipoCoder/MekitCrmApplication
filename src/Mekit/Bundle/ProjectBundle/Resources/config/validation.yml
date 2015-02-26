@@ -1,0 +1,6 @@
+Mekit\Bundle\ProjectBundle\Entity\Project:
+    properties:
+        name:
+            - NotBlank: ~
+            - Length:
+                max: 255

@@ -1,0 +1,60 @@
+{% extends 'OroUIBundle:actions:view.html.twig' %}
+
+{% set fullname = entity|default('N/A'|trans) %}
+{% oro_title_set({params : {"%project.name%": fullname} }) %}
+
+{% block navButtons %}
+	{% if resource_granted('EDIT', entity) %}
+		{{ UI.editButton({
+		'path': path('mekit_project_update', {'id': entity.id}),
+		'entity_label': 'mekit.project.entity_label'|trans
+		}) }}
+	{% endif %}
+
+	{% if resource_granted('DELETE', entity) %}
+		{{ UI.deleteButton({
+		'dataUrl': path('mekit_api_delete_project', {'id': entity.id}),
+		'dataRedirect': path('mekit_project_index'),
+		'aCss': 'no-hash remove-button',
+		'dataId': entity.id,
+		'id': 'btn-remove-account',
+		'entity_label': 'mekit.project.entity_label'|trans
+		}) }}
+	{% endif %}
+{% endblock navButtons %}
+
+{% block pageHeader %}
+	{% set breadcrumbs = {
+	'entity': entity,
+	'indexPath': path('mekit_project_index'),
+	'indexLabel': 'mekit.project.entity_plural_label'|trans,
+	'entityTitle': fullname
+	} %}
+	{{ parent() }}
+{% endblock pageHeader %}
+
+
+{% block content_data %}
+	{% set projectInformationWidget %}
+		{{ oro_widget_render({
+		'widgetType': 'block',
+		'title': 'mekit.project.widgets.project_information'|trans,
+		'url': path('mekit_project_widget_info', {id: entity.id})
+		}) }}
+	{% endset %}
+
+
+	{% set dataBlocks = [
+		{
+		'title': 'mekit.project.sections.general'|trans,
+		'class': 'active',
+		'subblocks': [ {'data' : [projectInformationWidget]} ]
+		}
+	] %}
+
+
+	{% set id = 'projectView' %}
+	{% set data = {'dataBlocks': dataBlocks} %}
+
+	{{ parent() }}
+{% endblock content_data %}

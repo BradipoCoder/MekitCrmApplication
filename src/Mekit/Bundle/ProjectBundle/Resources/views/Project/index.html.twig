@@ -1,0 +1,14 @@
+{% extends 'OroUIBundle:actions:index.html.twig' %}
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+{% set gridName = 'projects-grid' %}
+{% set pageTitle = 'mekit.project.entity_plural_label'|trans %}
+
+
+{% block navButtons %}
+	<div class="btn-group">
+		{{ UI.addButton({
+		'path' : path('mekit_project_create'),
+		'entity_label': 'mekit.project.entity_label'|trans
+		}) }}
+	</div>
+{% endblock %}

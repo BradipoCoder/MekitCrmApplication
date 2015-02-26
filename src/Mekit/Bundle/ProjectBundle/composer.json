@@ -1,0 +1,17 @@
+{
+    "name": "mekit/project-bundle",
+    "type": "symfony-bundle",
+    "description": "Mekit Project Bundle",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-0": { "": "src/" }
+    },
+    "target-dir": "Mekit/Bundle/ProjectBundle",
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}

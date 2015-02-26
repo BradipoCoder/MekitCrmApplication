@@ -1,18 +1,18 @@
 <?php
-namespace Mekit\Bundle\AccountBundle\Migrations\Schema\v1_1;
+namespace Mekit\Bundle\ProjectBundle\Migrations\Schema\v1_1;
 
 use Doctrine\DBAL\Schema\Schema;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
-use Mekit\Bundle\AccountBundle\Migrations\Schema\v1_0\MekitAccountBundle as MigrationBase;
+use Mekit\Bundle\ProjectBundle\Migrations\Schema\v1_0\MekitProjectBundle as MigrationBase;
 
 use Oro\Bundle\NoteBundle\Migration\Extension\NoteExtension;
 use Oro\Bundle\NoteBundle\Migration\Extension\NoteExtensionAwareInterface;
 
 /**
- * Class MekitAccountBundle
+ * Class MekitProjectBundle
  */
-class MekitAccountBundle implements Migration, NoteExtensionAwareInterface {
+class MekitProjectBundle implements Migration, NoteExtensionAwareInterface {
 	/**
 	 * @var NoteExtension
 	 */
@@ -40,6 +40,6 @@ class MekitAccountBundle implements Migration, NoteExtensionAwareInterface {
 	 * @param NoteExtension $noteExtension
 	 */
 	public static function addNoteAssociations(Schema $schema, NoteExtension $noteExtension) {
-		$noteExtension->addNoteAssociation($schema, MigrationBase::$tableNameAccount);
+		$noteExtension->addNoteAssociation($schema, MigrationBase::$tableNameProject);
 	}
 }

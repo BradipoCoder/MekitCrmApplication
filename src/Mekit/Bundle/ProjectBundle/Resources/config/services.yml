@@ -1,0 +1,11 @@
+parameters:
+    mekit_project.project.entity.class:                       Mekit\Bundle\ProjectBundle\Entity\Project
+
+services:
+    mekit_project.autocomplete.project.search_handler:
+        parent: oro_form.autocomplete.search_handler
+        arguments:
+            - %mekit_project.project.entity.class%
+            - ["name"]
+        tags:
+            - { name: oro_form.autocomplete.search_handler, alias: mekit_project, acl_resource: mekit_project_view }

@@ -1,0 +1,37 @@
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+{% import 'OroTagBundle::macros.html.twig' as tag %}
+{% import 'OroEntityConfigBundle::macros.html.twig' as entityConfig %}
+
+{% set fullname = entity|default('N/A'|trans) %}
+
+{#{% set assignedToFullname = entity.assignedTo|oro_format_name %}#}
+{#{%- set assignedToData -%}#}
+    {#{%- if entity.assignedTo -%}#}
+	    {#{% if resource_granted('oro_user_user_view') %}#}
+		    {#<a href="{{ path('oro_user_view', {'id': entity.assignedTo.id}) }}">#}
+			    {#{{ assignedToFullname }}#}
+		    {#</a>#}
+	    {#{% else %}#}
+		    {#{{ assignedToFullname }}#}
+	    {#{% endif %}#}
+    {#{%- endif -%}#}
+{#{%- endset -%}#}
+
+<div class="widget-content">
+	<div class="row-fluid form-horizontal">
+		<div class="responsive-block">
+			{{ UI.renderProperty('mekit.project.name.label'|trans, fullname) }}
+			{{ UI.renderProperty('mekit.project.description.label'|trans, entity.description) }}
+		</div>
+
+		<div class="responsive-block">
+			{#{{ UI.renderHtmlProperty('mekit.project.account.label'|trans, accountLink) }}#}
+
+			{{ entityConfig.renderDynamicFields(entity) }}
+
+			{% if resource_granted('oro_tag_view_tag_cloud') %}
+				{{ UI.renderHtmlProperty('oro.tag.entity_plural_label'|trans, tag.renderView(entity)) }}
+			{% endif %}
+		</div>
+	</div>
+</div>
