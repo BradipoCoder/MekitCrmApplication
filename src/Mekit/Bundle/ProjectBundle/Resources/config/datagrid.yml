@@ -8,22 +8,26 @@ datagrid:
                 select:
                     - p.id
                     - p.name
-                    - CONCAT(Owner.firstName, CONCAT(' ', Owner.lastName)) as ownerName
+                    - Account.name as accountName
                 from:
                     - { table: %mekit_project.project.entity.class%, alias: p }
                 join:
-                    left:
-                        - { join: p.owner, alias: Owner }
+                    inner:
+                        - { join: p.account, alias: Account }
                 groupBy: p.id
 
         columns:
             name:
                 label:         mekit.project.name.label
+            accountName:
+                label:         mekit.project.account.label
 
         sorters:
             columns:
                 name:
                     data_name: p.name
+                accountName:
+                    data_name: Account.name
             default:
                 name:  %oro_datagrid.extension.orm_sorter.class%::DIRECTION_ASC
 
@@ -32,6 +36,9 @@ datagrid:
                 name:
                     type: string
                     data_name: p.name
+                accountName:
+                    type: string
+                    data_name: Account.name
 
         properties:
             id: ~

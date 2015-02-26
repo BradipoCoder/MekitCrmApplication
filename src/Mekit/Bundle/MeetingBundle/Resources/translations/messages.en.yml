@@ -29,4 +29,5 @@ mekit:
         contacts.label:             Contacts
         tasks.label:                Tasks
         calls.label:                Calls
+        projects.label:             Projects
 

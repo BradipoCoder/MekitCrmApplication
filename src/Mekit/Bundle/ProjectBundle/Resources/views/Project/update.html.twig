@@ -51,6 +51,8 @@
                 'title': 'mekit.project.widgets.project_information'|trans,
                 'data': [
 				    form_row(form.name),
+                    form_row(form.account),
+                    form_row(form.description),
                 ]
             },
 	        {
@@ -58,7 +60,6 @@
                 'data': [
 
                     form_row(form.owner),
-				    form_row(form.description),
                     form_row(form.tags)
                 ]
             }
@@ -71,7 +72,10 @@
 	        {
                 'title': 'mekit.project.widgets.project_references'|trans,
                 'data': [
-                    form_row(form.users)
+                    form_row(form.users),
+				    form_row(form.tasks),
+				    form_row(form.meetings),
+				    form_row(form.calls),
                 ]
             },
         ]

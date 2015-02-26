@@ -32,9 +32,9 @@ mekit:
         name.label:                 Name
         organization.label:         Organization
         owner.label:                Owner
+        account.label:              Account
 
         users.label:                Users
-        accounts.label:             Accounts
         tasks.label:                Tasks
         meetings.label:             Meetings
         calls.label:                Calls

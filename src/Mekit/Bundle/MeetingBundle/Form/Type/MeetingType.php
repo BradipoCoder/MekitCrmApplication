@@ -138,6 +138,19 @@ class MeetingType extends AbstractType {
 			]
 		);
 
+		//projects
+		$builder->add(
+			'projects',
+			'mekit_entity_multi_select',
+			[
+				'required' => false,
+				'label' => 'mekit.meeting.projects.label',
+				'autocomplete_alias' => 'mekit_project',
+				'entity_class' => 'Mekit\Bundle\ProjectBundle\Entity\Project',
+				'configs' => []
+			]
+		);
+
 
 		//add event form
 		$builder->add('event', new EventType($this->router, $this->nameFormatter, $this->securityFacade, $this->listBundleHelper));

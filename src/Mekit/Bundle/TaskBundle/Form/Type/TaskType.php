@@ -86,7 +86,6 @@ class TaskType extends AbstractType {
 			]
 		);
 
-
 		//accounts
 		$builder->add(
 			'accounts',
@@ -135,6 +134,19 @@ class TaskType extends AbstractType {
 				'label' => 'mekit.task.calls.label',
 				'autocomplete_alias' => 'mekit_call',
 				'entity_class' => 'Mekit\Bundle\CallBundle\Entity\Call',
+				'configs' => []
+			]
+		);
+
+		//projects
+		$builder->add(
+			'projects',
+			'mekit_entity_multi_select',
+			[
+				'required' => false,
+				'label' => 'mekit.task.projects.label',
+				'autocomplete_alias' => 'mekit_project',
+				'entity_class' => 'Mekit\Bundle\ProjectBundle\Entity\Project',
 				'configs' => []
 			]
 		);

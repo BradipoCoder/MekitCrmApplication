@@ -76,57 +76,58 @@ class ProjectType extends AbstractType {
 			]
 		);
 
-//		//accounts
-//		$builder->add(
-//			'accounts',
-//			'mekit_entity_multi_select',
-//			[
-//				'required' => false,
-//				'label' => 'mekit.contact.accounts.label',
-//				'autocomplete_alias' => 'mekit_account',
-//				'entity_class' => 'Mekit\Bundle\AccountBundle\Entity\Account',
-//				'configs' => []
-//			]
-//		);
-//
-//		//tasks
-//		$builder->add(
-//			'tasks',
-//			'mekit_entity_multi_select',
-//			[
-//				'required' => false,
-//				'label' => 'mekit.contact.tasks.label',
-//				'autocomplete_alias' => 'mekit_task',
-//				'entity_class' => 'Mekit\Bundle\TaskBundle\Entity\Task',
-//				'configs' => []
-//			]
-//		);
-//
-//		//meetings
-//		$builder->add(
-//			'meetings',
-//			'mekit_entity_multi_select',
-//			[
-//				'required' => false,
-//				'label' => 'mekit.contact.meetings.label',
-//				'autocomplete_alias' => 'mekit_meeting',
-//				'entity_class' => 'Mekit\Bundle\MeetingBundle\Entity\Meeting',
-//				'configs' => []
-//			]
-//		);
-//
-//		//calls
-//		$builder->add(
-//			'calls',
-//			'mekit_entity_multi_select',
-//			[
-//				'required' => false,
-//				'label' => 'mekit.contact.calls.label',
-//				'autocomplete_alias' => 'mekit_call',
-//				'entity_class' => 'Mekit\Bundle\CallBundle\Entity\Call',
-//				'configs' => []
-//			]
-//		);
+		//account
+		$builder->add(
+			'account',
+			'oro_jqueryselect2_hidden',
+			[
+				'required' => true,
+				'label' => 'mekit.project.account.label',
+				'autocomplete_alias' => 'mekit_account',
+				'configs' => [
+
+				]
+			]
+		);
+
+		//tasks
+		$builder->add(
+			'tasks',
+			'mekit_entity_multi_select',
+			[
+				'required' => false,
+				'label' => 'mekit.project.tasks.label',
+				'autocomplete_alias' => 'mekit_task',
+				'entity_class' => 'Mekit\Bundle\TaskBundle\Entity\Task',
+				'configs' => []
+			]
+		);
+
+		//meetings
+		$builder->add(
+			'meetings',
+			'mekit_entity_multi_select',
+			[
+				'required' => false,
+				'label' => 'mekit.project.meetings.label',
+				'autocomplete_alias' => 'mekit_meeting',
+				'entity_class' => 'Mekit\Bundle\MeetingBundle\Entity\Meeting',
+				'configs' => []
+			]
+		);
+
+		//calls
+		$builder->add(
+			'calls',
+			'mekit_entity_multi_select',
+			[
+				'required' => false,
+				'label' => 'mekit.project.calls.label',
+				'autocomplete_alias' => 'mekit_call',
+				'entity_class' => 'Mekit\Bundle\CallBundle\Entity\Call',
+				'configs' => []
+			]
+		);
 
 	}
 

@@ -32,6 +32,7 @@ mekit:
         contacts.label:             Contacts
         calls.label:                Calls
         meetings.label:             Meetings
+        projects.label:             Projects
 
 
 
