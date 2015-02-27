@@ -4,3 +4,6 @@ Mekit\Bundle\ProjectBundle\Entity\Project:
             - NotBlank: ~
             - Length:
                 max: 255
+        account:
+            - NotBlank: ~
+

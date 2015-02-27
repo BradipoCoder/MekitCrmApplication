@@ -125,3 +125,31 @@ datagrid:
                 icon:          eye-open
                 link:          view_link
                 rowAction:     true
+
+    projects-related-users:
+        extends: crm-related-users
+        source:
+            query:
+                from:
+                    - { table: %mekit_project.project.entity.class%, alias: baseEntity }
+
+    projects-related-tasks:
+        extends: tasks-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_project.project.entity.class%, alias: baseEntity }
+
+    projects-related-calls:
+        extends: calls-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_project.project.entity.class%, alias: baseEntity }
+
+    projects-related-meetings:
+        extends: meetings-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_project.project.entity.class%, alias: baseEntity }
