@@ -9,7 +9,6 @@ mekit:
         widgets:
             contact_information:    Contact Information
             contact_additional:     Additional Information
-            contact_references:     References
             contact_addresses:      Address Book
 
         contact_actions:            Contact actions
