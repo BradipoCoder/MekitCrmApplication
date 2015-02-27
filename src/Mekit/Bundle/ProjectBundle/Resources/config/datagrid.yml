@@ -89,3 +89,39 @@ datagrid:
             entityHint: project
             export: true
 
+    # 1) Extending datagrid MUST declare the FROM table with alias "baseEntity" which MUST have "projects" relationship
+    # 2) parameter "ref_id" identifying the "baseEntity" must be defined
+    projects-related-generic:
+        extended_entity_name: %mekit_project.project.entity.class%
+        source:
+            type:           orm
+            acl_resource:   mekit_project_view
+            query:
+                select:
+                    - p.id
+                    - p.name
+                join:
+                    inner:
+                        - { join: baseEntity.projects, alias: p }
+                where:
+                    and:
+                        - baseEntity.id = :ref_id
+            bind_parameters:
+                - ref_id
+        columns:
+            name:
+                label:         mekit.project.name.label
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      mekit_project_view
+                params:     [ id ]
+        actions:
+            view:
+                type:          navigate
+                acl_resource:  mekit_project_view
+                label:         oro.grid.action.view
+                icon:          eye-open
+                link:          view_link
+                rowAction:     true

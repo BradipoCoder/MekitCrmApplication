@@ -65,6 +65,13 @@
 	}) }}
 	{% endset %}
 
+	{% set relatedProjects %}
+	{{ oro_widget_render({
+		'widgetType': 'block',
+		'url': path('mekit_crm_widget_related', {datagrid_name: "accounts-related-projects", id: entity.id})
+	}) }}
+	{% endset %}
+
 	{% set relatedTasks %}
 	{{ oro_widget_render({
 		'widgetType': 'block',
@@ -102,22 +109,22 @@
 		},
 		{
 		'title': 'mekit.account.contacts.label'|trans,
-		'class': 'resp',
 		'subblocks': [ {'data' : [relatedContacts]} ]
 		},
 		{
+		'title': 'mekit.account.projects.label'|trans,
+		'subblocks': [ {'data' : [relatedProjects]} ]
+		},
+		{
 		'title': 'mekit.account.tasks.label'|trans,
-		'class': 'resp',
 		'subblocks': [ {'data' : [relatedTasks]} ]
 		},
 		{
 		'title': 'mekit.account.calls.label'|trans,
-		'class': 'resp',
 		'subblocks': [ {'data' : [relatedCalls]} ]
 		},
 		{
 		'title': 'mekit.account.meetings.label'|trans,
-		'class': 'resp',
 		'subblocks': [ {'data' : [relatedMeetings]} ]
 		}
 	] %}

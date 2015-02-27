@@ -204,6 +204,13 @@ datagrid:
                 from:
                     - { table: %mekit_account.account.entity.class%, alias: baseEntity }
 
+    accounts-related-projects:
+        extends: projects-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_account.account.entity.class%, alias: baseEntity }
+
     accounts-related-tasks:
         extends: tasks-related-generic
         source:
