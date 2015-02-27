@@ -89,46 +89,6 @@ class ProjectType extends AbstractType {
 				]
 			]
 		);
-
-		//tasks
-		$builder->add(
-			'tasks',
-			'mekit_entity_multi_select',
-			[
-				'required' => false,
-				'label' => 'mekit.project.tasks.label',
-				'autocomplete_alias' => 'mekit_task',
-				'entity_class' => 'Mekit\Bundle\TaskBundle\Entity\Task',
-				'configs' => []
-			]
-		);
-
-		//meetings
-		$builder->add(
-			'meetings',
-			'mekit_entity_multi_select',
-			[
-				'required' => false,
-				'label' => 'mekit.project.meetings.label',
-				'autocomplete_alias' => 'mekit_meeting',
-				'entity_class' => 'Mekit\Bundle\MeetingBundle\Entity\Meeting',
-				'configs' => []
-			]
-		);
-
-		//calls
-		$builder->add(
-			'calls',
-			'mekit_entity_multi_select',
-			[
-				'required' => false,
-				'label' => 'mekit.project.calls.label',
-				'autocomplete_alias' => 'mekit_call',
-				'entity_class' => 'Mekit\Bundle\CallBundle\Entity\Call',
-				'configs' => []
-			]
-		);
-
 	}
 
 	/**

@@ -60,24 +60,10 @@
                 'data': [
 
                     form_row(form.owner),
+                    form_row(form.users),
                     form_row(form.tags)
                 ]
             }
-        ]
-    },
-    {
-	    'title': 'mekit.project.widgets.project_references'|trans,
-	    'class': 'resp',
-        'subblocks': [
-	        {
-                'title': 'mekit.project.widgets.project_references'|trans,
-                'data': [
-                    form_row(form.users),
-				    form_row(form.tasks),
-				    form_row(form.meetings),
-				    form_row(form.calls),
-                ]
-            },
         ]
     }
     ] %}

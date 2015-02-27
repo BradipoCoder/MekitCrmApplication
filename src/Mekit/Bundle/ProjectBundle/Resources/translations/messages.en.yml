@@ -10,7 +10,6 @@ mekit:
         widgets:
             project_information:    Project Information
             project_additional:     Additional Information
-            project_references:     References
 
         project_actions:            Project actions
 
