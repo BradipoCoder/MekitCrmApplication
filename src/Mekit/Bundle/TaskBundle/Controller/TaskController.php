@@ -98,6 +98,8 @@ class TaskController extends Controller {
 			/** @var Task $entity */
 			$entity = $this->getManagerTask()->createEntity();
 
+			//assign to current user
+			$entity->addUser($this->getUser());
 
 			//set relationship between entity and Event
 			$entity->setEvent($event);

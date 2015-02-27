@@ -88,7 +88,7 @@ class ProjectController extends Controller {
 			$entity = $this->getManager()->createEntity();
 
 			//assign to current user
-			//$entity->setAssignedTo($this->getUser());
+			$entity->addUser($this->getUser());
 		}
 
 		return $this->get('oro_form.model.update_handler')->handleUpdate(
