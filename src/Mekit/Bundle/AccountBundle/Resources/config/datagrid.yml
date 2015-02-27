@@ -140,6 +140,13 @@ datagrid:
                 type: merge
                 entity_name: %mekit_account.account.entity.class%
                 data_identifier: a.id
+            delete:
+                type: delete
+                entity_name: %mekit_account.account.entity.class%
+                data_identifier: a.id
+                acl_resource: mekit_account_account_delete
+                label: oro.grid.action.delete
+                icon: trash
 
         options:
             entityHint: account

@@ -30,4 +30,17 @@ class RelatedProjects {
 	public function getProjects() {
 		return $this->projects;
 	}
+
+	/**
+	 * @param ArrayCollection $projects
+	 * @return $this
+	 */
+	public function setProjects($projects) {
+		/** @var Project $project */
+		foreach ($projects as $project) {
+			$project->setAccount($this);
+		}
+		return $this;
+	}
+
 }
