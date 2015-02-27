@@ -11,7 +11,6 @@ mekit:
         widgets:
             account_information:    Account Information
             account_additional:     Additional Information
-            account_references:     References
             account_addresses:      Address Book
 
         account_actions:            Account actions
@@ -59,6 +58,7 @@ mekit:
         tasks.label:                Tasks
         calls.label:                Calls
         meetings.label:             Meetings
+        projects.label:             Projects
 
 
 

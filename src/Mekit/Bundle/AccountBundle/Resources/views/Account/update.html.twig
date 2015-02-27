@@ -54,6 +54,7 @@
 				    form_row(form.state),
 				    form_row(form.industry),
 				    form_row(form.source),
+                    form_row(form.contacts),
                     form_row(form.description)
                 ]
             },
@@ -61,6 +62,7 @@
                 'title': 'mekit.account.widgets.account_additional'|trans,
                 'data': [
                     form_row(form.owner),
+                    form_row(form.users),
 				    form_row(form.vatid),
 				    form_row(form.nin),
 				    form_row(form.emails),
@@ -70,22 +72,6 @@
 				    form_row(form.tags)
 	            ]
             }
-        ]
-    },
-    {
-	    'title': 'mekit.account.widgets.account_references'|trans,
-	    'class': 'resp',
-        'subblocks': [
-	        {
-                'title': 'mekit.account.widgets.account_references'|trans,
-                'data': [
-                    form_row(form.users),
-                    form_row(form.contacts),
-                    form_row(form.tasks),
-				    form_row(form.meetings),
-				    form_row(form.calls),
-                ]
-            },
         ]
     },
     {
