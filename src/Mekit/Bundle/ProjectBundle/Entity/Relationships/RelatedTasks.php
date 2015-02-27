@@ -14,7 +14,7 @@ use Mekit\Bundle\TaskBundle\Entity\Task;
 class RelatedTasks extends RelatedCalls {
 	/**
 	 * @var ArrayCollection
-	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\TaskBundle\Entity\Task", inversedBy="projects")
+	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\TaskBundle\Entity\Task", inversedBy="projects", fetch="EAGER")
 	 * @ORM\JoinTable(name="mekit_rel_project_task")
 	 * @ConfigField(
 	 *      defaultValues={

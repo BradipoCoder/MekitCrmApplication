@@ -73,7 +73,7 @@ class Meeting extends ExtendMeeting implements EventInterface {
 	/**
 	 * @var Event
 	 *
-	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\EventBundle\Entity\Event", mappedBy="meeting", cascade={"all"})
+	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\EventBundle\Entity\Event", mappedBy="meeting", cascade={"all"}, fetch="EAGER")
 	 * @Soap\ComplexType("Mekit\Bundle\EventBundle\Entity\Event", nillable=false)
 	 * @ConfigField(
 	 *      defaultValues={}

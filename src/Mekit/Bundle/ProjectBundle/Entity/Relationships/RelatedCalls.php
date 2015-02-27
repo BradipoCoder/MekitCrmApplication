@@ -14,7 +14,7 @@ use Mekit\Bundle\CallBundle\Entity\Call;
 class RelatedCalls extends RelatedMeetings {
 	/**
 	 * @var ArrayCollection
-	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\CallBundle\Entity\Call", inversedBy="projects")
+	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\CallBundle\Entity\Call", inversedBy="projects", fetch="EAGER")
 	 * @ORM\JoinTable(name="mekit_rel_project_call")
 	 * @ConfigField(
 	 *      defaultValues={

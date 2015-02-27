@@ -15,7 +15,7 @@ use Oro\Bundle\TagBundle\Entity\Taggable;
 use Oro\Bundle\UserBundle\Entity\User;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Mekit\Bundle\ProjectBundle\Entity\Repository\ProjectRepository")
  * @ORM\Table(
  *      name="mekit_project",
  *      indexes={

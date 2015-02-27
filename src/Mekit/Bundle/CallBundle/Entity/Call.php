@@ -103,7 +103,7 @@ class Call extends ExtendCall implements EventInterface {
 	/**
 	 * @var Event
 	 *
-	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\EventBundle\Entity\Event", mappedBy="call", cascade={"all"})
+	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\EventBundle\Entity\Event", mappedBy="call", cascade={"all"}, fetch="EAGER")
 	 * @Soap\ComplexType("Mekit\Bundle\EventBundle\Entity\Event", nillable=false)
 	 * @ConfigField(
 	 *      defaultValues={}
