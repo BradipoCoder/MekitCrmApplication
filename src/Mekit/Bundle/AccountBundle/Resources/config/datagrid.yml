@@ -153,69 +153,8 @@ datagrid:
             export: true
 
 
-    accounts-related-users:
-        extended_entity_name: %oro_user.entity.class%
-        options:
-            entityHint: user
-            entity_pagination: true
-        source:
-            acl_resource: oro_user_user_view
-            type: orm
-            query:
-                select:
-                    - u.id
-                    - u.firstName
-                    - u.lastName
-                from:
-                    - { table: %mekit_account.account.entity.class%, alias: a }
-                join:
-                    inner:
-                        - { join: a.users, alias: u }
-                where:
-                    and:
-                        - a.id = :ref_id
-            bind_parameters:
-                - ref_id
-        columns:
-            firstName:
-                label:         oro.user.first_name.label
-            lastName:
-                label:         oro.user.last_name.label
-        sorters:
-            default:
-                username: %oro_datagrid.extension.orm_sorter.class%::DIRECTION_ASC
-        properties:
-            id: ~
-            view_link:
-                type: url
-                route: oro_user_view
-                params:
-                    - id
-        actions:
-            view:
-                type:          navigate
-                label:         oro.grid.action.view
-                link:          view_link
-                icon:          eye-open
-                acl_resource:  oro_user_user_view
-                rowAction:     true
-
-
-
-    accounts-related-to-contacts:
-        extends: accounts-related-generic
-        source:
-            query:
-                join:
-                    inner:
-                        - { join: a.contacts, alias: ref }
-                where:
-                    and:
-                        - ref.id = :ref_id
-            bind_parameters:
-                - ref_id
-
-
+    # 1) Extending datagrid MUST declare the FROM table with alias "baseEntity" which MUST have "accounts" relationship
+    # 2) parameter "ref_id" identifying the "baseEntity" must be defined
     accounts-related-generic:
         extended_entity_name: %mekit_account.account.entity.class%
         source:
@@ -225,8 +164,14 @@ datagrid:
                 select:
                     - a.id
                     - a.name
-                from:
-                    - { table: %mekit_account.account.entity.class%, alias: a }
+                join:
+                    inner:
+                        - { join: baseEntity.accounts, alias: a }
+                where:
+                    and:
+                        - baseEntity.id = :ref_id
+            bind_parameters:
+                - ref_id
         columns:
             name:
                 label:         mekit.account.name.label
@@ -244,4 +189,39 @@ datagrid:
                 icon:          eye-open
                 link:          view_link
                 rowAction:     true
+
+    accounts-related-users:
+        extends: crm-related-users
+        source:
+            query:
+                from:
+                    - { table: %mekit_account.account.entity.class%, alias: baseEntity }
+
+    accounts-related-contacts:
+        extends: contacts-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_account.account.entity.class%, alias: baseEntity }
+
+    accounts-related-tasks:
+        extends: tasks-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_account.account.entity.class%, alias: baseEntity }
+
+    accounts-related-calls:
+        extends: calls-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_account.account.entity.class%, alias: baseEntity }
+
+    accounts-related-meetings:
+        extends: meetings-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_account.account.entity.class%, alias: baseEntity }
 

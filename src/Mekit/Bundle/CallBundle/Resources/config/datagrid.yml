@@ -161,3 +161,84 @@ datagrid:
                               group_name: 'CALL_OUTCOME'
                           multiple: true
 
+    # 1) Extending datagrid MUST declare the FROM table with alias "baseEntity" which MUST have "calls" relationship
+    # 2) parameter "ref_id" identifying the "baseEntity" must be defined
+    calls-related-generic:
+        extended_entity_name: %mekit_call.call.entity.class%
+        source:
+            type:           orm
+            acl_resource:   mekit_event_view
+            query:
+                select:
+                    - c.id
+                    - c.name
+                    - e.startDate
+                    - e.endDate
+                join:
+                    inner:
+                        - { join: baseEntity.calls, alias: c }
+                        - { join: c.event, alias: e }
+                where:
+                    and:
+                        - baseEntity.id = :ref_id
+            bind_parameters:
+                - ref_id
+        columns:
+            name:
+                label:         mekit.call.name.label
+            startDate:
+                label:         mekit.event.start_date.label
+                frontend_type: datetime
+            endDate:
+                label:         mekit.event.end_date.label
+                frontend_type: datetime
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      mekit_call_view
+                params:     [ id ]
+        actions:
+            view:
+                type:          navigate
+                acl_resource:  mekit_event_view
+                label:         oro.grid.action.view
+                icon:          eye-open
+                link:          view_link
+                rowAction:     true
+
+    calls-related-users:
+        extends: crm-related-users
+        source:
+            query:
+                from:
+                    - { table: %mekit_call.call.entity.class%, alias: baseEntity }
+
+    calls-related-accounts:
+        extends: accounts-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_call.call.entity.class%, alias: baseEntity }
+
+    calls-related-contacts:
+        extends: contacts-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_call.call.entity.class%, alias: baseEntity }
+
+    calls-related-tasks:
+        extends: tasks-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_call.call.entity.class%, alias: baseEntity }
+
+    calls-related-meetings:
+        extends: meetings-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_call.call.entity.class%, alias: baseEntity }
+

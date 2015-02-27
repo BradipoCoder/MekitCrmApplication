@@ -55,9 +55,43 @@
 	{% set eventInformationWidget %}
 		{{ oro_widget_render({
 			'widgetType': 'block',
-			'title': 'mekit.event.widgets.event_information'|trans,
 			'url': path('mekit_event_widget_info', {id: entity.event.id})
 		}) }}
+	{% endset %}
+
+	{% set relatedUsers %}
+	{{ oro_widget_render({
+		'widgetType': 'block',
+		'url': path('mekit_crm_widget_related', {datagrid_name: "meetings-related-users", id: entity.id})
+	}) }}
+	{% endset %}
+
+	{% set relatedAccounts %}
+	{{ oro_widget_render({
+		'widgetType': 'block',
+		'url': path('mekit_crm_widget_related', {datagrid_name: "meetings-related-accounts", id: entity.id})
+	}) }}
+	{% endset %}
+
+	{% set relatedContacts %}
+	{{ oro_widget_render({
+		'widgetType': 'block',
+		'url': path('mekit_crm_widget_related', {datagrid_name: "meetings-related-contacts", id: entity.id})
+	}) }}
+	{% endset %}
+
+	{% set relatedTasks %}
+	{{ oro_widget_render({
+		'widgetType': 'block',
+		'url': path('mekit_crm_widget_related', {datagrid_name: "meetings-related-tasks", id: entity.id})
+	}) }}
+	{% endset %}
+
+	{% set relatedCalls %}
+	{{ oro_widget_render({
+		'widgetType': 'block',
+		'url': path('mekit_crm_widget_related', {datagrid_name: "meetings-related-calls", id: entity.id})
+	}) }}
 	{% endset %}
 
 	{% set dataBlocks = [
@@ -65,9 +99,33 @@
 			'title': 'mekit.meeting.sections.general'|trans,
 			'class': 'active',
 			'subblocks': [
-				{'data' : [meetingInformationWidget]},
-				{'data' : [eventInformationWidget]}
+				{'data' : [meetingInformationWidget, eventInformationWidget]}
 			]
+		},
+		{
+		'title': 'mekit.meeting.users.label'|trans,
+		'class': 'resp',
+		'subblocks': [ {'data' : [relatedUsers]} ]
+		},
+		{
+		'title': 'mekit.meeting.accounts.label'|trans,
+		'class': 'resp',
+		'subblocks': [ {'data' : [relatedAccounts]} ]
+		},
+		{
+		'title': 'mekit.meeting.contacts.label'|trans,
+		'class': 'resp',
+		'subblocks': [ {'data' : [relatedContacts]} ]
+		},
+		{
+		'title': 'mekit.meeting.tasks.label'|trans,
+		'class': 'resp',
+		'subblocks': [ {'data' : [relatedTasks]} ]
+		},
+		{
+		'title': 'mekit.meeting.calls.label'|trans,
+		'class': 'resp',
+		'subblocks': [ {'data' : [relatedCalls]} ]
 		}
 	] %}
 

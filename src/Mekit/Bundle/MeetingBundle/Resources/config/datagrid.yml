@@ -127,3 +127,84 @@ datagrid:
                             group_name: 'EVENT_PRIORITY'
                         multiple: true
 
+    # 1) Extending datagrid MUST declare the FROM table with alias "baseEntity" which MUST have "meetings" relationship
+    # 2) parameter "ref_id" identifying the "baseEntity" must be defined
+    meetings-related-generic:
+        extended_entity_name: %mekit_meeting.meeting.entity.class%
+        source:
+            type:           orm
+            acl_resource:   mekit_event_view
+            query:
+                select:
+                    - m.id
+                    - m.name
+                    - e.startDate
+                    - e.endDate
+                join:
+                    inner:
+                        - { join: baseEntity.meetings, alias: m }
+                        - { join: m.event, alias: e }
+                where:
+                    and:
+                        - baseEntity.id = :ref_id
+            bind_parameters:
+                - ref_id
+        columns:
+            name:
+                label:         mekit.meeting.name.label
+            startDate:
+                label:         mekit.event.start_date.label
+                frontend_type: datetime
+            endDate:
+                label:         mekit.event.end_date.label
+                frontend_type: datetime
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      mekit_meeting_view
+                params:     [ id ]
+        actions:
+            view:
+                type:          navigate
+                acl_resource:  mekit_event_view
+                label:         oro.grid.action.view
+                icon:          eye-open
+                link:          view_link
+                rowAction:     true
+
+    meetings-related-users:
+        extends: crm-related-users
+        source:
+            query:
+                from:
+                    - { table: %mekit_meeting.meeting.entity.class%, alias: baseEntity }
+
+    meetings-related-accounts:
+        extends: accounts-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_meeting.meeting.entity.class%, alias: baseEntity }
+
+    meetings-related-contacts:
+        extends: contacts-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_meeting.meeting.entity.class%, alias: baseEntity }
+
+    meetings-related-tasks:
+        extends: tasks-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_meeting.meeting.entity.class%, alias: baseEntity }
+
+    meetings-related-calls:
+        extends: calls-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_meeting.meeting.entity.class%, alias: baseEntity }
+

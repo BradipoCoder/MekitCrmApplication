@@ -1,0 +1,47 @@
+datagrid:
+    # 1) Extending datagrid MUST declare the FROM table with alias "baseEntity" which MUST have "users" relationship
+    # 2) parameter "ref_id" identifying the "baseEntity" must be defined
+    crm-related-users:
+        extended_entity_name: %oro_user.entity.class%
+        options:
+            entityHint: user
+            entity_pagination: true
+        source:
+            acl_resource: oro_user_user_view
+            type: orm
+            query:
+                select:
+                    - u.id
+                    - u.firstName
+                    - u.lastName
+                join:
+                    inner:
+                        - { join: baseEntity.users, alias: u }
+                where:
+                    and:
+                        - baseEntity.id = :ref_id
+            bind_parameters:
+                - ref_id
+        columns:
+            firstName:
+                label:         oro.user.first_name.label
+            lastName:
+                label:         oro.user.last_name.label
+        sorters:
+            default:
+                username: %oro_datagrid.extension.orm_sorter.class%::DIRECTION_ASC
+        properties:
+            id: ~
+            view_link:
+                type: url
+                route: oro_user_view
+                params:
+                    - id
+        actions:
+            view:
+                type:          navigate
+                label:         oro.grid.action.view
+                link:          view_link
+                icon:          eye-open
+                acl_resource:  oro_user_user_view
+                rowAction:     true

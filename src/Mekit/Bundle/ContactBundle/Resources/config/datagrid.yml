@@ -91,20 +91,8 @@ datagrid:
             export: true
 
 
-    contacts-related-to-accounts:
-        extends: contacts-related-generic
-        source:
-            query:
-                join:
-                    inner:
-                        - { join: c.accounts, alias: ref }
-                where:
-                    and:
-                        - ref.id = :ref_id
-            bind_parameters:
-                - ref_id
-
-
+    # 1) Extending datagrid MUST declare the FROM table with alias "baseEntity" which MUST have "contacts" relationship
+    # 2) parameter "ref_id" identifying the "baseEntity" must be defined
     contacts-related-generic:
         extended_entity_name: %mekit_contact.contact.entity.class%
         source:
@@ -115,8 +103,14 @@ datagrid:
                     - c.id
                     - c.firstName
                     - c.lastName
-                from:
-                    - { table: %mekit_contact.contact.entity.class%, alias: c }
+                join:
+                    inner:
+                        - { join: baseEntity.contacts, alias: c }
+                where:
+                    and:
+                        - baseEntity.id = :ref_id
+            bind_parameters:
+                - ref_id
         columns:
             lastName:
                 label:         mekit.contact.last_name.label
@@ -136,3 +130,38 @@ datagrid:
                 icon:          eye-open
                 link:          view_link
                 rowAction:     true
+
+    contacts-related-users:
+        extends: crm-related-users
+        source:
+            query:
+                from:
+                    - { table: %mekit_contact.contact.entity.class%, alias: baseEntity }
+
+    contacts-related-accounts:
+        extends: accounts-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_contact.contact.entity.class%, alias: baseEntity }
+
+    contacts-related-tasks:
+        extends: tasks-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_contact.contact.entity.class%, alias: baseEntity }
+
+    contacts-related-calls:
+        extends: calls-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_contact.contact.entity.class%, alias: baseEntity }
+
+    contacts-related-meetings:
+        extends: meetings-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_contact.contact.entity.class%, alias: baseEntity }
