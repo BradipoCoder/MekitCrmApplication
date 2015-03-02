@@ -36,6 +36,7 @@ class RelatedProjects {
 	 * @return $this
 	 */
 	public function setProjects($projects) {
+		$this->projects = $projects;
 		/** @var Project $project */
 		foreach ($projects as $project) {
 			$project->setAccount($this);

@@ -29,7 +29,8 @@
                 <directory>src/Mekit/Bundle/*Bundle/Tests</directory>
                 <directory>src/Mekit/Bundle/*Bundle/Resources</directory>
                 <directory>src/Mekit/Bundle/*Bundle/DataFixtures</directory>
-                <directory>src/Mekit/Bundle/*Bundle/vendor</directory>
+                <directory>src/Mekit/Bundle/TestBundle/Helpers</directory>
+                <directory>src/Mekit/Bundle/TestBundle/Phpunit</directory>
             </exclude>
         </whitelist>
     </filter>

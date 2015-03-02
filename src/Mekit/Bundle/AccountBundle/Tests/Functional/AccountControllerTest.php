@@ -85,19 +85,4 @@ class AccountControllerTest extends MekitFunctionalTest {
 		$this->assertHtmlResponseStatusCodeEquals($result, 200);
 		$this->assertEquals($accountNameUpdated, $crawler->filter('h1.user-name')->text());
 	}
-
-	/**
-	 * @depends testUpdateAction
-	 * @param Integer $id
-	 */
-	/*
-	public function testDeleteAction($id) {
-		$this->client->request('DELETE', $this->getUrl('mekit_api_delete_account', array('id' => $id)));
-		$result = $this->client->getResponse();
-		$this->assertEmptyResponseStatusCodeEquals($result, 204);
-		$this->client->request('GET', $this->getUrl('mekit_account_view', array('id' => $id)));
-		$result = $this->client->getResponse();
-		$this->assertHtmlResponseStatusCodeEquals($result, 404);
-	}
-	*/
 }
