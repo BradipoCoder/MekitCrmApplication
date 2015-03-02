@@ -13,7 +13,7 @@ use Oro\Bundle\UserBundle\Entity\User;
 class RelatedUsers extends RelatedTasks {
 	/**
 	 * @var ArrayCollection
-	 * @ORM\ManyToMany(targetEntity="Oro\Bundle\UserBundle\Entity\User", fetch="EAGER")
+	 * @ORM\ManyToMany(targetEntity="Oro\Bundle\UserBundle\Entity\User")
 	 * @ORM\JoinTable(name="mekit_rel_project_user")
 	 * @ConfigField(
 	 *      defaultValues={

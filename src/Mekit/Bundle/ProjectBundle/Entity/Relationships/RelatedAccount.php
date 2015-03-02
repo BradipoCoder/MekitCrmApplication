@@ -9,7 +9,7 @@ use Mekit\Bundle\AccountBundle\Entity\Account;
 class RelatedAccount {
 	/**
 	 * @var Account
-	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\AccountBundle\Entity\Account", inversedBy="projects", fetch="EAGER")
+	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\AccountBundle\Entity\Account", inversedBy="projects")
 	 * @ORM\JoinColumn(name="account_id", referencedColumnName="id", onDelete="SET NULL")
 	 * @ConfigField()
 	 */
