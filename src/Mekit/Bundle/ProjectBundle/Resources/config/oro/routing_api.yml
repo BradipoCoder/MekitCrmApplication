@@ -1,0 +1,4 @@
+mekit_project_api:
+    resource:     "@MekitProjectBundle/Controller/Api/Rest/ProjectController.php"
+    type:         rest
+

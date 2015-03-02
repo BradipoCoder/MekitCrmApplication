@@ -2,7 +2,8 @@
 
 {% form_theme form with ['OroFormBundle:Form:fields.html.twig', 'OroTagBundle:Form:fields.html.twig'] %}
 
-{% oro_title_set({params : {"%account.name%": form.vars.value.name|default('N/A')} }) %}
+{% set fullname = form.vars.value.name|default('N/A'|trans) %}
+{% oro_title_set({params : {"%account.name%": fullname} }) %}
 
 {% set formAction = form.vars.value.id ? path('mekit_account_update', { 'id': form.vars.value.id }) : path('mekit_account_create')  %}
 {% set cancelAction = form.vars.value.id ? path('mekit_account_view', { 'id': form.vars.value.id }) : path('mekit_account_index') %}
@@ -54,6 +55,7 @@
 				    form_row(form.state),
 				    form_row(form.industry),
 				    form_row(form.source),
+                    form_row(form.contacts),
                     form_row(form.description)
                 ]
             },
@@ -61,6 +63,7 @@
                 'title': 'mekit.account.widgets.account_additional'|trans,
                 'data': [
                     form_row(form.owner),
+                    form_row(form.users),
 				    form_row(form.vatid),
 				    form_row(form.nin),
 				    form_row(form.emails),
@@ -80,18 +83,6 @@
                 'title': 'mekit.account.widgets.account_addresses'|trans,
                 'data': [
                     form_widget(form.addresses),
-                ]
-            },
-        ]
-    },
-    {
-	    'title': 'mekit.relationship.widgets.relationships'|trans,
-	    'class': 'resp',
-        'subblocks': [
-	        {
-                'title': 'mekit.relationship.widgets.relationships'|trans,
-                'data': [
-                    form_widget(form.referenceableElement),
                 ]
             },
         ]

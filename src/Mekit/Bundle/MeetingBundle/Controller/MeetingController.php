@@ -98,6 +98,8 @@ class MeetingController extends Controller {
 			/** @var Meeting $entity */
 			$entity = $this->getManagerMeeting()->createEntity();
 
+			//assign to current user
+			$entity->addUser($this->getUser());
 
 			//set relationship between entity and Event
 			$entity->setEvent($event);

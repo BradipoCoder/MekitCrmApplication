@@ -25,12 +25,13 @@ class MekitCallBundle implements Migration {
 	protected function createMekitCallTable(Schema $schema) {
 		$table = $schema->createTable(self::$tableNameCall);
 		$table->addColumn('id', 'integer', ['autoincrement' => true]);
-		$table->addColumn('description', 'text', ['notnull' => false]);
+		$table->addColumn('name', 'string', ['length' => 255]);
 		$table->addColumn('outcome', 'string', ['length' => 32]);
 		$table->addColumn('direction', 'string', ['length' => 4]);
 
 		//INDEXES
 		$table->setPrimaryKey(['id']);
+		$table->addIndex(['name'], 'idx_call_name', []);
 		$table->addIndex(['outcome'], 'idx_call_outcome', []);
 		$table->addIndex(['direction'], 'idx_call_direction', []);
 

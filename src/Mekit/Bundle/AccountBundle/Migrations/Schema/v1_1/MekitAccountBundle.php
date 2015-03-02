@@ -9,10 +9,7 @@ use Mekit\Bundle\AccountBundle\Migrations\Schema\v1_0\MekitAccountBundle as Migr
 use Oro\Bundle\NoteBundle\Migration\Extension\NoteExtension;
 use Oro\Bundle\NoteBundle\Migration\Extension\NoteExtensionAwareInterface;
 
-
 /**
- * usage: app/console oro:migration:load --show-queries --bundles MekitAccountBundle --dry-run
- *
  * Class MekitAccountBundle
  */
 class MekitAccountBundle implements Migration, NoteExtensionAwareInterface {

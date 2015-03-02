@@ -73,8 +73,7 @@ class CallType extends AbstractType {
 
 		// basic fields
 		$builder
-			->add('description', 'textarea', array('required' => false, 'label' => 'mekit.call.description.label'));
-			/*->add('tags', 'oro_tag_select', ['label' => 'oro.tag.entity_plural_label']);*/
+			->add('name', 'text', array('required' => true, 'label' => 'mekit.call.name.label'));
 
 		//static list - call direction(in/out)
 		$builder->add('direction', 'choice', [
@@ -91,25 +90,84 @@ class CallType extends AbstractType {
 		//dynamic lists from ListBundle(using temporary helper service solution)
 		$this->listBundleHelper->addListSelectorToFormBuilder($builder, 'outcome', 'CALL_OUTCOME', 'mekit.call.outcome.label');
 
+		//users
+		$builder->add(
+			'users',
+			'oro_user_multiselect',
+			[
+				'required' => false,
+				'label' => 'mekit.call.users.label',
+			]
+		);
 
-		//assigned to (user)
-//		$builder->add(
-//			'assignedTo',
-//			'oro_user_select',
-//			array('required' => false, 'label' => 'mekit.contact.assigned_to.label')
-//		);
+		//accounts
+		$builder->add(
+			'accounts',
+			'mekit_entity_multi_select',
+			[
+				'required' => false,
+				'label' => 'mekit.call.accounts.label',
+				'autocomplete_alias' => 'mekit_account',
+				'entity_class' => 'Mekit\Bundle\AccountBundle\Entity\Account',
+				'configs' => []
+			]
+		);
+
+		//contacts
+		$builder->add(
+			'contacts',
+			'mekit_entity_multi_select',
+			[
+				'required' => false,
+				'label' => 'mekit.call.contacts.label',
+				'autocomplete_alias' => 'mekit_contact',
+				'entity_class' => 'Mekit\Bundle\ContactBundle\Entity\Contact',
+				'configs' => []
+			]
+		);
+
+		//tasks
+		$builder->add(
+			'tasks',
+			'mekit_entity_multi_select',
+			[
+				'required' => false,
+				'label' => 'mekit.call.tasks.label',
+				'autocomplete_alias' => 'mekit_task',
+				'entity_class' => 'Mekit\Bundle\TaskBundle\Entity\Task',
+				'configs' => []
+			]
+		);
+
+		//meetings
+		$builder->add(
+			'meetings',
+			'mekit_entity_multi_select',
+			[
+				'required' => false,
+				'label' => 'mekit.call.meetings.label',
+				'autocomplete_alias' => 'mekit_meeting',
+				'entity_class' => 'Mekit\Bundle\MeetingBundle\Entity\Meeting',
+				'configs' => []
+			]
+		);
+
+		//projects
+		$builder->add(
+			'projects',
+			'mekit_entity_multi_select',
+			[
+				'required' => false,
+				'label' => 'mekit.call.projects.label',
+				'autocomplete_alias' => 'mekit_project',
+				'entity_class' => 'Mekit\Bundle\ProjectBundle\Entity\Project',
+				'configs' => []
+			]
+		);
+
 
 		//add event form
 		$builder->add('event', new EventType($this->router, $this->nameFormatter, $this->securityFacade, $this->listBundleHelper));
-
-		//referenceable elements (reference selector fields)
-		$builder->add('referenceableElement',
-			'mekit_referenceable_element',
-			[
-				'label' => false,
-				'required' => false
-			]
-		);
 	}
 
 	/**

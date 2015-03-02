@@ -8,6 +8,7 @@ mekit:
             shortcut_list_contacts.description: List of contacts
         widgets:
             contact_information:    Contact Information
+            contact_additional:     Additional Information
             contact_addresses:      Address Book
 
         contact_actions:            Contact actions
@@ -27,35 +28,39 @@ mekit:
         #
         entity_label:               Contact
         entity_plural_label:        Contacts
-        entity_description:         Account contacts
+        entity_description:         Contact
 
-        account.label:       Account
-        addresses.label:     Addresses
-        assigned_to.label:   Assigned to
-        birthday.label:      Birthday
-        description.label:   Description
-        email.label:         Email
-        emails.label:        Emails
-        facebook.label:      Facebook
-        first_name.label:    First name
-        full_name.label:     Name
-        gender.label:        Gender
-        google_plus.label:   Google+
-        id.label:            Id
-        job_title.label:     Job Title
-        last_name.label:     Last name
-        linked_in.label:     LinkedIn
-        middle_name.label:   Middle name
-        name_prefix.label:   Name prefix
-        name_suffix.label:   Name suffix
-        organization.label:  Organization
-        owner.label:         Owner
-        phones.label:        Phones
-        picture.label:       Picture
-        primary_email.label: Primary Email
-        primary_phone.label: Primary Phone
-        reports_to.label:    Reports to
-        skype.label:         Skype
-        social.label:        Social
-        twitter.label:       Twitter
-        referenceable_element.label:    ReferenceableElement
+        assigned_to.label:          Assigned to
+        birthday.label:             Birthday
+        description.label:          Description
+        facebook.label:             Facebook
+        first_name.label:           First name
+        full_name.label:            Name
+        gender.label:               Gender
+        google_plus.label:          Google+
+        id.label:                   Id
+        job_title.label:            Job Title
+        last_name.label:            Last name
+        linked_in.label:            LinkedIn
+        middle_name.label:          Middle name
+        name_prefix.label:          Name prefix
+        name_suffix.label:          Name suffix
+        organization.label:         Organization
+        owner.label:                Owner
+        picture.label:              Picture
+        primary_email.label:        Primary Email
+        primary_phone.label:        Primary Phone
+        reports_to.label:           Reports to
+        skype.label:                Skype
+        social.label:               Social
+        twitter.label:              Twitter
+
+        addresses.label:            Addresses
+        phones.label:               Phone
+        emails.label:               Email
+
+        users.label:                Users
+        accounts.label:             Accounts
+        tasks.label:                Tasks
+        meetings.label:             Meetings
+        calls.label:                Calls

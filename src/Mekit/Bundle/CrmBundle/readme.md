@@ -1,0 +1,4 @@
+CRM Bundle
+==========
+
+Common functionalities...

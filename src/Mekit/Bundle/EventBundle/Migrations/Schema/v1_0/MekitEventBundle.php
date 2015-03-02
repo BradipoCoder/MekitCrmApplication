@@ -29,13 +29,13 @@ class MekitEventBundle implements Migration {
 		$table->addColumn('organization_id', 'integer', ['notnull' => false]);
 		$table->addColumn('createdAt', 'datetime', []);
 		$table->addColumn('updatedAt', 'datetime', ['notnull' => false]);
-		$table->addColumn('name', 'string', ['length' => 255]);
 		$table->addColumn('type', 'string', ['length' => 255]);
 		$table->addColumn('start_date', 'datetime', []);
 		$table->addColumn('end_date', 'datetime', ['notnull' => false]);
 		$table->addColumn('duration', 'integer', ['notnull' => false]);
 		$table->addColumn('priority', 'string', ['notnull' => false, 'length' => 32]);
 		$table->addColumn('state', 'string', ['length' => 32]);
+		$table->addColumn('description', 'text', ['notnull' => false]);
 		$table->addColumn('task_id', 'integer', ['notnull' => false]);
 		$table->addColumn('meeting_id', 'integer', ['notnull' => false]);
 		$table->addColumn('call_id', 'integer', ['notnull' => false]);
@@ -46,7 +46,6 @@ class MekitEventBundle implements Migration {
 		$table->addIndex(['organization_id'], 'idx_event_organization', []);
 		$table->addIndex(['createdAt'], 'idx_event_created_at', []);
 		$table->addIndex(['updatedAt'], 'idx_event_updated_at', []);
-		$table->addIndex(['name'], 'idx_event_name', []);
 		$table->addIndex(['type'], 'idx_event_type', []);
 		$table->addIndex(['start_date'], 'idx_event_start_date', []);
 		$table->addIndex(['end_date'], 'idx_event_end_date', []);

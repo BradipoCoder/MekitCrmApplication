@@ -1,0 +1,68 @@
+parameters:
+    mekit_project.project.manager.api.class:                    Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
+
+    mekit_project.type.project.class:                           Mekit\Bundle\ProjectBundle\Form\Type\ProjectType
+    mekit_project.type.project.api.class:                       Mekit\Bundle\ProjectBundle\Form\Type\ProjectApiType
+
+    mekit_project.handler.project.class:                        Mekit\Bundle\ProjectBundle\Form\Handler\ProjectHandler
+
+services:
+    # Project
+    mekit_project.project.manager.api:
+        class: %mekit_project.project.manager.api.class%
+        parent: oro_soap.manager.entity_manager.abstract
+        arguments:
+            - %mekit_project.project.entity.class%
+            - @doctrine.orm.entity_manager
+
+    mekit_project.form.project:
+        class: Symfony\Component\Form\Form
+        factory_method: createNamed
+        factory_service: form.factory
+        arguments: ["mekit_project_form", "mekit_project", null]
+
+    mekit_project.form.type.project:
+        class: %mekit_project.type.project.class%
+        arguments:
+            - @router
+            - @oro_locale.formatter.name
+            - @oro_security.security_facade
+            - @mekit_list.form_helper
+        tags:
+            - { name: form.type, alias: mekit_project }
+
+    mekit_project.form.handler.project:
+        class: %mekit_project.handler.project.class%
+        scope: request
+        arguments:
+            - @mekit_project.form.project
+            - @request
+            - @doctrine.orm.entity_manager
+        tags:
+            - { name: oro_tag.tag_manager }
+
+    mekit_project.form.project.api:
+        class: Symfony\Component\Form\Form
+        factory_method: createNamed
+        factory_service: form.factory
+        arguments: ["project", "project", null]
+
+    mekit_project.form.type.project.api:
+        class: %mekit_project.type.project.api.class%
+        arguments:
+            - @router
+            - @oro_locale.formatter.name
+            - @oro_security.security_facade
+            - @mekit_list.form_helper
+        tags:
+            - { name: form.type, alias: project }
+
+    mekit_project.form.handler.project.api:
+        class: %mekit_project.handler.project.class%
+        scope: request
+        arguments:
+            - @mekit_project.form.project.api
+            - @request
+            - @doctrine.orm.entity_manager
+        tags:
+            - { name: oro_tag.tag_manager }

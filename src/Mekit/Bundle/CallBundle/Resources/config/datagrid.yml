@@ -7,11 +7,10 @@ datagrid:
             query:
                 select:
                     - c.id
-                    - c.description
+                    - c.name
                     - c.direction
                     - callOutcome.label as outcome
                     - e.id as eventId
-                    - e.name
                     - e.type
                     - e.startDate
                     - e.endDate
@@ -42,7 +41,7 @@ datagrid:
                 frontend_type:  html
                 template:       MekitCallBundle:Call:Datagrid/Property/callDirection.html.twig
             name:
-                label:          mekit.event.name.label
+                label:          mekit.call.name.label
             state:
                 label:         mekit.event.state.label
             outcome:
@@ -99,7 +98,7 @@ datagrid:
         sorters:
             columns:
                 name:
-                    data_name: e.name
+                    data_name: c.name
                 direction:
                     data_name: c.direction
                 state:
@@ -119,7 +118,7 @@ datagrid:
             columns:
                 name:
                     type:      string
-                    data_name: e.name
+                    data_name: c.name
                 state:
                     type:      entity
                     data_name: eventState.id
@@ -162,35 +161,43 @@ datagrid:
                               group_name: 'CALL_OUTCOME'
                           multiple: true
 
-    calls-related-relationship:
-        extends: relationship-related-element-source-logic
+    # 1) Extending datagrid MUST declare the FROM table with alias "baseEntity" which MUST have "calls" relationship
+    # 2) parameter "ref_id" identifying the "baseEntity" must be defined
+    calls-related-generic:
+        extended_entity_name: %mekit_call.call.entity.class%
         source:
+            type:           orm
             acl_resource:   mekit_event_view
             query:
                 select:
-                    - e.id
-                    - ev.name as eventName
-                from:
-                   - { table: %mekit_call.call.entity.class%, alias: e }
+                    - c.id
+                    - c.name
+                    - e.startDate
+                    - e.endDate
                 join:
                     inner:
-                        - { join: e.referenceableElement, alias: referenceableElement }
-                    left:
-                        - { join: e.event, alias: ev }
-
+                        - { join: baseEntity.calls, alias: c }
+                        - { join: c.event, alias: e }
+                where:
+                    and:
+                        - baseEntity.id = :ref_id
+            bind_parameters:
+                - ref_id
         columns:
-            id:
-                label:        mekit.call.id.label
-            eventName:
-                label:        mekit.event.name.label
-
+            name:
+                label:         mekit.call.name.label
+            startDate:
+                label:         mekit.event.start_date.label
+                frontend_type: datetime
+            endDate:
+                label:         mekit.event.end_date.label
+                frontend_type: datetime
         properties:
             id: ~
             view_link:
                 type:       url
                 route:      mekit_call_view
                 params:     [ id ]
-
         actions:
             view:
                 type:          navigate
@@ -200,33 +207,45 @@ datagrid:
                 link:          view_link
                 rowAction:     true
 
-    calls-related-select:
-        extends: relationship-related-elements-select-logic
+    calls-related-users:
+        extends: crm-related-users
         source:
             query:
-                select:
-                    - referenceableElement.id as refElId
-                    - ev.name as eventName
                 from:
-                    - { table: %mekit_call.call.entity.class%, alias: c }
-                join:
-                    inner:
-                        - { join: c.referenceableElement, alias: referenceableElement }
-                        - { join: c.event, alias: ev }
-        columns:
-            refElId:
-                renderable: false
-            eventName:
-                label:        mekit.event.name.label
+                    - { table: %mekit_call.call.entity.class%, alias: baseEntity }
 
-        properties:
-            id: ~
+    calls-related-accounts:
+        extends: accounts-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_call.call.entity.class%, alias: baseEntity }
 
-        options:
-            entityHint: call
-            rowSelection:
-                dataField: refElId
-                columnName: isAssigned
-                selectors:
-                    included: '#appendElements'
-                    excluded: '#removeElements'
+    calls-related-contacts:
+        extends: contacts-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_call.call.entity.class%, alias: baseEntity }
+
+    calls-related-projects:
+        extends: projects-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_call.call.entity.class%, alias: baseEntity }
+
+    calls-related-tasks:
+        extends: tasks-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_call.call.entity.class%, alias: baseEntity }
+
+    calls-related-meetings:
+        extends: meetings-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_call.call.entity.class%, alias: baseEntity }
+

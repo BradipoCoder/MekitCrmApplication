@@ -1,0 +1,19 @@
+#also needed for tagging
+Mekit\Bundle\ProjectBundle\Entity\Project:
+    alias: mekit_project
+    label: mekit.project.entity_plural_label
+    title_fields: [name]
+    route:
+        name: mekit_project_view
+        parameters:
+            id: id
+    search_template: MekitProjectBundle:Project:searchResult.html.twig
+    fields:
+        -
+            name: name
+            target_type: text
+            target_fields: [name]
+        -
+            name: description
+            target_type: text
+            target_fields: [description]

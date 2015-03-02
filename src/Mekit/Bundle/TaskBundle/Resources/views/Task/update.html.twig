@@ -2,7 +2,7 @@
 
 {% form_theme form with ['OroFormBundle:Form:fields.html.twig', 'OroTagBundle:Form:fields.html.twig'] %}
 
-{% set fullname = entity.event.name|default('N/A'|trans) %}
+{% set fullname = form.vars.value.name|default('N/A'|trans) %}
 {% oro_title_set({ params : {"%event.name%": fullname} }) %}
 
 {% set formAction = form.vars.value.id ? path('mekit_task_update', { 'id': form.vars.value.id }) : path('mekit_task_create')  %}
@@ -51,36 +51,40 @@
                 {
                     'title': 'Task Information'|trans,
                     'data': [
-                        form_row(form.event.name),
-                        form_row(form.description),
+                        form_row(form.name),
+                        form_row(form.event.description),
+					    form_row(form.event.state),
+					    form_row(form.event.priority)
                     ]
                 },
                 {
                     'title': 'Event Information'|trans,
                     'data': [
                         form_row(form.event.startDate),
-                        form_row(form.event.state),
-                        form_row(form.event.priority),
                         form_row(form.event.endDate),
                         form_row(form.event.duration),
                         form_row(form.event.owner),
-                        form_row(form.event.type),
+                        form_row(form.event.type)
                     ]
                 }
             ]
         },
-        {
-            'title': 'mekit.relationship.widgets.relationships'|trans,
-            'class': 'resp',
-            'subblocks': [
-                {
-                    'title': 'mekit.relationship.widgets.relationships'|trans,
-                    'data': [
-                        form_widget(form.referenceableElement),
-                    ]
-                },
-            ]
-        }
+	    {
+		    'title': 'mekit.task.widgets.task_references'|trans,
+		    'class': 'resp',
+	        'subblocks': [
+		        {
+	                'data': [
+	                    form_row(form.users),
+                        form_row(form.accounts),
+                        form_row(form.contacts),
+                        form_row(form.projects),
+					    form_row(form.meetings),
+					    form_row(form.calls),
+	                ]
+	            },
+	        ]
+	    }
     ] %}
 
     {% if form.additional is defined and form.additional.children|length > 0 %}

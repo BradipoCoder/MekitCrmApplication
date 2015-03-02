@@ -4,7 +4,7 @@ oro_menu_config:
             label: 'mekit.task.entity_plural_label'
             route: 'mekit_task_index'
             extras:
-                position: 25
+                position: 15
                 routes: ['mekit_task_*']
                 description: 'mekit.task.menu.task_list.description'
 

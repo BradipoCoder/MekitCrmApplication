@@ -45,18 +45,21 @@ mekit:
         industry.label:             Industry
         source.label:               Source
         assigned_to.label:          Assigned To
-        phones.label:               Phone
-        emails.label:               Email
         email.label:                Email
         owner.label:                Owner
         organization.label:         Organization
 
         addresses.label:            Addresses
-        referenceable_element.label:    ReferenceableElement
+        phones.label:               Phone
+        emails.label:               Email
 
-        contact:
-            name:                   Contact name
-            email:                  Contact email
-            phone:                  Contact phone
+        users.label:                Users
+        contacts.label:             Contacts
+        tasks.label:                Tasks
+        calls.label:                Calls
+        meetings.label:             Meetings
+        projects.label:             Projects
+
+
 
 

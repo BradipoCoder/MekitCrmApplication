@@ -2,30 +2,20 @@
 namespace Mekit\Bundle\CallBundle\Entity;
 
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Mekit\Bundle\AccountBundle\Model\ExtendAccount;
 use Mekit\Bundle\CallBundle\Model\ExtendCall;
 use Mekit\Bundle\EventBundle\Entity\Event;
-use Mekit\Bundle\EventBundle\Model\ExtendEvent;
+use Mekit\Bundle\EventBundle\Entity\EventInterface;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
-use Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement;
-use Mekit\Bundle\RelationshipBundle\Entity\Referenceable;
-use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
-use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
-use Oro\Bundle\EmailBundle\Entity\EmailOwnerInterface;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
-use Oro\Bundle\OrganizationBundle\Entity\Organization;
-use Oro\Bundle\TagBundle\Entity\Taggable;
-use Oro\Bundle\UserBundle\Entity\User;
 
 /**
  * @ORM\Entity(repositoryClass="Mekit\Bundle\CallBundle\Entity\Repository\CallRepository")
  * @ORM\Table(name="mekit_call", indexes={
- *      @ORM\Index(name="idx_call_direction", columns={"direction"}),
+ *      @ORM\Index(name="idx_call_name", columns={"name"}),
+ *      @ORM\Index(name="idx_call_direction", columns={"direction"})
  * })
  * @Oro\Loggable
  * @Config(
@@ -48,19 +38,11 @@ use Oro\Bundle\UserBundle\Entity\User;
  *              "icon"="icon-phone",
  *              "view_route_name"="mekit_call_view",
  *              "edit_route_name"="mekit_call_edit"
- *          },
- *          "relationship"={
- *              "referenceable"=true,
- *              "label"="mekit.call.entity_plural_label",
- *              "can_reference_itself"=false,
- *              "datagrid_name_list"="calls-related-relationship",
- *              "datagrid_name_select"="calls-related-select",
- *              "autocomplete_search_columns"={"i2s"}
  *          }
  *      }
  * )
  */
-class Call extends ExtendCall implements Referenceable {
+class Call extends ExtendCall implements EventInterface {
 	/**
 	 * @var int
 	 *
@@ -74,21 +56,10 @@ class Call extends ExtendCall implements Referenceable {
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(type="text", length=65535, nullable=true)
-	 * @Soap\ComplexType("string", nillable=true)
+	 * @ORM\Column(name="name", type="string", length=255, nullable=false)
 	 * @Oro\Versioned
-	 * @ConfigField(
-	 *      defaultValues={
-	 *          "importexport"={
-	 *              "order"=250
-	 *          },
-	 *          "dataaudit"={
-	 *              "auditable"=true
-	 *          },
-	 *      }
-	 * )
 	 */
-	protected $description;
+	protected $name;
 
 	/**
 	 * @var string
@@ -132,36 +103,13 @@ class Call extends ExtendCall implements Referenceable {
 	/**
 	 * @var Event
 	 *
-	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\EventBundle\Entity\Event", mappedBy="call", cascade={"all"})
+	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\EventBundle\Entity\Event", mappedBy="call", cascade={"all"}, fetch="EAGER")
 	 * @Soap\ComplexType("Mekit\Bundle\EventBundle\Entity\Event", nillable=false)
 	 * @ConfigField(
 	 *      defaultValues={}
 	 * )
 	 */
 	protected $event;
-
-	/**
-	 * @var ReferenceableElement
-	 *
-	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\RelationshipBundle\Entity\ReferenceableElement", cascade={"persist"}, orphanRemoval=true, mappedBy="call")
-	 */
-	protected $referenceableElement;
-
-	/**
-	 * @return ReferenceableElement
-	 */
-	public function getReferenceableElement() {
-		return $this->referenceableElement;
-	}
-
-	/**
-	 * @param ReferenceableElement $referenceableElement
-	 */
-	public function setReferenceableElement(ReferenceableElement $referenceableElement) {
-		$this->referenceableElement = $referenceableElement;
-		$referenceableElement->setCall($this);
-	}
-
 
 	/**
 	 * Constructor
@@ -189,16 +137,16 @@ class Call extends ExtendCall implements Referenceable {
 	/**
 	 * @return string
 	 */
-	public function getDescription() {
-		return $this->description;
+	public function getName() {
+		return $this->name;
 	}
 
 	/**
-	 * @param string $description
+	 * @param string $name
 	 * @return $this
 	 */
-	public function setDescription($description) {
-		$this->description = $description;
+	public function setName($name) {
+		$this->name = $name;
 		return $this;
 	}
 
@@ -245,7 +193,7 @@ class Call extends ExtendCall implements Referenceable {
 	 * @param Event $event
 	 * @return $this
 	 */
-	public function setEvent($event) {
+	public function setEvent(Event $event) {
 		$this->event = $event;
 		return $this;
 	}
@@ -254,6 +202,6 @@ class Call extends ExtendCall implements Referenceable {
 	 * @return string
 	 */
 	public function __toString() {
-		return (string)$this->getEvent()->getName();
+		return (string)$this->getName();
 	}
 }

@@ -98,6 +98,9 @@ class CallController extends Controller {
 			/** @var Call $entity */
 			$entity = $this->getManagerCall()->createEntity();
 
+			//assign to current user
+			$entity->addUser($this->getUser());
+
 
 			//set relationship between entity and Event
 			$entity->setEvent($event);

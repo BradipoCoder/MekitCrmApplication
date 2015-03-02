@@ -52,7 +52,6 @@ mekit:
         organization.label:         Organizzazione
 
         addresses.label:            Indirizzi
-        referenceable_element.label:    Elemento
 
         contact:
             name:                   Contact name

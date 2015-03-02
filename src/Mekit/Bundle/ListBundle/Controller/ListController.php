@@ -176,7 +176,7 @@ class ListController extends Controller {
 	 * @return ListItem
 	 */
 	protected function initListItemEntity($listGroupId = null) {
-		if(!$listGroupId) {
+		if(empty($listGroupId)) {
 			throw new \LogicException("No list group id defined in parameters!");
 		}
 		$listGroup = $this->getDoctrine()

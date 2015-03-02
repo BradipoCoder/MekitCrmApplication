@@ -8,5 +8,5 @@ services:
             - %mekit_account.account.entity.class%
             - ["name"]
         tags:
-            - { name: oro_form.autocomplete.search_handler, alias: accounts, acl_resource: mekit_account_account_view }
+            - { name: oro_form.autocomplete.search_handler, alias: mekit_account, acl_resource: mekit_account_account_view }
 

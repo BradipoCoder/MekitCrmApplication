@@ -1,0 +1,39 @@
+mekit:
+    project:
+        menu:
+            project_tab.label: Projects
+            project_list.description: List of projects
+            shortcut_new_project.label: Create new project
+            shortcut_new_project.description: Create new project instance
+            shortcut_list_projects.label: Show list of projects
+            shortcut_list_projects.description: List of projects
+        widgets:
+            project_information:    Project Information
+            project_additional:     Additional Information
+
+        project_actions:            Project actions
+
+        sections:
+            general:                General
+
+        controller:
+            project.saved.message:  "Project saved"
+
+        #
+        # Mekit/Bundle/ProjectBundle/Entity/Project
+        #
+        entity_label:               Project
+        entity_plural_label:        Projects
+        entity_description:         Project
+
+        description.label:          Description
+        id.label:                   Id
+        name.label:                 Name
+        organization.label:         Organization
+        owner.label:                Owner
+        account.label:              Account
+
+        users.label:                Users
+        tasks.label:                Tasks
+        meetings.label:             Meetings
+        calls.label:                Calls

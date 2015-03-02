@@ -1,0 +1,33 @@
+#also needed for tagging
+Mekit\Bundle\MeetingBundle\Entity\Meeting:
+    alias: mekit_meeting
+    label: mekit.meeting.entity_plural_label
+    title_fields: [name]
+    route:
+        name: mekit_meeting_view
+        parameters:
+            id: id
+    search_template: MekitMeetingBundle:Meeting:searchResult.html.twig
+    fields:
+        -
+            name: name
+            target_type: text
+            target_fields: [name]
+        -
+            name: event
+            relation_type: one-to-one
+            relation_fields:
+                -
+                    name: description
+                    target_type: text
+                    target_fields: [description]
+                -
+                    name: startDate
+                    target_type: datetime
+                    target_fields: [startDate]
+                -
+                    name: endDate
+                    target_type: datetime
+                    target_fields: [endDate]
+
+

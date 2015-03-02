@@ -9,22 +9,13 @@ matrix:
     - php: 5.6
 
 before_script:
-  - "mkdir -p ~/.composer"
-  - cp .travis.composer.config.json ~/.composer/config.json
-  - composer selfupdate
-  - phpenv config-add travis.php.ini
-  - composer install --prefer-dist --no-interaction
+  - "/bin/bash src/Mekit/Bundle/TestBundle/CI/Travis/before_script.sh"
 
 script:
-  - phpunit -c phpunit.xml.dist --coverage-clover=coverage.clover
+  - "/bin/bash src/Mekit/Bundle/TestBundle/CI/Travis/script.sh"
 
 after_script:
-  - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
-
-cache:
-  directories:
-    - $COMPOSER_CACHE_DIR
+  - "/bin/bash src/Mekit/Bundle/TestBundle/CI/Travis/after_script.sh"
 
 notifications:
     on_success: never

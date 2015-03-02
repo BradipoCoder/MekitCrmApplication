@@ -26,5 +26,4 @@ mekit:
 
         id.label:                       Id
         name.label:                     Name
-        referenceable_element.label:    ReferenceableElement
 

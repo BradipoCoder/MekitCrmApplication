@@ -31,7 +31,7 @@ class ListItem {
 	/**
 	 * @var ListGroup
 	 *
-	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ListBundle\Entity\ListGroup", inversedBy="items")
+	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ListBundle\Entity\ListGroup", inversedBy="items", fetch="EAGER")
 	 * @ORM\JoinColumn(name="listgroup_id", referencedColumnName="id", onDelete="SET NULL")
 	 * @Soap\ComplexType("integer", nillable=true)
 	 */

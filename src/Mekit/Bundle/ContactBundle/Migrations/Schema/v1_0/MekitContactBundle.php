@@ -31,8 +31,6 @@ class MekitContactBundle implements Migration {
 		$table->addColumn('job_title', 'string', ['notnull' => false, 'length' => 32]);
 		$table->addColumn('organization_id', 'integer', ['notnull' => false]);
 		$table->addColumn('owner_id', 'integer', ['notnull' => false]);
-		$table->addColumn('assigned_to', 'integer', ['notnull' => false]);
-//		$table->addColumn('account_id', 'integer', ['notnull' => false]);
 		$table->addColumn('name_prefix', 'string', ['notnull' => false, 'length' => 16]);
 		$table->addColumn('first_name', 'string', ['length' => 128]);
 		$table->addColumn('middle_name', 'string', ['notnull' => false, 'length' => 64]);
@@ -56,7 +54,6 @@ class MekitContactBundle implements Migration {
 		$table->addIndex(['organization_id'], 'idx_contact_organization', []);
 		$table->addIndex(['createdAt'], 'idx_contact_created_at', []);
 		$table->addIndex(['updatedAt'], 'idx_contact_updated_at', []);
-		$table->addIndex(['assigned_to'], 'idx_contact_assigned_to', []);
 		$table->addIndex(['last_name', 'first_name'], 'idx_contact_name', []);
 		$table->addIndex(['job_title'], 'idx_contact_job_title', []);
 
@@ -74,13 +71,6 @@ class MekitContactBundle implements Migration {
 			['id'],
 			['onDelete' => 'SET NULL', 'onUpdate' => null],
 			'fk_contact_owner'
-		);
-		$table->addForeignKeyConstraint(
-			$schema->getTable('oro_user'),
-			['assigned_to'],
-			['id'],
-			['onDelete' => 'SET NULL', 'onUpdate' => null],
-			'fk_contact_assignee'
 		);
 		$table->addForeignKeyConstraint(
 			$schema->getTable('mekit_list_item'),

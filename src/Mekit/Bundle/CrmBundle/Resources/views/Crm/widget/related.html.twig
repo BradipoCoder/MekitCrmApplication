@@ -1,0 +1,8 @@
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+{% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
+
+<div class="widget-content">
+	<div class="row-fluid">
+		{{ dataGrid.renderGrid(datagrid_name, {ref_id: id}, { cssClass: 'inner-grid' } ) }}
+	</div>
+</div>

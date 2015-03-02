@@ -1,4 +1,0 @@
-mekit_relationship_bundle:
-    resource:     "@MekitRelationshipBundle/Controller"
-    type:         annotation
-    prefix:       /relationship

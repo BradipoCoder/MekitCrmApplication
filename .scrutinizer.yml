@@ -2,7 +2,7 @@ filter:
   excluded_paths:
     - 'app/*'
     - 'vendor/*'
-    - 'tests/*'
+    - 'web/*'
     - 'src/Mekit/Bundle/*Bundle/Tests/*'
 
 tools:
@@ -28,21 +28,19 @@ checks:
 
 build:
   environment:
-    php: 5.5.12
+    php:
+      version: 5.5.12
+      ini:
+        'date.timezone': 'Europe/Rome'
   dependencies:
     before:
+      - { command: 'sh src/Mekit/Bundle/TestBundle/CI/Scrutinizer/build_dependencies_before.sh', idle_timeout: 600 }
     override:
-      - { command: 'composer install --prefer-source --no-interaction', idle_timeout: 1800 }
-      - { command: 'true' }
+     - { command: 'composer install --no-interaction', idle_timeout: 1800 }
     after:
   tests:
+    override:
+      - { command: 'true' }
 
 application:
   type: none
-  environment:
-    php:
-      version: 5.5.12
-#  project_setup:
-#    before:
-#      - mysql -uroot -e 'CREATE DATABASE mekitcrm'
-#    after:

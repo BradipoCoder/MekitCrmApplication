@@ -13,3 +13,7 @@ Mekit\Bundle\AccountBundle\Entity\Account:
             name: name
             target_type: text
             target_fields: [name]
+        -
+            name: description
+            target_type: text
+            target_fields: [description]

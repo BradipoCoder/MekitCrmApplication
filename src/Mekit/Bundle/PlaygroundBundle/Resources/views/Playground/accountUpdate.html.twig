@@ -2,7 +2,8 @@
 
 {% form_theme form with ['OroFormBundle:Form:fields.html.twig', 'OroTagBundle:Form:fields.html.twig'] %}
 
-{% oro_title_set({params : {"%account.name%": form.vars.value.name|default('N/A')} }) %}
+{% set fullname = form.vars.value.name|default('N/A'|trans) %}
+{% oro_title_set({params : {"%account.name%": fullname} }) %}
 
 {% set formAction = path('mekit_playground_update', { 'id': form.vars.value.id })  %}
 {% set cancelAction = path('mekit_playground_index') %}
@@ -29,7 +30,7 @@
             'entity':      form.vars.value,
             'indexPath':   path('mekit_account_index'),
             'indexLabel': 'mekit.account.entity_plural_label'|trans,
-            'entityTitle': form.vars.value.name|default('N/A')
+            'entityTitle': fullname
         }
         %}
         {{ parent() }}
@@ -55,7 +56,7 @@
             {
                 'title': 'ADDITIONAL',
                 'data': [
-                    form_row(form.referenceableElement)
+
 	            ]
             }
         ]

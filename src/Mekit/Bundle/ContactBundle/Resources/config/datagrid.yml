@@ -10,15 +10,11 @@ datagrid:
                     - c.firstName
                     - c.lastName
                     - CONCAT(Owner.firstName, CONCAT(' ', Owner.lastName)) as ownerName
-                    - CONCAT(assignee.firstName, CONCAT(' ', assignee.lastName)) as AssigneeName
-#                    - Account.name as accountName
                 from:
                     - { table: %mekit_contact.contact.entity.class%, alias: c }
                 join:
                     left:
                         - { join: c.owner, alias: Owner }
-                        - { join: c.assignedTo, alias: assignee }
-#                        - { join: c.account, alias: Account }
                 groupBy: c.id
 
         columns:
@@ -26,10 +22,6 @@ datagrid:
                 label:         mekit.contact.last_name.label
             firstName:
                 label:         mekit.contact.first_name.label
-#            accountName:
-#                 label:        mekit.contact.account.label
-            AssigneeName:
-                 label:        mekit.account.assigned_to.label
 
         sorters:
             columns:
@@ -99,39 +91,37 @@ datagrid:
             export: true
 
 
-    contacts-related-relationship:
-        extends: relationship-related-element-source-logic
+    # 1) Extending datagrid MUST declare the FROM table with alias "baseEntity" which MUST have "contacts" relationship
+    # 2) parameter "ref_id" identifying the "baseEntity" must be defined
+    contacts-related-generic:
+        extended_entity_name: %mekit_contact.contact.entity.class%
         source:
+            type:           orm
             acl_resource:   mekit_contact_view
             query:
                 select:
                     - c.id
                     - c.firstName
                     - c.lastName
-                    - jobTitleItem.label as jobTitle
-                from:
-                   - { table: %mekit_contact.contact.entity.class%, alias: c }
                 join:
                     inner:
-                        - { join: c.referenceableElement, alias: referenceableElement }
-                    left:
-                        - { join: c.jobTitle, alias: jobTitleItem }
-
+                        - { join: baseEntity.contacts, alias: c }
+                where:
+                    and:
+                        - baseEntity.id = :ref_id
+            bind_parameters:
+                - ref_id
         columns:
             lastName:
-                label:        mekit.contact.last_name.label
+                label:         mekit.contact.last_name.label
             firstName:
-                label:        mekit.contact.first_name.label
-            jobTitle:
-                label:        mekit.contact.job_title.label
-
+                label:         mekit.contact.first_name.label
         properties:
             id: ~
             view_link:
                 type:       url
                 route:      mekit_contact_view
                 params:     [ id ]
-
         actions:
             view:
                 type:          navigate
@@ -141,36 +131,37 @@ datagrid:
                 link:          view_link
                 rowAction:     true
 
-    contacts-related-select:
-        extends: relationship-related-elements-select-logic
+    contacts-related-users:
+        extends: crm-related-users
         source:
             query:
-                select:
-                    - referenceableElement.id as refElId
-                    - c.id
-                    - c.firstName
-                    - c.lastName
                 from:
-                    - { table: %mekit_contact.contact.entity.class%, alias: c }
-                join:
-                    inner:
-                        - { join: c.referenceableElement, alias: referenceableElement }
-        columns:
-            refElId:
-                renderable: false
-            lastName:
-                label:        mekit.contact.last_name.label
-            firstName:
-                label:        mekit.contact.first_name.label
+                    - { table: %mekit_contact.contact.entity.class%, alias: baseEntity }
 
-        properties:
-            id: ~
+    contacts-related-accounts:
+        extends: accounts-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_contact.contact.entity.class%, alias: baseEntity }
 
-        options:
-            entityHint: contact
-            rowSelection:
-                dataField: refElId
-                columnName: isAssigned
-                selectors:
-                    included: '#appendElements'
-                    excluded: '#removeElements'
+    contacts-related-tasks:
+        extends: tasks-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_contact.contact.entity.class%, alias: baseEntity }
+
+    contacts-related-calls:
+        extends: calls-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_contact.contact.entity.class%, alias: baseEntity }
+
+    contacts-related-meetings:
+        extends: meetings-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_contact.contact.entity.class%, alias: baseEntity }

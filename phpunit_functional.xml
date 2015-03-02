@@ -9,7 +9,7 @@
         processIsolation            = "false"
         stopOnFailure               = "false"
         syntaxCheck                 = "false"
-        bootstrap                   = "src/Mekit/Bundle/TestBundle/phpunitBootstrap/bootstrap.php"
+        bootstrap                   = "src/Mekit/Bundle/TestBundle/Phpunit/bootstrap.php"
         >
 
     <testsuites>
@@ -23,18 +23,17 @@
     </php>
 
     <!--<logging>-->
-        <!--<log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/>-->
+    <!--<log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/>-->
     <!--</logging>-->
 
     <filter>
         <whitelist>
-            <directory suffix=".php">src/Mekit/Bundle</directory>
+            <directory suffix=".php">../</directory>
             <exclude>
-                <directory>vendor</directory>
-                <directory>src/Mekit/Bundle/*Bundle/Tests</directory>
-                <directory>src/Mekit/Bundle/*Bundle/Resources</directory>
-                <directory>src/Mekit/Bundle/*Bundle/DataFixtures</directory>
-                <directory>src/Mekit/Bundle/*Bundle/vendor</directory>
+                <directory>../*Bundle/Tests</directory>
+                <directory>../*Bundle/Resources</directory>
+                <directory>../*Bundle/DataFixtures</directory>
+                <directory>../*Bundle/vendor</directory>
             </exclude>
         </whitelist>
     </filter>

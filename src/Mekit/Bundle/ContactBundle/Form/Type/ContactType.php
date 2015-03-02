@@ -2,29 +2,14 @@
 
 namespace Mekit\Bundle\ContactBundle\Form\Type;
 
-use Doctrine\Common\Collections\Collection;
-
-use Doctrine\ORM\EntityRepository;
-use Mekit\Bundle\ListBundle\Entity\ListGroup;
-use Mekit\Bundle\RelationshipBundle\Form\EventSubscriber\AddReferenceableElementSubscriber;
-use Symfony\Component\Routing\Router;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Mekit\Bundle\ContactBundle\Entity\Contact;
 use Mekit\Bundle\ListBundle\Helper\FormHelper;
-use Doctrine\Bundle\DoctrineBundle\Registry as Doctrine;
-use Doctrine\ORM\EntityManager;
-
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
-
 use Oro\Bundle\LocaleBundle\Formatter\NameFormatter;
 use Oro\Bundle\SecurityBundle\SecurityFacade;
-
-use Mekit\Bundle\AccountBundle\Entity\Account;
-use Mekit\Bundle\ContactBundle\Entity\Contact;
-use Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository;
-use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Routing\Router;
 
 
 /**
@@ -61,7 +46,7 @@ class ContactType extends AbstractType {
 	 * @param Router         $router
 	 * @param NameFormatter  $nameFormatter
 	 * @param SecurityFacade $securityFacade
-	 * @param FormHelper $listBundleHelper - temporary solution!
+	 * @param FormHelper     $listBundleHelper - temporary solution!
 	 */
 	public function __construct(Router $router, NameFormatter $nameFormatter, SecurityFacade $securityFacade, FormHelper $listBundleHelper) {
 		$this->nameFormatter = $nameFormatter;
@@ -101,66 +86,64 @@ class ContactType extends AbstractType {
 		//dynamic lists from ListBundle(using temporary helper service solution)
 		$this->listBundleHelper->addListSelectorToFormBuilder($builder, 'jobTitle', 'CONTACT_JOBTITLE', 'mekit.contact.job_title.label');
 
-
-		//assigned to (user)
+		//users
 		$builder->add(
-			'assignedTo',
-			'oro_user_select',
-			array('required' => false, 'label' => 'mekit.contact.assigned_to.label')
+			'users',
+			'oro_user_multiselect',
+			[
+				'required' => false,
+				'label' => 'mekit.contact.users.label',
+			]
 		);
 
-		//account
-//		$builder->add(
-//			'account',
-//			'mekit_account_select',
-//			array('required' => false, 'label' => 'mekit.contact.account.label')
-//		);
+		//accounts
+		$builder->add(
+			'accounts',
+			'mekit_entity_multi_select',
+			[
+				'required' => false,
+				'label' => 'mekit.contact.accounts.label',
+				'autocomplete_alias' => 'mekit_account',
+				'entity_class' => 'Mekit\Bundle\AccountBundle\Entity\Account',
+				'configs' => []
+			]
+		);
 
 		//addresses
 		$builder->add(
 			'addresses',
 			'oro_address_collection',
 			array(
-				'label'    => '',
-				'type'     => 'oro_typed_address',
+				'label' => '',
+				'type' => 'oro_typed_address',
 				'required' => false,
-				'options'  => array('data_class' => 'Mekit\Bundle\ContactInfoBundle\Entity\Address')
+				'options' => array('data_class' => 'Mekit\Bundle\ContactInfoBundle\Entity\Address')
 			)
 		);
 
 		//emails
 		$builder->add(
-				'emails',
-				'oro_email_collection',
-				array(
-					'label'    => 'mekit.contact.emails.label',
-					'type'     => 'oro_email',
-					'required' => false,
-					'options'  => array('data_class' => 'Mekit\Bundle\ContactInfoBundle\Entity\Email')
-				)
-			);
+			'emails',
+			'oro_email_collection',
+			array(
+				'label' => 'mekit.contact.emails.label',
+				'type' => 'oro_email',
+				'required' => false,
+				'options' => array('data_class' => 'Mekit\Bundle\ContactInfoBundle\Entity\Email')
+			)
+		);
 
 		//phones
 		$builder->add(
 			'phones',
 			'oro_phone_collection',
 			array(
-				'label'    => 'mekit.contact.phones.label',
-				'type'     => 'oro_phone',
+				'label' => 'mekit.contact.phones.label',
+				'type' => 'oro_phone',
 				'required' => false,
-				'options'  => array('data_class' => 'Mekit\Bundle\ContactInfoBundle\Entity\Phone')
+				'options' => array('data_class' => 'Mekit\Bundle\ContactInfoBundle\Entity\Phone')
 			)
 		);
-
-		//referenceable elements (reference selector fields)
-		$builder->add('referenceableElement',
-			'mekit_referenceable_element',
-			[
-				'label' => false,
-				'required' => false
-			]
-		);
-
 	}
 
 	/**

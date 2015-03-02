@@ -5,6 +5,7 @@ mekit:
 
         widgets:
             task_information:       Task Information
+            task_references:        References
 
         sections:
             general:                General Information
@@ -23,8 +24,16 @@ mekit:
         entity_description:         Task
 
         id.label:                   Id
+        name.label:                 Name
         event.label:                Event
-        description.label:          Description
-        referenceable_element.label:    ReferenceableElement
+
+        users.label:                Users
+        accounts.label:             Accounts
+        contacts.label:             Contacts
+        calls.label:                Calls
+        meetings.label:             Meetings
+        projects.label:             Projects
+
+
 
 

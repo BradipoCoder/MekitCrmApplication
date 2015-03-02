@@ -9,10 +9,7 @@ use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager;
 
-use Mekit\Bundle\AccountBundle\Entity\Account;
 use Mekit\Bundle\ContactBundle\Entity\Contact;
-use Mekit\Bundle\ListBundle\Entity\ListItem;
-use Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository;
 
 /**
  * Class ContactController
@@ -94,7 +91,7 @@ class ContactController extends Controller {
 			$entity = $this->getManager()->createEntity();
 
 			//assign to current user
-			$entity->setAssignedTo($this->getUser());
+			$entity->addUser($this->getUser());
 		}
 
 		return $this->get('oro_form.model.update_handler')->handleUpdate(

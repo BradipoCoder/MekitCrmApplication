@@ -1,6 +1,6 @@
 {% extends 'OroUIBundle:actions:view.html.twig' %}
 
-{% set fullname = entity.event.name|default('N/A'|trans) %}
+{% set fullname = entity.name|default('N/A'|trans) %}
 {% oro_title_set({params : {"%event.name%": fullname} }) %}
 
 {% block stats %}
@@ -55,9 +55,50 @@
 	{% set eventInformationWidget %}
 		{{ oro_widget_render({
 			'widgetType': 'block',
-			'title': 'mekit.event.widgets.event_information'|trans,
 			'url': path('mekit_event_widget_info', {id: entity.event.id})
 		}) }}
+	{% endset %}
+
+	{% set relatedUsers %}
+	{{ oro_widget_render({
+		'widgetType': 'block',
+		'url': path('mekit_crm_widget_related', {datagrid_name: "tasks-related-users", id: entity.id})
+	}) }}
+	{% endset %}
+
+	{% set relatedAccounts %}
+	{{ oro_widget_render({
+		'widgetType': 'block',
+		'url': path('mekit_crm_widget_related', {datagrid_name: "tasks-related-accounts", id: entity.id})
+	}) }}
+	{% endset %}
+
+	{% set relatedContacts %}
+	{{ oro_widget_render({
+		'widgetType': 'block',
+		'url': path('mekit_crm_widget_related', {datagrid_name: "tasks-related-contacts", id: entity.id})
+	}) }}
+	{% endset %}
+
+	{% set relatedProjects %}
+	{{ oro_widget_render({
+		'widgetType': 'block',
+		'url': path('mekit_crm_widget_related', {datagrid_name: "tasks-related-projects", id: entity.id})
+	}) }}
+	{% endset %}
+
+	{% set relatedCalls %}
+	{{ oro_widget_render({
+		'widgetType': 'block',
+		'url': path('mekit_crm_widget_related', {datagrid_name: "tasks-related-calls", id: entity.id})
+	}) }}
+	{% endset %}
+
+	{% set relatedMeetings %}
+	{{ oro_widget_render({
+		'widgetType': 'block',
+		'url': path('mekit_crm_widget_related', {datagrid_name: "tasks-related-meetings", id: entity.id})
+	}) }}
 	{% endset %}
 
 	{% set dataBlocks = [
@@ -65,15 +106,41 @@
 			'title': 'mekit.task.sections.general'|trans,
 			'class': 'active',
 			'subblocks': [
-				{'data' : [taskInformationWidget]},
-				{'data' : [eventInformationWidget]}
+				{'data' : [taskInformationWidget, eventInformationWidget]}
 			]
+		},
+		{
+		'title': 'mekit.task.users.label'|trans,
+		'class': 'resp',
+		'subblocks': [ {'data' : [relatedUsers]} ]
+		},
+		{
+		'title': 'mekit.task.accounts.label'|trans,
+		'class': 'resp',
+		'subblocks': [ {'data' : [relatedAccounts]} ]
+		},
+		{
+		'title': 'mekit.task.contacts.label'|trans,
+		'class': 'resp',
+		'subblocks': [ {'data' : [relatedContacts]} ]
+		},
+		{
+		'title': 'mekit.task.projects.label'|trans,
+		'class': 'resp',
+		'subblocks': [ {'data' : [relatedProjects]} ]
+		},
+		{
+		'title': 'mekit.task.calls.label'|trans,
+		'class': 'resp',
+		'subblocks': [ {'data' : [relatedCalls]} ]
+		},
+		{
+		'title': 'mekit.task.meetings.label'|trans,
+		'class': 'resp',
+		'subblocks': [ {'data' : [relatedMeetings]} ]
 		}
 	] %}
 
-	{#RENDER RELATIONSHIPS#}
-	{% set relationships = mekit_render_all_relationships({'referenceableElement': entity.referenceableElement}) %}
-	{% set dataBlocks = dataBlocks|merge(relationships) %}
 
 	{% set id = 'eventTaskView' %}
 	{% set data = {'dataBlocks': dataBlocks} %}

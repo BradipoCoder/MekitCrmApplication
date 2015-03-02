@@ -140,12 +140,22 @@ datagrid:
                 type: merge
                 entity_name: %mekit_account.account.entity.class%
                 data_identifier: a.id
+            delete:
+                type: delete
+                entity_name: %mekit_account.account.entity.class%
+                data_identifier: a.id
+                acl_resource: mekit_account_account_delete
+                label: oro.grid.action.delete
+                icon: trash
 
         options:
             entityHint: account
             export: true
 
-    accounts-select-grid:
+
+    # 1) Extending datagrid MUST declare the FROM table with alias "baseEntity" which MUST have "accounts" relationship
+    # 2) parameter "ref_id" identifying the "baseEntity" must be defined
+    accounts-related-generic:
         extended_entity_name: %mekit_account.account.entity.class%
         source:
             type:           orm
@@ -154,69 +164,23 @@ datagrid:
                 select:
                     - a.id
                     - a.name
-                    - CONCAT(accountOwner.firstName, CONCAT(' ', accountOwner.lastName)) as ownerName
-                from:
-                    - { table: %mekit_account.account.entity.class%, alias: a }
-                join:
-                    left:
-                        - { join: a.owner, alias: accountOwner }
-        properties:
-            id: ~
-        columns:
-            name:
-                label:   mekit.account.name.label
-            ownerName:
-                label:   mekit.account.owner.label
-        sorters:
-            columns:
-                name:
-                    data_name: a.name
-                ownerName:
-                    data_name: ownerName
-        filters:
-            columns:
-                name:
-                    type:      string
-                    data_name: a.name
-                ownerName:
-                    type:      string
-                    data_name: ownerName
-        options:
-            entityHint: account
-
-    accounts-related-relationship:
-        extends: relationship-related-element-source-logic
-        source:
-            query:
-                select:
-                    - a.id
-                    - a.name
-                    - accountType.label as type
-                    - accountState.label as state
-                from:
-                   - { table: %mekit_account.account.entity.class%, alias: a }
                 join:
                     inner:
-                        - { join: a.referenceableElement, alias: referenceableElement }
-                    left:
-                        - { join: a.type, alias: accountType }
-                        - { join: a.state, alias: accountState }
-
+                        - { join: baseEntity.accounts, alias: a }
+                where:
+                    and:
+                        - baseEntity.id = :ref_id
+            bind_parameters:
+                - ref_id
         columns:
             name:
-                label:        mekit.account.name.label
-            type:
-                label:        mekit.account.type.label
-            state:
-                label:        mekit.account.state.label
-
+                label:         mekit.account.name.label
         properties:
             id: ~
             view_link:
                 type:       url
                 route:      mekit_account_view
                 params:     [ id ]
-
         actions:
             view:
                 type:          navigate
@@ -226,32 +190,45 @@ datagrid:
                 link:          view_link
                 rowAction:     true
 
-    accounts-related-select:
-        extends: relationship-related-elements-select-logic
+    accounts-related-users:
+        extends: crm-related-users
         source:
             query:
-                select:
-                    - referenceableElement.id as refElId
-                    - a.id
-                    - a.name
                 from:
-                    - { table: %mekit_account.account.entity.class%, alias: a }
-                join:
-                    inner:
-                        - { join: a.referenceableElement, alias: referenceableElement }
-        columns:
-            refElId:
-                renderable: false
-            name:
+                    - { table: %mekit_account.account.entity.class%, alias: baseEntity }
 
-        properties:
-            id: ~
+    accounts-related-contacts:
+        extends: contacts-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_account.account.entity.class%, alias: baseEntity }
 
-        options:
-            entityHint: account
-            rowSelection:
-                dataField: refElId
-                columnName: isAssigned
-                selectors:
-                    included: '#appendElements'
-                    excluded: '#removeElements'
+    accounts-related-projects:
+        extends: projects-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_account.account.entity.class%, alias: baseEntity }
+
+    accounts-related-tasks:
+        extends: tasks-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_account.account.entity.class%, alias: baseEntity }
+
+    accounts-related-calls:
+        extends: calls-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_account.account.entity.class%, alias: baseEntity }
+
+    accounts-related-meetings:
+        extends: meetings-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_account.account.entity.class%, alias: baseEntity }
+

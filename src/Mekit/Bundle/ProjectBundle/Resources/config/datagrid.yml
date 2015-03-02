@@ -1,0 +1,155 @@
+datagrid:
+    projects-grid:
+        extended_entity_name: %mekit_project.project.entity.class%
+        source:
+            type:           orm
+            acl_resource:   mekit_project_view
+            query:
+                select:
+                    - p.id
+                    - p.name
+                    - Account.name as accountName
+                from:
+                    - { table: %mekit_project.project.entity.class%, alias: p }
+                join:
+                    inner:
+                        - { join: p.account, alias: Account }
+                groupBy: p.id
+
+        columns:
+            name:
+                label:         mekit.project.name.label
+            accountName:
+                label:         mekit.project.account.label
+
+        sorters:
+            columns:
+                name:
+                    data_name: p.name
+                accountName:
+                    data_name: Account.name
+            default:
+                name:  %oro_datagrid.extension.orm_sorter.class%::DIRECTION_ASC
+
+        filters:
+            columns:
+                name:
+                    type: string
+                    data_name: p.name
+                accountName:
+                    type: string
+                    data_name: Account.name
+
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      mekit_project_view
+                params:     [ id ]
+            update_link:
+                type:       url
+                route:      mekit_project_update
+                params:     [ id ]
+            delete_link:
+                type:       url
+                route:      mekit_api_delete_project
+                params:     [ id ]
+
+        actions:
+            view:
+                type:          navigate
+                acl_resource:  mekit_project_view
+                label:         oro.grid.action.view
+                icon:          eye-open
+                link:          view_link
+                rowAction:     true
+            update:
+                type:          navigate
+                acl_resource:  mekit_project_update
+                label:         oro.grid.action.update
+                icon:          edit
+                link:          update_link
+            delete:
+                type:          delete
+                acl_resource:  mekit_project_delete
+                label:         oro.grid.action.delete
+                icon:          trash
+                link:          delete_link
+
+        mass_actions:
+            delete:
+                type: delete
+                entity_name: %mekit_project.project.entity.class%
+                data_identifier: p.id
+                acl_resource: mekit_project_delete
+                label: oro.grid.action.delete
+                icon: trash
+
+        options:
+            entityHint: project
+            export: true
+
+    # 1) Extending datagrid MUST declare the FROM table with alias "baseEntity" which MUST have "projects" relationship
+    # 2) parameter "ref_id" identifying the "baseEntity" must be defined
+    projects-related-generic:
+        extended_entity_name: %mekit_project.project.entity.class%
+        source:
+            type:           orm
+            acl_resource:   mekit_project_view
+            query:
+                select:
+                    - p.id
+                    - p.name
+                join:
+                    inner:
+                        - { join: baseEntity.projects, alias: p }
+                where:
+                    and:
+                        - baseEntity.id = :ref_id
+            bind_parameters:
+                - ref_id
+        columns:
+            name:
+                label:         mekit.project.name.label
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      mekit_project_view
+                params:     [ id ]
+        actions:
+            view:
+                type:          navigate
+                acl_resource:  mekit_project_view
+                label:         oro.grid.action.view
+                icon:          eye-open
+                link:          view_link
+                rowAction:     true
+
+    projects-related-users:
+        extends: crm-related-users
+        source:
+            query:
+                from:
+                    - { table: %mekit_project.project.entity.class%, alias: baseEntity }
+
+    projects-related-tasks:
+        extends: tasks-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_project.project.entity.class%, alias: baseEntity }
+
+    projects-related-calls:
+        extends: calls-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_project.project.entity.class%, alias: baseEntity }
+
+    projects-related-meetings:
+        extends: meetings-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_project.project.entity.class%, alias: baseEntity }

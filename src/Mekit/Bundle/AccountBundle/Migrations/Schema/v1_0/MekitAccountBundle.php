@@ -6,8 +6,6 @@ use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
 /**
- * usage: oro:migration:load --show-queries --bundles MekitAccountBundle --dry-run
- *
  * Class MekitAccountBundle
  */
 class MekitAccountBundle implements Migration {

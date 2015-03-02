@@ -2,7 +2,7 @@
 
 {% form_theme form with ['OroFormBundle:Form:fields.html.twig', 'OroTagBundle:Form:fields.html.twig'] %}
 
-{% set fullname = entity.event.name|default('N/A'|trans) %}
+{% set fullname = form.vars.value.name|default('N/A'|trans) %}
 {% oro_title_set({ params : {"%event.name%": fullname} }) %}
 
 {% set formAction = form.vars.value.id ? path('mekit_call_update', { 'id': form.vars.value.id }) : path('mekit_call_create')  %}
@@ -51,10 +51,13 @@
                 {
                     'title': 'mekit.call.widgets.call_information'|trans,
                     'data': [
-                        form_row(form.event.name),
-                        form_row(form.description),
+                        form_row(form.name),
+                        form_row(form.event.description),
+					    form_row(form.event.state),
+					    form_row(form.event.priority),
                         form_row(form.direction),
                         form_row(form.outcome),
+
                     ]
                 },
                 {
@@ -71,18 +74,22 @@
                 }
             ]
         },
-        {
-            'title': 'mekit.relationship.widgets.relationships'|trans,
-            'class': 'resp',
-            'subblocks': [
-                {
-                    'title': 'mekit.relationship.widgets.relationships'|trans,
-                    'data': [
-                        form_widget(form.referenceableElement),
-                    ]
-                },
-            ]
-        }
+	    {
+		    'title': 'mekit.call.widgets.call_references'|trans,
+		    'class': 'resp',
+	        'subblocks': [
+		        {
+	                'data': [
+	                    form_row(form.users),
+                        form_row(form.accounts),
+                        form_row(form.contacts),
+                        form_row(form.projects),
+					    form_row(form.tasks),
+					    form_row(form.meetings),
+	                ]
+	            },
+	        ]
+	    }
     ] %}
 
     {% if form.additional is defined and form.additional.children|length > 0 %}

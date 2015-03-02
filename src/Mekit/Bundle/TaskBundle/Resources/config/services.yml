@@ -2,4 +2,11 @@ parameters:
     mekit_task.task.entity.class: Mekit\Bundle\TaskBundle\Entity\Task
 
 services:
+    mekit_task.autocomplete.task.search_handler:
+        parent: oro_form.autocomplete.search_handler
+        arguments:
+            - %mekit_task.task.entity.class%
+            - ["name"]
+        tags:
+            - { name: oro_form.autocomplete.search_handler, alias: mekit_task, acl_resource: mekit_event_view }
 

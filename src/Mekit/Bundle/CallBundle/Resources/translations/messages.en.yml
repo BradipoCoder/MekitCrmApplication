@@ -5,6 +5,7 @@ mekit:
 
         widgets:
             call_information:       Call Information
+            call_references:        References
 
         sections:
             general:                General Information
@@ -20,12 +21,18 @@ mekit:
         entity_description:         Call
 
         id.label:                   Id
+        name.label:                 Name
         event.label:                Event
-        description.label:          Description
         direction.label:            Direction
         outcome.label:              Outcome
-        referenceable_element.label:    ReferenceableElement
 
         #Call direction labels
         direction.in.label:         In
         direction.out.label:        Out
+
+        users.label:                Users
+        accounts.label:             Accounts
+        contacts.label:             Contacts
+        tasks.label:                Tasks
+        meetings.label:             Meetings
+        projects.label:             Projects

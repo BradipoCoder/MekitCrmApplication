@@ -6,10 +6,9 @@ datagrid:
             acl_resource:   mekit_event_view
             query:
                 select:
-                    - c.id
-                    - c.description
+                    - t.id
+                    - t.name
                     - e.id as eventId
-                    - e.name
                     - e.type
                     - e.startDate
                     - e.endDate
@@ -17,10 +16,10 @@ datagrid:
                     - eventState.label as state
                     - eventPriority.label as priority
                 from:
-                    - { table: %mekit_task.task.entity.class%, alias: c }
+                    - { table: %mekit_task.task.entity.class%, alias: t }
                 join:
                     left:
-                        - { join: c.event, alias: e }
+                        - { join: t.event, alias: e }
                         - { join: e.owner, alias: eventOwner }
                         - { join: e.state, alias: eventState }
                         - { join: e.priority, alias: eventPriority }
@@ -33,7 +32,7 @@ datagrid:
                 frontend_type:  html
                 template:       MekitEventBundle:Event:Datagrid/Property/eventIcon.html.twig
             name:
-                label:          mekit.event.name.label
+                label:          mekit.task.name.label
             state:
                 label:         mekit.event.state.label
             startDate:
@@ -88,7 +87,7 @@ datagrid:
         sorters:
             columns:
                 name:
-                    data_name: e.name
+                    data_name: t.name
                 state:
                     data_name: eventState.label
                 startDate:
@@ -104,110 +103,67 @@ datagrid:
             columns:
                 name:
                     type:      string
-                    data_name: e.name
+                    data_name: t.name
                 state:
                     type:      entity
                     data_name: eventState.id
                     options:
-                      field_options:
-                        class:     MekitListBundle:ListItem
-                        property:  label
-                        query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilderForGroup
-                        attr:
-                            group_name: 'EVENT_STATE'
-                        multiple: true
+                        field_options:
+                            class:     MekitListBundle:ListItem
+                            property:  label
+                            query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilderForGroup
+                            attr:
+                                group_name: 'EVENT_STATE'
+                            multiple: true
                 priority:
                     type:      entity
                     data_name: eventPriority.id
                     options:
-                      field_options:
-                        class:     MekitListBundle:ListItem
-                        property:  label
-                        query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilderForGroup
-                        attr:
-                            group_name: 'EVENT_PRIORITY'
-                        multiple: true
+                        field_options:
+                            class:     MekitListBundle:ListItem
+                            property:  label
+                            query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilderForGroup
+                            attr:
+                                group_name: 'EVENT_PRIORITY'
+                            multiple: true
 
-    task-activity-grid:
+    # 1) Extending datagrid MUST declare the FROM table with alias "baseEntity" which MUST have "tasks" relationship
+    # 2) parameter "ref_id" identifying the "baseEntity" must be defined
+    tasks-related-generic:
         extended_entity_name: %mekit_task.task.entity.class%
         source:
             type:           orm
             acl_resource:   mekit_event_view
             query:
                 select:
-                    - c.id
-                    - c.description
-                    - e.name
-                    - e.type
+                    - t.id
+                    - t.name
                     - e.startDate
                     - e.endDate
-                    - e.duration
-                    - eventState.label as state
-                    - eventPriority.label as priority
-                from:
-                    - { table: %mekit_task.task.entity.class%, alias: c }
                 join:
-                    left:
-                        - { join: c.event, alias: e }
-                        - { join: e.owner, alias: eventOwner }
-                        - { join: e.state, alias: eventState }
-                        - { join: e.priority, alias: eventPriority }
-
+                    inner:
+                        - { join: baseEntity.tasks, alias: t }
+                        - { join: t.event, alias: e }
+                where:
+                    and:
+                        - baseEntity.id = :ref_id
+            bind_parameters:
+                - ref_id
         columns:
-            type_icon:
-                data_name:      type
-                label:          mekit.event.type.label
-                type:           twig
-                frontend_type:  html
-                template:       MekitEventBundle:Event:Datagrid/Property/eventIcon.html.twig
             name:
-                label:         mekit.event.name.label
-            state:
-                label:         mekit.event.state.label
+                label:         mekit.task.name.label
             startDate:
                 label:         mekit.event.start_date.label
                 frontend_type: datetime
             endDate:
                 label:         mekit.event.end_date.label
                 frontend_type: datetime
-            duration:
-                label:         mekit.event.duration.label
-            priority:
-                label:         mekit.event.priority.label
-
-        sorters:
-        filters:
-
-
-    tasks-related-relationship:
-        extends: relationship-related-element-source-logic
-        source:
-            acl_resource:   mekit_event_view
-            query:
-                select:
-                    - e.id
-                    - ev.name as eventName
-                from:
-                   - { table: %mekit_task.task.entity.class%, alias: e }
-                join:
-                    inner:
-                        - { join: e.referenceableElement, alias: referenceableElement }
-                    left:
-                        - { join: e.event, alias: ev }
-
-        columns:
-            id:
-                label:        mekit.task.id.label
-            eventName:
-                label:        mekit.event.name.label
-
         properties:
             id: ~
             view_link:
                 type:       url
                 route:      mekit_task_view
                 params:     [ id ]
-
         actions:
             view:
                 type:          navigate
@@ -217,34 +173,46 @@ datagrid:
                 link:          view_link
                 rowAction:     true
 
-
-    tasks-related-select:
-        extends: relationship-related-elements-select-logic
+    tasks-related-users:
+        extends: crm-related-users
         source:
             query:
-                select:
-                    - referenceableElement.id as refElId
-                    - ev.name as eventName
                 from:
-                    - { table: %mekit_task.task.entity.class%, alias: t }
-                join:
-                    inner:
-                        - { join: t.referenceableElement, alias: referenceableElement }
-                        - { join: t.event, alias: ev }
-        columns:
-            refElId:
-                renderable: false
-            eventName:
-                label:        mekit.event.name.label
+                    - { table: %mekit_task.task.entity.class%, alias: baseEntity }
 
-        properties:
-            id: ~
+    tasks-related-accounts:
+        extends: accounts-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_task.task.entity.class%, alias: baseEntity }
 
-        options:
-            entityHint: task
-            rowSelection:
-                dataField: refElId
-                columnName: isAssigned
-                selectors:
-                    included: '#appendElements'
-                    excluded: '#removeElements'
+    tasks-related-contacts:
+        extends: contacts-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_task.task.entity.class%, alias: baseEntity }
+
+    tasks-related-projects:
+        extends: projects-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_task.task.entity.class%, alias: baseEntity }
+
+    tasks-related-calls:
+        extends: calls-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_task.task.entity.class%, alias: baseEntity }
+
+    tasks-related-meetings:
+        extends: meetings-related-generic
+        source:
+            query:
+                from:
+                    - { table: %mekit_task.task.entity.class%, alias: baseEntity }
+
+
