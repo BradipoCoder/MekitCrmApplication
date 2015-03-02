@@ -1,14 +1,13 @@
 <?php
-namespace Mekit\Bundle\AccountBundle\Tests\Unit;
+namespace Mekit\Bundle\ContactBundle\Tests\Unit;
 
 use Mekit\Bundle\TestBundle\Helpers\MekitUnitTest;
-use Mekit\Bundle\AccountBundle\MekitAccountBundle;
+use Mekit\Bundle\ContactBundle\MekitContactBundle;
 
-
-class MekitAccountBundleTest extends MekitUnitTest {
+class MekitContactbundleTest extends MekitUnitTest {
 	public function testBuild() {
 		$container = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
-		$bundle = new MekitAccountBundle();
+		$bundle = new MekitContactBundle();
 		$bundle->build($container);
 	}
 }
