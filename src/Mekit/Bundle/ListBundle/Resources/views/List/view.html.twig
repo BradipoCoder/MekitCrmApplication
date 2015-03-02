@@ -1,11 +1,12 @@
 {% extends 'OroUIBundle:actions:view.html.twig' %}
 {% import 'OroUIBundle::macros.html.twig' as macros %}
 
+{% set fullname = entity.name|default('N/A'|trans) %}
+{% oro_title_set({params : {"%list.name%": fullname} }) %}
+
 {% block stats %}
 	{#NO DATES#}
 {% endblock %}
-
-{% oro_title_set({params : {"%list.name%": entity.name | default('N/A')} }) %}
 
 {% block navButtons %}
 
@@ -61,7 +62,7 @@
 	'entity': entity,
 	'indexPath': path('mekit_list_index'),
 	'indexLabel': 'mekit.list.listgroup.entity_plural_label'|trans,
-	'entityTitle': entity.label|trans ~ " [" ~ entity.name ~ "]" | default('N/A')
+	'entityTitle': entity.label|trans ~ " [" ~ fullname ~ "]"
 	} %}
 	{{ parent() }}
 {% endblock pageHeader %}

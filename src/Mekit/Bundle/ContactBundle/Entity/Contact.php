@@ -593,7 +593,7 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	/**
 	 * @return string
 	 */
-	public function __toString() {
+	public function getFullName() {
 		$name = $this->getNamePrefix() . ' '
 			. $this->getFirstName() . ' '
 			. $this->getMiddleName() . ' '
@@ -601,6 +601,13 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 			. $this->getNameSuffix();
 		$name = preg_replace('/ +/', ' ', $name);
 		return (string)trim($name);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function __toString() {
+		return $this->getFullName();
 	}
 
 	/**

@@ -1,6 +1,7 @@
 {% extends 'OroUIBundle:actions:view.html.twig' %}
 
-{% oro_title_set({params : {"%account.name%": entity.name|default('N/A')} }) %}
+{% set fullname = entity.name|default('N/A'|trans) %}
+{% oro_title_set({params : {"%account.name%": fullname} }) %}
 
 {% block navButtons %}
 	{% if resource_granted('EDIT', entity) %}
@@ -28,7 +29,7 @@
 	'entity': entity,
 	'indexPath': path('mekit_account_index'),
 	'indexLabel': 'mekit.account.entity_plural_label'|trans,
-	'entityTitle': entity.name|default('N/A')
+	'entityTitle': fullname
 	} %}
 	{{ parent() }}
 {% endblock pageHeader %}
