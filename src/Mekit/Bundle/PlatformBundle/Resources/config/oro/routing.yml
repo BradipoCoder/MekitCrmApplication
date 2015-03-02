@@ -1,0 +1,4 @@
+mekit_platform_bundle:
+    resource:     "@MekitPlatformBundle/Controller"
+    type:         annotation
+    prefix:       /platform

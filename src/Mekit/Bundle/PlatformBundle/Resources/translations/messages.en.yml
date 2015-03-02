@@ -1,0 +1,6 @@
+mekit:
+    platform:
+        caption:
+            mekit:        Mekit Packages
+            symfony:      Symfony Packages
+            doctrine:     Doctrine Packages

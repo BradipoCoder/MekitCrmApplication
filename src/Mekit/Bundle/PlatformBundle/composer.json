@@ -1,13 +1,13 @@
 {
-    "name": "mekit/project-bundle",
+    "name": "mekit/platform-bundle",
     "type": "symfony-bundle",
-    "description": "Mekit Project Bundle",
+    "description": "Mekit Platform Bundle",
     "license": "OSL-3.0",
     "require": {},
     "autoload": {
         "psr-0": { "": "src/" }
     },
-    "target-dir": "Mekit/Bundle/ProjectBundle",
+    "target-dir": "Mekit/Bundle/PlatformBundle",
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
