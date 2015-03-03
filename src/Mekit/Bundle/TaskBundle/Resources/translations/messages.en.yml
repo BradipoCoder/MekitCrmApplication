@@ -37,6 +37,9 @@ mekit:
 
 
         worklog:
+            widgets:
+                worklog_add.title:      Add Worklog
+
             #
             # Mekit/Bundle/TaskBundle/Entity/Worklog
             #

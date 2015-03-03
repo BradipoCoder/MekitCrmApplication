@@ -28,6 +28,34 @@
 		'entity_label': 'mekit.task.entity_label'|trans
 		}) }}
 	{% endif %}
+
+	{% if resource_granted('mekit_task_worklog_create') %}
+		{% set dialogTitle = 'mekit.task.worklog.widgets.worklog_add.title'|trans %}
+		{{ UI.clientButton({
+			'dataUrl': path('mekit_worklog_create', { 'taskId': entity.id }),
+			'aCss': 'no-hash',
+			'iCss': 'icon-plus-sign',
+			'dataId': entity.id,
+			'title' : dialogTitle,
+			'label' : dialogTitle,
+			'widget' : {
+				'type' : 'dialog',
+				'multiple' : false,
+				'reload-grid-name' : 'worklogs-related-to-task',
+				'options' : {
+					'alias': 'worklog-dialog',
+					'stateEnabled': false,
+					'dialogOptions' : {
+						'title' : dialogTitle,
+						'allowMaximize': false,
+						'allowMinimize': false,
+						'width': 600
+					}
+				}
+			}
+		}) }}
+	{% endif %}
+
 {% endblock navButtons %}
 
 

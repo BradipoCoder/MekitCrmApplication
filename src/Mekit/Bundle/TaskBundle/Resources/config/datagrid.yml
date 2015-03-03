@@ -243,12 +243,12 @@ datagrid:
             registrationDate:
                 label:         mekit.task.worklog.registration_date.label
                 frontend_type: datetime
-            duration:
-                label:         mekit.task.worklog.duration.label
             ownerName:
                 label:         mekit.task.worklog.owner.label
             description:
                 label:         mekit.task.worklog.description.label
+            duration:
+                label:         mekit.task.worklog.duration.label
 #        properties:
 #            id: ~
 #            view_link:
