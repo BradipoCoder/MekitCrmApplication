@@ -5,10 +5,12 @@
 
 
 {% block navButtons %}
-	<div class="btn-group">
-		{{ UI.addButton({
-		'path' : path('mekit_project_create'),
-		'entity_label': 'mekit.project.entity_label'|trans
-		}) }}
-	</div>
+	{% if resource_granted('mekit_project_create') %}
+		<div class="btn-group">
+			{{ UI.addButton({
+			'path' : path('mekit_project_create'),
+			'entity_label': 'mekit.project.entity_label'|trans
+			}) }}
+		</div>
+	{% endif %}
 {% endblock %}

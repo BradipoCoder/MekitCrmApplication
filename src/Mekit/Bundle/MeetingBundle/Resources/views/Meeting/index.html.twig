@@ -4,10 +4,12 @@
 {% set pageTitle = 'mekit.meeting.entity_plural_label'|trans %}
 
 {% block navButtons %}
-	<div class="btn-group">
-		{{ UI.addButton({
-		'path' : path('mekit_meeting_create'),
-		'entity_label': 'mekit.meeting.entity_label'|trans
-		}) }}
-	</div>
+	{% if resource_granted('mekit_meeting_create') %}
+		<div class="btn-group">
+			{{ UI.addButton({
+			'path' : path('mekit_meeting_create'),
+			'entity_label': 'mekit.meeting.entity_label'|trans
+			}) }}
+		</div>
+	{% endif %}
 {% endblock %}
