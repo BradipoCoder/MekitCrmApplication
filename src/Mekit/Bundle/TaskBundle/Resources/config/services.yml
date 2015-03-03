@@ -1,5 +1,6 @@
 parameters:
-    mekit_task.task.entity.class: Mekit\Bundle\TaskBundle\Entity\Task
+    mekit_task.task.entity.class:     Mekit\Bundle\TaskBundle\Entity\Task
+    mekit_task.worklog.entity.class:  Mekit\Bundle\TaskBundle\Entity\Worklog
 
 services:
     mekit_task.autocomplete.task.search_handler:

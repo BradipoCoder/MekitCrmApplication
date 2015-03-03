@@ -1,5 +1,5 @@
 <?php
-namespace Mekit\Bundle\AccountBundle\Controller\Api\Rest;
+namespace Mekit\Bundle\TaskBundle\Controller\Api\Rest;
 
 use FOS\RestBundle\Controller\Annotations\NamePrefix;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
@@ -15,10 +15,11 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @RouteResource("account")
+ * @RouteResource("worklog")
  * @NamePrefix("mekit_api_")
  */
-class AccountController extends RestController implements ClassResourceInterface {
+class WorklogController extends RestController implements ClassResourceInterface
+{
 	/**
 	 * REST GET list
 	 *
@@ -38,7 +39,7 @@ class AccountController extends RestController implements ClassResourceInterface
 	 *      description="Get all items",
 	 *      resource=true
 	 * )
-	 * @AclAncestor("mekit_account_account_view")
+	 * @AclAncestor("mekit_task_worklog_view")
 	 * @return Response
 	 */
 	public function cgetAction() {
@@ -54,7 +55,12 @@ class AccountController extends RestController implements ClassResourceInterface
 	 *      description="Get a single item",
 	 *      resource=true
 	 * )
-	 * @AclAncestor("mekit_account_account_view")
+	 * @Acl(
+	 *      id="mekit_task_worklog_view",
+	 *      type="entity",
+	 *      permission="VIEW",
+	 *      class="MekitTaskBundle:Worklog"
+	 * )
 	 * @return Response
 	 */
 	public function getAction($id) {
@@ -62,7 +68,7 @@ class AccountController extends RestController implements ClassResourceInterface
 	}
 
 	/**
-	 * REST PUT
+	 * REST PUT (update)
 	 *
 	 * @param int $id
 	 *
@@ -70,7 +76,12 @@ class AccountController extends RestController implements ClassResourceInterface
 	 *      description="Update item",
 	 *      resource=true
 	 * )
-	 * @AclAncestor("mekit_account_account_update")
+	 * @Acl(
+	 *      id="mekit_task_worklog_update",
+	 *      type="entity",
+	 *      permission="EDIT",
+	 *      class="MekitTaskBundle:Worklog"
+	 * )
 	 * @return Response
 	 */
 	public function putAction($id) {
@@ -78,13 +89,18 @@ class AccountController extends RestController implements ClassResourceInterface
 	}
 
 	/**
-	 * Create new item
+	 * REST POST (create)
 	 *
 	 * @ApiDoc(
 	 *      description="Create new item",
 	 *      resource=true
 	 * )
-	 * @AclAncestor("mekit_account_account_create")
+	 * @Acl(
+	 *      id="mekit_task_worklog_create",
+	 *      type="entity",
+	 *      permission="CREATE",
+	 *      class="MekitTaskBundle:Worklog"
+	 * )
 	 */
 	public function postAction() {
 		return $this->handleCreateRequest();
@@ -100,10 +116,10 @@ class AccountController extends RestController implements ClassResourceInterface
 	 *      resource=true
 	 * )
 	 * @Acl(
-	 *      id="mekit_account_account_delete",
+	 *      id="mekit_task_worklog_delete",
 	 *      type="entity",
 	 *      permission="DELETE",
-	 *      class="MekitAccountBundle:Account"
+	 *      class="MekitTaskBundle:Worklog"
 	 * )
 	 * @return Response
 	 */
@@ -117,20 +133,20 @@ class AccountController extends RestController implements ClassResourceInterface
 	 * @return ApiEntityManager
 	 */
 	public function getManager() {
-		return $this->get('mekit_account.account.manager.api');
+		return $this->get('mekit_task.worklog.manager.api');
 	}
 
 	/**
 	 * @return FormInterface
 	 */
 	public function getForm() {
-		return $this->get('mekit_account.form.account.api');
+		return $this->get('mekit_task.form.worklog.api');
 	}
 
 	/**
 	 * @return ApiFormHandler
 	 */
 	public function getFormHandler() {
-		return $this->get('mekit_account.form.handler.account.api');
+		return $this->get('mekit_task.form.handler.worklog.api');
 	}
 }

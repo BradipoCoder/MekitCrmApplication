@@ -1,11 +1,11 @@
 <?php
 namespace Mekit\Bundle\TaskBundle\Model;
 
-use Mekit\Bundle\TaskBundle\Entity\Relationships\Task\RelatedUsers;
+use Mekit\Bundle\TaskBundle\Entity\Relationships\Worklog\RelatedTask;
 /**
  * Class ExtendTask
  */
-class ExtendTask extends RelatedUsers {
+class ExtendWorklog extends RelatedTask {
 	/**
 	 * Constructor
 	 *

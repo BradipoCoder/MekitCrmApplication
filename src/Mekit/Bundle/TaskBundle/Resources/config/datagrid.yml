@@ -216,3 +216,50 @@ datagrid:
                     - { table: %mekit_task.task.entity.class%, alias: baseEntity }
 
 
+    worklogs-related-to-task:
+        extended_entity_name: %mekit_task.worklog.entity.class%
+        source:
+            type:           orm
+            acl_resource:   mekit_event_view
+            query:
+                select:
+                    - wl.id
+                    - wl.registrationDate
+                    - wl.duration
+                    - wl.description
+                    - wlOwner.firstName as ownerName
+                from:
+                    - { table: %mekit_task.worklog.entity.class%, alias: wl }
+                join:
+                    inner:
+                        - { join: wl.task, alias: t }
+                        - { join: wl.owner, alias: wlOwner }
+                where:
+                    and:
+                        - t.id = :ref_id
+            bind_parameters:
+                - ref_id
+        columns:
+            registrationDate:
+                label:         mekit.task.worklog.registration_date.label
+                frontend_type: datetime
+            duration:
+                label:         mekit.task.worklog.duration.label
+            ownerName:
+                label:         mekit.task.worklog.owner.label
+            description:
+                label:         mekit.task.worklog.description.label
+#        properties:
+#            id: ~
+#            view_link:
+#                type:       url
+#                route:      mekit_task_view
+#                params:     [ id ]
+#        actions:
+#            view:
+#                type:          navigate
+#                acl_resource:  mekit_event_view
+#                label:         oro.grid.action.view
+#                icon:          eye-open
+#                link:          view_link
+#                rowAction:     true

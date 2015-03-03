@@ -59,6 +59,13 @@
 		}) }}
 	{% endset %}
 
+	{% set relatedWorklogs %}
+	{{ oro_widget_render({
+		'widgetType': 'block',
+		'url': path('mekit_crm_widget_related', {datagrid_name: "worklogs-related-to-task", id: entity.id})
+	}) }}
+	{% endset %}
+
 	{% set relatedUsers %}
 	{{ oro_widget_render({
 		'widgetType': 'block',
@@ -108,6 +115,11 @@
 			'subblocks': [
 				{'data' : [taskInformationWidget, eventInformationWidget]}
 			]
+		},
+		{
+		'title': 'mekit.task.worklogs.label'|trans,
+		'class': 'resp',
+		'subblocks': [ {'data' : [relatedWorklogs]} ]
 		},
 		{
 		'title': 'mekit.task.users.label'|trans,

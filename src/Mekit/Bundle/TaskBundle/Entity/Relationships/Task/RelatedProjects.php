@@ -1,16 +1,17 @@
 <?php
-namespace Mekit\Bundle\TaskBundle\Entity\Relationships;
+namespace Mekit\Bundle\TaskBundle\Entity\Relationships\Task;
 
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Mekit\Bundle\ProjectBundle\Entity\Project;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 
 /**
  * @ORM\MappedSuperclass
  */
-class RelatedProjects {
+class RelatedProjects extends RelatedWorklogs
+{
 	/**
 	 * @var ArrayCollection
 	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\ProjectBundle\Entity\Project", mappedBy="tasks")
@@ -25,7 +26,7 @@ class RelatedProjects {
 	protected $projects;
 
 	public function __construct() {
-		//parent::__construct();
+		parent::__construct();
 		$this->projects = new ArrayCollection();
 	}
 
@@ -45,6 +46,7 @@ class RelatedProjects {
 		foreach ($projects as $project) {
 			$this->addProject($project);
 		}
+
 		return $this;
 	}
 
@@ -57,6 +59,7 @@ class RelatedProjects {
 			$this->projects->add($project);
 			$project->addTask($this);
 		}
+
 		return $this;
 	}
 
@@ -69,6 +72,7 @@ class RelatedProjects {
 			$this->projects->removeElement($project);
 			$project->removeTask($this);
 		}
+
 		return $this;
 	}
 

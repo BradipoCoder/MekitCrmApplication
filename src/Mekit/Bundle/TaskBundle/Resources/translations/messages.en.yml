@@ -27,6 +27,7 @@ mekit:
         name.label:                 Name
         event.label:                Event
 
+        worklogs.label:             Worklogs
         users.label:                Users
         accounts.label:             Accounts
         contacts.label:             Contacts
@@ -34,6 +35,23 @@ mekit:
         meetings.label:             Meetings
         projects.label:             Projects
 
+
+        worklog:
+            #
+            # Mekit/Bundle/TaskBundle/Entity/Worklog
+            #
+            entity_label:               Worklog
+            entity_plural_label:        Worklogs
+            entity_description:         Worklog
+
+            id.label:                   Id
+            registration_date.label:    Registration Date
+            duration.label:             Duration
+            description.label:          Description
+            owner.label:                Owner
+            created_at.label:           Created At
+            updated_at.label:           Updated At
+            task.label:                 Task
 
 
 
