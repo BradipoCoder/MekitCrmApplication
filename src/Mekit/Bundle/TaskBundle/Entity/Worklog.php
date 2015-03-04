@@ -62,7 +62,7 @@ class Worklog extends ExtendWorklog
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(type="text", length=65535, nullable=true)
+	 * @ORM\Column(type="text", length=65535, nullable=false)
 	 * @Soap\ComplexType("string", nillable=true)
 	 * @Oro\Versioned
 	 */

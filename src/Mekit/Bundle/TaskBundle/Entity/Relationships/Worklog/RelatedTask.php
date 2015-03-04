@@ -13,7 +13,7 @@ class RelatedTask {
 	/**
 	 * @var Task
 	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\TaskBundle\Entity\Task", inversedBy="worklogs")
-	 * @ORM\JoinColumn(name="task_id", referencedColumnName="id", onDelete="SET NULL")
+	 * @ORM\JoinColumn(name="task_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
 	 * @ConfigField()
 	 */
 	protected $task;
