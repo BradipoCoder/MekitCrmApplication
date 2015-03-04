@@ -43,16 +43,15 @@ class WorklogType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		// basic fields
 		$builder
-			->add('registrationDate', 'oro_datetime', array('required' => true, 'label' => 'mekit.task.worklog.registration_date.label'))
+			->add('executionDate', 'oro_date', array('required' => true, 'label' => 'mekit.task.worklog.execution_date.label'))
 			->add('duration', 'text', array('required' => true, 'label' => 'mekit.task.worklog.duration.label'))
 			->add('description', 'textarea', array('required' => true, 'label' => 'mekit.task.worklog.description.label'))
 			->add('owner', 'oro_user_select', array('required' => true, 'label' => 'mekit.task.worklog.owner.label'));
-			//->add('task', 'oro_entity_select', array('required' => true, 'label' => 'mekit.task.worklog.task.label'));
 
 		//task
 		$builder->add(
 			'task',
-			'oro_jqueryselect2_hidden',
+			'oro_entity_select',
 			[
 				'required' => true,
 				'label' => 'mekit.task.worklog.task.label',

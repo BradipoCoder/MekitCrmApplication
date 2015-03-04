@@ -12,7 +12,7 @@ use Oro\Bundle\UserBundle\Entity\User;
 /**
  * @ORM\Entity()
  * @ORM\Table(name="mekit_worklog", indexes={
- *      @ORM\Index(name="idx_registration_date", columns={"registration_date"}),
+ *      @ORM\Index(name="idx_worklog_exec_date", columns={"execution_date"})
  * })
  * @ORM\HasLifecycleCallbacks()
  * @Oro\Loggable
@@ -46,10 +46,10 @@ class Worklog extends ExtendWorklog
 	/**
 	 * @var \DateTime
 	 *
-	 * @ORM\Column(name="registration_date", type="datetime", nullable=false)
+	 * @ORM\Column(name="execution_date", type="datetime", nullable=false)
 	 * @Oro\Versioned
 	 */
-	protected $registrationDate;
+	protected $executionDate;
 
 	/**
 	 * @var integer
@@ -126,16 +126,16 @@ class Worklog extends ExtendWorklog
 	/**
 	 * @return \DateTime
 	 */
-	public function getRegistrationDate() {
-		return $this->registrationDate;
+	public function getExecutionDate() {
+		return $this->executionDate;
 	}
 
 	/**
-	 * @param \DateTime $registrationDate
+	 * @param \DateTime $executionDate
 	 * @return $this
 	 */
-	public function setRegistrationDate($registrationDate) {
-		$this->registrationDate = $registrationDate;
+	public function setExecutionDate($executionDate) {
+		$this->executionDate = $executionDate;
 
 		return $this;
 	}

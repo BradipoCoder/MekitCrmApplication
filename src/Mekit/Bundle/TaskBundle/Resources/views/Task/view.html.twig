@@ -30,6 +30,7 @@
 	{% endif %}
 
 	{% if resource_granted('mekit_task_worklog_create') %}
+		{# removed from 'widget' key because implemented in update.html.twig: reload-grid-name' : 'worklogs-related-to-task' #}
 		{% set dialogTitle = 'mekit.task.worklog.widgets.worklog_add.title'|trans %}
 		{{ UI.clientButton({
 			'dataUrl': path('mekit_worklog_create', { 'taskId': entity.id }),
@@ -41,7 +42,6 @@
 			'widget' : {
 				'type' : 'dialog',
 				'multiple' : false,
-				'reload-grid-name' : 'worklogs-related-to-task',
 				'options' : {
 					'alias': 'worklog-dialog',
 					'stateEnabled': false,

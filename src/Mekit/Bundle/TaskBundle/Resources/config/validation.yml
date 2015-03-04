@@ -4,3 +4,21 @@ Mekit\Bundle\TaskBundle\Entity\Task:
             - NotBlank: ~
             - Length:
                 max: 255
+
+Mekit\Bundle\TaskBundle\Entity\Worklog:
+    properties:
+        executionDate:
+            - NotBlank: ~
+            - Date: ~
+        duration:
+            - NotBlank: ~
+            - Regex:
+                pattern: '/^[0-9]*(:[0-9]+)?$/'
+                message: mekit.worklog.validation.duration.regex.message
+        description:
+            - NotBlank: ~
+        owner:
+            - NotBlank: ~
+        task:
+            - NotBlank: ~
+

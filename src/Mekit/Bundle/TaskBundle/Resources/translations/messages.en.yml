@@ -48,7 +48,7 @@ mekit:
             entity_description:         Worklog
 
             id.label:                   Id
-            registration_date.label:    Registration Date
+            execution_date.label:       Execution Date
             duration.label:             Duration
             description.label:          Description
             owner.label:                Owner

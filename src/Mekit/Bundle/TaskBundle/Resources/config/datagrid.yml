@@ -224,7 +224,7 @@ datagrid:
             query:
                 select:
                     - wl.id
-                    - wl.registrationDate
+                    - wl.executionDate
                     - wl.duration
                     - wl.description
                     - wlOwner.firstName as ownerName
@@ -240,26 +240,36 @@ datagrid:
             bind_parameters:
                 - ref_id
         columns:
-            registrationDate:
-                label:         mekit.task.worklog.registration_date.label
-                frontend_type: datetime
+            executionDate:
+                label:         mekit.task.worklog.execution_date.label
+                frontend_type: date
             ownerName:
                 label:         mekit.task.worklog.owner.label
             description:
                 label:         mekit.task.worklog.description.label
             duration:
                 label:         mekit.task.worklog.duration.label
-#        properties:
-#            id: ~
-#            view_link:
-#                type:       url
-#                route:      mekit_task_view
-#                params:     [ id ]
-#        actions:
-#            view:
-#                type:          navigate
-#                acl_resource:  mekit_event_view
-#                label:         oro.grid.action.view
-#                icon:          eye-open
-#                link:          view_link
-#                rowAction:     true
+        properties:
+            id: ~
+            update_link:
+                type:       url
+                route:      mekit_worklog_update
+                params:     [ id ]
+            delete_link:
+                type:       url
+                route:      mekit_api_delete_worklog
+                params:
+                    id: id
+        actions:
+            update:
+                type:          dialog
+                acl_resource:  mekit_task_worklog_update
+                label:         oro.grid.action.update
+                icon:          edit
+                link:          update_link
+            delete:
+                type:          delete
+                acl_resource:  mekit_task_worklog_delete
+                label:         oro.grid.action.delete
+                icon:          trash
+                link:          delete_link
