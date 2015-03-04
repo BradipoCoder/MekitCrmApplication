@@ -24,7 +24,7 @@ class WorklogController extends Controller
 	 */
 	public function createAction() {
 		$taskId = $this->getRequest()->get('taskId');
-		$entity = $this->initWorklogItemEntity($taskId);
+		$entity = $this->initWorklogEntity($taskId);
 		$entity->setOwner($this->getUser());
 		$entity->setExecutionDate(new \DateTime());
 
@@ -53,20 +53,31 @@ class WorklogController extends Controller
 		}
 		$taskId = $entity->getTask()->getId();
 
-		$formAction = ($entity->getId() ? $this->get('router')->generate('mekit_worklog_update', ['id' => $entity->getId()]) : $this->get('router')->generate('mekit_worklog_create', ['taskId' => $taskId]));
+		$formAction = ($entity->getId() ? $this->get('router')->generate(
+			'mekit_worklog_update',
+			['id' => $entity->getId()]
+		) : $this->get('router')->generate(
+			'mekit_worklog_create',
+			['taskId' => $taskId]
+		));
 
 		if ($this->get('mekit_task.form.handler.worklog.api')->process($entity)) {
 			$saved = true;
 		}
 
-		return array('entity' => $entity, 'formAction' => $formAction, 'saved' => $saved, 'form' => $this->get('mekit_task.form.worklog.api')->createView());
+		return array(
+			'entity' => $entity,
+			'formAction' => $formAction,
+			'saved' => $saved,
+			'form' => $this->get('mekit_task.form.worklog.api')->createView()
+		);
 	}
 
 	/**
 	 * @param integer $taskId
 	 * @return Worklog
 	 */
-	protected function initWorklogItemEntity($taskId = null) {
+	protected function initWorklogEntity($taskId = null) {
 		if (empty($taskId)) {
 			throw new \LogicException("Task defined in parameters!");
 		}

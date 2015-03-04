@@ -9,9 +9,9 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class TaskHandler
+ * Class TaskApiHandler
  */
-class TaskHandler
+class TaskApiHandler
 {
 	/**
 	 * @var FormInterface
@@ -30,6 +30,7 @@ class TaskHandler
 
 	/** @var EntityRoutingHelper */
 	protected $entityRoutingHelper;
+
 
 	/**
 	 *
@@ -52,6 +53,22 @@ class TaskHandler
 	 * @return bool True on successful processing, false otherwise
 	 */
 	public function process(Task $entity) {
+		$action = $this->entityRoutingHelper->getAction($this->request);
+		$targetEntityClass = $this->entityRoutingHelper->getEntityClassName($this->request);
+		$targetEntityId = $this->entityRoutingHelper->getEntityId($this->request);
+
+		if ($targetEntityClass
+			&& !$entity->getId()
+			&& $this->request->getMethod() === 'GET'
+			&& $action === 'assign'
+		) {
+			//todo: this must be moved out into a service
+			$targetEntity = $this->entityRoutingHelper->getEntity($targetEntityClass, $targetEntityId);
+			if(is_a($targetEntityClass, 'Mekit\Bundle\ProjectBundle\Entity\Project', true)) {
+				$entity->addProject($targetEntity);
+			}
+		}
+
 		$this->form->setData($entity);
 		if (in_array(
 			$this->request->getMethod(),
@@ -87,6 +104,4 @@ class TaskHandler
 	public function getForm() {
 		return $this->form;
 	}
-
-
 }

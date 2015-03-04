@@ -21,6 +21,33 @@
 		'entity_label': 'mekit.project.entity_label'|trans
 		}) }}
 	{% endif %}
+
+	{% if resource_granted('mekit_task_create') %}
+		{% set dialogTitle = 'mekit.project.widgets.task_add.title'|trans %}
+		{{ UI.clientButton({
+			'dataUrl': path('mekit_task_create', oro_action_params(entity, 'assign')),
+			'aCss': 'no-hash',
+			'iCss': 'icon-plus-sign',
+			'dataId': entity.id,
+			'title' : dialogTitle,
+			'label' : dialogTitle,
+			'widget' : {
+				'type' : 'dialog',
+				'multiple' : false,
+				'options' : {
+					'alias': 'task-dialog',
+					'stateEnabled': false,
+					'dialogOptions' : {
+						'title' : dialogTitle,
+						'allowMaximize': false,
+						'allowMinimize': false,
+						'width': 600
+					}
+				}
+			}
+		}) }}
+	{% endif %}
+
 {% endblock navButtons %}
 
 {% block pageHeader %}

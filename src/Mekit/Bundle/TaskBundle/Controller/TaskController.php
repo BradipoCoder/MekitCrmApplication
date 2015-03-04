@@ -1,23 +1,22 @@
 <?php
 namespace Mekit\Bundle\TaskBundle\Controller;
 
-use BeSimple\SoapCommon\Type\KeyValue\DateTime;
 use Mekit\Bundle\EventBundle\Entity\Event;
 use Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository;
 use Mekit\Bundle\TaskBundle\Entity\Task;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 
 /**
  * Class TaskController
  */
-class TaskController extends Controller {
+class TaskController extends Controller
+{
 	/**
 	 * @Route(
 	 *      "/{_format}",
@@ -60,7 +59,11 @@ class TaskController extends Controller {
 	 * @return array
 	 */
 	public function createAction() {
-		return $this->update();
+		$entity = $this->initTaskEntity();
+		$formAction = $this->get('oro_entity.routing_helper')
+			->generateUrlByRequest('mekit_task_create', $this->getRequest());
+
+		return $this->update($entity, $formAction);
 	}
 
 	/**
@@ -76,55 +79,78 @@ class TaskController extends Controller {
 	 * @return array
 	 */
 	public function updateAction(Task $entity) {
-		return $this->update($entity);
+		$formAction = $this->get('router')->generate('mekit_task_update', ['id' => $entity->getId()]);
+		return $this->update($entity, $formAction);
 	}
 
 	/**
 	 * @param Task $entity
+	 * @param string $formAction
 	 * @return array
 	 */
-	protected function update(Task $entity = null) {
-		if (!$entity) {
-			/** @var ListItemRepository $listItemRepo */
-			$listItemRepo = $this->getDoctrine()->getRepository('MekitListBundle:ListItem');
+	protected function update(Task $entity, $formAction) {
+		$saved = false;
+		$isWidget = ( $this->getRequest()->get('_widgetContainer', false) != false);
+		$formHandler = (!$isWidget ? $this->get('mekit_task.form.handler.task') : $this->get('mekit_task.form.handler.task.api'));
 
-			/** @var Event $event */
-			$event = $this->getManagerEvent()->createEntity();
-			$event->setStartDate(new \DateTime());
-			$event->setState($listItemRepo->getDefaultItemForGroup("EVENT_STATE"));
-			$event->setPriority($listItemRepo->getDefaultItemForGroup("EVENT_PRIORITY"));
-			$event->setOwner($this->getUser());
-
-			/** @var Task $entity */
-			$entity = $this->getManagerTask()->createEntity();
-
-			//assign to current user
-			$entity->addUser($this->getUser());
-
-			//set relationship between entity and Event
-			$entity->setEvent($event);
-			$event->setTask($entity);
+		if ($formHandler->process($entity)) {
+			if (!$isWidget) {
+				$this->get('session')->getFlashBag()->add(
+					'success',
+					$this->get('translator')->trans('mekit.task.controller.saved.message')
+				);
+				return $this->get('oro_ui.router')->redirectAfterSave(
+					array(
+						'route' => 'mekit_task_update',
+						'parameters' => array('id' => $entity->getId())
+					),
+					array(
+						'route' => 'mekit_task_view',
+						'parameters' => array('id' => $entity->getId())
+					)
+				);
+			}
+			$saved = true;
 		}
 
-		return $this->get('oro_form.model.update_handler')->handleUpdate(
-			$entity,
-			$this->get('mekit_task.form.task'),
-			function (Task $entity) {
-				return array(
-					'route' => 'mekit_task_update',
-					'parameters' => array('id' => $entity->getId())
-				);
-			},
-			function (Task $entity) {
-				return array(
-					'route' => 'mekit_task_view',
-					'parameters' => array('id' => $entity->getId())
-				);
-			},
-			$this->get('translator')->trans('mekit.task.controller.saved.message'),
-			$this->get('mekit_task.form.handler.task')
+		return array(
+			'entity'     => $entity,
+			'saved'      => $saved,
+			'form'       => $formHandler->getForm()->createView(),
+			'formAction' => $formAction,
 		);
 	}
+
+
+
+	/**
+	 * @return Task
+	 */
+	protected function initTaskEntity() {
+//		if ($parent) {}
+
+		/** @var ListItemRepository $listItemRepo */
+		$listItemRepo = $this->getDoctrine()->getRepository('MekitListBundle:ListItem');
+
+		/** @var Event $event */
+		$event = $this->getEventManager()->createEntity();
+		$event->setStartDate(new \DateTime());
+		$event->setOwner($this->getUser());
+		$event->setState($listItemRepo->getDefaultItemForGroup("EVENT_STATE"));
+		$event->setPriority($listItemRepo->getDefaultItemForGroup("EVENT_PRIORITY"));
+
+		/** @var Task $entity */
+		$entity = $this->getTaskManager()->createEntity();
+		$entity->addUser($this->getUser());
+
+		//set relationship between task and Event
+		$entity->setEvent($event);
+		$event->setTask($entity);
+
+		return ($entity);
+	}
+
+
 
 
 	/**
@@ -140,37 +166,18 @@ class TaskController extends Controller {
 		];
 	}
 
-	/**
-	 * This action is used to render the list of tasks associated with the given entity
-	 * on the view page of this entity
-	 *
-	 * @Route(
-	 *      "/widget/activity/{entityClass}/{entityId}",
-	 *      name="mekit_task_activity_widget"
-	 * )
-	 * @AclAncestor("mekit_event_view")
-	 * @Template(template="MekitTaskBundle:Task/widget:activity.html.twig")
-	 * @param string $entityClass
-	 * @param mixed $entityId
-	 * @return array
-	 */
-	public function activityAction($entityClass, $entityId) {
-		return [
-			'entity' => $this->get('oro_entity.routing_helper')->getEntity($entityClass, $entityId)
-		];
-	}
 
 	/**
 	 * @return ApiEntityManager
 	 */
-	protected function getManagerTask() {
+	protected function getTaskManager() {
 		return $this->get('mekit_task.task.manager.api');
 	}
 
 	/**
 	 * @return ApiEntityManager
 	 */
-	protected function getManagerEvent() {
+	protected function getEventManager() {
 		return $this->get('mekit_event.event.manager.api');
 	}
 }
