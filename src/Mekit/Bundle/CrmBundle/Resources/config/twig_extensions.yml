@@ -1,0 +1,11 @@
+parameters:
+    mekit_crm.twig.extension.relationships.class: Mekit\Bundle\CrmBundle\Twig\Relationships
+
+services:
+    mekit_relationship.twig.extension.relationship_list:
+        class: %mekit_crm.twig.extension.relationships.class%
+        arguments:
+            - @router
+            - @translator
+        tags:
+            - { name: twig.extension }

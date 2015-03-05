@@ -1,5 +1,9 @@
 parameters:
-#
+    mekit_crm.relationship.manager.class:      Mekit\Bundle\CrmBundle\Relationship\RelationshipManager
 
 services:
-#
+    mekit_crm.relationship.manager:
+        class: %mekit_crm.relationship.manager.class%
+        arguments:
+            - @doctrine.orm.entity_manager
+            - @oro_entity.doctrine_helper

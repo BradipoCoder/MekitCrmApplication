@@ -9,6 +9,8 @@
 							messenger.notificationFlashMessage('success', __('Task saved successfully'));
 							mediator.trigger('widget_success:' + widget.getAlias());
 							mediator.trigger('widget_success:' + widget.getWid());
+							//@todo: we need to find a way to pass parameter to dialog with name of datagrid to refresh
+							//or it must be the dialog open button to do this
 							//mediator.trigger('datagrid:doRefresh:worklogs-related-to-task');
 							widget.remove();
 						});
@@ -26,16 +28,22 @@
 			<form id="{{ form.vars.name }}" action="{{ formAction }}" method="post">
 				<fieldset class="form-horizontal">
 					{{ form_row(form.name) }}
+					{{ form_row(form.event.startDate) }}
 					{{ form_row(form.event.description) }}
 					{{ form_row(form.event.state) }}
 					{{ form_row(form.event.priority) }}
-
-					{{ form_row(form.event.owner) }}
-
-					{{ form_row(form.event.startDate) }}
-
+					{{ form_row(form.users) }}
+					{{ form_row(form.accounts) }}
+					{{ form_row(form.contacts) }}
 					{{ form_row(form.projects) }}
-					{{ form_row(form.event.type) }}
+
+					<div style="display:none;">
+						{{ form_row(form.event.owner) }}
+						{{ form_row(form.event.type) }}
+						{{ form_row(form.meetings) }}
+						{{ form_row(form.calls) }}
+					</div>
+
 
 					<div class="widget-actions form-actions" style="display: none;">
 						<button class="btn" type="reset">{{ 'Cancel'|trans }}</button>

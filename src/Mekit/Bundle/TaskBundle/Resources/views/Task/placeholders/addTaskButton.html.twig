@@ -1,0 +1,32 @@
+{% if resource_granted('mekit_task_create') %}
+	{% import 'OroUIBundle::macros.html.twig' as UI %}
+
+	{% set dialogTitle = 'mekit.task.placeholders.register_task'|trans %}
+	{% set gridName = mekit_related_datagrid_name("task", entity) %}
+
+	{{ UI.clientButton({
+	    'dataUrl': path(
+	        'mekit_task_create',
+			oro_action_params(entity, 'assign')
+		),
+	    'aCss': 'no-hash',
+	    'iCss': 'icon-flag',
+	    'dataId': entity.id,
+	    'label' : dialogTitle,
+		'title' : dialogTitle,
+	    'widget' : {
+	        'type' : 'dialog',
+	        'multiple' : false,
+			'reload-grid-name' : gridName,
+	        'options' : {
+	            'alias': 'task-dialog',
+	            'dialogOptions' : {
+	                'title' : dialogTitle,
+	                'allowMaximize': false,
+	                'allowMinimize': false,
+	                'width': 600
+	            }
+	        }
+	    }
+	}) }}
+{% endif %}

@@ -73,13 +73,6 @@
 	}) }}
 	{% endset %}
 
-	{% set relatedTasks %}
-	{{ oro_widget_render({
-		'widgetType': 'block',
-		'url': path('mekit_crm_widget_related', {datagrid_name: "accounts-related-tasks", id: entity.id})
-	}) }}
-	{% endset %}
-
 	{% set relatedCalls %}
 	{{ oro_widget_render({
 		'widgetType': 'block',
@@ -117,10 +110,6 @@
 		'subblocks': [ {'data' : [relatedProjects]} ]
 		},
 		{
-		'title': 'mekit.account.tasks.label'|trans,
-		'subblocks': [ {'data' : [relatedTasks]} ]
-		},
-		{
 		'title': 'mekit.account.calls.label'|trans,
 		'subblocks': [ {'data' : [relatedCalls]} ]
 		},
@@ -129,6 +118,17 @@
 		'subblocks': [ {'data' : [relatedMeetings]} ]
 		}
 	] %}
+
+	{% set relatedTasks %}
+		{% placeholder mekit_related_tasks with {entity: entity, datagrid_name: "accounts-related-tasks"} %}
+	{% endset %}
+
+	{% if relatedTasks is defined and relatedTasks is not empty %}
+		{% set dataBlocks = dataBlocks|merge([{
+		'title': 'mekit.account.tasks.label'|trans,
+		'subblocks': [{'data': [relatedTasks], 'spanClass': 'empty'}]
+		}]) %}
+	{% endif %}
 
 
 

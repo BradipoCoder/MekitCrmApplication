@@ -67,6 +67,7 @@ services:
             - @request
             - @doctrine.orm.entity_manager
             - @oro_entity.routing_helper
+            - @mekit_crm.relationship.manager
 
     mekit_task.task.manager.api:
         class: %mekit_task.manager.api.class%
@@ -74,54 +75,6 @@ services:
         arguments:
             - %mekit_task.task.entity.class%
             - @doctrine.orm.entity_manager
-
-
-#    mekit_task.task.manager.api:
-#        class: %mekit_task.manager.api.class%
-#        parent: oro_soap.manager.entity_manager.abstract
-#        arguments:
-#            - %mekit_task.task.entity.class%
-#            - @doctrine.orm.entity_manager
-#
-#    mekit_task.form.handler.task.api:
-#        class: %mekit_task.handler.task.class%
-#        scope: request
-#        arguments:
-#            - @mekit_task.form.task
-#            - @request
-#            - @doctrine.orm.entity_manager
-#
-#    mekit_task.form.task:
-#        class: Symfony\Component\Form\Form
-#        factory_method: createNamed
-#        factory_service: form.factory
-#        arguments: ["mekit_task_form", "mekit_task", null]
-#
-#    mekit_task.form.type.task:
-#        class: %mekit_task.type.task.class%
-#        arguments:
-#            - @router
-#            - @oro_locale.formatter.name
-#            - @oro_security.security_facade
-#            - @mekit_list.form_helper
-#        tags:
-#            - { name: form.type, alias: mekit_task }
-#
-#    mekit_task.form.task.api:
-#        class: Symfony\Component\Form\Form
-#        factory_method: createNamed
-#        factory_service: form.factory
-#        arguments: ["mekit_task_api_form", "mekit_task_api", null]
-#
-#    mekit_task.form.type.task.api:
-#        class: %mekit_task.type.task.api.class%
-#        arguments:
-#            - @router
-#            - @oro_locale.formatter.name
-#            - @oro_security.security_facade
-#            - @mekit_list.form_helper
-#        tags:
-#            - { name: form.type, alias: mekit_task_api }
 
 
     ### WORKLOG ###

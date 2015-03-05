@@ -1,6 +1,8 @@
 parameters:
-    mekit_task.task.entity.class:     Mekit\Bundle\TaskBundle\Entity\Task
-    mekit_task.worklog.entity.class:  Mekit\Bundle\TaskBundle\Entity\Worklog
+    mekit_task.task.entity.class:             Mekit\Bundle\TaskBundle\Entity\Task
+    mekit_task.worklog.entity.class:          Mekit\Bundle\TaskBundle\Entity\Worklog
+
+    mekit_task.placeholder.filter.class:      Mekit\Bundle\TaskBundle\Placeholder\PlaceholderFilter
 
 services:
     mekit_task.autocomplete.task.search_handler:
@@ -10,4 +12,9 @@ services:
             - ["name"]
         tags:
             - { name: oro_form.autocomplete.search_handler, alias: mekit_task, acl_resource: mekit_event_view }
+
+    mekit_task.placeholder.filter:
+        class: %mekit_task.placeholder.filter.class%
+        arguments:
+            - @mekit_crm.relationship.manager
 
