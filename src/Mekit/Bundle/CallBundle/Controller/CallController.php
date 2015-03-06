@@ -141,6 +141,9 @@ class CallController extends Controller
 		/** @var Call $entity */
 		$entity = $this->getCallManager()->createEntity();
 		$entity->addUser($this->getUser());
+		$entity->setDirection('out');
+		$entity->setOutcome($listItemRepo->getDefaultItemForGroup("CALL_OUTCOME"));
+
 
 		//set relationship between Call and Event
 		$entity->setEvent($event);

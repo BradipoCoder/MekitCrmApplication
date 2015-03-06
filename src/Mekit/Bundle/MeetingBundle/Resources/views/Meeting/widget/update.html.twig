@@ -23,25 +23,25 @@
 	{% endif %}
 		<div class="form-container">
 			<form id="{{ form.vars.name }}" action="{{ formAction }}" method="post">
-				<fieldset class="form-horizontal">
-					{{ form_row(form.name) }}
-					{{ form_row(form.event.startDate) }}
-					{{ form_row(form.event.description) }}
-					{{ form_row(form.event.state) }}
-					{{ form_row(form.event.priority) }}
-					{{ form_row(form.users) }}
-					{{ form_row(form.accounts) }}
-					{{ form_row(form.contacts) }}
-					{{ form_row(form.projects) }}
-
-					<div style="display:none;">
-						{{ form_row(form.event.owner) }}
-						{{ form_row(form.event.type) }}
+				<fieldset class="form-horizontal form-two-columns">
+					<div class="form-column-left">
+						{{ form_row(form.name) }}
+						{{ form_row(form.event.priority) }}
+						{{ form_row(form.event.startDate) }}
+						{{ form_row(form.event.endDate) }}
+						{{ form_row(form.event.description) }}
+						{{ form_row(form.event.state) }}
+					</div>
+					<div class="form-column-right">
+						{{ form_row(form.users) }}
+						{{ form_row(form.accounts) }}
+						{{ form_row(form.contacts) }}
+						{{ form_row(form.projects) }}
 						{{ form_row(form.tasks) }}
 						{{ form_row(form.calls) }}
+						{{ form_row(form.event.owner) }}
+						{{ form_row(form.event.type) }}
 					</div>
-
-
 					<div class="widget-actions form-actions" style="display: none;">
 						<button class="btn" type="reset">{{ 'Cancel'|trans }}</button>
 						<button class="btn btn-primary" type="submit">{{ 'Save'|trans }}</button>
