@@ -1,28 +1,21 @@
 <?php
 namespace Mekit\Bundle\ProjectBundle\Entity\Relationships;
 
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
-
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 use Mekit\Bundle\TaskBundle\Entity\Task;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 
 /**
  * @ORM\MappedSuperclass
  */
-class RelatedTasks extends RelatedCalls {
+class RelatedTasks extends RelatedCalls
+{
 	/**
 	 * @var ArrayCollection
-	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\TaskBundle\Entity\Task", inversedBy="projects")
-	 * @ORM\JoinTable(name="mekit_rel_project_task")
-	 * @ConfigField(
-	 *      defaultValues={
-	 *          "dataaudit"={
-	 *              "auditable"=true
-	 *          }
-	 *      }
-	 * )
+	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\TaskBundle\Entity\Task", mappedBy="project")
+	 * @ConfigField()
 	 */
 	protected $tasks;
 
@@ -48,6 +41,7 @@ class RelatedTasks extends RelatedCalls {
 		foreach ($tasks as $task) {
 			$this->addTask($task);
 		}
+
 		return $this;
 	}
 
@@ -58,8 +52,9 @@ class RelatedTasks extends RelatedCalls {
 	public function addTask(Task $task) {
 		if (!$this->tasks->contains($task)) {
 			$this->tasks->add($task);
-			$task->addProject($this);
+			$task->setProject($this);
 		}
+
 		return $this;
 	}
 
@@ -70,8 +65,8 @@ class RelatedTasks extends RelatedCalls {
 	public function removeTask(Task $task) {
 		if ($this->tasks->contains($task)) {
 			$this->tasks->removeElement($task);
-			$task->removeProject($this);
 		}
+
 		return $this;
 	}
 

@@ -17,6 +17,8 @@ class MekitTaskBundle implements Migration {
 		$this->create_user_relations($schema);
 		$this->create_call_relations($schema);
 		$this->create_meeting_relations($schema);
+		$this->create_contact_relations($schema);
+		$this->create_account_relations($schema);
 	}
 
 	/**
@@ -98,6 +100,62 @@ class MekitTaskBundle implements Migration {
 		$table->addForeignKeyConstraint(
 			$schema->getTable('mekit_meeting'),
 			['meeting_id'],
+			['id'],
+			['onDelete' => 'CASCADE', 'onUpdate' => null]
+		);
+	}
+
+	/**
+	 * @param Schema $schema
+	 * @throws \Doctrine\DBAL\Schema\SchemaException
+	 */
+	protected function create_contact_relations(Schema $schema) {
+		$relationTableName = "mekit_rel_task_contact";
+		$table = $schema->createTable($relationTableName);
+		$table->addColumn('task_id', 'integer', ['notnull' => true]);
+		$table->addColumn('contact_id', 'integer', ['notnull' => true]);
+		// INDEXES
+		$table->setPrimaryKey(['task_id', 'contact_id']);
+		$table->addIndex(['task_id'], 'idx_task', []);
+		$table->addIndex(['contact_id'], 'idx_contact', []);
+		// FOREIGN KEYS
+		$table->addForeignKeyConstraint(
+			$schema->getTable('mekit_task'),
+			['task_id'],
+			['id'],
+			['onDelete' => 'CASCADE', 'onUpdate' => null]
+		);
+		$table->addForeignKeyConstraint(
+			$schema->getTable('mekit_contact'),
+			['contact_id'],
+			['id'],
+			['onDelete' => 'CASCADE', 'onUpdate' => null]
+		);
+	}
+
+	/**
+	 * @param Schema $schema
+	 * @throws \Doctrine\DBAL\Schema\SchemaException
+	 */
+	protected function create_account_relations(Schema $schema) {
+		$relationTableName = "mekit_rel_task_account";
+		$table = $schema->createTable($relationTableName);
+		$table->addColumn('task_id', 'integer', ['notnull' => true]);
+		$table->addColumn('account_id', 'integer', ['notnull' => true]);
+		// INDEXES
+		$table->setPrimaryKey(['task_id', 'account_id']);
+		$table->addIndex(['task_id'], 'idx_task', []);
+		$table->addIndex(['account_id'], 'idx_account', []);
+		// FOREIGN KEYS
+		$table->addForeignKeyConstraint(
+			$schema->getTable('mekit_task'),
+			['task_id'],
+			['id'],
+			['onDelete' => 'CASCADE', 'onUpdate' => null]
+		);
+		$table->addForeignKeyConstraint(
+			$schema->getTable('mekit_account'),
+			['account_id'],
 			['id'],
 			['onDelete' => 'CASCADE', 'onUpdate' => null]
 		);

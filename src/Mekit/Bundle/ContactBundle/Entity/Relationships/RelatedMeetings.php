@@ -15,8 +15,7 @@ use Oro\Bundle\BusinessEntitiesBundle\Entity\BasePerson;
 class RelatedMeetings extends BasePerson {
 	/**
 	 * @var ArrayCollection
-	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\MeetingBundle\Entity\Meeting", inversedBy="contacts")
-	 * @ORM\JoinTable(name="mekit_rel_contact_meeting")
+	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\MeetingBundle\Entity\Meeting", mappedBy="contacts")
 	 * @ConfigField(
 	 *      defaultValues={
 	 *          "dataaudit"={

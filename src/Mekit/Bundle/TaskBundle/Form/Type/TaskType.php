@@ -138,18 +138,18 @@ class TaskType extends AbstractType {
 			]
 		);
 
-		//projects
+		//project
 		$builder->add(
-			'projects',
-			'mekit_entity_multi_select',
+			'project',
+			'oro_jqueryselect2_hidden',
 			[
 				'required' => false,
-				'label' => 'mekit.task.projects.label',
+				'label' => 'mekit.task.project.label',
 				'autocomplete_alias' => 'mekit_project',
-				'entity_class' => 'Mekit\Bundle\ProjectBundle\Entity\Project',
 				'configs' => []
 			]
 		);
+
 
 		//add event form
 		$builder->add('event', new EventType($this->router, $this->nameFormatter, $this->securityFacade, $this->listBundleHelper));

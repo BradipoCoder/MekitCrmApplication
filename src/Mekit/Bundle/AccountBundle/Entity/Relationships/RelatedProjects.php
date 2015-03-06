@@ -1,17 +1,17 @@
 <?php
 namespace Mekit\Bundle\AccountBundle\Entity\Relationships;
 
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
-
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 use Mekit\Bundle\ProjectBundle\Entity\Project;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 
 /**
  * @ORM\MappedSuperclass
  */
-class RelatedProjects {
+class RelatedProjects
+{
 	/**
 	 * @var ArrayCollection
 	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ProjectBundle\Entity\Project", mappedBy="account")
@@ -36,12 +36,45 @@ class RelatedProjects {
 	 * @return $this
 	 */
 	public function setProjects($projects) {
-		$this->projects = $projects;
-		/** @var Project $project */
+		$this->projects->clear();
 		foreach ($projects as $project) {
+			$this->addProject($project);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param Project $project
+	 * @return $this
+	 */
+	public function addProject(Project $project) {
+		if (!$this->projects->contains($project)) {
+			$this->projects->add($project);
 			$project->setAccount($this);
 		}
+
 		return $this;
+	}
+
+	/**
+	 * @param Project $project
+	 * @return $this
+	 */
+	public function removeProject(Project $project) {
+		if ($this->projects->contains($project)) {
+			$this->projects->removeElement($project);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param Project $project
+	 * @return bool
+	 */
+	public function hasProject(Project $project) {
+		return $this->getProjects()->contains($project);
 	}
 
 }

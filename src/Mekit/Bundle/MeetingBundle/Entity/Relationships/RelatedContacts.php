@@ -13,7 +13,8 @@ use Mekit\Bundle\ContactBundle\Entity\Contact;
 class RelatedContacts extends RelatedTasks {
 	/**
 	 * @var ArrayCollection
-	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\ContactBundle\Entity\Contact", mappedBy="meetings")
+	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\ContactBundle\Entity\Contact", inversedBy="meetings")
+	 * @ORM\JoinTable(name="mekit_rel_meeting_contact")
 	 * @ConfigField(
 	 *      defaultValues={
 	 *          "dataaudit"={

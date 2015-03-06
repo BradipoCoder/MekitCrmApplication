@@ -3,10 +3,11 @@ namespace Mekit\Bundle\ProjectBundle\Entity\Relationships;
 
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\ORM\Mapping as ORM;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Mekit\Bundle\AccountBundle\Entity\Account;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 
-class RelatedAccount {
+class RelatedAccount
+{
 	/**
 	 * @var Account
 	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\AccountBundle\Entity\Account", inversedBy="projects")
@@ -32,6 +33,7 @@ class RelatedAccount {
 	 */
 	public function setAccount($account) {
 		$this->account = $account;
+
 		return $this;
 	}
 

@@ -26,6 +26,7 @@ mekit:
         id.label:                   Id
         name.label:                 Name
         event.label:                Event
+        project.label:              Project
 
         worklogs.label:             Worklogs
         users.label:                Users
@@ -33,7 +34,6 @@ mekit:
         contacts.label:             Contacts
         calls.label:                Calls
         meetings.label:             Meetings
-        projects.label:             Projects
 
 
         worklog:

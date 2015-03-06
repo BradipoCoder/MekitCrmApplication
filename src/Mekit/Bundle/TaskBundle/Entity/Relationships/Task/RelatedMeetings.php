@@ -10,7 +10,7 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 /**
  * @ORM\MappedSuperclass
  */
-class RelatedMeetings extends RelatedProjects
+class RelatedMeetings extends RelatedProject
 {
 	/**
 	 * @var ArrayCollection

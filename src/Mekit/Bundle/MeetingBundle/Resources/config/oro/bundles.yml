@@ -1,2 +1,2 @@
 bundles:
-    - { name: Mekit\Bundle\MeetingBundle\MekitMeetingBundle, priority: 110 }
+    - { name: Mekit\Bundle\MeetingBundle\MekitMeetingBundle, priority: 200 }

@@ -13,7 +13,8 @@ use Mekit\Bundle\AccountBundle\Entity\Account;
 class RelatedAccounts extends RelatedContacts {
 	/**
 	 * @var ArrayCollection
-	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\AccountBundle\Entity\Account", mappedBy="meetings")
+	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\AccountBundle\Entity\Account", inversedBy="meetings")
+	 * @ORM\JoinTable(name="mekit_rel_meeting_account")
 	 * @ConfigField(
 	 *      defaultValues={
 	 *          "dataaudit"={

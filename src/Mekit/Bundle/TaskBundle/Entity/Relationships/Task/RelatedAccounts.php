@@ -14,7 +14,8 @@ class RelatedAccounts extends RelatedContacts
 {
 	/**
 	 * @var ArrayCollection
-	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\AccountBundle\Entity\Account", mappedBy="tasks")
+	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\AccountBundle\Entity\Account", inversedBy="tasks")
+	 * @ORM\JoinTable(name="mekit_rel_task_account")
 	 * @ConfigField(
 	 *      defaultValues={
 	 *          "dataaudit"={

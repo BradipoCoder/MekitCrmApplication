@@ -14,8 +14,7 @@ use Mekit\Bundle\CallBundle\Entity\Call;
 class RelatedCalls extends RelatedMeetings {
 	/**
 	 * @var ArrayCollection
-	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\CallBundle\Entity\Call", inversedBy="contacts")
-	 * @ORM\JoinTable(name="mekit_rel_contact_call")
+	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\CallBundle\Entity\Call", mappedBy="contacts")
 	 * @ConfigField(
 	 *      defaultValues={
 	 *          "dataaudit"={
