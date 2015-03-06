@@ -53,12 +53,10 @@
 	] %}
 
 
-	{#{% include 'MekitCrmBundle:placeholders:placeholder.html.twig' %}#}
-
 	{% set relatedTasks %}
 		{% placeholder mekit_related_tasks with {entity: entity, datagrid_name: "projects-related-tasks"} %}
 	{% endset %}
-	{% if relatedTasks is defined and relatedTasks is not empty %}
+	{% if relatedTasks is not empty %}
 		{% set dataBlocks = dataBlocks|merge([{
 		'title': 'mekit.project.tasks.label'|trans,
 		'subblocks': [{'data': [relatedTasks], 'spanClass': 'empty'}]
@@ -72,7 +70,7 @@
 		'url': path('mekit_crm_widget_related', {datagrid_name: "projects-related-calls", id: entity.id})
 	}) }}
 	{% endset %}
-	{% if relatedCalls is defined and relatedCalls is not empty %}
+	{% if relatedCalls is not empty %}
 		{% set dataBlocks = dataBlocks|merge([{
 		'title': 'mekit.project.calls.label'|trans,
 		'subblocks': [{'data': [relatedCalls], 'spanClass': 'empty'}]
@@ -86,7 +84,7 @@
 		'url': path('mekit_crm_widget_related', {datagrid_name: "projects-related-meetings", id: entity.id})
 	}) }}
 	{% endset %}
-	{% if relatedMeetings is defined and relatedMeetings is not empty %}
+	{% if relatedMeetings is not empty %}
 		{% set dataBlocks = dataBlocks|merge([{
 		'title': 'mekit.project.meetings.label'|trans,
 		'subblocks': [{'data': [relatedMeetings], 'spanClass': 'empty'}]
@@ -100,7 +98,7 @@
 		'url': path('mekit_crm_widget_related', {datagrid_name: "projects-related-users", id: entity.id})
 	}) }}
 	{% endset %}
-	{% if relatedUsers is defined and relatedUsers is not empty %}
+	{% if relatedUsers is not empty %}
 		{% set dataBlocks = dataBlocks|merge([{
 		'title': 'mekit.project.users.label'|trans,
 		'subblocks': [{'data': [relatedUsers], 'spanClass': 'empty'}]
