@@ -1,23 +1,22 @@
 <?php
 namespace Mekit\Bundle\CallBundle\Controller;
 
-use BeSimple\SoapCommon\Type\KeyValue\DateTime;
 use Mekit\Bundle\CallBundle\Entity\Call;
 use Mekit\Bundle\EventBundle\Entity\Event;
 use Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 
 /**
  * Class CallController
  */
-class CallController extends Controller {
+class CallController extends Controller
+{
 	/**
 	 * @Route(
 	 *      "/{_format}",
@@ -60,7 +59,12 @@ class CallController extends Controller {
 	 * @return array
 	 */
 	public function createAction() {
-		return $this->update();
+		$entity = $this->initCallEntity();
+		$formAction = $this->get('oro_entity.routing_helper')->generateUrlByRequest(
+			'mekit_call_create', $this->getRequest()
+		);
+
+		return $this->update($entity, $formAction);
 	}
 
 	/**
@@ -76,58 +80,74 @@ class CallController extends Controller {
 	 * @return array
 	 */
 	public function updateAction(Call $entity) {
-		return $this->update($entity);
+		$formAction = $this->get('router')->generate('mekit_call_update', ['id' => $entity->getId()]);
+
+		return $this->update($entity, $formAction);
 	}
 
 	/**
 	 * @param Call $entity
+	 * @param string $formAction
 	 * @return array
 	 */
-	protected function update(Call $entity = null) {
-		if (!$entity) {
-			/** @var ListItemRepository $listItemRepo */
-			$listItemRepo = $this->getDoctrine()->getRepository('MekitListBundle:ListItem');
+	protected function update(Call $entity, $formAction) {
+		$saved = false;
+		$isWidget = ($this->getRequest()->get('_widgetContainer', false) != false);
+		$formHandler = (!$isWidget ? $this->get('mekit_call.form.handler.call') : $this->get(
+			'mekit_call.form.handler.call.api'
+		));
 
-			/** @var Event $event */
-			$event = $this->getManagerEvent()->createEntity();
-			$event->setStartDate(new \DateTime());
-			$event->setState($listItemRepo->getDefaultItemForGroup("EVENT_STATE"));
-			$event->setPriority($listItemRepo->getDefaultItemForGroup("EVENT_PRIORITY"));
-			$event->setOwner($this->getUser());
+		if ($formHandler->process($entity)) {
+			if (!$isWidget) {
+				$this->get('session')->getFlashBag()->add(
+					'success', $this->get('translator')->trans('mekit.call.controller.saved.message')
+				);
 
-			/** @var Call $entity */
-			$entity = $this->getManagerCall()->createEntity();
-
-			//assign to current user
-			$entity->addUser($this->getUser());
-
-
-			//set relationship between entity and Event
-			$entity->setEvent($event);
-			$event->setCall($entity);
+				return $this->get('oro_ui.router')->redirectAfterSave(
+					array(
+						'route' => 'mekit_call_update',
+						'parameters' => array('id' => $entity->getId())
+					), array(
+						'route' => 'mekit_call_view',
+						'parameters' => array('id' => $entity->getId())
+					)
+				);
+			}
+			$saved = true;
 		}
 
-		return $this->get('oro_form.model.update_handler')->handleUpdate(
-			$entity,
-			$this->get('mekit_call.form.call'),
-			function (Call $entity) {
-				return array(
-					'route' => 'mekit_call_update',
-					'parameters' => array('id' => $entity->getId())
-				);
-			},
-			function (Call $entity) {
-				return array(
-					'route' => 'mekit_call_view',
-					'parameters' => array('id' => $entity->getId())
-				);
-			},
-			$this->get('translator')->trans('mekit.call.controller.saved.message'),
-			$this->get('mekit_call.form.handler.call')
+		return array(
+			'entity' => $entity,
+			'saved' => $saved,
+			'form' => $formHandler->getForm()->createView(),
+			'formAction' => $formAction,
 		);
 	}
 
+	/**
+	 * @return Call
+	 */
+	protected function initCallEntity() {
+		/** @var ListItemRepository $listItemRepo */
+		$listItemRepo = $this->getDoctrine()->getRepository('MekitListBundle:ListItem');
 
+		/** @var Event $event */
+		$event = $this->getEventManager()->createEntity();
+		$event->setStartDate(new \DateTime());
+		$event->setOwner($this->getUser());
+		$event->setState($listItemRepo->getDefaultItemForGroup("EVENT_STATE"));
+		$event->setPriority($listItemRepo->getDefaultItemForGroup("EVENT_PRIORITY"));
+
+		/** @var Call $entity */
+		$entity = $this->getCallManager()->createEntity();
+		$entity->addUser($this->getUser());
+
+		//set relationship between Call and Event
+		$entity->setEvent($event);
+		$event->setCall($entity);
+
+		return ($entity);
+	}
 
 	/**
 	 * @Route("/widget/info/{id}", name="mekit_call_widget_info", requirements={"id"="\d+"})
@@ -145,14 +165,14 @@ class CallController extends Controller {
 	/**
 	 * @return ApiEntityManager
 	 */
-	protected function getManagerCall() {
+	protected function getCallManager() {
 		return $this->get('mekit_call.call.manager.api');
 	}
 
 	/**
 	 * @return ApiEntityManager
 	 */
-	protected function getManagerEvent() {
+	protected function getEventManager() {
 		return $this->get('mekit_event.event.manager.api');
 	}
 }

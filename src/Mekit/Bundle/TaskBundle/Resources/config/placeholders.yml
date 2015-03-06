@@ -4,18 +4,8 @@ items:
         applicable: @mekit_task.placeholder.filter->isTaskAssociationEnabled($entity$)
         acl: mekit_task_create
 
-    mekit_task_related_tasks:
-        template: MekitTaskBundle:Task/placeholders:relatedTasks.html.twig
-        applicable: @mekit_task.placeholder.filter->isTaskAssociationEnabled($entity$)
-        acl: mekit_event_view
-
-
 placeholders:
     view_navButtons_after:
         items:
             mekit_task_create_button:
                 order:  200
-    mekit_related_tasks:
-        items:
-            mekit_task_related_tasks:
-                order:  50

@@ -14,7 +14,7 @@ mekit:
             saved.message:          Task saved
 
         placeholders:
-            register_task:          Register Task
+            register_task:          Add Task
 
         #
         # Mekit/Bundle/TaskBundle/Entity/Task

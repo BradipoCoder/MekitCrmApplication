@@ -1,23 +1,22 @@
 <?php
 namespace Mekit\Bundle\MeetingBundle\Controller;
 
-use BeSimple\SoapCommon\Type\KeyValue\DateTime;
 use Mekit\Bundle\EventBundle\Entity\Event;
 use Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository;
 use Mekit\Bundle\MeetingBundle\Entity\Meeting;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 
 /**
  * Class MeetingController
  */
-class MeetingController extends Controller {
+class MeetingController extends Controller
+{
 	/**
 	 * @Route(
 	 *      "/{_format}",
@@ -60,7 +59,12 @@ class MeetingController extends Controller {
 	 * @return array
 	 */
 	public function createAction() {
-		return $this->update();
+		$entity = $this->initMeetingEntity();
+		$formAction = $this->get('oro_entity.routing_helper')->generateUrlByRequest(
+			'mekit_meeting_create', $this->getRequest()
+		);
+
+		return $this->update($entity, $formAction);
 	}
 
 	/**
@@ -76,57 +80,74 @@ class MeetingController extends Controller {
 	 * @return array
 	 */
 	public function updateAction(Meeting $entity) {
-		return $this->update($entity);
+		$formAction = $this->get('router')->generate('mekit_meeting_update', ['id' => $entity->getId()]);
+
+		return $this->update($entity, $formAction);
 	}
 
 	/**
 	 * @param Meeting $entity
+	 * @param string $formAction
 	 * @return array
 	 */
-	protected function update(Meeting $entity = null) {
-		if (!$entity) {
-			/** @var ListItemRepository $listItemRepo */
-			$listItemRepo = $this->getDoctrine()->getRepository('MekitListBundle:ListItem');
+	protected function update(Meeting $entity, $formAction) {
+		$saved = false;
+		$isWidget = ($this->getRequest()->get('_widgetContainer', false) != false);
+		$formHandler = (!$isWidget ? $this->get('mekit_meeting.form.handler.meeting') : $this->get(
+			'mekit_meeting.form.handler.meeting.api'
+		));
 
-			/** @var Event $event */
-			$event = $this->getManagerEvent()->createEntity();
-			$event->setStartDate(new \DateTime());
-			$event->setState($listItemRepo->getDefaultItemForGroup("EVENT_STATE"));
-			$event->setPriority($listItemRepo->getDefaultItemForGroup("EVENT_PRIORITY"));
-			$event->setOwner($this->getUser());
+		if ($formHandler->process($entity)) {
+			if (!$isWidget) {
+				$this->get('session')->getFlashBag()->add(
+					'success', $this->get('translator')->trans('mekit.meeting.controller.saved.message')
+				);
 
-			/** @var Meeting $entity */
-			$entity = $this->getManagerMeeting()->createEntity();
-
-			//assign to current user
-			$entity->addUser($this->getUser());
-
-			//set relationship between entity and Event
-			$entity->setEvent($event);
-			$event->setMeeting($entity);
+				return $this->get('oro_ui.router')->redirectAfterSave(
+					array(
+						'route' => 'mekit_meeting_update',
+						'parameters' => array('id' => $entity->getId())
+					), array(
+						'route' => 'mekit_meeting_view',
+						'parameters' => array('id' => $entity->getId())
+					)
+				);
+			}
+			$saved = true;
 		}
 
-		return $this->get('oro_form.model.update_handler')->handleUpdate(
-			$entity,
-			$this->get('mekit_meeting.form.meeting'),
-			function (Meeting $entity) {
-				return array(
-					'route' => 'mekit_meeting_update',
-					'parameters' => array('id' => $entity->getId())
-				);
-			},
-			function (Meeting $entity) {
-				return array(
-					'route' => 'mekit_meeting_view',
-					'parameters' => array('id' => $entity->getId())
-				);
-			},
-			$this->get('translator')->trans('mekit.meeting.controller.saved.message'),
-			$this->get('mekit_meeting.form.handler.meeting')
+		return array(
+			'entity' => $entity,
+			'saved' => $saved,
+			'form' => $formHandler->getForm()->createView(),
+			'formAction' => $formAction,
 		);
 	}
 
+	/**
+	 * @return Meeting
+	 */
+	protected function initMeetingEntity() {
+		/** @var ListItemRepository $listItemRepo */
+		$listItemRepo = $this->getDoctrine()->getRepository('MekitListBundle:ListItem');
 
+		/** @var Event $event */
+		$event = $this->getEventManager()->createEntity();
+		$event->setStartDate(new \DateTime());
+		$event->setOwner($this->getUser());
+		$event->setState($listItemRepo->getDefaultItemForGroup("EVENT_STATE"));
+		$event->setPriority($listItemRepo->getDefaultItemForGroup("EVENT_PRIORITY"));
+
+		/** @var Meeting $entity */
+		$entity = $this->getMeetingManager()->createEntity();
+		$entity->addUser($this->getUser());
+
+		//set relationship between Meeting and Event
+		$entity->setEvent($event);
+		$event->setMeeting($entity);
+
+		return ($entity);
+	}
 
 	/**
 	 * @Route("/widget/info/{id}", name="mekit_meeting_widget_info", requirements={"id"="\d+"})
@@ -144,14 +165,14 @@ class MeetingController extends Controller {
 	/**
 	 * @return ApiEntityManager
 	 */
-	protected function getManagerMeeting() {
+	protected function getMeetingManager() {
 		return $this->get('mekit_meeting.meeting.manager.api');
 	}
 
 	/**
 	 * @return ApiEntityManager
 	 */
-	protected function getManagerEvent() {
+	protected function getEventManager() {
 		return $this->get('mekit_event.event.manager.api');
 	}
 }

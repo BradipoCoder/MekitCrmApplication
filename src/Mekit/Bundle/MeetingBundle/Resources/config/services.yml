@@ -1,5 +1,7 @@
 parameters:
-    mekit_meeting.meeting.entity.class: Mekit\Bundle\MeetingBundle\Entity\Meeting
+    mekit_meeting.meeting.entity.class:           Mekit\Bundle\MeetingBundle\Entity\Meeting
+
+    mekit_meeting.placeholder.filter.class:       Mekit\Bundle\MeetingBundle\Placeholder\PlaceholderFilter
 
 services:
     mekit_meeting.autocomplete.meeting.search_handler:
@@ -10,3 +12,7 @@ services:
         tags:
             - { name: oro_form.autocomplete.search_handler, alias: mekit_meeting, acl_resource: mekit_event_view }
 
+    mekit_meeting.placeholder.filter:
+        class: %mekit_meeting.placeholder.filter.class%
+        arguments:
+            - @mekit_crm.relationship.manager

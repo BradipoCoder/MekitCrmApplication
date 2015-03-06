@@ -1,0 +1,32 @@
+{% if resource_granted('mekit_call_create') %}
+	{% import 'OroUIBundle::macros.html.twig' as UI %}
+
+	{% set dialogTitle = 'mekit.call.placeholders.register_call'|trans %}
+	{% set gridName = mekit_related_datagrid_name("call", entity) %}
+
+	{{ UI.clientButton({
+	    'dataUrl': path(
+	        'mekit_call_create',
+			oro_action_params(entity, 'assign')
+		),
+	    'aCss': 'no-hash',
+	    'iCss': 'icon-phone',
+	    'dataId': entity.id,
+	    'label' : dialogTitle,
+		'title' : dialogTitle,
+	    'widget' : {
+	        'type' : 'dialog',
+	        'multiple' : false,
+			'reload-grid-name' : gridName,
+	        'options' : {
+	            'alias': 'task-dialog',
+	            'dialogOptions' : {
+	                'title' : dialogTitle,
+	                'allowMaximize': false,
+	                'allowMinimize': false,
+	                'width': 600
+	            }
+	        }
+	    }
+	}) }}
+{% endif %}

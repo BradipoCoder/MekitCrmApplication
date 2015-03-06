@@ -13,6 +13,9 @@ mekit:
         controller:
             saved.message:          Meeting saved
 
+        placeholders:
+            register_meeting:       Add Meeting
+
         #
         # Mekit/Bundle/MeetingBundle/Entity/Meeting
         #

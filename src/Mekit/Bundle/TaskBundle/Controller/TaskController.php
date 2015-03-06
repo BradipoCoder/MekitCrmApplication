@@ -60,8 +60,9 @@ class TaskController extends Controller
 	 */
 	public function createAction() {
 		$entity = $this->initTaskEntity();
-		$formAction = $this->get('oro_entity.routing_helper')
-			->generateUrlByRequest('mekit_task_create', $this->getRequest());
+		$formAction = $this->get('oro_entity.routing_helper')->generateUrlByRequest(
+				'mekit_task_create', $this->getRequest()
+			);
 
 		return $this->update($entity, $formAction);
 	}
@@ -80,6 +81,7 @@ class TaskController extends Controller
 	 */
 	public function updateAction(Task $entity) {
 		$formAction = $this->get('router')->generate('mekit_task_update', ['id' => $entity->getId()]);
+
 		return $this->update($entity, $formAction);
 	}
 
@@ -90,21 +92,22 @@ class TaskController extends Controller
 	 */
 	protected function update(Task $entity, $formAction) {
 		$saved = false;
-		$isWidget = ( $this->getRequest()->get('_widgetContainer', false) != false);
-		$formHandler = (!$isWidget ? $this->get('mekit_task.form.handler.task') : $this->get('mekit_task.form.handler.task.api'));
+		$isWidget = ($this->getRequest()->get('_widgetContainer', false) != false);
+		$formHandler = (!$isWidget ? $this->get('mekit_task.form.handler.task') : $this->get(
+			'mekit_task.form.handler.task.api'
+		));
 
 		if ($formHandler->process($entity)) {
 			if (!$isWidget) {
 				$this->get('session')->getFlashBag()->add(
-					'success',
-					$this->get('translator')->trans('mekit.task.controller.saved.message')
+					'success', $this->get('translator')->trans('mekit.task.controller.saved.message')
 				);
+
 				return $this->get('oro_ui.router')->redirectAfterSave(
 					array(
 						'route' => 'mekit_task_update',
 						'parameters' => array('id' => $entity->getId())
-					),
-					array(
+					), array(
 						'route' => 'mekit_task_view',
 						'parameters' => array('id' => $entity->getId())
 					)
@@ -114,21 +117,18 @@ class TaskController extends Controller
 		}
 
 		return array(
-			'entity'     => $entity,
-			'saved'      => $saved,
-			'form'       => $formHandler->getForm()->createView(),
+			'entity' => $entity,
+			'saved' => $saved,
+			'form' => $formHandler->getForm()->createView(),
 			'formAction' => $formAction,
 		);
 	}
-
 
 
 	/**
 	 * @return Task
 	 */
 	protected function initTaskEntity() {
-//		if ($parent) {}
-
 		/** @var ListItemRepository $listItemRepo */
 		$listItemRepo = $this->getDoctrine()->getRepository('MekitListBundle:ListItem');
 
@@ -143,14 +143,12 @@ class TaskController extends Controller
 		$entity = $this->getTaskManager()->createEntity();
 		$entity->addUser($this->getUser());
 
-		//set relationship between task and Event
+		//set relationship between Task and Event
 		$entity->setEvent($event);
 		$event->setTask($entity);
 
 		return ($entity);
 	}
-
-
 
 
 	/**
@@ -165,7 +163,6 @@ class TaskController extends Controller
 			'entity' => $entity
 		];
 	}
-
 
 	/**
 	 * @return ApiEntityManager

@@ -1,12 +1,10 @@
 <?php
-
 namespace Mekit\Bundle\MeetingBundle\Form\Handler;
 
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
-
-use Mekit\Bundle\EventBundle\Entity\Event;
+use Oro\Bundle\EntityBundle\Tools\EntityRoutingHelper;
 use Mekit\Bundle\MeetingBundle\Entity\Meeting;
 
 /**
@@ -28,16 +26,21 @@ class MeetingHandler {
 	 */
 	protected $manager;
 
+	/** @var EntityRoutingHelper */
+	protected $entityRoutingHelper;
+
 	/**
 	 *
 	 * @param FormInterface $form
 	 * @param Request       $request
 	 * @param ObjectManager $manager
+	 * @param EntityRoutingHelper $entityRoutingHelper
 	 */
-	public function __construct(FormInterface $form, Request $request, ObjectManager $manager) {
+	public function __construct(FormInterface $form, Request $request, ObjectManager $manager, EntityRoutingHelper $entityRoutingHelper) {
 		$this->form = $form;
 		$this->request = $request;
 		$this->manager = $manager;
+		$this->entityRoutingHelper = $entityRoutingHelper;
 	}
 
 	/**
@@ -66,5 +69,12 @@ class MeetingHandler {
 	protected function onSuccess(Meeting $entity) {
 		$this->manager->persist($entity);
 		$this->manager->flush();
+	}
+
+	/**
+	 * @return FormInterface
+	 */
+	public function getForm() {
+		return $this->form;
 	}
 }

@@ -1,0 +1,11 @@
+items:
+    mekit_call_create_button:
+        template: MekitCallBundle:Call/placeholders:addCallButton.html.twig
+        applicable: @mekit_call.placeholder.filter->isCallAssociationEnabled($entity$)
+        acl: mekit_call_create
+
+placeholders:
+    view_navButtons_after:
+        items:
+            mekit_call_create_button:
+                order:  210

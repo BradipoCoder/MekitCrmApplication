@@ -1,5 +1,7 @@
 parameters:
-    mekit_call.call.entity.class: Mekit\Bundle\CallBundle\Entity\Call
+    mekit_call.call.entity.class:                 Mekit\Bundle\CallBundle\Entity\Call
+
+    mekit_call.placeholder.filter.class:          Mekit\Bundle\CallBundle\Placeholder\PlaceholderFilter
 
 services:
     mekit_call.autocomplete.call.search_handler:
@@ -10,3 +12,7 @@ services:
         tags:
             - { name: oro_form.autocomplete.search_handler, alias: mekit_call, acl_resource: mekit_event_view }
 
+    mekit_call.placeholder.filter:
+        class: %mekit_call.placeholder.filter.class%
+        arguments:
+            - @mekit_crm.relationship.manager

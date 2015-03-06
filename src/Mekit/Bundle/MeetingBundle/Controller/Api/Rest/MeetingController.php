@@ -1,5 +1,5 @@
 <?php
-namespace Mekit\Bundle\TaskBundle\Controller\Api\Rest;
+namespace Mekit\Bundle\MeetingBundle\Controller\Api\Rest;
 
 use FOS\RestBundle\Controller\Annotations\NamePrefix;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
@@ -14,11 +14,10 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @RouteResource("task")
+ * @RouteResource("meeting")
  * @NamePrefix("mekit_api_")
  */
-class TaskController extends RestController implements ClassResourceInterface
-{
+class MeetingController extends RestController implements ClassResourceInterface {
 	/**
 	 * REST GET list
 	 *
@@ -70,7 +69,7 @@ class TaskController extends RestController implements ClassResourceInterface
 	 *      description="Update item",
 	 *      resource=true
 	 * )
-	 * @AclAncestor("mekit_task_update")
+	 * @AclAncestor("mekit_meeting_update")
 	 * @return Response
 	 */
 	public function putAction($id) {
@@ -84,7 +83,7 @@ class TaskController extends RestController implements ClassResourceInterface
 	 *      description="Create new item",
 	 *      resource=true
 	 * )
-	 * @AclAncestor("mekit_task_create")
+	 * @AclAncestor("mekit_meeting_create")
 	 */
 	public function postAction() {
 		return $this->handleCreateRequest();
@@ -115,20 +114,20 @@ class TaskController extends RestController implements ClassResourceInterface
 	 * @return ApiEntityManager
 	 */
 	public function getManager() {
-		return $this->get('mekit_task.task.manager.api');
+		return $this->get('mekit_meeting.meeting.manager.api');
 	}
 
 	/**
 	 * @return FormInterface
 	 */
 	public function getForm() {
-		return $this->get('mekit_task.form.task.api');
+		return $this->get('mekit_meeting.form.meeting.api');
 	}
 
 	/**
 	 * @return ApiFormHandler
 	 */
 	public function getFormHandler() {
-		return $this->get('mekit_task.form.handler.task.api');
+		return $this->get('mekit_meeting.form.handler.meeting.api');
 	}
 }

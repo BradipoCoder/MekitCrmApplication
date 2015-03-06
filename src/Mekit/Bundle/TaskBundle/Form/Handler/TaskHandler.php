@@ -1,5 +1,4 @@
 <?php
-
 namespace Mekit\Bundle\TaskBundle\Form\Handler;
 
 use Doctrine\Common\Persistence\ObjectManager;

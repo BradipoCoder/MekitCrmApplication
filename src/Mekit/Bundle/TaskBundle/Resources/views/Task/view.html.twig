@@ -87,48 +87,6 @@
 		}) }}
 	{% endset %}
 
-	{% set relatedWorklogs %}
-	{{ oro_widget_render({
-		'widgetType': 'block',
-		'url': path('mekit_crm_widget_related', {datagrid_name: "worklogs-related-to-task", id: entity.id})
-	}) }}
-	{% endset %}
-
-	{% set relatedUsers %}
-	{{ oro_widget_render({
-		'widgetType': 'block',
-		'url': path('mekit_crm_widget_related', {datagrid_name: "tasks-related-users", id: entity.id})
-	}) }}
-	{% endset %}
-
-	{% set relatedAccounts %}
-	{{ oro_widget_render({
-		'widgetType': 'block',
-		'url': path('mekit_crm_widget_related', {datagrid_name: "tasks-related-accounts", id: entity.id})
-	}) }}
-	{% endset %}
-
-	{% set relatedContacts %}
-	{{ oro_widget_render({
-		'widgetType': 'block',
-		'url': path('mekit_crm_widget_related', {datagrid_name: "tasks-related-contacts", id: entity.id})
-	}) }}
-	{% endset %}
-
-	{% set relatedCalls %}
-	{{ oro_widget_render({
-		'widgetType': 'block',
-		'url': path('mekit_crm_widget_related', {datagrid_name: "tasks-related-calls", id: entity.id})
-	}) }}
-	{% endset %}
-
-	{% set relatedMeetings %}
-	{{ oro_widget_render({
-		'widgetType': 'block',
-		'url': path('mekit_crm_widget_related', {datagrid_name: "tasks-related-meetings", id: entity.id})
-	}) }}
-	{% endset %}
-
 	{% set dataBlocks = [
 		{
 			'title': 'mekit.task.sections.general'|trans,
@@ -136,38 +94,92 @@
 			'subblocks': [
 				{'data' : [taskInformationWidget, eventInformationWidget]}
 			]
-		},
-		{
-		'title': 'mekit.task.worklogs.label'|trans,
-		'class': 'resp',
-		'subblocks': [ {'data' : [relatedWorklogs]} ]
-		},
-		{
-		'title': 'mekit.task.users.label'|trans,
-		'class': 'resp',
-		'subblocks': [ {'data' : [relatedUsers]} ]
-		},
-		{
-		'title': 'mekit.task.accounts.label'|trans,
-		'class': 'resp',
-		'subblocks': [ {'data' : [relatedAccounts]} ]
-		},
-		{
-		'title': 'mekit.task.contacts.label'|trans,
-		'class': 'resp',
-		'subblocks': [ {'data' : [relatedContacts]} ]
-		},
-		{
-		'title': 'mekit.task.calls.label'|trans,
-		'class': 'resp',
-		'subblocks': [ {'data' : [relatedCalls]} ]
-		},
-		{
-		'title': 'mekit.task.meetings.label'|trans,
-		'class': 'resp',
-		'subblocks': [ {'data' : [relatedMeetings]} ]
 		}
 	] %}
+
+
+	{% set relatedWorklogs %}
+	{{ oro_widget_render({
+		'widgetType': 'block',
+		'url': path('mekit_crm_widget_related', {datagrid_name: "worklogs-related-to-task", id: entity.id})
+	}) }}
+	{% endset %}
+	{% if relatedWorklogs is not empty %}
+		{% set dataBlocks = dataBlocks|merge([{
+		'title': 'mekit.task.worklogs.label'|trans,
+		'subblocks': [{'data': [relatedWorklogs], 'spanClass': 'empty'}]
+		}]) %}
+	{% endif %}
+
+
+	{% set relatedAccounts %}
+	{{ oro_widget_render({
+		'widgetType': 'block',
+		'url': path('mekit_crm_widget_related', {datagrid_name: "tasks-related-accounts", id: entity.id})
+	}) }}
+	{% endset %}
+	{% if relatedAccounts is not empty %}
+		{% set dataBlocks = dataBlocks|merge([{
+		'title': 'mekit.task.accounts.label'|trans,
+		'subblocks': [{'data': [relatedAccounts], 'spanClass': 'empty'}]
+		}]) %}
+	{% endif %}
+
+
+	{% set relatedContacts %}
+	{{ oro_widget_render({
+		'widgetType': 'block',
+		'url': path('mekit_crm_widget_related', {datagrid_name: "tasks-related-contacts", id: entity.id})
+	}) }}
+	{% endset %}
+	{% if relatedContacts is not empty %}
+		{% set dataBlocks = dataBlocks|merge([{
+		'title': 'mekit.task.contacts.label'|trans,
+		'subblocks': [{'data': [relatedContacts], 'spanClass': 'empty'}]
+		}]) %}
+	{% endif %}
+
+
+	{% set relatedCalls %}
+	{{ oro_widget_render({
+		'widgetType': 'block',
+		'url': path('mekit_crm_widget_related', {datagrid_name: "tasks-related-calls", id: entity.id})
+	}) }}
+	{% endset %}
+	{% if relatedCalls is not empty %}
+		{% set dataBlocks = dataBlocks|merge([{
+		'title': 'mekit.task.calls.label'|trans,
+		'subblocks': [{'data': [relatedCalls], 'spanClass': 'empty'}]
+		}]) %}
+	{% endif %}
+
+
+	{% set relatedMeetings %}
+	{{ oro_widget_render({
+		'widgetType': 'block',
+		'url': path('mekit_crm_widget_related', {datagrid_name: "tasks-related-meetings", id: entity.id})
+	}) }}
+	{% endset %}
+	{% if relatedMeetings is not empty %}
+		{% set dataBlocks = dataBlocks|merge([{
+		'title': 'mekit.task.meetings.label'|trans,
+		'subblocks': [{'data': [relatedMeetings], 'spanClass': 'empty'}]
+		}]) %}
+	{% endif %}
+
+
+	{% set relatedUsers %}
+	{{ oro_widget_render({
+		'widgetType': 'block',
+		'url': path('mekit_crm_widget_related', {datagrid_name: "tasks-related-users", id: entity.id})
+	}) }}
+	{% endset %}
+	{% if relatedUsers is not empty %}
+		{% set dataBlocks = dataBlocks|merge([{
+		'title': 'mekit.task.users.label'|trans,
+		'subblocks': [{'data': [relatedUsers], 'spanClass': 'empty'}]
+		}]) %}
+	{% endif %}
 
 
 	{% set id = 'eventTaskView' %}

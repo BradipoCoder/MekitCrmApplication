@@ -1,17 +1,17 @@
 <?php
-namespace Mekit\Bundle\TaskBundle\Form\Handler;
+namespace Mekit\Bundle\CallBundle\Form\Handler;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Mekit\Bundle\CrmBundle\Relationship\RelationshipManager;
-use Mekit\Bundle\TaskBundle\Entity\Task;
+use Mekit\Bundle\CallBundle\Entity\Call;
 use Oro\Bundle\EntityBundle\Tools\EntityRoutingHelper;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class TaskApiHandler
+ * Class CallApiHandler
  */
-class TaskApiHandler
+class CallApiHandler
 {
 	/**
 	 * @var FormInterface
@@ -55,10 +55,10 @@ class TaskApiHandler
 	/**
 	 * Process form
 	 *
-	 * @param  Task $entity
+	 * @param  Call $entity
 	 * @return bool True on successful processing, false otherwise
 	 */
-	public function process(Task $entity) {
+	public function process(Call $entity) {
 		$action = $this->entityRoutingHelper->getAction($this->request);
 		$relatedEntityClass = $this->entityRoutingHelper->getEntityClassName($this->request);
 		$relatedEntityId = $this->entityRoutingHelper->getEntityId($this->request);
@@ -93,9 +93,9 @@ class TaskApiHandler
 	/**
 	 * "Success" form handler
 	 *
-	 * @param Task $entity
+	 * @param Call $entity
 	 */
-	protected function onSuccess(Task $entity) {
+	protected function onSuccess(Call $entity) {
 		$this->manager->persist($entity);
 		$this->manager->flush();
 	}

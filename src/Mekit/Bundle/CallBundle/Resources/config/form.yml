@@ -1,24 +1,13 @@
 parameters:
-    mekit_call.call.manager.api.class:                    Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
+    mekit_call.manager.api.class:                         Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
 
     mekit_call.type.call.class:                           Mekit\Bundle\CallBundle\Form\Type\CallType
+    mekit_call.type.call.api.class:                       Mekit\Bundle\CallBundle\Form\Type\CallApiType
 
     mekit_call.handler.call.class:                        Mekit\Bundle\CallBundle\Form\Handler\CallHandler
+    mekit_call.handler.call.api.class:                    Mekit\Bundle\CallBundle\Form\Handler\CallApiHandler
 
 services:
-    mekit_call.call.manager.api:
-        class: %mekit_call.call.manager.api.class%
-        parent: oro_soap.manager.entity_manager.abstract
-        arguments:
-            - %mekit_call.call.entity.class%
-            - @doctrine.orm.entity_manager
-
-    mekit_call.form.call:
-        class: Symfony\Component\Form\Form
-        factory_method: createNamed
-        factory_service: form.factory
-        arguments: ["mekit_call_form", "mekit_call", null]
-
     mekit_call.form.type.call:
         class: %mekit_call.type.call.class%
         arguments:
@@ -29,10 +18,54 @@ services:
         tags:
             - { name: form.type, alias: mekit_call }
 
+    mekit_call.form.type.call.api:
+        class: %mekit_call.type.call.api.class%
+        arguments:
+            - @router
+            - @oro_locale.formatter.name
+            - @oro_security.security_facade
+            - @mekit_list.form_helper
+        tags:
+            - { name: form.type, alias: mekit_call_api }
+
+    mekit_call.form.call:
+        class: Symfony\Component\Form\Form
+        factory_method: createNamed
+        factory_service: form.factory
+        arguments:
+            - 'mekit_call_form'
+            - 'mekit_call'
+
+    mekit_call.form.call.api:
+        class: Symfony\Component\Form\Form
+        factory_method: createNamed
+        factory_service: form.factory
+        arguments:
+            - 'mekit_call_api_form'
+            - 'mekit_call_api'
+
     mekit_call.form.handler.call:
         class: %mekit_call.handler.call.class%
         scope: request
         arguments:
             - @mekit_call.form.call
             - @request
+            - @doctrine.orm.entity_manager
+            - @oro_entity.routing_helper
+
+    mekit_call.form.handler.call.api:
+        class: %mekit_call.handler.call.api.class%
+        scope: request
+        arguments:
+            - @mekit_call.form.call.api
+            - @request
+            - @doctrine.orm.entity_manager
+            - @oro_entity.routing_helper
+            - @mekit_crm.relationship.manager
+
+    mekit_call.call.manager.api:
+        class: %mekit_call.manager.api.class%
+        parent: oro_soap.manager.entity_manager.abstract
+        arguments:
+            - %mekit_call.call.entity.class%
             - @doctrine.orm.entity_manager
