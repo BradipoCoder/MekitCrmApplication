@@ -14,8 +14,7 @@ use Mekit\Bundle\TaskBundle\Entity\Task;
 class RelatedTasks extends RelatedCalls {
 	/**
 	 * @var ArrayCollection
-	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\TaskBundle\Entity\Task", inversedBy="accounts")
-	 * @ORM\JoinTable(name="mekit_rel_account_task")
+	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\TaskBundle\Entity\Task", mappedBy="accounts")
 	 * @ConfigField(
 	 *      defaultValues={
 	 *          "dataaudit"={

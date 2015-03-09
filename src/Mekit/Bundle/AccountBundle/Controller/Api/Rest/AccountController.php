@@ -17,8 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @RouteResource("account")
  * @NamePrefix("mekit_api_")
- *
- * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class AccountController extends RestController implements ClassResourceInterface {
 	/**

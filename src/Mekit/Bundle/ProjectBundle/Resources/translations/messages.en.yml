@@ -10,6 +10,7 @@ mekit:
         widgets:
             project_information:    Project Information
             project_additional:     Additional Information
+            task_add.title:         Add Task
 
         project_actions:            Project actions
 

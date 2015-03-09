@@ -14,8 +14,7 @@ use Mekit\Bundle\MeetingBundle\Entity\Meeting;
 class RelatedMeetings extends RelatedProjects {
 	/**
 	 * @var ArrayCollection
-	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\MeetingBundle\Entity\Meeting", inversedBy="accounts")
-	 * @ORM\JoinTable(name="mekit_rel_account_meeting")
+	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\MeetingBundle\Entity\Meeting", mappedBy="accounts")
 	 * @ConfigField(
 	 *      defaultValues={
 	 *          "dataaudit"={

@@ -1,17 +1,17 @@
 <?php
-namespace Mekit\Bundle\TaskBundle\Entity\Relationships;
+namespace Mekit\Bundle\TaskBundle\Entity\Relationships\Task;
 
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
-
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 use Mekit\Bundle\CallBundle\Entity\Call;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 
 /**
  * @ORM\MappedSuperclass
  */
-class RelatedCalls extends RelatedMeetings {
+class RelatedCalls extends RelatedMeetings
+{
 	/**
 	 * @var ArrayCollection
 	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\CallBundle\Entity\Call", inversedBy="tasks")
@@ -48,6 +48,7 @@ class RelatedCalls extends RelatedMeetings {
 		foreach ($calls as $call) {
 			$this->addCall($call);
 		}
+
 		return $this;
 	}
 
@@ -60,6 +61,7 @@ class RelatedCalls extends RelatedMeetings {
 			$this->calls->add($call);
 			$call->addTask($this);
 		}
+
 		return $this;
 	}
 
@@ -72,6 +74,7 @@ class RelatedCalls extends RelatedMeetings {
 			$this->calls->removeElement($call);
 			$call->removeTask($this);
 		}
+
 		return $this;
 	}
 

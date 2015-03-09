@@ -1,5 +1,5 @@
 <?php
-namespace Mekit\Bundle\TaskBundle\Entity\Relationships;
+namespace Mekit\Bundle\TaskBundle\Entity\Relationships\Task;
 
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -10,7 +10,8 @@ use Oro\Bundle\UserBundle\Entity\User;
 /**
  * @ORM\MappedSuperclass
  */
-class RelatedUsers extends RelatedAccounts {
+class RelatedUsers extends RelatedAccounts
+{
 	/**
 	 * @var ArrayCollection
 	 * @ORM\ManyToMany(targetEntity="Oro\Bundle\UserBundle\Entity\User")
@@ -46,6 +47,7 @@ class RelatedUsers extends RelatedAccounts {
 		foreach ($users as $user) {
 			$this->addUser($user);
 		}
+
 		return $this;
 	}
 
@@ -58,6 +60,7 @@ class RelatedUsers extends RelatedAccounts {
 			$this->users->add($user);
 			//$user->addTask($this);
 		}
+
 		return $this;
 	}
 
@@ -70,6 +73,7 @@ class RelatedUsers extends RelatedAccounts {
 			$this->users->removeElement($user);
 			//$user->removeTask($this);
 		}
+
 		return $this;
 	}
 

@@ -4,6 +4,9 @@
 	<div class="row-fluid form-horizontal">
 		<div class="responsive-block">
 			{{ UI.renderProperty('mekit.task.name.label'|trans, entity.name) }}
+			{% if entity.project is not empty %}
+				{{ UI.renderProperty('mekit.task.project.label'|trans, entity.project.name) }}
+			{% endif %}
 		</div>
 	</div>
 </div>

@@ -1,17 +1,17 @@
 <?php
-namespace Mekit\Bundle\TaskBundle\Entity\Relationships;
+namespace Mekit\Bundle\TaskBundle\Entity\Relationships\Task;
 
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
-
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 use Mekit\Bundle\MeetingBundle\Entity\Meeting;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 
 /**
  * @ORM\MappedSuperclass
  */
-class RelatedMeetings extends RelatedProjects {
+class RelatedMeetings extends RelatedProject
+{
 	/**
 	 * @var ArrayCollection
 	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\MeetingBundle\Entity\Meeting", inversedBy="tasks")
@@ -48,6 +48,7 @@ class RelatedMeetings extends RelatedProjects {
 		foreach ($meetings as $meeting) {
 			$this->addMeeting($meeting);
 		}
+
 		return $this;
 	}
 
@@ -60,6 +61,7 @@ class RelatedMeetings extends RelatedProjects {
 			$this->meetings->add($meeting);
 			$meeting->addTask($this);
 		}
+
 		return $this;
 	}
 
@@ -72,6 +74,7 @@ class RelatedMeetings extends RelatedProjects {
 			$this->meetings->removeElement($meeting);
 			$meeting->removeTask($this);
 		}
+
 		return $this;
 	}
 

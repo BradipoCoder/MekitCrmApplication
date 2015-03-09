@@ -1,0 +1,11 @@
+items:
+    mekit_meeting_create_button:
+        template: MekitMeetingBundle:Meeting/placeholders:addMeetingButton.html.twig
+        applicable: @mekit_meeting.placeholder.filter->isMeetingAssociationEnabled($entity$)
+        acl: mekit_meeting_create
+
+placeholders:
+    view_navButtons_after:
+        items:
+            mekit_meeting_create_button:
+                order:  220

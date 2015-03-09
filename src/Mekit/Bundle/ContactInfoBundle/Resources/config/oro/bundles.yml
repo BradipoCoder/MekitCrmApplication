@@ -1,2 +1,2 @@
 bundles:
-    - { name: Mekit\Bundle\ContactInfoBundle\MekitContactInfoBundle, priority: 170 }
+    - { name: Mekit\Bundle\ContactInfoBundle\MekitContactInfoBundle, priority: 112 }

@@ -1,0 +1,6 @@
+mekit_task_task_api:
+    resource:     "@MekitTaskBundle/Controller/Api/Rest/TaskController.php"
+    type:         rest
+mekit_task_worklog_api:
+    resource:     "@MekitTaskBundle/Controller/Api/Rest/WorklogController.php"
+    type:         rest

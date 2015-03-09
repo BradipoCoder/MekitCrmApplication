@@ -578,7 +578,7 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	 * @return string
 	 */
 	public function getClass() {
-		return 'OroCRM\Bundle\ContactBundle\Entity\Contact';
+		return 'Mekit\Bundle\ContactBundle\Entity\Contact';
 	}
 
 	/**

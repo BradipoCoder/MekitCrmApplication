@@ -4,10 +4,12 @@
 {% set pageTitle = 'mekit.call.entity_plural_label'|trans %}
 
 {% block navButtons %}
-	<div class="btn-group">
-		{{ UI.addButton({
-		'path' : path('mekit_call_create'),
-		'entity_label': 'mekit.call.entity_label'|trans
-		}) }}
-	</div>
+	{% if resource_granted('mekit_call_create') %}
+		<div class="btn-group">
+			{{ UI.addButton({
+				'path' : path('mekit_call_create'),
+				'entity_label': 'mekit.call.entity_label'|trans
+			}) }}
+		</div>
+	{% endif %}
 {% endblock %}

@@ -2,7 +2,7 @@
     "name": "mekit/account-bundle",
     "type": "symfony-bundle",
     "description": "Mekit Account Bundle",
-    "license": "MIT",
+    "license": "OSL-3.0",
     "require": {},
     "autoload": {
         "psr-0": { "": "src/" }

@@ -1,7 +1,7 @@
 <?php
 namespace Mekit\Bundle\TaskBundle\Model;
 
-use Mekit\Bundle\TaskBundle\Entity\Relationships\RelatedUsers;
+use Mekit\Bundle\TaskBundle\Entity\Relationships\Task\RelatedUsers;
 /**
  * Class ExtendTask
  */

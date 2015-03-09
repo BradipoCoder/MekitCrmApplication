@@ -1,0 +1,3 @@
+mekit_meeting_api:
+    resource:     "@MekitMeetingBundle/Controller/Api/Rest/MeetingController.php"
+    type:         rest

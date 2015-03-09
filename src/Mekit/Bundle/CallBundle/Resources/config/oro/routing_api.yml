@@ -1,0 +1,3 @@
+mekit_call_api:
+    resource:     "@MekitCallBundle/Controller/Api/Rest/CallController.php"
+    type:         rest

@@ -13,7 +13,8 @@ use Mekit\Bundle\ProjectBundle\Entity\Project;
 class RelatedProjects {
 	/**
 	 * @var ArrayCollection
-	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\ProjectBundle\Entity\Project", mappedBy="meetings")
+	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\ProjectBundle\Entity\Project", inversedBy="meetings")
+	 * @ORM\JoinTable(name="mekit_rel_meeting_project")
 	 * @ConfigField(
 	 *      defaultValues={
 	 *          "dataaudit"={

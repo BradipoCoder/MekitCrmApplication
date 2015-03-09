@@ -3,11 +3,11 @@ mekit_meeting_bundle:
     type:         annotation
     prefix:       /meeting
 
-#mekit_account_bundle_api:
-#    resource: "@MekitAccountBundle/Resources/config/oro/routing_api.yml"
-#    type: rest
-#    prefix:       api/rest/{version}
-#    requirements:
-#        version:  latest|v1
-#    defaults:
-#        version:  latest
+mekit_meeting_bundle_api:
+    resource: "@MekitMeetingBundle/Resources/config/oro/routing_api.yml"
+    type: rest
+    prefix:       api/rest/{version}
+    requirements:
+        version:  latest|v1
+    defaults:
+        version:  latest

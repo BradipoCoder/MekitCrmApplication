@@ -1,19 +1,21 @@
 <?php
-namespace Mekit\Bundle\TaskBundle\Entity\Relationships;
+namespace Mekit\Bundle\TaskBundle\Entity\Relationships\Task;
 
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Mekit\Bundle\AccountBundle\Entity\Account;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 
 /**
  * @ORM\MappedSuperclass
  */
-class RelatedAccounts extends RelatedContacts {
+class RelatedAccounts extends RelatedContacts
+{
 	/**
 	 * @var ArrayCollection
-	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\AccountBundle\Entity\Account", mappedBy="tasks")
+	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\AccountBundle\Entity\Account", inversedBy="tasks")
+	 * @ORM\JoinTable(name="mekit_rel_task_account")
 	 * @ConfigField(
 	 *      defaultValues={
 	 *          "dataaudit"={
@@ -45,6 +47,7 @@ class RelatedAccounts extends RelatedContacts {
 		foreach ($accounts as $account) {
 			$this->addAccount($account);
 		}
+
 		return $this;
 	}
 
@@ -57,6 +60,7 @@ class RelatedAccounts extends RelatedContacts {
 			$this->accounts->add($account);
 			$account->addTask($this);
 		}
+
 		return $this;
 	}
 
@@ -69,6 +73,7 @@ class RelatedAccounts extends RelatedContacts {
 			$this->accounts->removeElement($account);
 			$account->removeTask($this);
 		}
+
 		return $this;
 	}
 

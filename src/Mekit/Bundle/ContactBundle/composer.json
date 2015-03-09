@@ -2,7 +2,7 @@
     "name": "mekit/contact-bundle",
     "type": "symfony-bundle",
     "description": "Mekit Contact Bundle",
-    "license": "MIT",
+    "license": "OSL-3.0",
     "require": {},
     "autoload": {
         "psr-0": { "": "src/" }

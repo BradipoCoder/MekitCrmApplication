@@ -5,10 +5,12 @@
 
 
 {% block navButtons %}
-	<div class="btn-group">
-		{{ UI.addButton({
-		'path' : path('mekit_contact_create'),
-		'entity_label': 'mekit.contact.entity_label'|trans
-		}) }}
-	</div>
+	{% if resource_granted('mekit_contact_create') %}
+		<div class="btn-group">
+			{{ UI.addButton({
+			'path' : path('mekit_contact_create'),
+			'entity_label': 'mekit.contact.entity_label'|trans
+			}) }}
+		</div>
+	{% endif %}
 {% endblock %}

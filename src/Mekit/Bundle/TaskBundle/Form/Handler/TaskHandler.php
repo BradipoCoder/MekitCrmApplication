@@ -1,18 +1,17 @@
 <?php
-
 namespace Mekit\Bundle\TaskBundle\Form\Handler;
 
+use Doctrine\Common\Persistence\ObjectManager;
+use Mekit\Bundle\TaskBundle\Entity\Task;
+use Oro\Bundle\EntityBundle\Tools\EntityRoutingHelper;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
-
-use Mekit\Bundle\EventBundle\Entity\Event;
-use Mekit\Bundle\TaskBundle\Entity\Task;
 
 /**
  * Class TaskHandler
  */
-class TaskHandler {
+class TaskHandler
+{
 	/**
 	 * @var FormInterface
 	 */
@@ -28,16 +27,21 @@ class TaskHandler {
 	 */
 	protected $manager;
 
+	/** @var EntityRoutingHelper */
+	protected $entityRoutingHelper;
+
 	/**
 	 *
 	 * @param FormInterface $form
 	 * @param Request       $request
 	 * @param ObjectManager $manager
+	 * @param EntityRoutingHelper $entityRoutingHelper
 	 */
-	public function __construct(FormInterface $form, Request $request, ObjectManager $manager) {
+	public function __construct(FormInterface $form, Request $request, ObjectManager $manager, EntityRoutingHelper $entityRoutingHelper) {
 		$this->form = $form;
 		$this->request = $request;
 		$this->manager = $manager;
+		$this->entityRoutingHelper = $entityRoutingHelper;
 	}
 
 	/**
@@ -48,13 +52,21 @@ class TaskHandler {
 	 */
 	public function process(Task $entity) {
 		$this->form->setData($entity);
-		if (in_array($this->request->getMethod(), array('POST', 'PUT'))) {
+		if (in_array(
+			$this->request->getMethod(),
+			array(
+				'POST',
+				'PUT'
+			)
+		)) {
 			$this->form->submit($this->request);
 			if ($this->form->isValid()) {
 				$this->onSuccess($entity);
+
 				return true;
 			}
 		}
+
 		return false;
 	}
 
@@ -67,4 +79,13 @@ class TaskHandler {
 		$this->manager->persist($entity);
 		$this->manager->flush();
 	}
+
+	/**
+	 * @return FormInterface
+	 */
+	public function getForm() {
+		return $this->form;
+	}
+
+
 }
