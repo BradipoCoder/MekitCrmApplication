@@ -4,7 +4,7 @@ oro_menu_config:
             label: 'mekit.call.entity_plural_label'
             route: 'mekit_call_index'
             extras:
-                position: 35
+                position: 25
                 routes: ['mekit_call_*']
                 description: 'mekit.call.menu.call_list.description'
 

@@ -3,12 +3,10 @@ namespace Mekit\Bundle\TaskBundle\Entity;
 
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\ORM\Mapping as ORM;
-use Mekit\Bundle\EventBundle\Entity\Event;
 use Mekit\Bundle\EventBundle\Entity\EventInterface;
 use Mekit\Bundle\TaskBundle\Model\ExtendTask;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 
 /**
  * @ORM\Entity(repositoryClass="Mekit\Bundle\TaskBundle\Entity\Repository\TaskRepository")
@@ -49,7 +47,8 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
  *      }
  * )
  */
-class Task extends ExtendTask implements EventInterface {
+class Task extends ExtendTask implements EventInterface
+{
 	/**
 	 * @var int
 	 *
@@ -67,17 +66,6 @@ class Task extends ExtendTask implements EventInterface {
 	 * @Oro\Versioned
 	 */
 	protected $name;
-
-	/**
-	 * @var Event
-	 *
-	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\EventBundle\Entity\Event", mappedBy="task", cascade={"all"}, fetch="EAGER")
-	 * @Soap\ComplexType("Mekit\Bundle\EventBundle\Entity\Event", nillable=false)
-	 * @ConfigField(
-	 *      defaultValues={}
-	 * )
-	 */
-	protected $event;
 
 	/**
 	 * Constructor
@@ -99,6 +87,7 @@ class Task extends ExtendTask implements EventInterface {
 	 */
 	public function setId($id) {
 		$this->id = $id;
+
 		return $this;
 	}
 
@@ -115,22 +104,7 @@ class Task extends ExtendTask implements EventInterface {
 	 */
 	public function setName($name) {
 		$this->name = $name;
-		return $this;
-	}
 
-	/**
-	 * @return Event
-	 */
-	public function getEvent() {
-		return $this->event;
-	}
-
-	/**
-	 * @param Event $event
-	 * @return $this
-	 */
-	public function setEvent(Event $event) {
-		$this->event = $event;
 		return $this;
 	}
 

@@ -10,7 +10,7 @@ use Oro\Bundle\UserBundle\Entity\User;
 /**
  * @ORM\MappedSuperclass
  */
-class RelatedUsers extends RelatedAccounts {
+class RelatedUsers extends RelatedEvent {
 	/**
 	 * @var ArrayCollection
 	 * @ORM\ManyToMany(targetEntity="Oro\Bundle\UserBundle\Entity\User")

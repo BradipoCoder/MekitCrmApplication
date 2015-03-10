@@ -4,7 +4,6 @@ namespace Mekit\Bundle\CallBundle\Entity;
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\ORM\Mapping as ORM;
 use Mekit\Bundle\CallBundle\Model\ExtendCall;
-use Mekit\Bundle\EventBundle\Entity\Event;
 use Mekit\Bundle\EventBundle\Entity\EventInterface;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
@@ -42,7 +41,8 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
  *      }
  * )
  */
-class Call extends ExtendCall implements EventInterface {
+class Call extends ExtendCall implements EventInterface
+{
 	/**
 	 * @var int
 	 *
@@ -101,17 +101,6 @@ class Call extends ExtendCall implements EventInterface {
 	protected $outcome;
 
 	/**
-	 * @var Event
-	 *
-	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\EventBundle\Entity\Event", mappedBy="call", cascade={"all"}, fetch="EAGER")
-	 * @Soap\ComplexType("Mekit\Bundle\EventBundle\Entity\Event", nillable=false)
-	 * @ConfigField(
-	 *      defaultValues={}
-	 * )
-	 */
-	protected $event;
-
-	/**
 	 * Constructor
 	 */
 	public function __construct() {
@@ -131,6 +120,7 @@ class Call extends ExtendCall implements EventInterface {
 	 */
 	public function setId($id) {
 		$this->id = $id;
+
 		return $this;
 	}
 
@@ -147,6 +137,7 @@ class Call extends ExtendCall implements EventInterface {
 	 */
 	public function setName($name) {
 		$this->name = $name;
+
 		return $this;
 	}
 
@@ -163,6 +154,7 @@ class Call extends ExtendCall implements EventInterface {
 	 */
 	public function setDirection($direction) {
 		$this->direction = $direction;
+
 		return $this;
 	}
 
@@ -179,22 +171,7 @@ class Call extends ExtendCall implements EventInterface {
 	 */
 	public function setOutcome($outcome) {
 		$this->outcome = $outcome;
-		return $this;
-	}
 
-	/**
-	 * @return Event
-	 */
-	public function getEvent() {
-		return $this->event;
-	}
-
-	/**
-	 * @param Event $event
-	 * @return $this
-	 */
-	public function setEvent(Event $event) {
-		$this->event = $event;
 		return $this;
 	}
 

@@ -8,7 +8,6 @@ datagrid:
                 select:
                     - m.id
                     - m.name
-                    - e.id as eventId
                     - e.type
                     - e.startDate
                     - e.endDate
@@ -48,7 +47,6 @@ datagrid:
 
         properties:
             id:             ~
-            eventId:        ~
             view_link:
                 type:       url
                 route:      mekit_meeting_view
@@ -59,9 +57,8 @@ datagrid:
                 params:     [ id ]
             delete_link:
                 type:       url
-                route:      mekit_api_delete_event
-                params:
-                    id: eventId
+                route:      mekit_api_delete_meeting
+                params:     [ id ]
 
         actions:
             view:
@@ -79,7 +76,7 @@ datagrid:
                 link:          update_link
             delete:
                 type:          delete
-                acl_resource:  mekit_event_delete
+                acl_resource:  mekit_meeting_delete
                 label:         oro.grid.action.delete
                 icon:          trash
                 link:          delete_link

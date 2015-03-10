@@ -25,10 +25,21 @@ class MekitMeetingBundle implements Migration {
 	protected function createMekitMeetingTable(Schema $schema) {
 		$table = $schema->createTable(self::$tableNameMeeting);
 		$table->addColumn('id', 'integer', ['autoincrement' => true]);
+		$table->addColumn('event_id', 'integer', []);
 		$table->addColumn('name', 'string', ['length' => 255]);
 
 		//INDEXES
 		$table->setPrimaryKey(['id']);
 		$table->addIndex(['name'], 'idx_meeting_name', []);
+		$table->addUniqueIndex(['event_id'], 'idx_meeting_event', []);
+
+		//FOREIGN KEYS
+		$table->addForeignKeyConstraint(
+			$schema->getTable('mekit_event'),
+			['event_id'],
+			['id'],
+			['onDelete' => 'CASCADE'],
+			'fk_meeting_event'
+		);
 	}
 }

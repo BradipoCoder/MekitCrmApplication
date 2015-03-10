@@ -14,7 +14,7 @@ class RelatedProject extends RelatedWorklogs
 	/**
 	 * @var Project
 	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ProjectBundle\Entity\Project", inversedBy="tasks")
-	 * @ORM\JoinColumn(name="project_id", referencedColumnName="id", onDelete="SET NULL")
+	 * @ORM\JoinColumn(name="project_id", referencedColumnName="id", onDelete="CASCADE")
 	 * @ConfigField()
 	 */
 	protected $project;

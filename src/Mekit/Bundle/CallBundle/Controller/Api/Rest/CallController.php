@@ -6,6 +6,7 @@ use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SoapBundle\Controller\Api\Rest\RestController;
 use Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager;
@@ -90,7 +91,7 @@ class CallController extends RestController implements ClassResourceInterface {
 	}
 
 	/**
-	 * REST DELETE (todo: need to find out event id for this to work)
+	 * REST DELETE
 	 *
 	 * @param int $id
 	 *
@@ -98,14 +99,16 @@ class CallController extends RestController implements ClassResourceInterface {
 	 *      description="Delete item",
 	 *      resource=true
 	 * )
-	 * @AclAncestor("mekit_event_delete")
+	 * @Acl(
+	 *      id="mekit_call_delete",
+	 *      type="entity",
+	 *      permission="DELETE",
+	 *      class="MekitCallBundle:Call"
+	 * )
 	 * @return Response
 	 */
 	public function deleteAction($id) {
-		return new Response("You must use the Event Api to remove this event!", 400);
-		//$eventId = 0;
-		//return $this->forward("MekitEventBundle:Api/Rest/Event:delete", [], ['id'=>$eventId]);
-		//return $this->handleDeleteRequest($id);
+		return $this->handleDeleteRequest($id);
 	}
 
 	/**

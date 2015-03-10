@@ -8,18 +8,18 @@ datagrid:
                 select:
                     - t.id
                     - t.name
-                    - e.id as eventId
                     - e.type
                     - e.startDate
                     - e.endDate
-                    - e.duration
                     - eventState.label as state
                     - eventPriority.label as priority
+                    - p.name as projectName
                 from:
                     - { table: %mekit_task.task.entity.class%, alias: t }
                 join:
                     left:
                         - { join: t.event, alias: e }
+                        - { join: t.project, alias: p }
                         - { join: e.owner, alias: eventOwner }
                         - { join: e.state, alias: eventState }
                         - { join: e.priority, alias: eventPriority }
@@ -33,22 +33,18 @@ datagrid:
                 template:       MekitEventBundle:Event:Datagrid/Property/eventIcon.html.twig
             name:
                 label:          mekit.task.name.label
-            state:
-                label:         mekit.event.state.label
+            projectName:
+                label:          mekit.task.project.label
             startDate:
                 label:         mekit.event.start_date.label
                 frontend_type: datetime
-            endDate:
-                label:         mekit.event.end_date.label
-                frontend_type: datetime
-            duration:
-                label:         mekit.event.duration.label
             priority:
                 label:         mekit.event.priority.label
+            state:
+                label:          mekit.event.state.label
 
         properties:
             id:             ~
-            eventId:        ~
             view_link:
                 type:       url
                 route:      mekit_task_view
@@ -59,9 +55,8 @@ datagrid:
                 params:     [ id ]
             delete_link:
                 type:       url
-                route:      mekit_api_delete_event
-                params:
-                    id: eventId
+                route:      mekit_api_delete_task
+                params:     [ id ]
 
         actions:
             view:
@@ -79,7 +74,7 @@ datagrid:
                 link:          update_link
             delete:
                 type:          delete
-                acl_resource:  mekit_event_delete
+                acl_resource:  mekit_task_delete
                 label:         oro.grid.action.delete
                 icon:          trash
                 link:          delete_link
@@ -90,12 +85,10 @@ datagrid:
                     data_name: t.name
                 state:
                     data_name: eventState.label
+                projectName:
+                    data_name: p.name
                 startDate:
                     data_name: e.startDate
-                endDate:
-                    data_name: e.endDate
-                duration:
-                    data_name: e.duration
                 priority:
                     data_name: eventPriority.label
 
@@ -104,6 +97,13 @@ datagrid:
                 name:
                     type:      string
                     data_name: t.name
+                projectName:
+                    type:      entity
+                    data_name: p.id
+                    options:
+                        field_options:
+                            class:     MekitProjectBundle:Project
+                            property:  name
                 state:
                     type:      entity
                     data_name: eventState.id
@@ -126,6 +126,8 @@ datagrid:
                             attr:
                                 group_name: 'EVENT_PRIORITY'
                             multiple: true
+
+
 
     # 1) Extending datagrid MUST declare the FROM table with alias "baseEntity" which MUST have "tasks" relationship
     # 2) parameter "ref_id" identifying the "baseEntity" must be defined

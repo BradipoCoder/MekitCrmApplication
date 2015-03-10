@@ -36,9 +36,6 @@ class MekitEventBundle implements Migration {
 		$table->addColumn('priority', 'string', ['notnull' => false, 'length' => 32]);
 		$table->addColumn('state', 'string', ['length' => 32]);
 		$table->addColumn('description', 'text', ['notnull' => false]);
-		$table->addColumn('task_id', 'integer', ['notnull' => false]);
-		$table->addColumn('meeting_id', 'integer', ['notnull' => false]);
-		$table->addColumn('call_id', 'integer', ['notnull' => false]);
 
 		//INDEXES
 		$table->setPrimaryKey(['id']);
@@ -51,9 +48,6 @@ class MekitEventBundle implements Migration {
 		$table->addIndex(['end_date'], 'idx_event_end_date', []);
 		$table->addIndex(['state'], 'idx_event_state', []);
 		$table->addIndex(['priority'], 'idx_event_priority', []);
-		$table->addUniqueIndex(['task_id'], 'uniq_event_task');
-		$table->addUniqueIndex(['meeting_id'], 'uniq_event_meeting');
-		$table->addUniqueIndex(['call_id'], 'uniq_event_call');
 
 		//FOREIGN KEYS
 		$table->addForeignKeyConstraint(
@@ -84,27 +78,6 @@ class MekitEventBundle implements Migration {
 			['id'],
 			['onDelete' => null, 'onUpdate' => null],
 			'fk_event_priority'
-		);
-		$table->addForeignKeyConstraint(
-			$schema->getTable('mekit_task'),
-			['task_id'],
-			['id'],
-			['onDelete' => null, 'onUpdate' => null],
-			'fk_event_task'
-		);
-		$table->addForeignKeyConstraint(
-			$schema->getTable('mekit_meeting'),
-			['meeting_id'],
-			['id'],
-			['onDelete' => null, 'onUpdate' => null],
-			'fk_event_meeting'
-		);
-		$table->addForeignKeyConstraint(
-			$schema->getTable('mekit_call'),
-			['call_id'],
-			['id'],
-			['onDelete' => null, 'onUpdate' => null],
-			'fk_event_call'
 		);
 	}
 }

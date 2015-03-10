@@ -1,12 +1,22 @@
 {% import 'OroUIBundle::macros.html.twig' as UI %}
 
+{%- set projectLink -%}
+    {%- if entity.project -%}
+	    {% if resource_granted('mekit_project_view') %}
+		    <a href="{{ path('mekit_project_view', {'id': entity.project.id}) }}">
+			    {{ entity.project.name }}
+		    </a>
+	    {% else %}
+		    {{ entity.project.name }}
+	    {% endif %}
+    {%- endif -%}
+{%- endset -%}
+
 <div class="widget-content">
 	<div class="row-fluid form-horizontal">
 		<div class="responsive-block">
 			{{ UI.renderProperty('mekit.task.name.label'|trans, entity.name) }}
-			{% if entity.project is not empty %}
-				{{ UI.renderProperty('mekit.task.project.label'|trans, entity.project.name) }}
-			{% endif %}
+			{{ UI.renderHtmlProperty('mekit.task.project.label'|trans, projectLink) }}
 		</div>
 	</div>
 </div>

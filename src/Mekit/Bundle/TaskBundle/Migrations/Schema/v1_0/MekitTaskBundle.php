@@ -27,20 +27,29 @@ class MekitTaskBundle implements Migration {
 	protected function createMekitTaskTable(Schema $schema) {
 		$table = $schema->createTable(self::$tableNameTask);
 		$table->addColumn('id', 'integer', ['autoincrement' => true]);
+		$table->addColumn('event_id', 'integer', []);
 		$table->addColumn('name', 'string', ['length' => 255]);
 		$table->addColumn('project_id', 'integer', ['notnull' => false]);
 
 		//INDEXES
 		$table->setPrimaryKey(['id']);
 		$table->addIndex(['name'], 'idx_task_name', []);
+		$table->addUniqueIndex(['event_id'], 'idx_task_event', []);
 		$table->addIndex(['project_id'], 'idx_task_project', []);
 
 		//FOREIGN KEYS
 		$table->addForeignKeyConstraint(
+			$schema->getTable('mekit_event'),
+			['event_id'],
+			['id'],
+			['onDelete' => 'CASCADE'],
+			'fk_task_event'
+		);
+		$table->addForeignKeyConstraint(
 			$schema->getTable('mekit_project'),
 			['project_id'],
 			['id'],
-			['onDelete' => 'SET NULL', 'onUpdate' => null],
+			['onDelete' => 'CASCADE'],
 			'fk_task_project'
 		);
 	}
