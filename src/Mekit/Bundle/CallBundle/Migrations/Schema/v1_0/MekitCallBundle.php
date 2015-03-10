@@ -25,6 +25,7 @@ class MekitCallBundle implements Migration {
 	protected function createMekitCallTable(Schema $schema) {
 		$table = $schema->createTable(self::$tableNameCall);
 		$table->addColumn('id', 'integer', ['autoincrement' => true]);
+		$table->addColumn('event_id', 'integer', []);
 		$table->addColumn('name', 'string', ['length' => 255]);
 		$table->addColumn('outcome', 'string', ['length' => 32]);
 		$table->addColumn('direction', 'string', ['length' => 4]);
@@ -32,10 +33,18 @@ class MekitCallBundle implements Migration {
 		//INDEXES
 		$table->setPrimaryKey(['id']);
 		$table->addIndex(['name'], 'idx_call_name', []);
+		$table->addUniqueIndex(['event_id'], 'idx_call_event', []);
 		$table->addIndex(['outcome'], 'idx_call_outcome', []);
 		$table->addIndex(['direction'], 'idx_call_direction', []);
 
 		//FOREIGN KEYS
+		$table->addForeignKeyConstraint(
+			$schema->getTable('mekit_event'),
+			['event_id'],
+			['id'],
+			['onDelete' => 'CASCADE'],
+			'fk_call_event'
+		);
 		$table->addForeignKeyConstraint(
 			$schema->getTable('mekit_list_item'),
 			['outcome'],

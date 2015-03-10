@@ -18,13 +18,13 @@
 		}) }}
 	{% endif %}
 
-	{% if resource_granted('DELETE', entity.event) %}
+	{% if resource_granted('DELETE', entity) %}
 		{{ UI.deleteButton({
-		'dataUrl': path('mekit_api_delete_event', {'id': entity.event.id}),
+		'dataUrl': path('mekit_api_delete_task', {'id': entity.id}),
 		'dataRedirect': path('mekit_task_index'),
 		'aCss': 'no-hash remove-button',
-		'dataId': entity.event.id,
-		'id': 'btn-remove-event',
+		'dataId': entity.id,
+		'id': 'btn-remove-task',
 		'entity_label': 'mekit.task.entity_label'|trans
 		}) }}
 	{% endif %}

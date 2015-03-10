@@ -5,12 +5,9 @@ use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Mekit\Bundle\AccountBundle\Model\ExtendAccount;
-use Mekit\Bundle\CallBundle\Entity\Call;
 use Mekit\Bundle\EventBundle\Model\ExtendEvent;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
-use Mekit\Bundle\MeetingBundle\Entity\Meeting;
-use Mekit\Bundle\TaskBundle\Entity\Task;
+
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
@@ -180,28 +177,6 @@ class Event extends ExtendEvent {
 	 * )
 	 */
 	protected $updatedAt;
-
-	/**
-	 * @var Task
-	 *
-	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\TaskBundle\Entity\Task", inversedBy="event", cascade={"all"}, orphanRemoval=true)
-	 */
-	protected $task;
-
-	/**
-	 * @var Meeting
-	 *
-	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\MeetingBundle\Entity\Meeting", inversedBy="event", cascade={"all"}, orphanRemoval=true)
-	 */
-	protected $meeting;
-
-	/**
-	 * @var Call
-	 *
-	 * @ORM\OneToOne(targetEntity="Mekit\Bundle\CallBundle\Entity\Call", inversedBy="event", cascade={"all"}, orphanRemoval=true)
-	 */
-	protected $call;
-
 
 	/**
 	 * Constructor
@@ -408,69 +383,6 @@ class Event extends ExtendEvent {
 	public function setUpdatedAt(\DateTime $updated) {
 		$this->updatedAt = $updated;
 		return $this;
-	}
-
-	/**
-	 * @return Task
-	 */
-	public function getTask() {
-		return $this->task;
-	}
-
-	/**
-	 * @param Task $task
-	 * @return $this
-	 */
-	public function setTask(Task $task) {
-		$this->task = $task;
-		return $this;
-	}
-
-	/**
-	 * @return Meeting
-	 */
-	public function getMeeting() {
-		return $this->meeting;
-	}
-
-	/**
-	 * @param Meeting $meeting
-	 * @return $this
-	 */
-	public function setMeeting(Meeting $meeting) {
-		$this->meeting = $meeting;
-		return $this;
-	}
-
-	/**
-	 * @return Call
-	 */
-	public function getCall() {
-		return $this->call;
-	}
-
-	/**
-	 * @param Call $call
-	 * @return $this
-	 */
-	public function setCall(Call $call) {
-		$this->call = $call;
-		return $this;
-	}
-
-	/**
-	 * @return bool|EventInterface
-	 */
-	public function getBaseEntity() {
-		if($this->task) {
-			return $this->task;
-		} else if($this->call) {
-			return $this->call;
-		} else if($this->meeting) {
-			return $this->meeting;
-		} else {
-			return false;
-		}
 	}
 
 	/**
