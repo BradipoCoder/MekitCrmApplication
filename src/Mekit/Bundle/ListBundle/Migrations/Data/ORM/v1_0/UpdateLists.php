@@ -1,5 +1,5 @@
 <?php
-namespace Mekit\Bundle\ListBundle\Migrations\Data\ORM;
+namespace Mekit\Bundle\ListBundle\Migrations\Data\ORM\v1_0;
 
 use Oro\Bundle\TranslationBundle\DataFixtures\AbstractTranslatableEntityFixture;
 use Oro\Bundle\MigrationBundle\Fixture\VersionedFixtureInterface;
@@ -8,21 +8,20 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Yaml\Yaml;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\ORM\EntityRepository;
 
 use Mekit\Bundle\ListBundle\Entity\ListGroup;
 use Mekit\Bundle\ListBundle\Entity\Repository\ListGroupRepository;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
 use Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository;
 
-class LoadListAccountType extends AbstractTranslatableEntityFixture implements VersionedFixtureInterface, ContainerAwareInterface {
+class UpdateLists extends AbstractTranslatableEntityFixture implements VersionedFixtureInterface, ContainerAwareInterface {
 	const LIST_GROUP_PREFIX = 'listgroup';
 	const LIST_ITEM_PREFIX = 'listitem';
 
 	/**
 	 * @var string
 	 */
-	protected $dataFileName = '/data/lists.yml';
+	protected $dataFileName = '/data/v1_0/lists.yml';
 
 	/**
 	 * @var ContainerInterface
@@ -180,7 +179,7 @@ class LoadListAccountType extends AbstractTranslatableEntityFixture implements V
 				->setEmptyValue($emptyValue)
 				->setItemPrefix($listGroupData['item_prefix'])
 				->setRequired($listGroupData['required'])
-				->setSystem($listGroupData['system']);
+				->setSystem(isset($listGroupData["system"])?$listGroupData["system"]:true);
 		}
 		return $listGroup;
 	}

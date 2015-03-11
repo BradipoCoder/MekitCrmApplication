@@ -1,0 +1,7 @@
+TASK_TYPE:
+    item_prefix:    TASKTY_
+    required:       true
+    items:
+        GENERAL:
+            default_item: true
+        BUG:        ~

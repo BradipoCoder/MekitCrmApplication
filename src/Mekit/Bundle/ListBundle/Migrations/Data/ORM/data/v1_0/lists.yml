@@ -1,0 +1,104 @@
+ACCOUNT_TYPE:
+    item_prefix:    ACCTY_
+    required:       true
+    system:         true
+    items:
+        CLNT:
+            system:         true
+            default_item:   true
+        SPLR:
+            system:         true
+        CPTR:
+            system:         true
+        OTHR:
+            system:         true
+ACCOUNT_INDUSTRY:
+    item_prefix:    ACCIR_
+    required:       true
+    system:         true
+    items:
+        OTHR:
+            default_item: true
+            system:       true
+ACCOUNT_STATE:
+    item_prefix:    ACCST_
+    required:       true
+    system:         true
+    items:
+        NEW:
+            default_item: true
+            system:       true
+        ACTIVE:
+            system:       true
+        NEGATIVE:
+            system:       true
+        SLEEP:
+            system:       true
+        LEAD:
+            system:       true
+ACCOUNT_SOURCE:
+    item_prefix:    ACCSR_
+    required:       true
+    system:         true
+    items:
+        OTHR:
+            default_item: true
+            system:       true
+        WWW:
+            system:       true
+CONTACT_JOBTITLE:
+    item_prefix:    CNTJB_
+    required:       false
+    system:         true
+    items:
+        OTHR:
+            default_item: true
+            system:       true
+        CEO:
+            system:       true
+EVENT_STATE:
+    item_prefix:    EVSTT_
+    required:       true
+    system:         true
+    items:
+        ACTIVE:
+            default_item: true
+            system:       true
+        INACTIVE:
+            system:       true
+EVENT_PRIORITY:
+    item_prefix:    EVPRI_
+    required:       true
+    system:         true
+    items:
+        NORMAL:
+            default_item: true
+            system:       true
+        LOW:
+            system:       true
+        HIGH:
+            system:       true
+CALL_OUTCOME:
+    item_prefix:    CLOCM_
+    required:       true
+    system:         true
+    items:
+        PLANNED:
+            default_item: true
+            system:       true
+        BADNUMBER:
+            system:       true
+        BUSY:
+            system:       true
+        NEGATIVE:
+            system:       true
+        NOANSWER:
+            system:       true
+        POSITIVE:
+            system:       true
+        RECALL:
+            system:       true
+        UNLISTENED:
+            system:       true
+
+
