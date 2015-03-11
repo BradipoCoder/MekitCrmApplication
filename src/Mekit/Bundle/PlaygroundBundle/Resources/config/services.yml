@@ -1,7 +1,0 @@
-parameters:
-#    mekit_playground.example.class: Mekit\Bundle\PlaygroundBundle\Example
-
-services:
-#    mekit_playground.example:
-#        class: %mekit_playground.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]

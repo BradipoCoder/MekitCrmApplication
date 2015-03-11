@@ -1,0 +1,24 @@
+mekit:
+    campaign:
+        menu:
+            marketing_tab.label:        Marketing
+            campaign_list.description:  Elenco Campagne
+
+        widgets:
+
+        sections:
+            general:                Generale
+
+        controller:
+            campaign.saved.message:  "Campagna salvata"
+
+        #
+        # Mekit/Bundle/CampaignBundle/Entity/Campaign
+        #
+        entity_label:                   Campagna
+        entity_plural_label:            Campagne
+        entity_description:             Campagna
+
+        id.label:                       Id
+        name.label:                     Nome
+

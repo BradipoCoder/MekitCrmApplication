@@ -5,7 +5,7 @@ mekit:
             account_list.description: Elenco anagrafiche
             shortcut_new_account.label: Crea nuova anagrafica
             shortcut_new_account.description: Crea nuova anagrafica
-            shortcut_list_accounts.label: Show accounts list
+            shortcut_list_accounts.label: Elenco Anagrafiche
             shortcut_list_accounts.description: Anagrafiche
 
         widgets:
@@ -17,7 +17,7 @@ mekit:
 
         sections:
             general:                Generale
-            addresses:              Indirizzi
+            addresses:              Rubrica
 
         form:
             choose_account:         Scegli una azienda...
@@ -45,17 +45,19 @@ mekit:
         industry.label:             Settore
         source.label:               Provenienza
         assigned_to.label:          Assegnato a
-        phones.label:               Telefono
-        emails.label:               Email
         email.label:                Email
         owner.label:                Proprietario
         organization.label:         Organizzazione
 
         addresses.label:            Indirizzi
+        phones.label:               Telefono
+        emails.label:               Email
 
-        contact:
-            name:                   Contact name
-            email:                  Contact email
-            phone:                  Contact phone
+        users.label:                Utenti
+        contacts.label:             Contatti
+        tasks.label:                Compiti
+        calls.label:                Chiamate
+        meetings.label:             Appuntamenti
+        projects.label:             Progetti
 
 

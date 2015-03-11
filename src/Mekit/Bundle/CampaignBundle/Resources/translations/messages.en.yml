@@ -4,18 +4,11 @@ mekit:
             marketing_tab.label:        Marketing
             campaign_list.description:  List of Campaigns
 
-        widgets:
-            account_information:    Account Information
-            account_additional:     Additional Information
-            account_addresses:      Address Book
-            account_contacts:       Contacts
-            account_tasks:          Tasks
-
         sections:
             general:                General
 
         controller:
-            account.saved.message:  "Campaign saved"
+            campaign.saved.message:  "Campaign saved"
 
         #
         # Mekit/Bundle/CampaignBundle/Entity/Campaign
