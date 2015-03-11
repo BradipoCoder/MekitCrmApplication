@@ -1,0 +1,45 @@
+---
+mekit:
+  list:
+    form:
+      choose_account: Scegli una azienda...
+      select_contacts: Seleziona contatti
+    menu:
+      title: Liste
+      description: Elenco liste
+    widgets:
+      listgroup_information: Dettagli Lista
+      listitem_add: Aggiungi nuovo elemento
+      listitem_update: Modifica elemento
+    controller:
+      list.saved.message: Lista salvata
+      item.saved.message: Elemento salvato
+    sections:
+      general: Generale
+      items: Elementi
+    generic:
+      "yes": true
+      "no": false
+    listgroup:
+      entity_label: Lista
+      entity_plural_label: Liste
+      entity_description: Lista
+      id.label: Id
+      name.label: Nome Lista
+      label.label: Etichetta
+      item_prefix.label: Prefisso elementi
+      empty_value.label: Valore vuoto
+      required.label: Obbligatorio
+      system.label: Sistema
+      description.label: Decrizione
+      items.label: Elementi
+      default_item.label: Elemento predefinito
+    listitem:
+      entity_label: Elemento
+      entity_plural_label: Elementi
+      entity_description: Lista di elementi
+      id.label: Id
+      list_group.label: Lista
+      label.label: Etichetta
+      default_item.label: Predefinito
+      editaction.label: Modifica

@@ -1,0 +1,27 @@
+---
+mekit:
+  event:
+    menu:
+      events_tab.label: Eventi
+      event_list.description: Elenco eventi
+    entity_config:
+      entity:
+        items:
+          eventable: Evento
+    widgets:
+      event_information: Dettagli Evento
+    sections:
+      general: Generale
+    entity_label: Evento
+    entity_plural_label: Eventi
+    entity_description: Evento
+    id.label: Id
+    type.label: Tipo
+    start_date.label: Data Inizio
+    end_date.label: Data Fine
+    duration.label: Durata
+    state.label: Stato
+    priority.label: Priorità
+    description.label: Decrizione
+    owner.label: Proprietario
+    organization.label: Organizzazione

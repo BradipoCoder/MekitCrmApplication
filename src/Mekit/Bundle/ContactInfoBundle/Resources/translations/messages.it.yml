@@ -1,0 +1,45 @@
+---
+mekit:
+  contactinfo:
+    address:
+      entity_label: Indirizzo
+      entity_plural_label: Indirizzi
+      entity_description: Indirizzo
+      id.label: Id
+      owner_account.label: Azienda
+      owner_contact.label: Contatto
+      address.label: Indirizzo
+      label.label: Etichetta
+      primary.label: Primario
+      city.label: Città
+      country.label: Nazione
+      first_name.label: Nome
+      last_name.label: Cognome
+      middle_name.label: Secondo nome
+      name_prefix.label: Prefisso
+      name_suffix.label: Suffisso
+      organization.label: Organizzazione
+      postal_code.label: Codice Postale
+      region.label: Regione
+      region_text.label: Regione
+      street.label: Via
+      street2.label: Via 2
+      type.label: Tipo
+    phone:
+      entity_label: Telefono
+      entity_plural_label: Telefoni
+      entity_description: Telefono
+      id.label: Id
+      owner_account.label: Azienda
+      owner_contact.label: Contatto
+      phone.label: Telefono
+      primary.label: Primario
+    email:
+      entity_label: Email
+      entity_plural_label: Email
+      entity_description: Email
+      id.label: Id
+      owner_account.label: Azienda
+      owner_contact.label: Contatto
+      email.label: Email
+      primary.label: Primario

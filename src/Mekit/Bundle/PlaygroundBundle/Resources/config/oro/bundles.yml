@@ -1,2 +1,0 @@
-bundles:
-    - { name: Mekit\Bundle\PlaygroundBundle\MekitPlaygroundBundle, priority: 999 }

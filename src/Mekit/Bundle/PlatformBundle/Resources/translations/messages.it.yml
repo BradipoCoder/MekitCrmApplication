@@ -1,0 +1,7 @@
+---
+mekit:
+  platform:
+    caption:
+      mekit: Pacchetti Mekit
+      symfony: Pacchetti Symfony
+      doctrine: Pacchetti Doctrine

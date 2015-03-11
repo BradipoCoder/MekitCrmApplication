@@ -1,0 +1,30 @@
+---
+mekit:
+  call:
+    menu:
+      call_list.description: Elenco Chiamate
+    widgets:
+      call_information: Dettagli Chiamata
+      call_references: Referenze
+    sections:
+      general: Informazioni Generali
+    controller:
+      saved.message: Chiamata salvata
+    placeholders:
+      register_call: Registra Chiamata
+    entity_label: Chiamata
+    entity_plural_label: Chiamate
+    entity_description: Chiamata
+    id.label: Id
+    name.label: Nome
+    event.label: Evento
+    direction.label: Direzione
+    outcome.label: Risultato
+    direction.in.label: Entrata
+    direction.out.label: Uscita
+    users.label: Utenti
+    accounts.label: Aziende
+    contacts.label: Contatti
+    tasks.label: Compiti
+    meetings.label: Appuntamenti
+    projects.label: Progetti

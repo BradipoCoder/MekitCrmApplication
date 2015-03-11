@@ -1,0 +1,26 @@
+---
+mekit:
+  meeting:
+    menu:
+      meeting_list.description: Elenco Appuntamenti
+    widgets:
+      meeting_information: Dettagli Appuntamento
+      meeting_references: Referenze
+    sections:
+      general: Informazioni Generali
+    controller:
+      saved.message: Appuntamento salvato
+    placeholders:
+      register_meeting: Aggiungi Appuntamento
+    entity_label: Appuntamento
+    entity_plural_label: Appuntamenti
+    entity_description: Appuntamento
+    id.label: Id
+    name.label: Nome
+    event.label: Evento
+    users.label: Utenti
+    accounts.label: Aziende
+    contacts.label: Contatti
+    tasks.label: Compiti
+    calls.label: Chiamate
+    projects.label: Progetti
