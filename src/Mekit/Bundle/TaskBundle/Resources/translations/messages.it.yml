@@ -1,0 +1,41 @@
+---
+mekit:
+  task:
+    menu:
+      task_list.description: Elenco Compiti
+    widgets:
+      task_information: Dettagli Compito
+      task_references: Referenze
+    sections:
+      general: Informazioni Generali
+    controller:
+      saved.message: Compito salvato
+    placeholders:
+      register_task: Aggiungi Compito
+    entity_label: Compito
+    entity_plural_label: Compiti
+    entity_description: Compito
+    id.label: Id
+    name.label: Nome
+    event.label: Evento
+    project.label: Progetto
+    worklogs.label: Lavorazioni
+    users.label: Utenti
+    accounts.label: Aziende
+    contacts.label: Contatti
+    calls.label: Chiamate
+    meetings.label: Appuntamenti
+    worklog:
+      widgets:
+        worklog_add.title: Registra lavorazione
+      entity_label: Lavorazione
+      entity_plural_label: Lavorazioni
+      entity_description: Lavorazione
+      id.label: Id
+      execution_date.label: Data di esecuzione
+      duration.label: Durata
+      description.label: Decrizione
+      owner.label: Proprietario
+      created_at.label: Creato il
+      updated_at.label: Aggiornato il
+      task.label: Compito

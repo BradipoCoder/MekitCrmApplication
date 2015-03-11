@@ -1,0 +1,32 @@
+---
+mekit:
+  project:
+    menu:
+      project_tab.label: Progetti
+      project_list.description: Elenco progetti
+      shortcut_new_project.label: Crea nuovo progetto
+      shortcut_new_project.description: Crea nuovo progetto
+      shortcut_list_projects.label: Elenco progetti
+      shortcut_list_projects.description: Elenco progetti
+    widgets:
+      project_information: Dettagli Progetto
+      project_additional: Informazioni aggiuntive
+      task_add.title: Aggiungi Compito
+    project_actions: Azioni
+    sections:
+      general: Generale
+    controller:
+      project.saved.message: Progetto salvato
+    entity_label: Progetto
+    entity_plural_label: Progetti
+    entity_description: Progetto
+    description.label: Decrizione
+    id.label: Id
+    name.label: Nome
+    organization.label: Organizzazione
+    owner.label: Proprietario
+    account.label: Azienda
+    users.label: Utenti
+    tasks.label: Compiti
+    meetings.label: Appuntamenti
+    calls.label: Chiamate

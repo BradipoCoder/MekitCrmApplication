@@ -1,63 +1,54 @@
+---
 mekit:
-    contact:
-        menu:
-            contact_list.description: Elenco contatti
-            shortcut_new_contact.label: Crea nuovo contatto
-            shortcut_new_contact.description: Crea nuovo contatto
-            shortcut_list_contacts.label: Elenco contatti
-            shortcut_list_contacts.description: Mostra elenco contatti
-        widgets:
-            contact_information:    Dettagli Contatto
-            contact_additional:     Informazioni Aggiuntive
-            contact_addresses:      Rubrica
-
-        contact_actions:            Azioni contatto
-
-        sections:
-            general:                Generale
-            addresses:              Indirizzi
-
-        controller:
-            contact.saved.message:  "Contatto salvato"
-
-        #
-        # Mekit/Bundle/ContactBundle/Entity/Contact
-        #
-        entity_label:               Contatto
-        entity_plural_label:        Contatti
-        entity_description:         Contatto
-
-        birthday.label:             Data di nascita
-        description.label:          Descrizione
-        facebook.label:             Facebook
-        first_name.label:           Nome
-        full_name.label:            Nome
-        gender.label:               Sesso
-        google_plus.label:          Google+
-        email.label:                Email
-        id.label:                   Id
-        job_title.label:            Mansione
-        last_name.label:            Cognome
-        linked_in.label:            LinkedIn
-        middle_name.label:          Secondo nome
-        name_prefix.label:          Prefisso
-        name_suffix.label:          Suffisso
-        organization.label:         Organizzazione
-        owner.label:                Proprietario
-        picture.label:              Foto
-        primary_email.label:        Email primario
-        primary_phone.label:        Telefono primario
-        reports_to.label:           Reports to
-        skype.label:                Skype
-        social.label:               Social
-        twitter.label:              Twitter
-
-        addresses.label:            Indirizzo
-        phones.label:               Telefono
-        emails.label:               Email
-
-        users.label:                Utenti
-        accounts.label:             Aziende
-        tasks.label:                Compiti
-        meetings.label:             Appuntamenti
-        calls.label:                Chiamate
+  contact:
+    menu:
+      contact_list.description: Elenco contatti
+      shortcut_new_contact.label: Crea nuovo contatto
+      shortcut_new_contact.description: Crea nuovo contatto
+      shortcut_list_contacts.label: Elenco contatti
+      shortcut_list_contacts.description: Mostra elenco contatti
+    widgets:
+      contact_information: Dettagli Contatto
+      contact_additional: Informazioni Aggiuntive
+      contact_addresses: Rubrica
+    contact_actions: Azioni contatto
+    sections:
+      general: Generale
+      addresses: Indirizzi
+    controller:
+      contact.saved.message: Contatto salvato
+    entity_label: Contatto
+    entity_plural_label: Contatti
+    entity_description: Contatto
+    birthday.label: Data di nascita
+    description.label: Descrizione
+    facebook.label: Facebook
+    first_name.label: Nome
+    full_name.label: Nome
+    gender.label: Sesso
+    google_plus.label: Google+
+    email.label: Email
+    id.label: Id
+    job_title.label: Mansione
+    last_name.label: Cognome
+    linked_in.label: LinkedIn
+    middle_name.label: Secondo nome
+    name_prefix.label: Prefisso
+    name_suffix.label: Suffisso
+    organization.label: Organizzazione
+    owner.label: Proprietario
+    picture.label: Foto
+    primary_email.label: Email primario
+    primary_phone.label: Telefono primario
+    reports_to.label: Reports to
+    skype.label: Skype
+    social.label: Social
+    twitter.label: Twitter
+    addresses.label: Indirizzo
+    phones.label: Telefono
+    emails.label: Email
+    users.label: Utenti
+    accounts.label: Aziende
+    tasks.label: Compiti
+    meetings.label: Appuntamenti
+    calls.label: Chiamate
