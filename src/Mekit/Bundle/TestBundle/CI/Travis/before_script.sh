@@ -10,6 +10,7 @@ sudo cp src/Mekit/Bundle/TestBundle/CI/Travis/.my.cnf /usr/etc/my.cnf
 sudo service mysql restart
 mysql -e "SET GLOBAL wait_timeout=300;"
 mysql -e "SHOW VARIABLES LIKE 'max_allowed_packet';"
+mysql -e "DROP DATABASE IF EXISTS mekit_test;" -uroot
 mysql -e "CREATE DATABASE mekit_test;" -uroot
 
 
