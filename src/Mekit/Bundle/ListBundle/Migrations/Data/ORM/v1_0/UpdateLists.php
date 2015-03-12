@@ -1,5 +1,6 @@
 <?php
-namespace Mekit\Bundle\ListBundle\Migrations\Data\ORM;
+namespace Mekit\Bundle\ListBundle\Migrations\Data\ORM\v1_0;
+
 
 use Oro\Bundle\TranslationBundle\DataFixtures\AbstractTranslatableEntityFixture;
 use Oro\Bundle\MigrationBundle\Fixture\VersionedFixtureInterface;
@@ -8,21 +9,22 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Yaml\Yaml;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\ORM\EntityRepository;
 
 use Mekit\Bundle\ListBundle\Entity\ListGroup;
 use Mekit\Bundle\ListBundle\Entity\Repository\ListGroupRepository;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
 use Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository;
+use Oro\Bundle\OrganizationBundle\Entity\BusinessUnit;
+use Oro\Bundle\OrganizationBundle\Entity\Repository\BusinessUnitRepository;
 
-class LoadListAccountType extends AbstractTranslatableEntityFixture implements VersionedFixtureInterface, ContainerAwareInterface {
+class UpdateLists extends AbstractTranslatableEntityFixture implements VersionedFixtureInterface, ContainerAwareInterface {
 	const LIST_GROUP_PREFIX = 'listgroup';
 	const LIST_ITEM_PREFIX = 'listitem';
 
 	/**
 	 * @var string
 	 */
-	protected $dataFileName = '/data/lists.yml';
+	protected $dataFileName = '/data/v1_0/lists.yml';
 
 	/**
 	 * @var ContainerInterface
@@ -38,6 +40,13 @@ class LoadListAccountType extends AbstractTranslatableEntityFixture implements V
 	 * @var ListItemRepository
 	 */
 	protected $listItemRepository;
+
+	/**
+	 * @var BusinessUnit
+	 */
+	protected $businessUnit;
+
+
 
 	/**
 	 * {@inheritdoc}
@@ -99,8 +108,13 @@ class LoadListAccountType extends AbstractTranslatableEntityFixture implements V
 	protected function loadLists(ObjectManager $manager, array $lists) {
 		$this->listGroupRepository = $manager->getRepository("MekitListBundle:ListGroup");
 		$this->listItemRepository = $manager->getRepository("MekitListBundle:ListItem");
-		$translationLocales = $this->getTranslationLocales();
 
+		/** @var BusinessUnitRepository $businessUnitRepository */
+		$businessUnitRepository = $manager->getRepository("OroOrganizationBundle:BusinessUnit");
+		/** @var BusinessUnit */
+		$this->businessUnit = $businessUnitRepository->find(1);
+
+		$translationLocales = $this->getTranslationLocales();
 
 		foreach ($translationLocales as $locale) {
 			foreach ($lists as $listGroupName => $listGroupData) {
@@ -149,7 +163,9 @@ class LoadListAccountType extends AbstractTranslatableEntityFixture implements V
 				->setListGroup($listGroup)
 				->setLabel($label)
 				->setDefaultItem(isset($listItemData["default_item"])?$listItemData["default_item"]:false)
-				->setSystem(isset($listItemData["system"])?$listItemData["system"]:true);
+				->setSystem(isset($listItemData["system"])?$listItemData["system"]:true)
+				->setOwner($this->businessUnit)
+				->setOrganization($this->businessUnit->getOrganization());
 		}
 		return($listItem);
 	}
@@ -167,7 +183,6 @@ class LoadListAccountType extends AbstractTranslatableEntityFixture implements V
 		/** @var $listGroup ListGroup */
 		$listGroup = $this->listGroupRepository->findOneBy(array('name' => $listGroupData['name']));
 		if (!$listGroup) {
-
 			$translationPrefix = static::LIST_GROUP_PREFIX.".".$listGroupData['name'];
 			$label = $this->translate("label", $translationPrefix, $locale);
 			$description = $this->translate("description", $translationPrefix, $locale);
@@ -178,9 +193,10 @@ class LoadListAccountType extends AbstractTranslatableEntityFixture implements V
 				->setLabel($label)
 				->setDescription($description)
 				->setEmptyValue($emptyValue)
-				->setItemPrefix($listGroupData['item_prefix'])
 				->setRequired($listGroupData['required'])
-				->setSystem($listGroupData['system']);
+				->setSystem(isset($listGroupData["system"])?$listGroupData["system"]:true)
+				->setOwner($this->businessUnit)
+				->setOrganization($this->businessUnit->getOrganization());
 		}
 		return $listGroup;
 	}

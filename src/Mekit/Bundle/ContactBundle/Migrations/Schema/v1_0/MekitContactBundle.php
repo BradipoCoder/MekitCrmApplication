@@ -28,7 +28,7 @@ class MekitContactBundle implements Migration {
 	protected function createMekitContactTable(Schema $schema) {
 		$table = $schema->createTable(self::$tableNameContact);
 		$table->addColumn('id', 'integer', ['autoincrement' => true]);
-		$table->addColumn('job_title', 'string', ['notnull' => false, 'length' => 32]);
+		$table->addColumn('job_title', 'integer', ['notnull' => false]);
 		$table->addColumn('organization_id', 'integer', ['notnull' => false]);
 		$table->addColumn('owner_id', 'integer', ['notnull' => false]);
 		$table->addColumn('name_prefix', 'string', ['notnull' => false, 'length' => 16]);

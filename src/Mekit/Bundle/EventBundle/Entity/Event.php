@@ -114,7 +114,7 @@ class Event extends ExtendEvent {
 	 * @var ListItem
 	 *
 	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ListBundle\Entity\ListItem")
-	 * @ORM\JoinColumn(name="priority", referencedColumnName="id", nullable=true)
+	 * @ORM\JoinColumn(name="priority", referencedColumnName="id", nullable=false)
 	 * @Oro\Versioned
 	 */
 	protected $priority;

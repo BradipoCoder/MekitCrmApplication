@@ -1,43 +1,69 @@
 <?php
 namespace Mekit\Bundle\ListBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
-
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-
+use Doctrine\ORM\Mapping as ORM;
+use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\OrganizationBundle\Entity\BusinessUnit;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Symfony\Component\Validator\ExecutionContext;
 
 /**
  * @ORM\Entity(repositoryClass="Mekit\Bundle\ListBundle\Entity\Repository\ListGroupRepository")
  * @ORM\Table(name="mekit_list_group",
  *      indexes={
- *          @ORM\Index(name="idx_listgroup_system", columns={"system"})
+ *          @ORM\Index(name="idx_lg_system", columns={"system"}),
+ *          @ORM\Index(name="idx_lg_owner", columns={"business_unit_id"}),
+ *          @ORM\Index(name="idx_lg_organization", columns={"organization_id"})
  *      },
  *      uniqueConstraints={
- *          @ORM\UniqueConstraint(name="idx_listgroup_name", columns={"name"}),
- *          @ORM\UniqueConstraint(name="idx_listgroup_item_prefix", columns={"itemPrefix"})
+ *          @ORM\UniqueConstraint(name="unq_lg_name", columns={"name"})
  *      }
  * )
  * @ORM\HasLifecycleCallbacks
  * @Oro\Loggable
+ * @Config(
+ *      routeName="mekit_list_index",
+ *      routeView="mekit_list_view",
+ *      defaultValues={
+ *          "entity"={
+ *              "icon"="icon-reorder"
+ *          },
+ *          "security"={
+ *              "type"="ACL",
+ *              "group_name"=""
+ *          },
+ *          "ownership"={
+ *              "owner_type"="BUSINESS_UNIT",
+ *              "owner_field_name"="owner",
+ *              "owner_column_name"="business_unit_id",
+ *               "organization_field_name"="organization",
+ *              "organization_column_name"="organization_id"
+ *          },
+ *          "dataaudit"={
+ *              "auditable"=true
+ *          }
+ *      }
+ * )
  */
-class ListGroup {
+class ListGroup
+{
 	/**
+	 * @var integer
+	 *
 	 * @ORM\Id
 	 * @ORM\Column(type="integer")
 	 * @ORM\GeneratedValue(strategy="AUTO")
-	 * @Soap\ComplexType("int", nillable=true)
 	 */
 	protected $id;
 
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(type="string", length=32)
-	 * @Soap\ComplexType("string")
+	 * @ORM\Column(type="string", length=32, nullable=false)
 	 */
 	protected $name;
 
@@ -45,23 +71,13 @@ class ListGroup {
 	 * @var string
 	 *
 	 * @ORM\Column(type="string", length=255)
-	 * @Soap\ComplexType("string")
 	 */
 	protected $label;
 
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(type="string", length=8)
-	 * @Soap\ComplexType("string")
-	 */
-	protected $itemPrefix;
-
-	/**
-	 * @var string
-	 *
 	 * @ORM\Column(type="string", length=64, nullable=true)
-	 * @Soap\ComplexType("string", nillable=true)
 	 */
 	protected $emptyValue;
 
@@ -69,7 +85,6 @@ class ListGroup {
 	 * @var boolean
 	 *
 	 * @ORM\Column(type="boolean", options={"default"=0})
-	 * @Soap\ComplexType("boolean")
 	 */
 	protected $required;
 
@@ -77,7 +92,6 @@ class ListGroup {
 	 * @var boolean
 	 *
 	 * @ORM\Column(type="boolean", options={"default"=0})
-	 * @Soap\ComplexType("boolean")
 	 */
 	protected $system;
 
@@ -85,20 +99,31 @@ class ListGroup {
 	 * @var string
 	 *
 	 * @ORM\Column(type="text", length=65535, nullable=true)
-	 * @Soap\ComplexType("string", nillable=true)
 	 */
 	protected $description;
 
 	/**
 	 * @var Collection
 	 *
-	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ListBundle\Entity\ListItem",
-	 *    mappedBy="listGroup", cascade={"all"}, orphanRemoval=true
-	 * )
+	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ListBundle\Entity\ListItem", mappedBy="listGroup", fetch="EAGER")
 	 * @ORM\OrderBy({"id" = "ASC"})
-	 * @Soap\ComplexType("Mekit\Bundle\ListBundle\Entity\ListItem[]", nillable=true)
 	 */
 	protected $items;
+
+	/**
+	 * @var BusinessUnit
+	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\OrganizationBundle\Entity\BusinessUnit")
+	 * @ORM\JoinColumn(name="business_unit_id", referencedColumnName="id", onDelete="SET NULL")
+	 */
+	protected $owner;
+
+	/**
+	 * @var Organization
+	 *
+	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\OrganizationBundle\Entity\Organization")
+	 * @ORM\JoinColumn(name="organization_id", referencedColumnName="id", onDelete="SET NULL")
+	 */
+	protected $organization;
 
 
 	/**
@@ -122,6 +147,7 @@ class ListGroup {
 	 */
 	public function setId($id) {
 		$this->id = $id;
+
 		return $this;
 	}
 
@@ -138,6 +164,7 @@ class ListGroup {
 	 */
 	public function setName($name) {
 		$this->name = $name;
+
 		return $this;
 	}
 
@@ -154,22 +181,7 @@ class ListGroup {
 	 */
 	public function setLabel($label) {
 		$this->label = $label;
-		return $this;
-	}
 
-	/**
-	 * @return string
-	 */
-	public function getItemPrefix() {
-		return $this->itemPrefix;
-	}
-
-	/**
-	 * @param string $itemPrefix
-	 * @return $this
-	 */
-	public function setItemPrefix($itemPrefix) {
-		$this->itemPrefix = $itemPrefix;
 		return $this;
 	}
 
@@ -186,6 +198,7 @@ class ListGroup {
 	 */
 	public function setEmptyValue($emptyValue) {
 		$this->emptyValue = $emptyValue;
+
 		return $this;
 	}
 
@@ -202,6 +215,7 @@ class ListGroup {
 	 */
 	public function setRequired($required) {
 		$this->required = $required;
+
 		return $this;
 	}
 
@@ -218,6 +232,7 @@ class ListGroup {
 	 */
 	public function setSystem($system) {
 		$this->system = $system;
+
 		return $this;
 	}
 
@@ -234,6 +249,7 @@ class ListGroup {
 	 */
 	public function setDescription($description) {
 		$this->description = $description;
+
 		return $this;
 	}
 
@@ -241,9 +257,6 @@ class ListGroup {
 	 * @return Collection
 	 */
 	public function getItems() {
-		if (null === $this->items) {
-			$this->items = new ArrayCollection();
-		}
 		return $this->items;
 	}
 
@@ -251,7 +264,7 @@ class ListGroup {
 	 * @return bool
 	 */
 	public function hasItems() {
-		return(!$this->items->isEmpty());
+		return (!$this->items->isEmpty());
 	}
 
 	/**
@@ -259,7 +272,11 @@ class ListGroup {
 	 * @return $this
 	 */
 	public function setItems($items) {
-		$this->items = $items;
+		$this->items->clear();
+		foreach ($items as $item) {
+			$this->addItem($item);
+		}
+
 		return $this;
 	}
 
@@ -274,13 +291,53 @@ class ListGroup {
 			$this->items->add($item);
 			$item->setListGroup($this);
 		}
+
 		return $this;
 	}
 
 	/**
+	 * @return BusinessUnit
+	 */
+	public function getOwner() {
+		return $this->owner;
+	}
+
+	/**
+	 * @param BusinessUnit $owningBusinessUnit
+	 * @return $this
+	 */
+	public function setOwner($owningBusinessUnit) {
+		$this->owner = $owningBusinessUnit;
+
+		return $this;
+	}
+
+	/**
+	 * Set organization
+	 *
+	 * @param Organization $organization
+	 * @return $this
+	 */
+	public function setOrganization(Organization $organization = null) {
+		$this->organization = $organization;
+
+		return $this;
+	}
+
+	/**
+	 * Get organization
+	 *
+	 * @return Organization
+	 */
+	public function getOrganization() {
+		return $this->organization;
+	}
+
+
+	/**
 	 * @param ExecutionContext $context
 	 */
-	public function validate(ExecutionContext $context)	{
+	public function validate(ExecutionContext $context) {
 		if ($this->isSystem() !== true) {
 			$this->setSystem(false);
 		}

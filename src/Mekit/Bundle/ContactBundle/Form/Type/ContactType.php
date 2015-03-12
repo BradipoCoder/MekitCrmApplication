@@ -3,7 +3,6 @@
 namespace Mekit\Bundle\ContactBundle\Form\Type;
 
 use Mekit\Bundle\ContactBundle\Entity\Contact;
-use Mekit\Bundle\ListBundle\Helper\FormHelper;
 use Oro\Bundle\LocaleBundle\Formatter\NameFormatter;
 use Oro\Bundle\SecurityBundle\SecurityFacade;
 use Symfony\Component\Form\AbstractType;
@@ -33,11 +32,6 @@ class ContactType extends AbstractType {
 	protected $securityFacade;
 
 	/**
-	 * @var FormHelper
-	 */
-	protected $listBundleHelper;
-
-	/**
 	 * @var boolean
 	 */
 	private $canViewContact;
@@ -46,13 +40,11 @@ class ContactType extends AbstractType {
 	 * @param Router         $router
 	 * @param NameFormatter  $nameFormatter
 	 * @param SecurityFacade $securityFacade
-	 * @param FormHelper     $listBundleHelper - temporary solution!
 	 */
-	public function __construct(Router $router, NameFormatter $nameFormatter, SecurityFacade $securityFacade, FormHelper $listBundleHelper) {
+	public function __construct(Router $router, NameFormatter $nameFormatter, SecurityFacade $securityFacade) {
 		$this->nameFormatter = $nameFormatter;
 		$this->router = $router;
 		$this->securityFacade = $securityFacade;
-		$this->listBundleHelper = $listBundleHelper;
 		$this->canViewContact = $this->securityFacade->isGranted('mekit_contact_view');
 	}
 
@@ -83,8 +75,8 @@ class ContactType extends AbstractType {
 			->add('linkedIn', 'text', array('required' => false, 'label' => 'mekit.contact.linked_in.label'));
 
 
-		//dynamic lists from ListBundle(using temporary helper service solution)
-		$this->listBundleHelper->addListSelectorToFormBuilder($builder, 'jobTitle', 'CONTACT_JOBTITLE', 'mekit.contact.job_title.label');
+		//dynamic lists from ListBundle
+		$builder->add('jobTitle', 'mekit_listitem_select', ['label'=>'mekit.contact.job_title.label', 'configs'=>['group'=>'CONTACT_JOBTITLE']]);
 
 		//users
 		$builder->add(

@@ -4,44 +4,60 @@ namespace Mekit\Bundle\ListBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
-use Symfony\Component\Validator\ExecutionContext;
+use Oro\Bundle\OrganizationBundle\Entity\BusinessUnit;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
 
 /**
  * @ORM\Entity(repositoryClass="Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository")
  * @ORM\Table(name="mekit_list_item",
  *      indexes={
- *          @ORM\Index(name="idx_listitem_system", columns={"system"})
+ *          @ORM\Index(name="idx_li_system", columns={"system"}),
+ *          @ORM\Index(name="idx_li_owner", columns={"business_unit_id"}),
+ *          @ORM\Index(name="idx_li_organization", columns={"organization_id"})
  *      }
  * )
  * @ORM\HasLifecycleCallbacks()
  * @Oro\Loggable
+ * @Config(
+ *      routeName="mekit_list_index",
+ *      routeView="",
+ *      defaultValues={
+ *          "entity"={
+ *              "icon"="icon-bullseye"
+ *          },
+ *          "security"={
+ *              "type"="ACL",
+ *              "group_name"=""
+ *          },
+ *          "ownership"={
+ *              "owner_type"="BUSINESS_UNIT",
+ *              "owner_field_name"="owner",
+ *              "owner_column_name"="business_unit_id",
+ *               "organization_field_name"="organization",
+ *              "organization_column_name"="organization_id"
+ *          },
+ *          "dataaudit"={
+ *              "auditable"=true
+ *          }
+ *      }
+ * )
  */
 class ListItem {
 	/**
-	 * @var string
+	 * @var integer
 	 *
 	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="NONE")
-	 * @ORM\Column(type="string", length=32)
-	 * @Soap\ComplexType("string")
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 * @ORM\Column(type="integer")
 	 */
 	protected $id;
-
-	/**
-	 * @var ListGroup
-	 *
-	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ListBundle\Entity\ListGroup", inversedBy="items", fetch="EAGER")
-	 * @ORM\JoinColumn(name="listgroup_id", referencedColumnName="id", onDelete="SET NULL")
-	 * @Soap\ComplexType("integer", nillable=true)
-	 */
-	protected $listGroup;
 
 	/**
 	 * @var string
 	 *
 	 * @ORM\Column(type="string", length=255)
-	 * @Soap\ComplexType("string")
 	 */
 	protected $label;
 
@@ -49,7 +65,6 @@ class ListItem {
 	 * @var boolean
 	 *
 	 * @ORM\Column(type="boolean", options={"default"=0})
-	 * @Soap\ComplexType("boolean")
 	 */
 	protected $default_item;
 
@@ -57,9 +72,32 @@ class ListItem {
 	 * @var boolean
 	 *
 	 * @ORM\Column(type="boolean", options={"default"=0})
-	 * @Soap\ComplexType("boolean")
 	 */
 	protected $system;
+
+	/**
+	 * @var ListGroup
+	 *
+	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ListBundle\Entity\ListGroup", inversedBy="items")
+	 * @ORM\JoinColumn(name="listgroup_id", referencedColumnName="id", onDelete="CASCADE")
+	 * @Soap\ComplexType("integer", nillable=true)
+	 */
+	protected $listGroup;
+
+	/**
+	 * @var BusinessUnit
+	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\OrganizationBundle\Entity\BusinessUnit")
+	 * @ORM\JoinColumn(name="business_unit_id", referencedColumnName="id", onDelete="SET NULL")
+	 */
+	protected $owner;
+
+	/**
+	 * @var Organization
+	 *
+	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\OrganizationBundle\Entity\Organization")
+	 * @ORM\JoinColumn(name="organization_id", referencedColumnName="id", onDelete="SET NULL")
+	 */
+	protected $organization;
 
 
 	/**
@@ -157,12 +195,42 @@ class ListItem {
 	}
 
 	/**
-	 * @param ExecutionContext $context
+	 * @return BusinessUnit
 	 */
-	public function validate(ExecutionContext $context)	{
-
+	public function getOwner() {
+		return $this->owner;
 	}
 
+	/**
+	 * @param BusinessUnit $owningBusinessUnit
+	 * @return $this
+	 */
+	public function setOwner($owningBusinessUnit) {
+		$this->owner = $owningBusinessUnit;
+
+		return $this;
+	}
+
+	/**
+	 * Set organization
+	 *
+	 * @param Organization $organization
+	 * @return $this
+	 */
+	public function setOrganization(Organization $organization = null) {
+		$this->organization = $organization;
+
+		return $this;
+	}
+
+	/**
+	 * Get organization
+	 *
+	 * @return Organization
+	 */
+	public function getOrganization() {
+		return $this->organization;
+	}
 
 	/**
 	 * @return string
@@ -170,17 +238,4 @@ class ListItem {
 	public function __toString() {
 		return (string)$this->getLabel();
 	}
-
-	/**
-	 * Pre persist event listener
-	 *
-	 * @ORM\PrePersist
-	 */
-	public function PrePersist() {
-		//forcing id to use prefix set for ListGroup
-		$listGroup = $this->getListGroup();
-		$prefix = $listGroup->getItemPrefix();
-		$this->setId($prefix.$this->getId());
-	}
-
 }

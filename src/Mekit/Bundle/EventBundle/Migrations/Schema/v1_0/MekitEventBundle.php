@@ -33,8 +33,8 @@ class MekitEventBundle implements Migration {
 		$table->addColumn('start_date', 'datetime', []);
 		$table->addColumn('end_date', 'datetime', ['notnull' => false]);
 		$table->addColumn('duration', 'integer', ['notnull' => false]);
-		$table->addColumn('priority', 'string', ['notnull' => false, 'length' => 32]);
-		$table->addColumn('state', 'string', ['length' => 32]);
+		$table->addColumn('priority', 'integer', ['notnull' => true]);
+		$table->addColumn('state', 'integer', ['notnull' => true]);
 		$table->addColumn('description', 'text', ['notnull' => false]);
 
 		//INDEXES

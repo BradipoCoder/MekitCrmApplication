@@ -17,25 +17,25 @@ datagrid:
                     - { table: %mekit_list.listgroup.entity.class%, alias: lg }
                 join:
                     left:
-                        - { join: lg.items, alias: defaultItem, conditionType: 'WITH', condition: 'defaultItem.default_item = true' }
-#            hints:
-#                - { name: HINT_CUSTOM_OUTPUT_WALKER, value: %oro_translation.translation_walker.class%}
-
+                        - { join: lg.items, alias: defaultItem }
+                where:
+                    and:
+                        - defaultItem.default_item = true
         columns:
-            name:
-                label:          mekit.list.listgroup.name.label
+            description:
+                label:          mekit.list.listgroup.description.label
+                type:           twig
+                frontend_type:  html
+                template:       MekitListBundle:List:Datagrid/Property/translatedValue.html.twig
             label:
                 label:          mekit.list.listgroup.label.label
                 type:           twig
                 frontend_type:  html
                 template:       MekitListBundle:List:Datagrid/Property/translatedValue.html.twig
             defItemLabel:
-                label:          mekit.list.listgroup.default_item.label
-            description:
-                label:          mekit.list.listgroup.description.label
-                type:           twig
-                frontend_type:  html
-                template:       MekitListBundle:List:Datagrid/Property/translatedValue.html.twig
+                label:          mekit.list.listitem.default_item.label
+            name:
+                label:          mekit.list.listgroup.name.label
             required:
                 label:          mekit.list.listgroup.required.label
                 type:           twig
@@ -110,33 +110,35 @@ datagrid:
                         - lg.id = :entity_id
             bind_parameters:
                 - entity_id
-
         columns:
             label:
                 label:          mekit.list.listitem.label.label
-                type:           twig
-                frontend_type:  html
-                template:       MekitListBundle:Item:Datagrid/Property/editButton.html.twig
-            id:
-                label:          mekit.list.listitem.id.label
             default_item:
                 label:          mekit.list.listitem.default_item.label
                 type:           twig
                 frontend_type:  html
                 template:       MekitListBundle:List:Datagrid/Property/translatedValue.html.twig
-
-
         properties:
             id: ~
+            update_link:
+                type:       url
+                route:      mekit_listitem_update
+                params:     [ id ]
             delete_link:
                 type:       url
                 route:      mekit_api_delete_listitem
                 params:     [ id ]
-
         actions:
+            update:
+                type:          dialog
+                acl_resource:  mekit_listitem_update
+                label:         oro.grid.action.update
+                icon:          edit
+                link:          update_link
+                rowAction:     true
             delete:
-                  type:          delete
-                  acl_resource:  mekit_listitem_delete
-                  label:         oro.grid.action.delete
-                  icon:          trash
-                  link:          delete_link
+                type:          delete
+                acl_resource:  mekit_listitem_delete
+                label:         oro.grid.action.delete
+                icon:          trash
+                link:          delete_link

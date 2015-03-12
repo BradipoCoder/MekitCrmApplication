@@ -3,6 +3,7 @@ parameters:
 
     mekit_list.type.listgroup.class:                           Mekit\Bundle\ListBundle\Form\Type\ListGroupType
     mekit_list.type.listitem.class:                            Mekit\Bundle\ListBundle\Form\Type\ListItemType
+    mekit_list.type.listitem.select.class:                     Mekit\Bundle\ListBundle\Form\Type\ListItemSelectType
 
     mekit_list.handler.listgroup.class:                        Mekit\Bundle\ListBundle\Form\Handler\ListGroupHandler
     mekit_list.handler.listitem.class:                         Mekit\Bundle\ListBundle\Form\Handler\ListItemHandler
@@ -70,3 +71,12 @@ services:
             - @mekit_list.form.listitem
             - @request
             - @doctrine.orm.entity_manager
+
+    #ListItem Selector
+    mekit_list.form.type.listitem_select:
+        class: %mekit_list.type.listitem.select.class%
+        arguments:
+            - @doctrine.orm.entity_manager
+            - @translator
+        tags:
+            - { name: form.type, alias: mekit_listitem_select }

@@ -20,7 +20,6 @@ services:
             - @router
             - @oro_locale.formatter.name
             - @oro_security.security_facade
-            - @mekit_list.form_helper
         tags:
             - { name: form.type, alias: mekit_task }
 
@@ -30,7 +29,6 @@ services:
             - @router
             - @oro_locale.formatter.name
             - @oro_security.security_facade
-            - @mekit_list.form_helper
         tags:
             - { name: form.type, alias: mekit_task_api }
 
