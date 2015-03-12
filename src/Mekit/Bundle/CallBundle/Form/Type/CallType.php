@@ -20,7 +20,6 @@ use Symfony\Component\Form\FormView;
 use Oro\Bundle\LocaleBundle\Formatter\NameFormatter;
 use Oro\Bundle\SecurityBundle\SecurityFacade;
 
-use Mekit\Bundle\ListBundle\Helper\FormHelper;
 use Mekit\Bundle\ListBundle\Entity\ListGroup;
 
 use Mekit\Bundle\EventBundle\Entity\Event;
@@ -48,21 +47,14 @@ class CallType extends AbstractType {
 	protected $securityFacade;
 
 	/**
-	 * @var FormHelper
-	 */
-	protected $listBundleHelper;
-
-	/**
 	 * @param Router         $router
 	 * @param NameFormatter  $nameFormatter
 	 * @param SecurityFacade $securityFacade
-	 * @param FormHelper $listBundleHelper - temporary solution!
 	 */
-	public function __construct(Router $router, NameFormatter $nameFormatter, SecurityFacade $securityFacade, FormHelper $listBundleHelper) {
+	public function __construct(Router $router, NameFormatter $nameFormatter, SecurityFacade $securityFacade) {
 		$this->router = $router;
 		$this->nameFormatter = $nameFormatter;
 		$this->securityFacade = $securityFacade;
-		$this->listBundleHelper = $listBundleHelper;
 	}
 
 	/**
@@ -87,8 +79,8 @@ class CallType extends AbstractType {
 			]
 		);
 
-		//dynamic lists from ListBundle(using temporary helper service solution)
-		$this->listBundleHelper->addListSelectorToFormBuilder($builder, 'outcome', 'CALL_OUTCOME', 'mekit.call.outcome.label');
+		//dynamic lists from ListBundle
+		$builder->add('outcome', 'mekit_listitem_select', ['label'=>'mekit.call.outcome.label', 'configs'=>['group'=>'CALL_OUTCOME']]);
 
 		//users
 		$builder->add(
@@ -167,7 +159,7 @@ class CallType extends AbstractType {
 
 
 		//add event form
-		$builder->add('event', new EventType($this->router, $this->nameFormatter, $this->securityFacade, $this->listBundleHelper));
+		$builder->add('event', new EventType($this->router, $this->nameFormatter, $this->securityFacade));
 	}
 
 	/**

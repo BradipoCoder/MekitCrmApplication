@@ -2,36 +2,22 @@
 
 namespace Mekit\Bundle\EventBundle\Form\Type;
 
-use Doctrine\Common\Collections\Collection;
-
-use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Routing\Router;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
-use Doctrine\Bundle\DoctrineBundle\Registry as Doctrine;
-use Doctrine\ORM\EntityManager;
-
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
-
+use Mekit\Bundle\EventBundle\Entity\Event;
 use Oro\Bundle\LocaleBundle\Formatter\NameFormatter;
 use Oro\Bundle\SecurityBundle\SecurityFacade;
-
-use Mekit\Bundle\ListBundle\Helper\FormHelper;
-use Mekit\Bundle\ListBundle\Entity\ListGroup;
-
-use Mekit\Bundle\EventBundle\Entity\Event;
-use Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Routing\Router;
 
 
 /**
  * Class EventType
  */
-class EventType extends AbstractType {
+class EventType extends AbstractType
+{
 
 	/**
 	 * @var Router
@@ -49,21 +35,14 @@ class EventType extends AbstractType {
 	protected $securityFacade;
 
 	/**
-	 * @var FormHelper
-	 */
-	protected $listBundleHelper;
-
-	/**
 	 * @param Router         $router
 	 * @param NameFormatter  $nameFormatter
 	 * @param SecurityFacade $securityFacade
-	 * @param FormHelper $listBundleHelper - temporary solution!
 	 */
-	public function __construct(Router $router, NameFormatter $nameFormatter, SecurityFacade $securityFacade, FormHelper $listBundleHelper) {
+	public function __construct(Router $router, NameFormatter $nameFormatter, SecurityFacade $securityFacade) {
 		$this->nameFormatter = $nameFormatter;
 		$this->router = $router;
 		$this->securityFacade = $securityFacade;
-		$this->listBundleHelper = $listBundleHelper;
 	}
 
 	/**
@@ -73,31 +52,59 @@ class EventType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 
 		// basic fields
-		$builder
-			->add('type', 'hidden', array('required' => true, 'label' => 'mekit.event.type.label'))
-			->add('startDate', 'oro_datetime', array('required' => true, 'label' => 'mekit.event.start_date.label'))
-			->add('endDate', 'oro_datetime', array('required' => false, 'label' => 'mekit.event.end_date.label'))
-			->add('duration', 'number', array('required' => false, 'label' => 'mekit.event.duration.label'))
-			->add('description', 'textarea', array('required' => false, 'label' => 'mekit.event.description.label'));
+		$builder->add(
+				'type', 'hidden', array(
+				'required' => true,
+				'label' => 'mekit.event.type.label'
+			)
+			)->add(
+				'startDate', 'oro_datetime', array(
+				'required' => true,
+				'label' => 'mekit.event.start_date.label'
+			)
+			)->add(
+				'endDate', 'oro_datetime', array(
+				'required' => false,
+				'label' => 'mekit.event.end_date.label'
+			)
+			)->add(
+				'duration', 'number', array(
+				'required' => false,
+				'label' => 'mekit.event.duration.label'
+			)
+			)->add(
+				'description', 'textarea', array(
+				'required' => false,
+				'label' => 'mekit.event.description.label'
+			)
+			);
 
 
-		//dynamic lists from ListBundle(using temporary helper service solution)
-		$this->listBundleHelper->addListSelectorToFormBuilder($builder, 'state', 'EVENT_STATE', 'mekit.event.state.label');
-		$this->listBundleHelper->addListSelectorToFormBuilder($builder, 'priority', 'EVENT_PRIORITY', 'mekit.event.priority.label');
-
+		//dynamic lists from ListBundle
+		$builder->add(
+			'state', 'mekit_listitem_select', [
+			'label' => 'mekit.event.state.label',
+			'configs' => ['group' => 'EVENT_STATE']
+		]
+		);
+		$builder->add(
+			'priority', 'mekit_listitem_select', [
+			'label' => 'mekit.event.priority.label',
+			'configs' => ['group' => 'EVENT_PRIORITY']
+		]
+		);
 
 		//Set the correct type of the entity bound to the parent form
 		$builder->addEventListener(
-			FormEvents::POST_SET_DATA,
-			function (FormEvent $event) {
-				$parentForm = $event->getForm()->getParent();
-				if ($parentForm) {
-					$parentDataClass = $parentForm->getConfig()->getDataClass();
-					$event->getForm()->get("type")->setData($parentDataClass);
-				} else {
-					throw new \LogicException("No parent form!");
-				}
+			FormEvents::POST_SET_DATA, function (FormEvent $event) {
+			$parentForm = $event->getForm()->getParent();
+			if ($parentForm) {
+				$parentDataClass = $parentForm->getConfig()->getDataClass();
+				$event->getForm()->get("type")->setData($parentDataClass);
+			} else {
+				throw new \LogicException("No parent form!");
 			}
+		}
 		);
 	}
 

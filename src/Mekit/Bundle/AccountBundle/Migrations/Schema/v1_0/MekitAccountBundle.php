@@ -39,10 +39,10 @@ class MekitAccountBundle implements Migration {
 		$table->addColumn('website', 'string', ['length' => 128, 'notnull' => false]);
 		$table->addColumn('fax', 'string', ['length' => 16, 'notnull' => false]);
 		$table->addColumn('description', 'text', ['notnull' => false]);
-		$table->addColumn('source', 'string', ['length' => 32]);
-		$table->addColumn('type', 'string', ['length' => 32]);
-		$table->addColumn('state', 'string', ['length' => 32]);
-		$table->addColumn('industry', 'string', ['length' => 32]);
+		$table->addColumn('source', 'integer', ['notnull' => false]);
+		$table->addColumn('type', 'integer', ['notnull' => false]);
+		$table->addColumn('state', 'integer', ['notnull' => false]);
+		$table->addColumn('industry', 'integer', ['notnull' => false]);
 
 		//INDEXES
 		$table->setPrimaryKey(['id']);

@@ -43,6 +43,8 @@
 {% block content_data %}
     {% set id = 'account-profile' %}
 
+
+
     {% set dataBlocks = [{
         'title': 'General'|trans,
         'class': 'active',
@@ -51,7 +53,7 @@
                 'title': 'mekit.account.widgets.account_information'|trans,
                 'data': [
                     form_row(form.name),
-				    form_row(form.type),
+                    form_row(form.type),
 				    form_row(form.state),
 				    form_row(form.industry),
 				    form_row(form.source),

@@ -1,6 +1,7 @@
 <?php
 namespace Mekit\Bundle\ListBundle\Migrations\Data\ORM\v1_0;
 
+
 use Oro\Bundle\TranslationBundle\DataFixtures\AbstractTranslatableEntityFixture;
 use Oro\Bundle\MigrationBundle\Fixture\VersionedFixtureInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -13,6 +14,8 @@ use Mekit\Bundle\ListBundle\Entity\ListGroup;
 use Mekit\Bundle\ListBundle\Entity\Repository\ListGroupRepository;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
 use Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository;
+use Oro\Bundle\OrganizationBundle\Entity\BusinessUnit;
+use Oro\Bundle\OrganizationBundle\Entity\Repository\BusinessUnitRepository;
 
 class UpdateLists extends AbstractTranslatableEntityFixture implements VersionedFixtureInterface, ContainerAwareInterface {
 	const LIST_GROUP_PREFIX = 'listgroup';
@@ -37,6 +40,13 @@ class UpdateLists extends AbstractTranslatableEntityFixture implements Versioned
 	 * @var ListItemRepository
 	 */
 	protected $listItemRepository;
+
+	/**
+	 * @var BusinessUnit
+	 */
+	protected $businessUnit;
+
+
 
 	/**
 	 * {@inheritdoc}
@@ -98,8 +108,13 @@ class UpdateLists extends AbstractTranslatableEntityFixture implements Versioned
 	protected function loadLists(ObjectManager $manager, array $lists) {
 		$this->listGroupRepository = $manager->getRepository("MekitListBundle:ListGroup");
 		$this->listItemRepository = $manager->getRepository("MekitListBundle:ListItem");
-		$translationLocales = $this->getTranslationLocales();
 
+		/** @var BusinessUnitRepository $businessUnitRepository */
+		$businessUnitRepository = $manager->getRepository("OroOrganizationBundle:BusinessUnit");
+		/** @var BusinessUnit */
+		$this->businessUnit = $businessUnitRepository->find(1);
+
+		$translationLocales = $this->getTranslationLocales();
 
 		foreach ($translationLocales as $locale) {
 			foreach ($lists as $listGroupName => $listGroupData) {
@@ -148,7 +163,9 @@ class UpdateLists extends AbstractTranslatableEntityFixture implements Versioned
 				->setListGroup($listGroup)
 				->setLabel($label)
 				->setDefaultItem(isset($listItemData["default_item"])?$listItemData["default_item"]:false)
-				->setSystem(isset($listItemData["system"])?$listItemData["system"]:true);
+				->setSystem(isset($listItemData["system"])?$listItemData["system"]:true)
+				->setOwner($this->businessUnit)
+				->setOrganization($this->businessUnit->getOrganization());
 		}
 		return($listItem);
 	}
@@ -166,7 +183,6 @@ class UpdateLists extends AbstractTranslatableEntityFixture implements Versioned
 		/** @var $listGroup ListGroup */
 		$listGroup = $this->listGroupRepository->findOneBy(array('name' => $listGroupData['name']));
 		if (!$listGroup) {
-
 			$translationPrefix = static::LIST_GROUP_PREFIX.".".$listGroupData['name'];
 			$label = $this->translate("label", $translationPrefix, $locale);
 			$description = $this->translate("description", $translationPrefix, $locale);
@@ -177,9 +193,10 @@ class UpdateLists extends AbstractTranslatableEntityFixture implements Versioned
 				->setLabel($label)
 				->setDescription($description)
 				->setEmptyValue($emptyValue)
-				->setItemPrefix($listGroupData['item_prefix'])
 				->setRequired($listGroupData['required'])
-				->setSystem(isset($listGroupData["system"])?$listGroupData["system"]:true);
+				->setSystem(isset($listGroupData["system"])?$listGroupData["system"]:true)
+				->setOwner($this->businessUnit)
+				->setOrganization($this->businessUnit->getOrganization());
 		}
 		return $listGroup;
 	}

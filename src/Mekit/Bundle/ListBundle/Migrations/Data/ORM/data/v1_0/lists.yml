@@ -1,5 +1,4 @@
 ACCOUNT_TYPE:
-    item_prefix:    ACCTY_
     required:       true
     system:         true
     items:
@@ -13,7 +12,6 @@ ACCOUNT_TYPE:
         OTHR:
             system:         true
 ACCOUNT_INDUSTRY:
-    item_prefix:    ACCIR_
     required:       true
     system:         true
     items:
@@ -21,7 +19,6 @@ ACCOUNT_INDUSTRY:
             default_item: true
             system:       true
 ACCOUNT_STATE:
-    item_prefix:    ACCST_
     required:       true
     system:         true
     items:
@@ -37,7 +34,6 @@ ACCOUNT_STATE:
         LEAD:
             system:       true
 ACCOUNT_SOURCE:
-    item_prefix:    ACCSR_
     required:       true
     system:         true
     items:
@@ -47,7 +43,6 @@ ACCOUNT_SOURCE:
         WWW:
             system:       true
 CONTACT_JOBTITLE:
-    item_prefix:    CNTJB_
     required:       false
     system:         true
     items:
@@ -57,7 +52,6 @@ CONTACT_JOBTITLE:
         CEO:
             system:       true
 EVENT_STATE:
-    item_prefix:    EVSTT_
     required:       true
     system:         true
     items:
@@ -67,7 +61,6 @@ EVENT_STATE:
         INACTIVE:
             system:       true
 EVENT_PRIORITY:
-    item_prefix:    EVPRI_
     required:       true
     system:         true
     items:
@@ -79,7 +72,6 @@ EVENT_PRIORITY:
         HIGH:
             system:       true
 CALL_OUTCOME:
-    item_prefix:    CLOCM_
     required:       true
     system:         true
     items:

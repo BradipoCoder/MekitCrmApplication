@@ -27,15 +27,17 @@ class MekitCallBundle implements Migration {
 		$table->addColumn('id', 'integer', ['autoincrement' => true]);
 		$table->addColumn('event_id', 'integer', []);
 		$table->addColumn('name', 'string', ['length' => 255]);
-		$table->addColumn('outcome', 'string', ['length' => 32]);
 		$table->addColumn('direction', 'string', ['length' => 4]);
+		$table->addColumn('outcome', 'integer', ['notnull' => false]);
+
 
 		//INDEXES
 		$table->setPrimaryKey(['id']);
 		$table->addIndex(['name'], 'idx_call_name', []);
 		$table->addUniqueIndex(['event_id'], 'idx_call_event', []);
-		$table->addIndex(['outcome'], 'idx_call_outcome', []);
 		$table->addIndex(['direction'], 'idx_call_direction', []);
+		$table->addIndex(['outcome'], 'idx_call_outcome', []);
+
 
 		//FOREIGN KEYS
 		$table->addForeignKeyConstraint(

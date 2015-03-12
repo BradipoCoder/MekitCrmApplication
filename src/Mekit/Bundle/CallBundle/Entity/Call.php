@@ -84,7 +84,7 @@ class Call extends ExtendCall implements EventInterface
 	 * @var ListItem
 	 *
 	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ListBundle\Entity\ListItem")
-	 * @ORM\JoinColumn(name="outcome", referencedColumnName="id", nullable=false)
+	 * @ORM\JoinColumn(name="outcome", referencedColumnName="id", nullable=true)
 	 * @Oro\Versioned
 	 * @ConfigField(
 	 *      defaultValues={

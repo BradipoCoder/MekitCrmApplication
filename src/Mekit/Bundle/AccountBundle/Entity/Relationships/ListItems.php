@@ -15,7 +15,7 @@ class ListItems extends RelatedUsers {
 	 * @var ListItem
 	 *
 	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ListBundle\Entity\ListItem")
-	 * @ORM\JoinColumn(name="type", referencedColumnName="id", nullable=false)
+	 * @ORM\JoinColumn(name="type", referencedColumnName="id", nullable=true)
 	 * @Oro\Versioned
 	 * @ConfigField(
 	 *      defaultValues={
@@ -35,7 +35,7 @@ class ListItems extends RelatedUsers {
 	 * @var ListItem
 	 *
 	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ListBundle\Entity\ListItem")
-	 * @ORM\JoinColumn(name="state", referencedColumnName="id", nullable=false)
+	 * @ORM\JoinColumn(name="state", referencedColumnName="id", nullable=true)
 	 * @Oro\Versioned
 	 * @ConfigField(
 	 *      defaultValues={
@@ -55,7 +55,7 @@ class ListItems extends RelatedUsers {
 	 * @var ListItem
 	 *
 	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ListBundle\Entity\ListItem")
-	 * @ORM\JoinColumn(name="industry", referencedColumnName="id", nullable=false)
+	 * @ORM\JoinColumn(name="industry", referencedColumnName="id", nullable=true)
 	 * @Oro\Versioned
 	 * @ConfigField(
 	 *      defaultValues={
@@ -75,7 +75,7 @@ class ListItems extends RelatedUsers {
 	 * @var ListItem
 	 *
 	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\ListBundle\Entity\ListItem")
-	 * @ORM\JoinColumn(name="source", referencedColumnName="id", nullable=false)
+	 * @ORM\JoinColumn(name="source", referencedColumnName="id", nullable=true)
 	 * @Oro\Versioned
 	 * @ConfigField(
 	 *      defaultValues={

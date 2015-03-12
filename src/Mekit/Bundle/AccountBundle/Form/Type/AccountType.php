@@ -7,7 +7,6 @@ use Doctrine\ORM\EntityRepository;
 use Mekit\Bundle\ListBundle\Entity\ListGroup;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Mekit\Bundle\ListBundle\Helper\FormHelper;
 use Doctrine\Bundle\DoctrineBundle\Registry as Doctrine;
 use Doctrine\ORM\EntityManager;
 
@@ -46,11 +45,6 @@ class AccountType extends AbstractType {
 	protected $securityFacade;
 
 	/**
-	 * @var FormHelper
-	 */
-	protected $listBundleHelper;
-
-	/**
 	 * @var boolean
 	 */
 	private $canViewContact;
@@ -59,13 +53,11 @@ class AccountType extends AbstractType {
 	 * @param Router         $router
 	 * @param NameFormatter  $nameFormatter
 	 * @param SecurityFacade $securityFacade
-	 * @param FormHelper     $listBundleHelper - temporary solution!
 	 */
-	public function __construct(Router $router, NameFormatter $nameFormatter, SecurityFacade $securityFacade, FormHelper $listBundleHelper) {
+	public function __construct(Router $router, NameFormatter $nameFormatter, SecurityFacade $securityFacade) {
 		$this->nameFormatter = $nameFormatter;
 		$this->router = $router;
 		$this->securityFacade = $securityFacade;
-		$this->listBundleHelper = $listBundleHelper;
 		$this->canViewContact = $this->securityFacade->isGranted('mekit_contact_view');
 	}
 
@@ -74,8 +66,6 @@ class AccountType extends AbstractType {
 	 * @param array                $options
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-
-
 		$builder
 			->add('name', 'text', ['required' => true, 'label' => 'mekit.account.name.label'])
 			->add('vatid', 'text', ['required' => false, 'label' => 'mekit.account.vatid.label'])
@@ -85,13 +75,11 @@ class AccountType extends AbstractType {
 			->add('description', 'textarea', ['required' => false, 'label' => 'mekit.account.description.label'])
 			->add('tags', 'oro_tag_select', ['label' => 'oro.tag.entity_plural_label']);
 
-
-		//dynamic lists from ListBundle(using temporary helper service solution)
-		$this->listBundleHelper->addListSelectorToFormBuilder($builder, 'type', 'ACCOUNT_TYPE', 'mekit.account.type.label');
-		$this->listBundleHelper->addListSelectorToFormBuilder($builder, 'state', 'ACCOUNT_STATE', 'mekit.account.state.label');
-		$this->listBundleHelper->addListSelectorToFormBuilder($builder, 'industry', 'ACCOUNT_INDUSTRY', 'mekit.account.industry.label');
-		$this->listBundleHelper->addListSelectorToFormBuilder($builder, 'source', 'ACCOUNT_SOURCE', 'mekit.account.source.label');
-
+		//dynamic lists from ListBundle
+		$builder->add('type', 'mekit_listitem_select', ['label'=>'mekit.account.type.label', 'configs'=>['group'=>'ACCOUNT_TYPE']]);
+		$builder->add('state', 'mekit_listitem_select', ['label'=>'mekit.account.state.label', 'configs'=>['group'=>'ACCOUNT_STATE']]);
+		$builder->add('industry', 'mekit_listitem_select', ['label'=>'mekit.account.industry.label', 'configs'=>['group'=>'ACCOUNT_INDUSTRY']]);
+		$builder->add('source', 'mekit_listitem_select', ['label'=>'mekit.account.source.label', 'configs'=>['group'=>'ACCOUNT_SOURCE']]);
 
 		//users
 		$builder->add(
