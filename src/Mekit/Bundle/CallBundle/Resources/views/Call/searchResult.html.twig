@@ -1,0 +1,17 @@
+{#
+    Available variables:
+    * entity       - user entity Mekit\Bundle\AccountBundle\Entity\Account or null
+    * indexer_item - indexer item Oro\Bundle\SearchBundle\Query\Result\Item
+#}
+{% extends 'OroSearchBundle:Search:searchResultItem.html.twig' %}
+
+{% set showImage = false %}
+{% set recordUrl = indexer_item.recordUrl %}
+{% set title = indexer_item.recordTitle %}
+{% set entityType = 'mekit.call.entity_label'|trans %}
+
+{% set entityInfo = [
+	{'title': 'mekit.event.description.label'|trans, 'value': entity.event.description ? entity.event.description : 'N/A'},
+	{'title': 'oro.ui.created_at'|trans, 'value': entity.event.createdAt ? entity.event.createdAt|oro_format_datetime : 'N/A'},
+	{'title': 'oro.ui.updated_at'|trans, 'value': entity.event.updatedAt ? entity.event.updatedAt|oro_format_datetime : 'N/A'},
+] %}
