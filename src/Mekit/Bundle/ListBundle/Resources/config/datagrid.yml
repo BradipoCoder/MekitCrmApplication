@@ -17,10 +17,8 @@ datagrid:
                     - { table: %mekit_list.listgroup.entity.class%, alias: lg }
                 join:
                     left:
-                        - { join: lg.items, alias: defaultItem }
-                where:
-                    and:
-                        - defaultItem.default_item = true
+                        - { join: lg.items, alias: defaultItem, conditionType: WITH, condition: 'defaultItem.default_item = true' }
+                groupBy: lg.id
         columns:
             description:
                 label:          mekit.list.listgroup.description.label
