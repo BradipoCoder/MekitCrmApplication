@@ -25,8 +25,6 @@ class MekitEventBundle implements Migration {
 	protected function createMekitEventTable(Schema $schema) {
 		$table = $schema->createTable(self::$tableNameEvent);
 		$table->addColumn('id', 'integer', ['autoincrement' => true]);
-		$table->addColumn('owner_id', 'integer', ['notnull' => false]);
-		$table->addColumn('organization_id', 'integer', ['notnull' => false]);
 		$table->addColumn('createdAt', 'datetime', []);
 		$table->addColumn('updatedAt', 'datetime', ['notnull' => false]);
 		$table->addColumn('type', 'string', ['length' => 255]);
@@ -39,8 +37,6 @@ class MekitEventBundle implements Migration {
 
 		//INDEXES
 		$table->setPrimaryKey(['id']);
-		$table->addIndex(['owner_id'], 'idx_event_owner', []);
-		$table->addIndex(['organization_id'], 'idx_event_organization', []);
 		$table->addIndex(['createdAt'], 'idx_event_created_at', []);
 		$table->addIndex(['updatedAt'], 'idx_event_updated_at', []);
 		$table->addIndex(['type'], 'idx_event_type', []);
@@ -50,20 +46,6 @@ class MekitEventBundle implements Migration {
 		$table->addIndex(['priority'], 'idx_event_priority', []);
 
 		//FOREIGN KEYS
-		$table->addForeignKeyConstraint(
-			$schema->getTable('oro_user'),
-			['owner_id'],
-			['id'],
-			['onDelete' => 'SET NULL', 'onUpdate' => null],
-			'fk_event_owner'
-		);
-		$table->addForeignKeyConstraint(
-			$schema->getTable('oro_organization'),
-			['organization_id'],
-			['id'],
-			['onDelete' => 'SET NULL', 'onUpdate' => null],
-			'fk_event_organization'
-		);
 		$table->addForeignKeyConstraint(
 			$schema->getTable('mekit_list_item'),
 			['state'],

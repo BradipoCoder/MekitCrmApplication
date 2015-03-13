@@ -3,7 +3,6 @@ datagrid:
         extended_entity_name: %mekit_event.event.entity.class%
         source:
             type:           orm
-            acl_resource:   mekit_event_view
             query:
                 select:
                     - e.id
@@ -25,7 +24,6 @@ datagrid:
                     - { table: %mekit_event.event.entity.class%, alias: e }
                 join:
                     left:
-                        - { join: e.owner, alias: eventOwner }
                         - { join: e.state, alias: eventState }
                         - { join: e.priority, alias: eventPriority }
                         - { join: e.task, alias: evTask }

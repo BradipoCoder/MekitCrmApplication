@@ -3,7 +3,7 @@ datagrid:
         extended_entity_name: %mekit_call.call.entity.class%
         source:
             type:           orm
-            acl_resource:   mekit_event_view
+            acl_resource:   mekit_call_view
             query:
                 select:
                     - c.id
@@ -22,7 +22,6 @@ datagrid:
                     left:
                         - { join: c.event, alias: e }
                         - { join: c.outcome, alias: callOutcome }
-                        - { join: e.owner, alias: eventOwner }
                         - { join: e.state, alias: eventState }
                         - { join: e.priority, alias: eventPriority }
 
@@ -74,7 +73,7 @@ datagrid:
         actions:
             view:
                 type:          navigate
-                acl_resource:  mekit_event_view
+                acl_resource:  mekit_call_view
                 label:         oro.grid.action.view
                 icon:          eye-open
                 link:          view_link
@@ -164,7 +163,7 @@ datagrid:
         extended_entity_name: %mekit_call.call.entity.class%
         source:
             type:           orm
-            acl_resource:   mekit_event_view
+            acl_resource:   mekit_call_view
             query:
                 select:
                     - c.id
@@ -198,7 +197,7 @@ datagrid:
         actions:
             view:
                 type:          navigate
-                acl_resource:  mekit_event_view
+                acl_resource:  mekit_call_view
                 label:         oro.grid.action.view
                 icon:          eye-open
                 link:          view_link

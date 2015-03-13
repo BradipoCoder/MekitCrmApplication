@@ -25,7 +25,7 @@ class MeetingController extends Controller
 	 *      defaults={"_format" = "html"}
 	 * )
 	 * @Template
-	 * @AclAncestor("mekit_event_view")
+	 * @AclAncestor("mekit_meeting_view")
 	 * @return array
 	 */
 	public function indexAction() {
@@ -37,7 +37,12 @@ class MeetingController extends Controller
 	/**
 	 * @Route("/view/{id}", name="mekit_meeting_view", requirements={"id"="\d+"})
 	 * @Template
-	 * @AclAncestor("mekit_event_view")
+	 * @Acl(
+	 *      id="mekit_meeting_view",
+	 *      type="entity",
+	 *      permission="VIEW",
+	 *      class="MekitMeetingBundle:Meeting"
+	 * )
 	 * @param Meeting $entity
 	 * @return array
 	 */
@@ -134,12 +139,12 @@ class MeetingController extends Controller
 		/** @var Event $event */
 		$event = $this->getEventManager()->createEntity();
 		$event->setStartDate(new \DateTime());
-		$event->setOwner($this->getUser());
 		$event->setState($listItemRepo->getDefaultItemForGroup("EVENT_STATE"));
 		$event->setPriority($listItemRepo->getDefaultItemForGroup("EVENT_PRIORITY"));
 
 		/** @var Meeting $entity */
 		$entity = $this->getMeetingManager()->createEntity();
+		$entity->setOwner($this->getUser());
 		$entity->addUser($this->getUser());
 
 		//set relationship between Meeting and Event
@@ -151,7 +156,7 @@ class MeetingController extends Controller
 
 	/**
 	 * @Route("/widget/info/{id}", name="mekit_meeting_widget_info", requirements={"id"="\d+"})
-	 * @AclAncestor("mekit_event_view")
+	 * @AclAncestor("mekit_meeting_view")
 	 * @Template(template="MekitMeetingBundle:Meeting/widget:info.html.twig")
 	 * @param Meeting $entity
 	 * @return array

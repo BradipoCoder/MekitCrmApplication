@@ -27,13 +27,31 @@ class MekitMeetingBundle implements Migration {
 		$table->addColumn('id', 'integer', ['autoincrement' => true]);
 		$table->addColumn('event_id', 'integer', []);
 		$table->addColumn('name', 'string', ['length' => 255]);
+		$table->addColumn('owner_id', 'integer', ['notnull' => false]);
+		$table->addColumn('organization_id', 'integer', ['notnull' => false]);
 
 		//INDEXES
 		$table->setPrimaryKey(['id']);
+		$table->addIndex(['owner_id'], 'idx_meeting_owner', []);
+		$table->addIndex(['organization_id'], 'idx_meeting_organization', []);
 		$table->addIndex(['name'], 'idx_meeting_name', []);
 		$table->addUniqueIndex(['event_id'], 'idx_meeting_event', []);
 
 		//FOREIGN KEYS
+		$table->addForeignKeyConstraint(
+			$schema->getTable('oro_user'),
+			['owner_id'],
+			['id'],
+			['onDelete' => 'SET NULL', 'onUpdate' => null],
+			'fk_meeting_owner'
+		);
+		$table->addForeignKeyConstraint(
+			$schema->getTable('oro_organization'),
+			['organization_id'],
+			['id'],
+			['onDelete' => 'SET NULL', 'onUpdate' => null],
+			'fk_meeting_organization'
+		);
 		$table->addForeignKeyConstraint(
 			$schema->getTable('mekit_event'),
 			['event_id'],
