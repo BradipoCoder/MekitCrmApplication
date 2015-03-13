@@ -3,7 +3,7 @@ datagrid:
         extended_entity_name: %mekit_task.task.entity.class%
         source:
             type:           orm
-            acl_resource:   mekit_event_view
+            acl_resource:   mekit_task_view
             query:
                 select:
                     - t.id
@@ -20,7 +20,6 @@ datagrid:
                     left:
                         - { join: t.event, alias: e }
                         - { join: t.project, alias: p }
-                        - { join: e.owner, alias: eventOwner }
                         - { join: e.state, alias: eventState }
                         - { join: e.priority, alias: eventPriority }
 
@@ -61,7 +60,7 @@ datagrid:
         actions:
             view:
                 type:          navigate
-                acl_resource:  mekit_event_view
+                acl_resource:  mekit_task_view
                 label:         oro.grid.action.view
                 icon:          eye-open
                 link:          view_link
@@ -135,7 +134,7 @@ datagrid:
         extended_entity_name: %mekit_task.task.entity.class%
         source:
             type:           orm
-            acl_resource:   mekit_event_view
+            acl_resource:   mekit_task_view
             query:
                 select:
                     - t.id
@@ -169,7 +168,7 @@ datagrid:
         actions:
             view:
                 type:          navigate
-                acl_resource:  mekit_event_view
+                acl_resource:  mekit_task_view
                 label:         oro.grid.action.view
                 icon:          eye-open
                 link:          view_link
@@ -222,7 +221,7 @@ datagrid:
         extended_entity_name: %mekit_task.worklog.entity.class%
         source:
             type:           orm
-            acl_resource:   mekit_event_view
+            acl_resource:   mekit_task_view
             query:
                 select:
                     - wl.id

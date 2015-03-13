@@ -26,6 +26,8 @@ mekit:
         id.label:                   Id
         name.label:                 Name
         event.label:                Event
+        owner.label:                Owner
+        organization.label:         Organization
         direction.label:            Direction
         outcome.label:              Outcome
 

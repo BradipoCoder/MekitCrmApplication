@@ -39,7 +39,7 @@ class TaskController extends RestController implements ClassResourceInterface
 	 *      description="Get all items",
 	 *      resource=true
 	 * )
-	 * @AclAncestor("mekit_event_view")
+	 * @AclAncestor("mekit_task_view")
 	 * @return Response
 	 */
 	public function cgetAction() {
@@ -55,7 +55,7 @@ class TaskController extends RestController implements ClassResourceInterface
 	 *      description="Get a single item",
 	 *      resource=true
 	 * )
-	 * @AclAncestor("mekit_event_view")
+	 * @AclAncestor("mekit_task_view")
 	 * @return Response
 	 */
 	public function getAction($id) {

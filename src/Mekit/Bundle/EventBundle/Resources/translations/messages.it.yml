@@ -23,5 +23,3 @@ mekit:
     state.label: Stato
     priority.label: Priorità
     description.label: Decrizione
-    owner.label: Proprietario
-    organization.label: Organizzazione

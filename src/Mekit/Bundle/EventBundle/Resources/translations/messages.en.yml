@@ -30,5 +30,11 @@ mekit:
         state.label:                State
         priority.label:             Priority
         description.label:          Description
-        owner.label:                Owner
-        organization.label:         Organization
+        created_at.label:           Created At
+        updated_at.label:           Updated At
+
+        call.label:                 Call
+        meeting.label:              Meeting
+        task.label:                 Task
+
+

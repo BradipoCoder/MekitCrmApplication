@@ -11,7 +11,7 @@ services:
             - %mekit_task.task.entity.class%
             - ["name"]
         tags:
-            - { name: oro_form.autocomplete.search_handler, alias: mekit_task, acl_resource: mekit_event_view }
+            - { name: oro_form.autocomplete.search_handler, alias: mekit_task, acl_resource: mekit_task_view }
 
     mekit_task.placeholder.filter:
         class: %mekit_task.placeholder.filter.class%

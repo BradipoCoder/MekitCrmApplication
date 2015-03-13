@@ -25,7 +25,7 @@ class CallController extends Controller
 	 *      defaults={"_format" = "html"}
 	 * )
 	 * @Template
-	 * @AclAncestor("mekit_event_view")
+	 * @AclAncestor("mekit_call_view")
 	 * @return array
 	 */
 	public function indexAction() {
@@ -37,7 +37,12 @@ class CallController extends Controller
 	/**
 	 * @Route("/view/{id}", name="mekit_call_view", requirements={"id"="\d+"})
 	 * @Template
-	 * @AclAncestor("mekit_event_view")
+	 * @Acl(
+	 *      id="mekit_call_view",
+	 *      type="entity",
+	 *      permission="VIEW",
+	 *      class="MekitCallBundle:Call"
+	 * )
 	 * @param Call $entity
 	 * @return array
 	 */
@@ -134,12 +139,12 @@ class CallController extends Controller
 		/** @var Event $event */
 		$event = $this->getEventManager()->createEntity();
 		$event->setStartDate(new \DateTime());
-		$event->setOwner($this->getUser());
 		$event->setState($listItemRepo->getDefaultItemForGroup("EVENT_STATE"));
 		$event->setPriority($listItemRepo->getDefaultItemForGroup("EVENT_PRIORITY"));
 
 		/** @var Call $entity */
 		$entity = $this->getCallManager()->createEntity();
+		$entity->setOwner($this->getUser());
 		$entity->addUser($this->getUser());
 		$entity->setDirection('out');
 		$entity->setOutcome($listItemRepo->getDefaultItemForGroup("CALL_OUTCOME"));
@@ -154,7 +159,7 @@ class CallController extends Controller
 
 	/**
 	 * @Route("/widget/info/{id}", name="mekit_call_widget_info", requirements={"id"="\d+"})
-	 * @AclAncestor("mekit_event_view")
+	 * @AclAncestor("mekit_call_view")
 	 * @Template(template="MekitCallBundle:Call/widget:info.html.twig")
 	 * @param Call $entity
 	 * @return array

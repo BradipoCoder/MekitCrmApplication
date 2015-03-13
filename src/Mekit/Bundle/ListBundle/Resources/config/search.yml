@@ -1,0 +1,16 @@
+#also needed for tagging
+Mekit\Bundle\ListBundle\Entity\ListItem:
+    alias: mekit_listitem
+    label: mekit.list.listitem.entity_plural_label
+    title_fields: [label]
+    route:
+        name: 'mekit_list_view'
+        parameters:
+          id: listGroup.id
+    search_template: MekitListBundle:List:searchResult.html.twig
+    fields:
+        -
+            name: label
+            target_type: text
+            target_fields: [label]
+

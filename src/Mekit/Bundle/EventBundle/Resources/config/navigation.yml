@@ -6,22 +6,3 @@ oro_menu_config:
             extras:
                 icon: icon-group
                 position: 15
-
-#        event_list:
-#            label: 'mekit.event.entity_plural_label'
-#            route: 'mekit_event_index'
-#            extras:
-#                position: 5
-#                routes: ['mekit_event_*']
-#                description: 'mekit.event.menu.event_list.description'
-
-#    tree:
-#        application_menu:
-#            children:
-#                events_tab:
-#                    children:
-#                        event_list: ~
-
-#oro_titles:
-#    mekit_event_index: ~
-

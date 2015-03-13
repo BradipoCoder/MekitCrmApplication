@@ -7,6 +7,9 @@ use Mekit\Bundle\EventBundle\Entity\EventInterface;
 use Mekit\Bundle\MeetingBundle\Model\ExtendMeeting;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
+use Oro\Bundle\UserBundle\Entity\User;
 
 /**
  * @ORM\Entity(repositoryClass="Mekit\Bundle\MeetingBundle\Entity\Repository\MeetingRepository")
@@ -24,6 +27,13 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
  *          "security"={
  *              "type"="ACL",
  *              "group_name"=""
+ *          },
+ *          "ownership"={
+ *              "owner_type"="USER",
+ *              "owner_field_name"="owner",
+ *              "owner_column_name"="owner_id",
+*               "organization_field_name"="organization",
+ *              "organization_column_name"="organization_id"
  *          },
  *          "dataaudit"={
  *              "auditable"=true
@@ -57,6 +67,34 @@ class Meeting extends ExtendMeeting implements EventInterface
 	 * @Oro\Versioned
 	 */
 	protected $name;
+
+	/**
+	 * @var User
+	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
+	 * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="SET NULL")
+	 * @Soap\ComplexType("string", nillable=true)
+	 * @Oro\Versioned
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "dataaudit"={
+	 *              "auditable"=true
+	 *          },
+	 *          "importexport"={
+	 *              "order"=100,
+	 *              "short"=true
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $owner;
+
+	/**
+	 * @var Organization
+	 *
+	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\OrganizationBundle\Entity\Organization")
+	 * @ORM\JoinColumn(name="organization_id", referencedColumnName="id", onDelete="SET NULL")
+	 */
+	protected $organization;
 
 	/**
 	 * Constructor
@@ -97,6 +135,42 @@ class Meeting extends ExtendMeeting implements EventInterface
 		$this->name = $name;
 
 		return $this;
+	}
+
+	/**
+	 * @return User
+	 */
+	public function getOwner() {
+		return $this->owner;
+	}
+
+	/**
+	 * @param User $owningUser
+	 * @return $this
+	 */
+	public function setOwner(User $owningUser) {
+		$this->owner = $owningUser;
+		return $this;
+	}
+
+	/**
+	 * Set organization
+	 *
+	 * @param Organization $organization
+	 * @return $this
+	 */
+	public function setOrganization(Organization $organization = null) {
+		$this->organization = $organization;
+		return $this;
+	}
+
+	/**
+	 * Get organization
+	 *
+	 * @return Organization
+	 */
+	public function getOrganization() {
+		return $this->organization;
 	}
 
 	/**

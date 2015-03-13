@@ -25,7 +25,7 @@ class TaskController extends Controller
 	 *      defaults={"_format" = "html"}
 	 * )
 	 * @Template
-	 * @AclAncestor("mekit_event_view")
+	 * @AclAncestor("mekit_task_view")
 	 * @return array
 	 */
 	public function indexAction() {
@@ -37,7 +37,12 @@ class TaskController extends Controller
 	/**
 	 * @Route("/view/{id}", name="mekit_task_view", requirements={"id"="\d+"})
 	 * @Template
-	 * @AclAncestor("mekit_event_view")
+	 * @Acl(
+	 *      id="mekit_task_view",
+	 *      type="entity",
+	 *      permission="VIEW",
+	 *      class="MekitTaskBundle:Task"
+	 * )
 	 * @param Task $entity
 	 * @return array
 	 */
@@ -135,12 +140,12 @@ class TaskController extends Controller
 		/** @var Event $event */
 		$event = $this->getEventManager()->createEntity();
 		$event->setStartDate(new \DateTime());
-		$event->setOwner($this->getUser());
 		$event->setState($listItemRepo->getDefaultItemForGroup("EVENT_STATE"));
 		$event->setPriority($listItemRepo->getDefaultItemForGroup("EVENT_PRIORITY"));
 
 		/** @var Task $entity */
 		$entity = $this->getTaskManager()->createEntity();
+		$entity->setOwner($this->getUser());
 		$entity->addUser($this->getUser());
 
 		//set relationship between Task and Event
@@ -153,7 +158,7 @@ class TaskController extends Controller
 
 	/**
 	 * @Route("/widget/info/{id}", name="mekit_task_widget_info", requirements={"id"="\d+"})
-	 * @AclAncestor("mekit_event_view")
+	 * @AclAncestor("mekit_task_view")
 	 * @Template(template="MekitTaskBundle:Task/widget:info.html.twig")
 	 * @param Task $entity
 	 * @return array

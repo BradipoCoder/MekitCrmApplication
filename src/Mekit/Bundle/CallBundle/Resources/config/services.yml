@@ -10,7 +10,7 @@ services:
             - %mekit_call.call.entity.class%
             - ["name"]
         tags:
-            - { name: oro_form.autocomplete.search_handler, alias: mekit_call, acl_resource: mekit_event_view }
+            - { name: oro_form.autocomplete.search_handler, alias: mekit_call, acl_resource: mekit_call_view }
 
     mekit_call.placeholder.filter:
         class: %mekit_call.placeholder.filter.class%

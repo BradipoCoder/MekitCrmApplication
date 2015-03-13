@@ -38,7 +38,7 @@ class CallController extends RestController implements ClassResourceInterface {
 	 *      description="Get all items",
 	 *      resource=true
 	 * )
-	 * @AclAncestor("mekit_event_view")
+	 * @AclAncestor("mekit_call_view")
 	 * @return Response
 	 */
 	public function cgetAction() {
@@ -54,7 +54,7 @@ class CallController extends RestController implements ClassResourceInterface {
 	 *      description="Get a single item",
 	 *      resource=true
 	 * )
-	 * @AclAncestor("mekit_event_view")
+	 * @AclAncestor("mekit_call_view")
 	 * @return Response
 	 */
 	public function getAction($id) {
