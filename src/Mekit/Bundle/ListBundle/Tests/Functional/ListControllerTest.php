@@ -20,32 +20,10 @@ class ListControllerTest extends MekitFunctionalTest
 		$this->assertTrue($result->isOk());
 	}
 
-	public function testCreateAction() {
-		$listName = "LIST_TEST";
-		$listLabel = "Test List";
-		$crawler = $this->client->request('GET', $this->getUrl('mekit_list_create'));
-		/** @var Form $form */
-		$form = $crawler->selectButton('Save and Close')->form();
-		$form['mekit_listgroup_form[name]'] = $listName;
-		$form['mekit_listgroup_form[label]'] = $listLabel;
-		$this->client->followRedirects(true);
-		$crawler = $this->client->submit($form);
-		$result = $this->client->getResponse();
-		$this->assertHtmlResponseStatusCodeEquals($result, 200);
-		//check if we are on view page
-		$request = $this->client->getRequest();
-		$currentRoute = $request->attributes->get('_route');
-		$this->assertEquals("mekit_list_view", $currentRoute);
-		$this->assertContains($listLabel, $crawler->filter('h1.user-name')->text());
-		$this->assertContains($listName, $crawler->filter('h1.user-name')->text());
-	}
-
-	/**
-	 * @depends testCreateAction
-	 */
 	public function testUpdateAction() {
-		$listName = "LIST_TEST";
-		$listNameUpdated = "LIST_TEST_2";
+		$listName = "ACCOUNT_TYPE";
+		$listLabel = "Type";
+		$listLabelUpdated = "Account Type";
 		$response = $this->client->requestGrid(
 			'lists-grid', array('lists-grid[_filter][name][value]' => $listName)
 		);
@@ -59,9 +37,9 @@ class ListControllerTest extends MekitFunctionalTest
 		$this->assertTrue($this->client->getResponse()->isOk());
 		/** @var Form $form */
 		$form = $crawler->selectButton('Save and Close')->form();
-		$nameField = $form->get("mekit_listgroup_form[name]");
-		$this->assertEquals($listName, $nameField->getValue());
-		$nameField->setValue($listNameUpdated);
+		$nameField = $form->get("mekit_listgroup_form[label]");
+		$this->assertEquals($listLabel, $nameField->getValue());
+		$nameField->setValue($listLabelUpdated);
 		$this->client->followRedirects(true);
 		$crawler = $this->client->submit($form);
 		//
@@ -71,7 +49,7 @@ class ListControllerTest extends MekitFunctionalTest
 		$request = $this->client->getRequest();
 		$currentRoute = $request->attributes->get('_route');
 		$this->assertEquals("mekit_list_view", $currentRoute);
-		$this->assertContains($listNameUpdated, $crawler->filter('h1.user-name')->text());
+		$this->assertContains($listLabelUpdated, $crawler->filter('h1.user-name')->text());
 
 		return $id;
 	}
@@ -81,11 +59,11 @@ class ListControllerTest extends MekitFunctionalTest
 	 * @param Integer $id
 	 */
 	public function testViewAction($id) {
-		$listNameUpdated = "LIST_TEST_2";
+		$listLabelUpdated = "Account Type";
 		$crawler = $this->client->request('GET', $this->getUrl('mekit_list_view', array('id' => $id)));
 		$result = $this->client->getResponse();
 		$this->assertHtmlResponseStatusCodeEquals($result, 200);
-		$this->assertContains($listNameUpdated, $crawler->filter('h1.user-name')->text());
+		$this->assertContains($listLabelUpdated, $crawler->filter('h1.user-name')->text());
 	}
 
 	/**

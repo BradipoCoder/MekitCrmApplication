@@ -17,5 +17,4 @@ oro_menu_config:
 oro_titles:
     mekit_list_index:  ~
     mekit_list_update: '%%list.name%% List Group - Edit'
-    mekit_list_create: 'Create Tag'
 
