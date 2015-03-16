@@ -1,7 +1,6 @@
 <?php
 namespace Mekit\Bundle\ListBundle\Migrations\Data\ORM\v1_0;
 
-
 use Oro\Bundle\TranslationBundle\DataFixtures\AbstractTranslatableEntityFixture;
 use Oro\Bundle\MigrationBundle\Fixture\VersionedFixtureInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -46,7 +45,10 @@ class UpdateLists extends AbstractTranslatableEntityFixture implements Versioned
 	 */
 	protected $businessUnit;
 
-
+	/**
+	 * @var string
+	 */
+	protected $locale = "en";
 
 	/**
 	 * {@inheritdoc}
@@ -55,10 +57,8 @@ class UpdateLists extends AbstractTranslatableEntityFixture implements Versioned
 		$this->container = $container;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getVersion() {
+	public function getVersion()
+	{
 		return '1.0';
 	}
 
@@ -114,53 +114,56 @@ class UpdateLists extends AbstractTranslatableEntityFixture implements Versioned
 		/** @var BusinessUnit */
 		$this->businessUnit = $businessUnitRepository->find(1);
 
-		$translationLocales = $this->getTranslationLocales();
 
-		foreach ($translationLocales as $locale) {
-			foreach ($lists as $listGroupName => $listGroupData) {
-				$listGroupData["name"] = $listGroupName;
-				$listGroup = $this->getListGroup($locale, $listGroupData);
-				if (!$listGroup) {
-					continue;
-				}
-				$manager->persist($listGroup);
+		foreach ($lists as $listGroupName => $listGroupData) {
+			$listGroupData["name"] = $listGroupName;
+			$listGroup = $this->getNewListGroup($listGroupData, $this->locale);
+			if (!$listGroup) {
+				continue;
+			}
+			$manager->persist($listGroup);
 
-				if (!empty($listGroupData['items'])) {
-					foreach($listGroupData['items'] as $listItemId => $listItemData) {
-						$listItemData["id"] = $listItemId;
-						$listItem = $this->getListItem($locale, $listGroup, $listItemData);
-						if (!$listItem) {
-							continue;
-						}
-						$manager->persist($listItem);
+			if (!empty($listGroupData['items'])) {
+				foreach($listGroupData['items'] as $listItemName => $listItemData) {
+					$listItemData["name"] = $listItemName;
+					$listItem = $this->getNewListItem($listGroup, $listItemData, $this->locale);
+					if (!$listItem) {
+						continue;
 					}
+					$manager->persist($listItem);
 				}
 			}
 		}
+
 		$manager->flush();
 		$manager->clear();
 	}
 
 	/**
-	 * @param string $locale
 	 * @param ListGroup $listGroup
 	 * @param array $listItemData
+	 * @param string $locale
 	 * @return null|ListItem
 	 */
-	protected function getListItem($locale, ListGroup $listGroup, array $listItemData) {
-		if (empty($listItemData['id'])) {
+	protected function getNewListItem(ListGroup $listGroup, array $listItemData, $locale = "en") {
+		if (empty($listItemData['name'])) {
 			return null;
 		}
 		/** @var $listItem ListItem */
-		$listItem = $this->listItemRepository->find($listItemData["id"]);
+		$listItem = $this->listItemRepository->findOneBy(array('name' => $listItemData['name']));
 		if(!$listItem) {
 
 			$translationPrefix = static::LIST_ITEM_PREFIX.".".$listGroup->getName();
-			$label = $this->translate($listItemData['id'], $translationPrefix, $locale);
+			$label = $this->translate($listItemData['name'], $translationPrefix, $locale);
+
+			$cleanLabel = str_replace(" ", "_", $label);
+			$cleanLabel = preg_replace("/[^a-zA-Z0-9_]+/", "", $cleanLabel);
+			$name = $listGroup->getName() . "_" . strtoupper($cleanLabel);
 
 			$listItem = new ListItem();
-			$listItem->setId($listItemData["id"])
+			$listItem
 				->setListGroup($listGroup)
+				->setName($name)
 				->setLabel($label)
 				->setDefaultItem(isset($listItemData["default_item"])?$listItemData["default_item"]:false)
 				->setSystem(isset($listItemData["system"])?$listItemData["system"]:true)
@@ -171,11 +174,11 @@ class UpdateLists extends AbstractTranslatableEntityFixture implements Versioned
 	}
 
 	/**
-	 * @param string $locale
 	 * @param array $listGroupData
+	 * @param string $locale
 	 * @return null|ListGroup
 	 */
-	protected function getListGroup($locale, array $listGroupData) {
+	protected function getNewListGroup(array $listGroupData, $locale = "en") {
 		if (empty($listGroupData['name'])) {
 			return null;
 		}

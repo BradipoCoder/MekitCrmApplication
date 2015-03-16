@@ -70,6 +70,7 @@ class MekitListBundle implements Migration {
 		$table = $schema->createTable(self::$tableNameListItem);
 		$table->addColumn('id', 'integer', ['autoincrement' => true]);
 		$table->addColumn('listgroup_id', 'integer', ['notnull' => false]);
+		$table->addColumn('name', 'string', ['length' => 32, 'notnull' => false]);
 		$table->addColumn('label', 'string', ['length' => 255]);
 		$table->addColumn('default_item', 'boolean', ['default' => '0']);
 		$table->addColumn('system', 'boolean', ['default' => '0']);
@@ -78,7 +79,8 @@ class MekitListBundle implements Migration {
 
 		//INDEXES
 		$table->setPrimaryKey(['id']);
-		$table->addIndex(['listgroup_id'], 'idx_li_listgroup_id', []);
+		$table->addIndex(['name'], 'idx_li_name', []);
+		$table->addIndex(['listgroup_id'], 'idx_li_listgroup', []);
 		$table->addIndex(['system'], 'idx_li_system', []);
 		$table->addIndex(['business_unit_id'], 'idx_li_owner', []);
 		$table->addIndex(['organization_id'], 'idx_li_organization', []);

@@ -3,12 +3,3 @@
 {% set gridName = 'lists-grid' %}
 {% set pageTitle = 'mekit.list.listgroup.entity_plural_label'|trans %}
 
-
-{% block navButtons %}
-	<div class="btn-group">
-		{{ UI.addButton({
-		'path' : path('mekit_list_create'),
-		'entity_label': 'mekit.list.listgroup.entity_label'|trans
-		}) }}
-	</div>
-{% endblock %}

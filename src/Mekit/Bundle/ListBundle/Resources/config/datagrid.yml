@@ -17,7 +17,10 @@ datagrid:
                     - { table: %mekit_list.listgroup.entity.class%, alias: lg }
                 join:
                     left:
-                        - { join: lg.items, alias: defaultItem, conditionType: WITH, condition: 'defaultItem.default_item = true' }
+                        - { join: lg.items, alias: defaultItem }
+                where:
+                    and:
+                        - defaultItem.default_item = true
                 groupBy: lg.id
         columns:
             description:
@@ -32,8 +35,6 @@ datagrid:
                 template:       MekitListBundle:List:Datagrid/Property/translatedValue.html.twig
             defItemLabel:
                 label:          mekit.list.listitem.default_item.label
-            name:
-                label:          mekit.list.listgroup.name.label
             required:
                 label:          mekit.list.listgroup.required.label
                 type:           twig
@@ -44,6 +45,8 @@ datagrid:
                 type:           twig
                 frontend_type:  html
                 template:       MekitListBundle:List:Datagrid/Property/translatedValue.html.twig
+            name:
+                label:          mekit.list.listgroup.name.label
 
         sorters:
                 name:
@@ -98,6 +101,7 @@ datagrid:
                     - li.id
                     - li.label
                     - CASE li.default_item WHEN 1 THEN 'mekit.list.generic.yes' ELSE 'mekit.list.generic.no' as default_item
+                    - CASE li.system WHEN 1 THEN 'mekit.list.generic.yes' ELSE 'mekit.list.generic.no' as system
                 from:
                     - { table: %mekit_list.listitem.entity.class%, alias: li }
                 join:
@@ -113,6 +117,11 @@ datagrid:
                 label:          mekit.list.listitem.label.label
             default_item:
                 label:          mekit.list.listitem.default_item.label
+                type:           twig
+                frontend_type:  html
+                template:       MekitListBundle:List:Datagrid/Property/translatedValue.html.twig
+            system:
+                label:          mekit.list.listitem.system.label
                 type:           twig
                 frontend_type:  html
                 template:       MekitListBundle:List:Datagrid/Property/translatedValue.html.twig

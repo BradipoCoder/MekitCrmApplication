@@ -56,11 +56,11 @@ class ListItemSelectType extends AbstractType
 		}
 
 		$view->vars = array_replace(
-			$view->vars, array(
-			'required' => $listGroup->isRequired(),
-			'label' => $listGroup->getLabel(),
-			'empty_value' => $listGroup->getEmptyValue(),
-		)
+			$view->vars, [
+				'required' => $listGroup->isRequired(),
+				'label' => $listGroup->getLabel(),
+				'empty_value' => $listGroup->getEmptyValue()
+			]
 		);
 	}
 
@@ -132,7 +132,14 @@ class ListItemSelectType extends AbstractType
 					}
 
 					return $constraints;
-				}
+				},
+			    'data' => function(Options $options) {
+				    $configs = $options->get("configs");
+				    $listGroupName = $configs['group'];
+				    /** @var ListItemRepository $listItemRepo */
+				    $listItemRepo = $this->entityManager->getRepository('MekitListBundle:ListItem');
+				    return $listItemRepo->getDefaultItemForGroup($listGroupName);
+			    }
 			]
 		);
 	}

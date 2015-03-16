@@ -13,7 +13,9 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
  * @ORM\Entity(repositoryClass="Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository")
  * @ORM\Table(name="mekit_list_item",
  *      indexes={
+ *          @ORM\Index(name="idx_li_name", columns={"name"}),
  *          @ORM\Index(name="idx_li_system", columns={"system"}),
+ *          @ORM\Index(name="idx_li_default", columns={"default_item"}),
  *          @ORM\Index(name="idx_li_owner", columns={"business_unit_id"}),
  *          @ORM\Index(name="idx_li_organization", columns={"organization_id"})
  *      }
@@ -53,6 +55,13 @@ class ListItem {
 	 * @ORM\Column(type="integer")
 	 */
 	protected $id;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(type="string", length=32)
+	 */
+	protected $name;
 
 	/**
 	 * @var string
@@ -120,6 +129,22 @@ class ListItem {
 	 */
 	public function setId($id) {
 		$this->id = $id;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getName() {
+		return $this->name;
+	}
+
+	/**
+	 * @param string $name
+	 * @return $this
+	 */
+	public function setName($name) {
+		$this->name = $name;
 		return $this;
 	}
 

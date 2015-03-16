@@ -139,8 +139,6 @@ class MeetingController extends Controller
 		/** @var Event $event */
 		$event = $this->getEventManager()->createEntity();
 		$event->setStartDate(new \DateTime());
-		$event->setState($listItemRepo->getDefaultItemForGroup("EVENT_STATE"));
-		$event->setPriority($listItemRepo->getDefaultItemForGroup("EVENT_PRIORITY"));
 
 		/** @var Meeting $entity */
 		$entity = $this->getMeetingManager()->createEntity();
