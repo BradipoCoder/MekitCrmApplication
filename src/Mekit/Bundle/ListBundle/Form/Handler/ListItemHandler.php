@@ -49,11 +49,25 @@ class ListItemHandler {
 		if (in_array($this->request->getMethod(), array('POST', 'PUT'))) {
 			$this->form->submit($this->request);
 			if ($this->form->isValid()) {
+				$this->setListItemName($entity);
 				$this->onSuccess($entity);
 				return true;
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Generates name for item from label - only if not a system defined element
+	 * @param ListItem $entity
+	 */
+	protected function setListItemName(ListItem $entity) {
+		if(!$entity->isSystem()) {
+			$cleanLabel = str_replace(" ", "_", $entity->getLabel());
+			$cleanLabel = preg_replace("/[^a-zA-Z0-9_]+/", "", $cleanLabel);
+			$name = $entity->getListGroup()->getName() . "_" . strtoupper($cleanLabel);
+			$entity->setName($name);
+		}
 	}
 
 	/**

@@ -10,8 +10,6 @@ use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager;
 
 use Mekit\Bundle\AccountBundle\Entity\Account;
-use Mekit\Bundle\ListBundle\Entity\ListItem;
-use Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository;
 
 
 /**
@@ -96,16 +94,6 @@ class AccountController extends Controller {
 
 			//assign to current user
 			$entity->addUser($this->getUser());
-
-			/** @var ListItemRepository $listItemRepo */
-			$listItemRepo = $this->getDoctrine()->getRepository('MekitListBundle:ListItem');
-
-			//set defaults for list items
-			$entity->setType($listItemRepo->getDefaultItemForGroup("ACCOUNT_TYPE"));
-			$entity->setState($listItemRepo->getDefaultItemForGroup("ACCOUNT_STATE"));
-			$entity->setIndustry($listItemRepo->getDefaultItemForGroup("ACCOUNT_INDUSTRY"));
-			$entity->setSource($listItemRepo->getDefaultItemForGroup("ACCOUNT_SOURCE"));
-
 		}
 
 		return $this->get('oro_form.model.update_handler')->handleUpdate(

@@ -134,14 +134,9 @@ class TaskController extends Controller
 	 * @return Task
 	 */
 	protected function initTaskEntity() {
-		/** @var ListItemRepository $listItemRepo */
-		$listItemRepo = $this->getDoctrine()->getRepository('MekitListBundle:ListItem');
-
 		/** @var Event $event */
 		$event = $this->getEventManager()->createEntity();
 		$event->setStartDate(new \DateTime());
-		$event->setState($listItemRepo->getDefaultItemForGroup("EVENT_STATE"));
-		$event->setPriority($listItemRepo->getDefaultItemForGroup("EVENT_PRIORITY"));
 
 		/** @var Task $entity */
 		$entity = $this->getTaskManager()->createEntity();

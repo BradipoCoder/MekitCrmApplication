@@ -8,10 +8,10 @@ use Symfony\Component\DomCrawler\Form;
  * @outputBuffering enabled
  * @dbIsolation
  */
-class AccountControllerTest extends MekitFunctionalTest {
-
+class AccountControllerTest extends MekitFunctionalTest
+{
 	protected function setUp() {
-		$this->initClient([], $this->generateBasicAuthHeader());
+		$this->initClient([], array_merge($this->generateBasicAuthHeader(), array('HTTP_X-CSRF-Header' => 1)));
 	}
 
 	public function testIndexAction() {
@@ -44,8 +44,7 @@ class AccountControllerTest extends MekitFunctionalTest {
 		$accountName = "Mekit";
 		$accountNameUpdated = "Mekit #2";
 		$response = $this->client->requestGrid(
-			'accounts-grid',
-			array('accounts-grid[_filter][name][value]' => $accountName)
+			'accounts-grid', array('accounts-grid[_filter][name][value]' => $accountName)
 		);
 		$result = $this->getJsonResponseContent($response, 200);
 		$result = reset($result['data']);
@@ -85,4 +84,41 @@ class AccountControllerTest extends MekitFunctionalTest {
 		$this->assertHtmlResponseStatusCodeEquals($result, 200);
 		$this->assertEquals($accountNameUpdated, $crawler->filter('h1.user-name')->text());
 	}
+
+	/**
+	 * @depends testUpdateAction
+	 * @param Integer $id
+	 */
+	public function testInfoAction($id) {
+		$this->client->request(
+			'GET', $this->getUrl(
+				'mekit_account_widget_info',
+				['id' => $id, '_widgetContainer' => 'dialog']
+			)
+		);
+		//just verify response
+		$result = $this->client->getResponse();
+		$this->assertHtmlResponseStatusCodeEquals($result, 200);
+	}
+
+	/**
+	 * @depends testUpdateAction
+	 * @param Integer $id
+	 */
+	public function testDeleteAction($id) {
+		$this->client->request(
+			'DELETE', $this->getUrl('mekit_api_delete_account', array('id' => $id))
+		);
+
+		$result = $this->client->getResponse();
+		$this->assertEmptyResponseStatusCodeEquals($result, 204);
+
+		$this->client->request(
+			'GET', $this->getUrl('mekit_account_view', array('id' => $id))
+		);
+		$result = $this->client->getResponse();
+		$this->assertHtmlResponseStatusCodeEquals($result, 404);
+	}
+
+
 }

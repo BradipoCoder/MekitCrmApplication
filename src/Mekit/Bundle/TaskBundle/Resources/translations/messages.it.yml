@@ -17,6 +17,7 @@ mekit:
     entity_description: Compito
     id.label: Id
     name.label: Nome
+    type.label: Tipo
     event.label: Evento
     project.label: Progetto
     worklogs.label: Lavorazioni

@@ -51,21 +51,6 @@ class ListController extends Controller
 	}
 
 	/**
-	 * @Route("/create", name="mekit_list_create")
-	 * @Acl(
-	 *      id="mekit_list_create",
-	 *      type="entity",
-	 *      permission="CREATE",
-	 *      class="MekitListBundle:ListGroup"
-	 * )
-	 * @Template("MekitListBundle:List:update.html.twig")
-	 * @return array
-	 */
-	public function createAction() {
-		return $this->update();
-	}
-
-	/**
 	 * @param ListGroup $entity
 	 * @return array
 	 */

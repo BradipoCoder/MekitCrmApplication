@@ -1,19 +1,17 @@
 <?php
 namespace Mekit\Bundle\ListBundle\Migrations\Data\ORM\v1_1;
 
-use Mekit\Bundle\ListBundle\Migrations\Data\ORM\v1_0\UpdateLists as BasUpdate;
+use Mekit\Bundle\ListBundle\Migrations\Data\ORM\v1_0\UpdateLists as BaseUpdate;
 
-class UpdateLists extends BasUpdate
-{
-	/**
-	 * @var string
-	 */
+
+class UpdateLists extends BaseUpdate {
 	protected $dataFileName = '/data/v1_1/lists.yml';
 
 	/**
-	 * {@inheritdoc}
+	 * @return string
 	 */
-	public function getVersion() {
+	public function getVersion()
+	{
 		return '1.1';
 	}
 

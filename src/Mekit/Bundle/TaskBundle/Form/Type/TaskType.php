@@ -68,6 +68,9 @@ class TaskType extends AbstractType {
 		$builder
 			->add('name', 'text', array('required' => true, 'label' => 'mekit.task.name.label'));
 
+		//dynamic lists from ListBundle
+		$builder->add('type', 'mekit_listitem_select', ['label'=>'mekit.task.type.label', 'configs'=>['group'=>'TASK_TYPE']]);
+
 		//users
 		$builder->add(
 			'users',

@@ -133,22 +133,15 @@ class CallController extends Controller
 	 * @return Call
 	 */
 	protected function initCallEntity() {
-		/** @var ListItemRepository $listItemRepo */
-		$listItemRepo = $this->getDoctrine()->getRepository('MekitListBundle:ListItem');
-
 		/** @var Event $event */
 		$event = $this->getEventManager()->createEntity();
 		$event->setStartDate(new \DateTime());
-		$event->setState($listItemRepo->getDefaultItemForGroup("EVENT_STATE"));
-		$event->setPriority($listItemRepo->getDefaultItemForGroup("EVENT_PRIORITY"));
 
 		/** @var Call $entity */
 		$entity = $this->getCallManager()->createEntity();
 		$entity->setOwner($this->getUser());
 		$entity->addUser($this->getUser());
 		$entity->setDirection('out');
-		$entity->setOutcome($listItemRepo->getDefaultItemForGroup("CALL_OUTCOME"));
-
 
 		//set relationship between Call and Event
 		$entity->setEvent($event);
