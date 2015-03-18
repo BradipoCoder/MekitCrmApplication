@@ -54,6 +54,9 @@ use Oro\Bundle\UserBundle\Entity\User;
  *              "type"="ACL",
  *              "group_name"=""
  *          },
+ *          "merge"={
+ *              "enable"=true
+ *          },
  *          "form"={
  *              "form_type"="orocrm_contact_select",
  *              "grid_name"="contacts-select-grid",
