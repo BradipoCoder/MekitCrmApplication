@@ -47,6 +47,7 @@ mekit:
 
             default_item.label:         Default
             id.label:                   Id
+            name.label:                 Name
             label.label:                Label
             list_group.label:           List
             organization.label:         Organization

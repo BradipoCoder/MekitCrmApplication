@@ -99,6 +99,7 @@ datagrid:
             query:
                 select:
                     - li.id
+                    - li.name
                     - li.label
                     - CASE li.default_item WHEN 1 THEN 'mekit.list.generic.yes' ELSE 'mekit.list.generic.no' as default_item
                     - CASE li.system WHEN 1 THEN 'mekit.list.generic.yes' ELSE 'mekit.list.generic.no' as system
@@ -125,6 +126,8 @@ datagrid:
                 type:           twig
                 frontend_type:  html
                 template:       MekitListBundle:List:Datagrid/Property/translatedValue.html.twig
+            name:
+                label:          mekit.list.listitem.name.label
         properties:
             id: ~
             update_link:

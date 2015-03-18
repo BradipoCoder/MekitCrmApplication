@@ -9,7 +9,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Mekit\Bundle\ContactInfoBundle\Entity\Email;
 
-
+/**
+ * @ORM\MappedSuperclass
+ */
 class EmailOwner extends Phones {
 	/**
 	 * @var Collection

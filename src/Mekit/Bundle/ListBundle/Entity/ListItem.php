@@ -5,9 +5,12 @@ namespace Mekit\Bundle\ListBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Oro\Bundle\OrganizationBundle\Entity\BusinessUnit;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
+
+//todo: name must become unique(it nearly is) for import/export functionality
 
 /**
  * @ORM\Entity(repositoryClass="Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository")
@@ -60,6 +63,14 @@ class ListItem {
 	 * @var string
 	 *
 	 * @ORM\Column(type="string", length=32)
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "importexport"={
+	 *              "identity"=true,
+	 *              "order"=10
+	 *          }
+	 *      }
+	 * )
 	 */
 	protected $name;
 
@@ -67,6 +78,7 @@ class ListItem {
 	 * @var string
 	 *
 	 * @ORM\Column(type="string", length=255)
+	 * @ConfigField()
 	 */
 	protected $label;
 
