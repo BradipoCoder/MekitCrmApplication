@@ -47,7 +47,7 @@ class AccountFixture extends AbstractTemplateRepository implements TemplateFixtu
 
         switch ($key) {
             case 'Mekit':
-	            $primaryAddress = $this->createContactAddress(1);
+	            $primaryAddress = $this->createAddress(1);
                 $entity
                     ->setId(1)
                     ->setName($key)
@@ -103,7 +103,7 @@ class AccountFixture extends AbstractTemplateRepository implements TemplateFixtu
 	 *
 	 * @throws \LogicException
 	 */
-	protected function createContactAddress($number)
+	protected function createAddress($number)
 	{
 		$countryRepo = $this->templateManager
 			->getEntityRepository('Oro\Bundle\AddressBundle\Entity\Country');

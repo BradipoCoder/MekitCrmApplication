@@ -111,7 +111,6 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 *              "auditable"=true
 	 *          },
 	 *          "importexport"={
-	 *              "identity"=true,
 	 *              "order"=30
 	 *          }
 	 *      }
