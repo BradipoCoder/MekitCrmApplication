@@ -9,7 +9,7 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 /**
  * @ORM\MappedSuperclass
  */
-class RelatedAccount
+class RelatedAccount extends ListItems
 {
 	/**
 	 * @var Account
@@ -20,7 +20,7 @@ class RelatedAccount
 	protected $account;
 
 	public function __construct() {
-		//parent::__construct();
+		parent::__construct();
 	}
 
 	/**

@@ -90,7 +90,6 @@ class OpportunityController extends Controller
 		if (!$entity) {
 			/** @var Opportunity $entity */
 			$entity = $this->getManager()->createEntity();
-
 			//assign to current user
 			//$entity->addUser($this->getUser());
 		}

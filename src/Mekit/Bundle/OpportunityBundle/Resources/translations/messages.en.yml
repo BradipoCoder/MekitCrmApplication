@@ -30,4 +30,4 @@ mekit:
         owner.label:                    Owner
         organization.label:             Organization
 
-
+        state.label:                    State

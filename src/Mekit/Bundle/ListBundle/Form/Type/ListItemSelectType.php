@@ -46,6 +46,7 @@ class ListItemSelectType extends AbstractType
 		$formConfig = $form->getConfig();
 		$configs = $formConfig->getOption("configs");
 		$listGroupName = $configs['group'];
+		$hidden = isset($configs['hidden']) && $configs['hidden']===true;
 
 		/** @var ListGroup $listGroup */
 		$listGroup = $listGroupRepo->findOneBy(["name" => $listGroupName]);
@@ -54,11 +55,15 @@ class ListItemSelectType extends AbstractType
 				'The option "group" set in "configs" key(' . $listGroupName . ') is not an existing list name.'
 			);
 		}
+		$required = $listGroup->isRequired();
+		$label = $hidden ? false : $listGroup->getLabel();
+		$attr = $hidden ? ['style'=>'display:none'] : [];
 
 		$view->vars = array_replace(
 			$view->vars, [
-				'required' => $listGroup->isRequired(),
-				'label' => $listGroup->getLabel(),
+				'required' => $required,
+				'label' => $label,
+				'attr' => $attr,
 				'empty_value' => $listGroup->getEmptyValue()
 			]
 		);

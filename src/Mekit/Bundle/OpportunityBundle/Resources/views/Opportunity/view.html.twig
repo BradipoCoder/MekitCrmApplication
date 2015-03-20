@@ -24,6 +24,19 @@
 
 {% endblock navButtons %}
 
+{% block breadcrumbs %}
+	{{ parent() }}
+	<div class="pull-left">
+		{% if entity.state.name == 'OPPORTUNITY_STATE_IN_PROGRESS' %}
+			<div class="badge badge-enabled status-enabled">
+				<i class="icon-status-enabled icon-circle"></i>{{ entity.state.label }}</div>
+		{% else %}
+			<div class="badge badge-disabled status-disabled">
+				<i class="icon-status-disabled icon-circle"></i>{{ entity.state.label }}</div>
+		{% endif %}
+	</div>
+{% endblock breadcrumbs %}
+
 {% block pageHeader %}
 	{% set breadcrumbs = {
 	'entity': entity,

@@ -1,0 +1,7 @@
+OPPORTUNITY_STATE:
+    required:       true
+    items:
+        OPEN:
+            default_item: true
+        CLOSED_WON:        ~
+        CLOSED_LOST:       ~

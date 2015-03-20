@@ -35,6 +35,10 @@ listgroup:
         label:          'Type'
         description:    'Task types'
         empty_value:    '--- Select one ---'
+    OPPORTUNITY_STATE:
+        label:          'State'
+        description:    'Opportunity states'
+        empty_value:    '--- Select one ---'
 
 listitem:
     ACCOUNT_TYPE:
@@ -75,4 +79,8 @@ listitem:
     TASK_TYPE:
         GENERAL:          'General'
         BUG:              'Bug'
+    OPPORTUNITY_STATE:
+        OPEN:             'In Progress'
+        CLOSED_WON:       'Won'
+        CLOSED_LOST:      'Lost'
 

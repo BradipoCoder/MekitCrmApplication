@@ -1,0 +1,13 @@
+imports:
+    - { resource: 'opportunity/steps.yml' }
+    - { resource: 'opportunity/attributes.yml' }
+    - { resource: 'opportunity/transitions.yml' }
+    - { resource: 'opportunity/transition_definitions.yml' }
+
+workflows:
+    opportunity:
+        label: 'Opportunity Flow'
+        entity: Mekit\Bundle\OpportunityBundle\Entity\Opportunity
+        entity_attribute: opportunity
+        start_step: qualify
+        steps_display_ordered: true

@@ -51,6 +51,12 @@ class OpportunityType extends AbstractType
 			->add('amount', 'oro_money', array('required' => true, 'label' => 'mekit.opportunity.amount.label'))
 			->add('probability', 'oro_percent', array('required' => true, 'label' => 'mekit.opportunity.probability.label'));
 
+		//dynamic lists from ListBundle
+		$builder->add('state', 'mekit_listitem_select', [
+				'configs'=>['group'=>'OPPORTUNITY_STATE', 'hidden' => true]
+			]
+		);
+
 		//account
 		$builder->add(
 			'account',
