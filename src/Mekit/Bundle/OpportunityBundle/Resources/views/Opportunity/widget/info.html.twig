@@ -2,10 +2,28 @@
 {% import 'OroTagBundle::macros.html.twig' as tag %}
 {% import 'OroEntityConfigBundle::macros.html.twig' as entityConfig %}
 
+{% set fullname = entity.name|default('N/A'|trans) %}
+
+{%- set accountLink -%}
+    {%- if entity.account -%}
+	    {% if resource_granted('mekit_account_account_view') %}
+		    <a href="{{ path('mekit_account_view', {'id': entity.account.id}) }}">
+			    {{ entity.account.name }}
+		    </a>
+	    {% else %}
+		    {{ entity.account.name }}
+	    {% endif %}
+    {%- endif -%}
+{%- endset -%}
+
 <div class="widget-content">
 	<div class="row-fluid form-horizontal">
 		<div class="responsive-block">
 			{{ UI.renderProperty('mekit.opportunity.name.label'|trans, entity.name) }}
+			{{ UI.renderHtmlProperty('mekit.opportunity.account.label'|trans, accountLink) }}
+			{{ UI.renderProperty('mekit.opportunity.description.label'|trans, entity.description) }}
+			{{ UI.renderProperty('mekit.opportunity.amount.label'|trans, entity.amount|length ? entity.amount|oro_format_currency, '') }}
+			{{ UI.renderProperty('mekit.opportunity.probability.label'|trans, entity.probability|length ? entity.probability|oro_format_percent : '') }}
 		</div>
 
 		<div class="responsive-block">

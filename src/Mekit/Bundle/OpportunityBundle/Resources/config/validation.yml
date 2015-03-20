@@ -1,0 +1,13 @@
+Mekit\Bundle\OpportunityBundle\Entity\Opportunity:
+    properties:
+        name:
+            - NotBlank: ~
+            - Length:
+                max: 255
+        amount:
+            - NotBlank: ~
+        probability:
+            - NotBlank: ~
+        account:
+            - NotBlank: ~
+

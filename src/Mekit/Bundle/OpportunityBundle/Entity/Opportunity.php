@@ -79,30 +79,44 @@ class Opportunity extends ExtendOpportunity
 	 */
 	protected $name;
 
-
 	/**
-	 * @var User
-	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
-	 * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="SET NULL")
+	 * @var string
+	 *
+	 * @ORM\Column(type="text", length=65535, nullable=true)
 	 * @Soap\ComplexType("string", nillable=true)
 	 * @Oro\Versioned
-	 * @ConfigField(
-	 *      defaultValues={
-	 *          "dataaudit"={
-	 *              "auditable"=true
-	 *          }
-	 *      }
-	 * )
 	 */
-	protected $owner;
+	protected $description;
 
 	/**
-	 * @var Organization
+	 * @var double
 	 *
-	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\OrganizationBundle\Entity\Organization")
-	 * @ORM\JoinColumn(name="organization_id", referencedColumnName="id", onDelete="SET NULL")
+	 * @ORM\Column(type="money", nullable=true)
+	 * @Oro\Versioned
+	 * @ConfigField(
+	 *  defaultValues={
+	 *      "dataaudit"={
+	 *          "auditable"=true
+	 *      }
+	 *  }
+	 * )
 	 */
-	protected $organization;
+	protected $amount;
+
+	/**
+	 * @var float
+	 *
+	 * @ORM\Column(type="percent", nullable=true)
+	 * @Oro\Versioned
+	 * @ConfigField(
+	 *  defaultValues={
+	 *      "dataaudit"={
+	 *          "auditable"=true
+	 *      }
+	 *  }
+	 * )
+	 */
+	protected $probability;
 
 	/**
 	 * @var \DateTime
@@ -177,39 +191,51 @@ class Opportunity extends ExtendOpportunity
 	}
 
 	/**
-	 * @return User
+	 * @return string
 	 */
-	public function getOwner() {
-		return $this->owner;
+	public function getDescription() {
+		return $this->description;
 	}
 
 	/**
-	 * @param User $owningUser
+	 * @param string $description
 	 * @return $this
 	 */
-	public function setOwner(User $owningUser) {
-		$this->owner = $owningUser;
+	public function setDescription($description) {
+		$this->description = $description;
 		return $this;
 	}
 
 	/**
-	 * Set organization
-	 *
-	 * @param Organization $organization
+	 * @return float
+	 */
+	public function getAmount() {
+		return $this->amount;
+	}
+
+	/**
+	 * @param float $amount
 	 * @return $this
 	 */
-	public function setOrganization(Organization $organization = null) {
-		$this->organization = $organization;
+	public function setAmount($amount) {
+		$this->amount = $amount;
 		return $this;
 	}
 
 	/**
-	 * Get organization
-	 *
-	 * @return Organization
+	 * @return float
 	 */
-	public function getOrganization() {
-		return $this->organization;
+	public function getProbability() {
+		return $this->probability;
+	}
+
+	/**
+	 * @param float $probability
+	 * @return $this
+	 */
+	public function setProbability($probability) {
+		$this->probability = $probability;
+		return $this;
 	}
 
 	/**

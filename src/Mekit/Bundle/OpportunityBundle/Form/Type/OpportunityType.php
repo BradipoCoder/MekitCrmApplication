@@ -46,7 +46,22 @@ class OpportunityType extends AbstractType
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		// basic fields
 		$builder
-			->add('name', 'text', array('required' => true, 'label' => 'mekit.project.name.label'));
+			->add('name', 'text', array('required' => true, 'label' => 'mekit.opportunity.name.label'))
+			->add('description', 'textarea', array('required' => false, 'label' => 'mekit.opportunity.description.label'))
+			->add('amount', 'oro_money', array('required' => true, 'label' => 'mekit.opportunity.amount.label'))
+			->add('probability', 'oro_percent', array('required' => true, 'label' => 'mekit.opportunity.probability.label'));
+
+		//account
+		$builder->add(
+			'account',
+			'oro_jqueryselect2_hidden',
+			[
+				'required' => true,
+				'label' => 'mekit.opportunity.account.label',
+				'autocomplete_alias' => 'mekit_account',
+				'configs' => []
+			]
+		);
 	}
 
 	/**

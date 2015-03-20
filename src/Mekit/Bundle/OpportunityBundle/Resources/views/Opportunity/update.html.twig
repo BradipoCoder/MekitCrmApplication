@@ -50,12 +50,16 @@
             {
                 'title': 'mekit.opportunity.widgets.opportunity_information'|trans,
                 'data': [
-				    form_row(form.name)
+				    form_row(form.name),
+				    form_row(form.description),
+				    form_row(form.amount),
+				    form_row(form.probability)
                 ]
             },
 	        {
                 'title': 'mekit.opportunity.widgets.opportunity_additional'|trans,
                 'data': [
+                    form_row(form.account),
                     form_row(form.owner)
                 ]
             }

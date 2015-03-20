@@ -1,5 +1,5 @@
 <?php
-namespace Mekit\Bundle\ProjectBundle\Entity\Relationships;
+namespace Mekit\Bundle\OpportunityBundle\Entity\Relationships\Opportunity;
 
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,7 +13,7 @@ class RelatedAccount
 {
 	/**
 	 * @var Account
-	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\AccountBundle\Entity\Account", inversedBy="projects")
+	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\AccountBundle\Entity\Account")
 	 * @ORM\JoinColumn(name="account_id", referencedColumnName="id", onDelete="SET NULL")
 	 * @ConfigField()
 	 */
@@ -39,5 +39,4 @@ class RelatedAccount
 
 		return $this;
 	}
-
 }

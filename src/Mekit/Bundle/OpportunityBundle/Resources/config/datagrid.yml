@@ -8,11 +8,26 @@ datagrid:
                 select:
                     - o.id
                     - o.name
+                    - o.amount
+                    - o.probability
+                    - Account.name as accountName
                 from:
                     - { table: %mekit_opportunity.opportunity.entity.class%, alias: o }
+                join:
+                    inner:
+                        - { join: o.account, alias: Account }
+                groupBy: o.id
         columns:
             name:
                 label:         mekit.opportunity.name.label
+            accountName:
+                label:         mekit.opportunity.account.label
+            amount:
+                label:         mekit.opportunity.amount.label
+                frontend_type: currency
+            probability:
+                label:         mekit.opportunity.probability.label
+                frontend_type: percent
         sorters:
             columns:
                 name:

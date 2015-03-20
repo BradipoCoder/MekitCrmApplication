@@ -1,8 +1,11 @@
 <?php
 namespace Mekit\Bundle\OpportunityBundle\Model;
 
+use Mekit\Bundle\OpportunityBundle\Entity\Relationships\Opportunity\Ownership;
 
-class ExtendOpportunity {
+
+class ExtendOpportunity extends Ownership
+{
 	/**
 	 * Constructor
 	 *
@@ -11,6 +14,6 @@ class ExtendOpportunity {
 	 * IMPORTANT: If the derived class has own constructor it must call parent constructor.
 	 */
 	public function __construct() {
-		//parent::__construct();
+		parent::__construct();
 	}
 }

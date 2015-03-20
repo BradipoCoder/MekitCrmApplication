@@ -2,7 +2,7 @@
 {% import 'OroTagBundle::macros.html.twig' as tag %}
 {% import 'OroEntityConfigBundle::macros.html.twig' as entityConfig %}
 
-{% set fullname = entity|default('N/A'|trans) %}
+{% set fullname = entity.name|default('N/A'|trans) %}
 
 {%- set accountLink -%}
     {%- if entity.account -%}
