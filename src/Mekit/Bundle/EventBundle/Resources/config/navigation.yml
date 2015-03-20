@@ -5,4 +5,4 @@ oro_menu_config:
             uri: '#'
             extras:
                 icon: icon-group
-                position: 15
+                position: 19
