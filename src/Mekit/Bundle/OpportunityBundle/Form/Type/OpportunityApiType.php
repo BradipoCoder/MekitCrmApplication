@@ -1,5 +1,5 @@
 <?php
-namespace Mekit\Bundle\ProjectBundle\Form\Type;
+namespace Mekit\Bundle\OpportunityBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -7,7 +7,8 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 use Oro\Bundle\SoapBundle\Form\EventListener\PatchSubscriber;
 
-class ProjectApiType extends AbstractType {
+class OpportunityApiType extends AbstractType
+{
 	/**
 	 * @param FormBuilderInterface $builder
 	 * @param array                $options
@@ -31,13 +32,13 @@ class ProjectApiType extends AbstractType {
 	 * {@inheritdoc}
 	 */
 	public function getParent() {
-		return 'mekit_project';
+		return 'mekit_opportunity';
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function getName() {
-		return 'project';
+		return 'opportunity';
 	}
 }

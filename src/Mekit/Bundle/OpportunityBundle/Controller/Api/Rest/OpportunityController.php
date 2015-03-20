@@ -1,5 +1,5 @@
 <?php
-namespace Mekit\Bundle\ProjectBundle\Controller\Api\Rest;
+namespace Mekit\Bundle\OpportunityBundle\Controller\Api\Rest;
 
 use FOS\RestBundle\Controller\Annotations\NamePrefix;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
@@ -15,10 +15,10 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @RouteResource("project")
+ * @RouteResource("opportunity")
  * @NamePrefix("mekit_api_")
  */
-class ProjectController extends RestController implements ClassResourceInterface
+class OpportunityController extends RestController implements ClassResourceInterface
 {
 	/**
 	 * REST GET list
@@ -39,7 +39,7 @@ class ProjectController extends RestController implements ClassResourceInterface
 	 *      description="Get all items",
 	 *      resource=true
 	 * )
-	 * @AclAncestor("mekit_project_view")
+	 * @AclAncestor("mekit_opportunity_view")
 	 * @return Response
 	 */
 	public function cgetAction() {
@@ -55,7 +55,7 @@ class ProjectController extends RestController implements ClassResourceInterface
 	 *      description="Get a single item",
 	 *      resource=true
 	 * )
-	 * @AclAncestor("mekit_project_view")
+	 * @AclAncestor("mekit_opportunity_view")
 	 * @return Response
 	 */
 	public function getAction($id) {
@@ -71,7 +71,7 @@ class ProjectController extends RestController implements ClassResourceInterface
 	 *      description="Update item",
 	 *      resource=true
 	 * )
-	 * @AclAncestor("mekit_project_update")
+	 * @AclAncestor("mekit_opportunity_update")
 	 * @return Response
 	 */
 	public function putAction($id) {
@@ -85,7 +85,7 @@ class ProjectController extends RestController implements ClassResourceInterface
 	 *      description="Create new item",
 	 *      resource=true
 	 * )
-	 * @AclAncestor("mekit_project_create")
+	 * @AclAncestor("mekit_opportunity_create")
 	 */
 	public function postAction() {
 		return $this->handleCreateRequest();
@@ -101,10 +101,10 @@ class ProjectController extends RestController implements ClassResourceInterface
 	 *      resource=true
 	 * )
 	 * @Acl(
-	 *      id="mekit_project_delete",
+	 *      id="mekit_opportunity_delete",
 	 *      type="entity",
 	 *      permission="DELETE",
-	 *      class="MekitProjectBundle:Project"
+	 *      class="MekitOpportunityBundle:Opportunity"
 	 * )
 	 * @return Response
 	 */
@@ -118,20 +118,20 @@ class ProjectController extends RestController implements ClassResourceInterface
 	 * @return ApiEntityManager
 	 */
 	public function getManager() {
-		return $this->get('mekit_project.project.manager.api');
+		return $this->get('mekit_opportunity.opportunity.manager.api');
 	}
 
 	/**
 	 * @return FormInterface
 	 */
 	public function getForm() {
-		return $this->get('mekit_project.form.project.api');
+		return $this->get('mekit_opportunity.form.opportunity.api');
 	}
 
 	/**
 	 * @return ApiFormHandler
 	 */
 	public function getFormHandler() {
-		return $this->get('mekit_project.form.handler.project.api');
+		return $this->get('mekit_opportunity.form.handler.opportunity.api');
 	}
 }

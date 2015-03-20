@@ -1,0 +1,63 @@
+parameters:
+    mekit_opportunity.opportunity.manager.api.class:                    Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
+
+    mekit_opportunity.type.opportunity.class:                           Mekit\Bundle\OpportunityBundle\Form\Type\OpportunityType
+    mekit_opportunity.type.opportunity.api.class:                       Mekit\Bundle\OpportunityBundle\Form\Type\OpportunityApiType
+
+    mekit_opportunity.handler.opportunity.class:                        Mekit\Bundle\OpportunityBundle\Form\Handler\OpportunityHandler
+
+services:
+    # Opportunity
+    mekit_opportunity.opportunity.manager.api:
+        class: %mekit_opportunity.opportunity.manager.api.class%
+        parent: oro_soap.manager.entity_manager.abstract
+        arguments:
+            - %mekit_opportunity.opportunity.entity.class%
+            - @doctrine.orm.entity_manager
+
+    mekit_opportunity.form.opportunity:
+        class: Symfony\Component\Form\Form
+        factory_method: createNamed
+        factory_service: form.factory
+        arguments: ["mekit_opportunity_form", "mekit_opportunity", null]
+
+    mekit_opportunity.form.type.opportunity:
+        class: %mekit_opportunity.type.opportunity.class%
+        arguments:
+            - @router
+            - @oro_locale.formatter.name
+            - @oro_security.security_facade
+        tags:
+            - { name: form.type, alias: mekit_opportunity }
+
+    mekit_opportunity.form.handler.opportunity:
+        class: %mekit_opportunity.handler.opportunity.class%
+        scope: request
+        arguments:
+            - @mekit_opportunity.form.opportunity
+            - @request
+            - @doctrine.orm.entity_manager
+
+    mekit_opportunity.form.opportunity.api:
+        class: Symfony\Component\Form\Form
+        factory_method: createNamed
+        factory_service: form.factory
+        arguments: ["opportunity", "opportunity", null]
+
+    mekit_opportunity.form.type.opportunity.api:
+        class: %mekit_opportunity.type.opportunity.api.class%
+        arguments:
+            - @router
+            - @oro_locale.formatter.name
+            - @oro_security.security_facade
+        tags:
+            - { name: form.type, alias: opportunity }
+
+    mekit_opportunity.form.handler.opportunity.api:
+        class: %mekit_opportunity.handler.opportunity.class%
+        scope: request
+        arguments:
+            - @mekit_opportunity.form.opportunity.api
+            - @request
+            - @doctrine.orm.entity_manager
+

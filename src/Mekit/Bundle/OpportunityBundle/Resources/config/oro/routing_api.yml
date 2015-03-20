@@ -1,0 +1,4 @@
+mekit_opportunity_api:
+    resource:     "@MekitOpportunityBundle/Controller/Api/Rest/OpportunityController.php"
+    type:         rest
+

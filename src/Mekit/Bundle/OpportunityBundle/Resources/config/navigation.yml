@@ -1,0 +1,29 @@
+oro_menu_config:
+    items:
+        sales_tab:
+            label: 'mekit.opportunity.menu.sales_tab.label'
+            uri: '#'
+            extras:
+                icon: icon-group
+                position: 13
+
+        opportunity_list:
+            label: 'mekit.opportunity.entity_plural_label'
+            route: 'mekit_opportunity_index'
+            extras:
+                position: 5
+                routes: ['mekit_opportunity_*']
+                description: 'mekit.opportunity.menu.opportunity_list.description'
+
+    tree:
+        application_menu:
+            children:
+                sales_tab:
+                    children:
+                        opportunity_list: ~
+
+oro_titles:
+    mekit_opportunity_index: ~
+    mekit_opportunity_view: '%%opportunity.name%%'
+    mekit_opportunity_create: 'Create Opportunity'
+    mekit_opportunity_update: '%%opportunity.name%% - Edit'

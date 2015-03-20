@@ -1,5 +1,5 @@
 <?php
-namespace Mekit\Bundle\ProjectBundle\Form\Type;
+namespace Mekit\Bundle\OpportunityBundle\Form\Type;
 
 use Oro\Bundle\LocaleBundle\Formatter\NameFormatter;
 use Oro\Bundle\SecurityBundle\SecurityFacade;
@@ -9,9 +9,10 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Routing\Router;
 
 /**
- * Class ProjectType
+ * Class OpportunityType
  */
-class ProjectType extends AbstractType {
+class OpportunityType extends AbstractType
+{
 	/**
 	 * @var Router
 	 */
@@ -28,11 +29,6 @@ class ProjectType extends AbstractType {
 	protected $securityFacade;
 
 	/**
-	 * @var boolean
-	 */
-	private $canViewContact;
-
-	/**
 	 * @param Router         $router
 	 * @param NameFormatter  $nameFormatter
 	 * @param SecurityFacade $securityFacade
@@ -41,7 +37,6 @@ class ProjectType extends AbstractType {
 		$this->nameFormatter = $nameFormatter;
 		$this->router = $router;
 		$this->securityFacade = $securityFacade;
-		$this->canViewContact = $this->securityFacade->isGranted('mekit_contact_view');
 	}
 
 	/**
@@ -49,36 +44,9 @@ class ProjectType extends AbstractType {
 	 * @param array                $options
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-
 		// basic fields
 		$builder
-			->add('name', 'text', array('required' => true, 'label' => 'mekit.project.name.label'))
-			->add('description', 'textarea', array('required' => false, 'label' => 'mekit.contact.description.label'))
-			->add('tags', 'oro_tag_select', ['label' => 'oro.tag.entity_plural_label']);
-
-		//users
-		$builder->add(
-			'users',
-			'oro_user_multiselect',
-			[
-				'required' => false,
-				'label' => 'mekit.project.users.label',
-			]
-		);
-
-		//account
-		$builder->add(
-			'account',
-			'oro_jqueryselect2_hidden',
-			[
-				'required' => true,
-				'label' => 'mekit.project.account.label',
-				'autocomplete_alias' => 'mekit_account',
-				'configs' => [
-
-				]
-			]
-		);
+			->add('name', 'text', array('required' => true, 'label' => 'mekit.project.name.label'));
 	}
 
 	/**
@@ -87,8 +55,8 @@ class ProjectType extends AbstractType {
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(
 			array(
-				'data_class' => 'Mekit\Bundle\ProjectBundle\Entity\Project',
-				'intention' => 'project',
+				'data_class' => 'Mekit\Bundle\OpportunityBundle\Entity\Opportunity',
+				'intention' => 'opportunity',
 				'extra_fields_message' => 'This form should not contain extra fields: "{{ extra_fields }}"',
 				'cascade_validation' => true
 			)
@@ -99,6 +67,6 @@ class ProjectType extends AbstractType {
 	 * @return string
 	 */
 	public function getName() {
-		return 'mekit_project';
+		return 'mekit_opportunity';
 	}
 }

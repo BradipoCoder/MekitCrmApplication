@@ -1,0 +1,16 @@
+#also needed for tagging
+Mekit\Bundle\OpportunityBundle\Entity\Opportunity:
+    alias: mekit_opportunity
+    label: mekit.opportunity.entity_plural_label
+    title_fields: [name]
+    route:
+        name: mekit_opportunity_view
+        parameters:
+            id: id
+    search_template: MekitOpportunityBundle:Opportunity:searchResult.html.twig
+    fields:
+        -
+            name: name
+            target_type: text
+            target_fields: [name]
+

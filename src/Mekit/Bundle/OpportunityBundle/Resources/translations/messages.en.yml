@@ -1,0 +1,29 @@
+mekit:
+    opportunity:
+        menu:
+            sales_tab.label:                Sales
+            opportunity_list.description:   List of Opportunities
+
+        sections:
+            general:                        General
+
+        widgets:
+            opportunity_information:        Opportunity Information
+            opportunity_additional:         Additional Information
+
+        controller:
+            opportunity.saved.message:      "Opportunity saved"
+
+        #
+        # Mekit/Bundle/OpportunityBundle/Entity/Opportunity
+        #
+        entity_label:                   Opportunity
+        entity_plural_label:            Opportunities
+        entity_description:             Opportunity
+
+        id.label:                       Id
+        name.label:                     Name
+        owner.label:                    Owner
+        organization.label:             Organization
+
+

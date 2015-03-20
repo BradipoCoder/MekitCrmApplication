@@ -131,9 +131,4 @@ class ProjectController extends Controller {
 	protected function getManager() {
 		return $this->get('mekit_project.project.manager.api');
 	}
-
-
-
-
-
 }

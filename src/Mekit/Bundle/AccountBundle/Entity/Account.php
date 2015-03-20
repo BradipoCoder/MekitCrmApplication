@@ -84,15 +84,15 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 * @Oro\Versioned
 	 * @ConfigField(
 	 *      defaultValues={
-	 *          "merge"={
-	 *              "display"=true
-	 *          },
 	 *          "dataaudit"={
 	 *              "auditable"=true
 	 *          },
 	 *          "importexport"={
 	 *              "identity"=true,
 	 *              "order"=20
+	 *          },
+	 *          "merge"={
+	 *              "display"=true
 	 *          }
 	 *      }
 	 * )
@@ -112,6 +112,9 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 *          },
 	 *          "importexport"={
 	 *              "order"=30
+	 *          },
+	 *          "merge"={
+	 *              "display"=true
 	 *          }
 	 *      }
 	 * )
@@ -131,6 +134,9 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 *          },
 	 *          "importexport"={
 	 *              "order"=40
+	 *          },
+	 *          "merge"={
+	 *              "display"=true
 	 *          }
 	 *      }
 	 * )
@@ -150,6 +156,9 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 *          },
 	 *          "importexport"={
 	 *              "order"=50
+	 *          },
+	 *          "merge"={
+	 *              "display"=true
 	 *          }
 	 *      }
 	 * )
@@ -169,6 +178,9 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 *          },
 	 *          "importexport"={
 	 *              "order"=60
+	 *          },
+	 *          "merge"={
+	 *              "display"=true
 	 *          }
 	 *      }
 	 * )
@@ -185,6 +197,9 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 *      defaultValues={
 	 *          "importexport"={
 	 *              "order"=70
+	 *          },
+	 *          "merge"={
+	 *              "display"=true
 	 *          }
 	 *      }
 	 * )
