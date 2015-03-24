@@ -58,7 +58,7 @@ class MeetingController extends Controller
 	 *      id="mekit_meeting_create",
 	 *      type="entity",
 	 *      permission="CREATE",
-	 *      class="MekitEventBundle:Event"
+	 *      class="MekitMeetingBundle:Meeting"
 	 * )
 	 * @Template("MekitMeetingBundle:Meeting:update.html.twig")
 	 * @return array
@@ -78,7 +78,7 @@ class MeetingController extends Controller
 	 *      id="mekit_meeting_update",
 	 *      type="entity",
 	 *      permission="EDIT",
-	 *      class="MekitEventBundle:Event"
+	 *      class="MekitMeetingBundle:Meeting"
 	 * )
 	 * @Template()
 	 * @param Meeting $entity
