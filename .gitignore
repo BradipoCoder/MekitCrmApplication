@@ -4,6 +4,5 @@
 /tmp
 /vendor
 /web
-composer.lock
 .directory
 *~
