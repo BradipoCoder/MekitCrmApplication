@@ -58,7 +58,7 @@ class CallController extends Controller
 	 *      id="mekit_call_create",
 	 *      type="entity",
 	 *      permission="CREATE",
-	 *      class="MekitEventBundle:Event"
+	 *      class="MekitCallBundle:Call"
 	 * )
 	 * @Template("MekitCallBundle:Call:update.html.twig")
 	 * @return array
@@ -78,7 +78,7 @@ class CallController extends Controller
 	 *      id="mekit_call_update",
 	 *      type="entity",
 	 *      permission="EDIT",
-	 *      class="MekitEventBundle:Event"
+	 *      class="MekitCallBundle:Call"
 	 * )
 	 * @Template()
 	 * @param Call $entity

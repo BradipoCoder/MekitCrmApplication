@@ -58,7 +58,7 @@ class TaskController extends Controller
 	 *      id="mekit_task_create",
 	 *      type="entity",
 	 *      permission="CREATE",
-	 *      class="MekitEventBundle:Event"
+	 *      class="MekitTaskBundle:Task"
 	 * )
 	 * @Template("MekitTaskBundle:Task:update.html.twig")
 	 * @return array
@@ -78,7 +78,7 @@ class TaskController extends Controller
 	 *      id="mekit_task_update",
 	 *      type="entity",
 	 *      permission="EDIT",
-	 *      class="MekitEventBundle:Event"
+	 *      class="MekitTaskBundle:Task"
 	 * )
 	 * @Template()
 	 * @param Task $entity
