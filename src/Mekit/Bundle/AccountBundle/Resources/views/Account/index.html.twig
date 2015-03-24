@@ -5,6 +5,15 @@
 
 
 {% block navButtons %}
+	{% include 'OroImportExportBundle:ImportExport:buttons.html.twig' with {
+		entity_class: entity_class,
+		exportProcessor: 'mekit_account',
+		exportTemplateProcessor: 'mekit_account',
+		importProcessor: 'mekit_account.add_or_replace',
+		importTitle: 'oro.importexport.import.entity'|trans({'%entityName%': 'mekit.account.entity_plural_label'|trans}),
+		dataGridName: gridName
+	} %}
+
 	{% if resource_granted('mekit_account_account_create') %}
 		<div class="btn-group">
 			{{ UI.addButton({

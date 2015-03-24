@@ -1,0 +1,74 @@
+workflows:
+    opportunity:
+        transitions:
+            __start__:
+                label: 'Qualify'
+                step_to: qualify
+                is_start: true
+                is_hidden: true
+                is_unavailable_hidden: true
+                transition_definition: qualify_definition
+
+            develop:
+                label: 'Develop'
+                step_to: develop
+                is_start: true
+                is_unavailable_hidden: true
+                frontend_options:
+                    icon: 'icon-play'
+                    class: 'btn-primary'
+                transition_definition: develop_definition
+                form_options:
+                    attribute_fields:
+                        opportunity_amount: ~
+                        opportunity_probability: ~
+
+            close_as_won:
+                label: 'Close as Won'
+                step_to: close
+                is_start: true
+                is_unavailable_hidden: true
+                frontend_options:
+                    icon: 'icon-ok-circle'
+                    class: 'btn-success'
+                transition_definition: close_as_won_definition
+                form_options:
+                    attribute_fields:
+                        opportunity_amount: ~
+                        opportunity_probability: ~
+
+            close_as_lost:
+                label: 'Close as Lost'
+                step_to: close
+                is_start: true
+                is_unavailable_hidden: true
+                frontend_options:
+                    icon: 'icon-remove-circle'
+                    class: 'btn-danger'
+                transition_definition: close_as_lost_definition
+                form_options:
+                    attribute_fields:
+                        opportunity_amount: ~
+                        opportunity_probability: ~
+
+            requalify_lost:
+                label: 'Requalify'
+                message: 'Are you sure you want to restart the workflow?'
+                step_to: qualify
+                is_start: true
+                is_unavailable_hidden: true
+                frontend_options:
+                    icon: 'icon-backward'
+                    class: 'btn-primary'
+                transition_definition: requalify_lost_definition
+
+            requalify_won:
+                label: 'Requalify'
+                message: 'Are you sure you want to restart the workflow?'
+                step_to: qualify
+                is_start: true
+                is_unavailable_hidden: true
+                frontend_options:
+                    icon: 'icon-backward'
+                    class: 'btn-primary'
+                transition_definition: requalify_won_definition

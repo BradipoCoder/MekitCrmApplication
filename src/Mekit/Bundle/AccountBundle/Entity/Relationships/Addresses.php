@@ -12,7 +12,9 @@ use Mekit\Bundle\ContactInfoBundle\Entity\Address;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 
-
+/**
+ * @ORM\MappedSuperclass
+ */
 class Addresses extends ListItems {
 	/**
 	 * @var Collection

@@ -39,6 +39,7 @@ mekit:
       entity_plural_label: Elementi
       entity_description: Lista di elementi
       id.label: Id
+      name.label: Nome
       list_group.label: Lista
       label.label: Etichetta
       default_item.label: Predefinito

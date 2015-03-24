@@ -1,7 +1,6 @@
 <?php
 namespace Mekit\Bundle\ProjectBundle\Controller\Api\Rest;
 
-use Doctrine\ORM\EntityNotFoundException;
 use FOS\RestBundle\Controller\Annotations\NamePrefix;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
@@ -9,7 +8,6 @@ use FOS\RestBundle\Routing\ClassResourceInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
-use Oro\Bundle\SecurityBundle\Exception\ForbiddenException;
 use Oro\Bundle\SoapBundle\Controller\Api\Rest\RestController;
 use Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager;
 use Oro\Bundle\SoapBundle\Form\Handler\ApiFormHandler;
@@ -19,10 +17,9 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @RouteResource("project")
  * @NamePrefix("mekit_api_")
- *
- * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
-class ProjectController extends RestController implements ClassResourceInterface {
+class ProjectController extends RestController implements ClassResourceInterface
+{
 	/**
 	 * REST GET list
 	 *

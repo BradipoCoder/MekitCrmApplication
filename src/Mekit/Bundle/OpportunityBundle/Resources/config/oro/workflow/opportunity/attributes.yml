@@ -1,0 +1,11 @@
+workflows:
+    opportunity:
+        attributes:
+            opportunity_name:
+                property_path: opportunity.name
+            opportunity_account:
+                property_path: opportunity.account
+            opportunity_amount:
+                property_path: opportunity.amount
+            opportunity_probability:
+                property_path: opportunity.probability

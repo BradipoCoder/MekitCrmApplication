@@ -6,6 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Mekit\Bundle\AccountBundle\Entity\Account;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 
+/**
+ * @ORM\MappedSuperclass
+ */
 class RelatedAccount
 {
 	/**

@@ -1,3 +1,6 @@
+oro.importexport.import.mekit_contact.add_or_replace: Add and Replace
+oro.importexport.import.mekit_contact.add: Add only
+
 mekit:
     contact:
         menu:

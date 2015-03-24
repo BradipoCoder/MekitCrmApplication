@@ -95,6 +95,97 @@ class Address extends AbstractAddress implements PrimaryItem {
 	 */
 	protected $primary;
 
+	/* The attributes below are overridden here because we are excluding them from import/export */
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="name_prefix", type="string", length=255, nullable=true)
+	 * @Soap\ComplexType("string", nillable=true)
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "importexport"={
+	 *              "excluded"=true
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $namePrefix;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="first_name", type="string", length=255, nullable=true)
+	 * @Soap\ComplexType("string", nillable=true)
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "importexport"={
+	 *              "excluded"=true
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $firstName;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="middle_name", type="string", length=255, nullable=true)
+	 * @Soap\ComplexType("string", nillable=true)
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "importexport"={
+	 *              "excluded"=true
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $middleName;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="last_name", type="string", length=255, nullable=true)
+	 * @Soap\ComplexType("string", nillable=true)
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "importexport"={
+	 *              "excluded"=true
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $lastName;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="name_suffix", type="string", length=255, nullable=true)
+	 * @Soap\ComplexType("string", nillable=true)
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "importexport"={
+	 *              "excluded"=true
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $nameSuffix;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="organization", type="string", length=255, nullable=true)
+	 * @Soap\ComplexType("string", nillable=true)
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "importexport"={
+	 *              "excluded"=true
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $organization;
+	/* End of override */
 
 	public function __construct() {
 		$this->primary = false;

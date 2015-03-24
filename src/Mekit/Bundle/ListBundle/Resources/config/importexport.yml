@@ -1,0 +1,8 @@
+parameters:
+    mekit_list.importexport.template_fixture.listitem.class: Mekit\Bundle\ListBundle\ImportExport\TemplateFixture\ListItemFixture
+
+services:
+    mekit_list.importexport.template_fixture.listitem:
+        class: %mekit_list.importexport.template_fixture.listitem.class%
+        tags:
+            - { name: oro_importexport.template_fixture }

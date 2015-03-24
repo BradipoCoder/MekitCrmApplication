@@ -4,6 +4,7 @@ namespace Mekit\Bundle\AccountBundle\Entity;
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Mekit\Bundle\ListBundle\Entity\ListItem;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
 use Mekit\Bundle\AccountBundle\Model\ExtendAccount;
 use Oro\Bundle\TagBundle\Entity\Taggable;
@@ -83,15 +84,15 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 * @Oro\Versioned
 	 * @ConfigField(
 	 *      defaultValues={
-	 *          "merge"={
-	 *              "display"=true
-	 *          },
 	 *          "dataaudit"={
 	 *              "auditable"=true
 	 *          },
 	 *          "importexport"={
 	 *              "identity"=true,
 	 *              "order"=20
+	 *          },
+	 *          "merge"={
+	 *              "display"=true
 	 *          }
 	 *      }
 	 * )
@@ -110,8 +111,10 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 *              "auditable"=true
 	 *          },
 	 *          "importexport"={
-	 *              "identity"=true,
 	 *              "order"=30
+	 *          },
+	 *          "merge"={
+	 *              "display"=true
 	 *          }
 	 *      }
 	 * )
@@ -131,6 +134,9 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 *          },
 	 *          "importexport"={
 	 *              "order"=40
+	 *          },
+	 *          "merge"={
+	 *              "display"=true
 	 *          }
 	 *      }
 	 * )
@@ -150,6 +156,9 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 *          },
 	 *          "importexport"={
 	 *              "order"=50
+	 *          },
+	 *          "merge"={
+	 *              "display"=true
 	 *          }
 	 *      }
 	 * )
@@ -169,6 +178,9 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 *          },
 	 *          "importexport"={
 	 *              "order"=60
+	 *          },
+	 *          "merge"={
+	 *              "display"=true
 	 *          }
 	 *      }
 	 * )
@@ -185,6 +197,9 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 *      defaultValues={
 	 *          "importexport"={
 	 *              "order"=70
+	 *          },
+	 *          "merge"={
+	 *              "display"=true
 	 *          }
 	 *      }
 	 * )
@@ -203,7 +218,7 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 *              "auditable"=true
 	 *          },
 	 *          "importexport"={
-	 *              "order"=100,
+	 *              "order"=500,
 	 *              "short"=true
 	 *          }
 	 *      }
@@ -216,6 +231,14 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 *
 	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\OrganizationBundle\Entity\Organization")
 	 * @ORM\JoinColumn(name="organization_id", referencedColumnName="id", onDelete="SET NULL")
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "importexport"={
+	 *              "order"=501,
+	 *              "short"=true
+	 *          }
+	 *      }
+	 * )
 	 */
 	protected $organization;
 
@@ -266,7 +289,6 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 * )
 	 */
 	protected $tags;
-
 
 	public function __construct() {
 		parent::__construct();
@@ -472,7 +494,7 @@ class Account extends ExtendAccount implements Taggable, EmailOwnerInterface {
 	 * @param User $owningUser
 	 * @return $this
 	 */
-	public function setOwner(User $owningUser) {
+	public function setOwner($owningUser) {
 		$this->owner = $owningUser;
 		return $this;
 	}

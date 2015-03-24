@@ -5,7 +5,7 @@ oro_menu_config:
             uri: '#'
             extras:
                 icon: icon-group
-                position: 12
+                position: 17
 
         project_list:
             label: 'mekit.project.entity_plural_label'

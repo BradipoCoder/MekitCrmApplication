@@ -12,7 +12,6 @@ use Symfony\Component\Routing\Router;
  * Class ProjectType
  */
 class ProjectType extends AbstractType {
-
 	/**
 	 * @var Router
 	 */
@@ -29,11 +28,6 @@ class ProjectType extends AbstractType {
 	protected $securityFacade;
 
 	/**
-	 * @var boolean
-	 */
-	private $canViewContact;
-
-	/**
 	 * @param Router         $router
 	 * @param NameFormatter  $nameFormatter
 	 * @param SecurityFacade $securityFacade
@@ -42,7 +36,6 @@ class ProjectType extends AbstractType {
 		$this->nameFormatter = $nameFormatter;
 		$this->router = $router;
 		$this->securityFacade = $securityFacade;
-		$this->canViewContact = $this->securityFacade->isGranted('mekit_contact_view');
 	}
 
 	/**
