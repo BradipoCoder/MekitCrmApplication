@@ -15,6 +15,11 @@ mekit:
         sections:
             general:                  General
 
+        dashboard:
+            my_active_events:
+                title:                My Active Events
+                description:          This widget displays all active events(tasks/calls/meetings) assigned to you.
+
         #
         # Mekit/Bundle/EventBundle/Entity/Event
         #

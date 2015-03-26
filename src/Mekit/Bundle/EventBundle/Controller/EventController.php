@@ -23,4 +23,20 @@ class EventController extends Controller
 			'entity' => $entity
 		];
 	}
+
+	/**
+	 * @Route("/widget/myActiveEvents/{widget}", name="mekit_event_dashboard_my_active_events", requirements={"widget"="[\w-]+"})
+	 * @Template(template="MekitEventBundle:Event/widget:myActiveEvents.html.twig")
+	 * @return array
+	 */
+	public function dashboardMyActiveEvents($widget) {
+		$result = [];
+
+		$result = array_merge(
+			$result,
+			$this->get('oro_dashboard.widget_configs')->getWidgetAttributesForTwig($widget)
+		);
+
+		return $result;
+	}
 }

@@ -1,0 +1,32 @@
+{% extends 'OroDashboardBundle:Dashboard:widget.html.twig' %}
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+{% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
+
+{% block content %}
+	<div class="my-active-events-dashboard-widget">
+		{{ dataGrid.renderGrid('events-grid') }}
+	</div>
+	{{ parent() }}
+{% endblock %}
+
+{% block actions %}
+	{% set actions = [
+	{
+	'type': 'link',
+	'label': 'mekit.task.entity_plural_label'|trans,
+	'url': path('mekit_task_index')
+	},
+	{
+	'type': 'link',
+	'label': 'mekit.call.entity_plural_label'|trans,
+	'url': path('mekit_call_index')
+	},
+	{
+	'type': 'link',
+	'label': 'mekit.meeting.entity_plural_label'|trans,
+	'url': path('mekit_meeting_index')
+	}
+	] %}
+
+	{{ parent() }}
+{% endblock %}

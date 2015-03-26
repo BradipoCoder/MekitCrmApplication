@@ -6,20 +6,24 @@ datagrid:
             query:
                 select:
                     - e.id
-                    - e.name
                     - e.type
-                    - e.startDate
                     - e.endDate
-                    - e.duration
-                    - eventState.label as state
                     - eventPriority.label as priority
                     - >
-                      CASE
-                        WHEN evTask.id IS NOT NULL THEN evTask.id
-                        WHEN evMeeting.id IS NOT NULL THEN evMeeting.id
-                        WHEN evCall.id IS NOT NULL THEN evCall.id
-                        ELSE ''
-                        END as linkRefId
+                        CASE
+                            WHEN evTask IS NOT NULL THEN evTask.id
+                            WHEN evCall IS NOT NULL THEN evCall.id
+                            WHEN evMeeting IS NOT NULL THEN evMeeting.id
+                            ELSE ''
+                            END as linkRefId
+                    - >
+                        CASE
+                            WHEN evTask IS NOT NULL THEN evTask.name
+                            WHEN evCall IS NOT NULL THEN evCall.name
+                            WHEN evMeeting IS NOT NULL THEN evMeeting.name
+                            ELSE ''
+                            END as eventName
+
                 from:
                     - { table: %mekit_event.event.entity.class%, alias: e }
                 join:
@@ -27,9 +31,16 @@ datagrid:
                         - { join: e.state, alias: eventState }
                         - { join: e.priority, alias: eventPriority }
                         - { join: e.task, alias: evTask }
-                        - { join: e.meeting, alias: evMeeting }
                         - { join: e.call, alias: evCall }
+                        - { join: e.meeting, alias: evMeeting }
 
+                        - { join: evTask.users, alias: taskUsers }
+                        - { join: evCall.users, alias: callUsers }
+                        - { join: evMeeting.users, alias: meetingUsers }
+                where:
+                    and:
+                        - eventState.name = 'EVENT_STATE_ACTIVE'
+                        - (taskUsers.id = @oro_security.security_facade->getLoggedUserId OR callUsers.id = @oro_security.security_facade->getLoggedUserId OR meetingUsers.id = @oro_security.security_facade->getLoggedUserId)
         columns:
             type_icon:
                 data_name:      type
@@ -39,75 +50,30 @@ datagrid:
                 template:       MekitEventBundle:Event:Datagrid/Property/eventIcon.html.twig
             linked_name:
                 data_name:      type
-                label:          mekit.event.name.label
+                label:          mekit.task.name.label
                 type:           twig
                 frontend_type:  html
                 template:       MekitEventBundle:Event:Datagrid/Property/eventLink.html.twig
                 context:
                     config_route_key:     view_route_name
-            state:
-                label:         mekit.event.state.label
-            startDate:
-                label:         mekit.event.start_date.label
-                frontend_type: datetime
-            endDate:
-                label:         mekit.event.end_date.label
-                frontend_type: datetime
-            duration:
-                label:         mekit.event.duration.label
             priority:
                 label:         mekit.event.priority.label
-
-
+            endDate:
+                label:         mekit.event.end_date.label
+                frontend_type: date
         sorters:
             columns:
-                linked_name:
-                    data_name: e.name
-                type_icon:
-                    data_name: e.type
-
-        filters:
-            columns:
-                linked_name:
-                    type:      string
-                    data_name: e.name
-
-        properties:
-            id: ~
-#            view_link:
-#                type:       url
-#                route:      mekit_account_view
-#                params:     [ id ]
-#            update_link:
-#                type:       url
-#                route:      mekit_account_update
-#                params:     [ id ]
-#            delete_link:
-#                type:       url
-#                route:      mekit_api_delete_account
-#                params:     [ id ]
-
-        actions:
-#            view:
-#                type:          navigate
-#                acl_resource:  mekit_account_account_view
-#                label:         oro.grid.action.view
-#                icon:          eye-open
-#                link:          view_link
-#                rowAction:     true
-#            update:
-#                type:          navigate
-#                acl_resource:  mekit_account_account_update
-#                label:         oro.grid.action.update
-#                icon:          edit
-#                link:          update_link
-#            delete:
-#                type:          delete
-#                acl_resource:  mekit_account_account_delete
-#                label:         oro.grid.action.delete
-#                icon:          trash
-#                link:          delete_link
+                priority:
+                    data_name: eventPriority.name
+                endDate:
+                    data_name: e.endDate
+            default:
+                endDate: %oro_datagrid.extension.orm_sorter.class%::DIRECTION_ASC
 
         options:
             entityHint: event
-            export: true
+            toolbarOptions:
+                hide: true
+                pageSize:
+                    items: [10]
+                    default_per_page: 10

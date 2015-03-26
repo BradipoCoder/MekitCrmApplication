@@ -1,0 +1,8 @@
+oro_dashboard_config:
+    widgets:
+        my_active_events:
+            label:            mekit.event.dashboard.my_active_events.title
+            route:            mekit_event_dashboard_my_active_events
+            route_parameters: {}
+            description:      mekit.event.dashboard.my_active_events.description
+            icon:             bundles/orodashboard/img/quick_launchpad.png

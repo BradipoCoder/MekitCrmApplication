@@ -15,7 +15,7 @@
 {% if config_route_key is defined %}
 	{% set routeName = mkt_ev_type_spec_link(record.getValue('type'), config_route_key) %}
 	{% set linkUri = path(routeName, {'id': record.getValue('linkRefId') }) %}
-	<a href="{{ linkUri }}">{{ record.getValue('name') }}</a>
+	<a href="{{ linkUri }}">{{ record.getValue('eventName') }}</a>
 {% else %}
-	{{ record.getValue('name') }}
+	{{ record.getValue('eventName') }}
 {% endif %}
