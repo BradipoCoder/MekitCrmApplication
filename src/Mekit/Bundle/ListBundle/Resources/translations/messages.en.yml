@@ -22,7 +22,7 @@ mekit:
             no:                       No
 
         form:
-            required.message:         "Please, select an item!"
+            required.message:         "Please, select an item"
 
         listgroup:
             entity_label:               List
