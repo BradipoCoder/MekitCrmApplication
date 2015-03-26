@@ -2,13 +2,16 @@
 namespace Mekit\Bundle\ListBundle\Form\Type;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Mekit\Bundle\ListBundle\Entity\ListGroup;
 use Mekit\Bundle\ListBundle\Entity\ListItem;
+use Mekit\Bundle\ListBundle\Entity\Repository\ListGroupRepository;
 use Mekit\Bundle\ListBundle\Entity\Repository\ListItemRepository;
 use Oro\Bundle\TranslationBundle\Translation\Translator;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Options;
@@ -39,14 +42,40 @@ class ListItemSelectType extends AbstractType
 	/**
 	 * {@inheritdoc}
 	 */
+	public function buildForm(FormBuilderInterface $builder, array $options) {
+
+		/** Set default item if no data is set */
+		$builder->addEventListener(
+			FormEvents::POST_SET_DATA, function (FormEvent $event) {
+			$data = $event->getData();
+			if (!$data) {
+				$form = $event->getForm();
+				$formConfig = $form->getConfig();
+				$configs = $formConfig->getOption("configs");
+				$listGroupName = $configs['group'];
+				/** @var ListItemRepository $listItemRepo */
+				$listItemRepo = $this->entityManager->getRepository('MekitListBundle:ListItem');
+				$data = $listItemRepo->getDefaultItemForGroup($listGroupName);
+				if ($data instanceof ListItem) {
+					$form->setData($data);
+				}
+			}
+		}
+		);
+
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function buildView(FormView $view, FormInterface $form, array $options) {
-		/** @var EntityRepository $listGroupRepo */
+		/** @var ListGroupRepository $listGroupRepo */
 		$listGroupRepo = $this->entityManager->getRepository('MekitListBundle:ListGroup');
 
 		$formConfig = $form->getConfig();
 		$configs = $formConfig->getOption("configs");
 		$listGroupName = $configs['group'];
-		$hidden = isset($configs['hidden']) && $configs['hidden']===true;
+		$hidden = isset($configs['hidden']) && $configs['hidden'] === true;
 
 		/** @var ListGroup $listGroup */
 		$listGroup = $listGroupRepo->findOneBy(["name" => $listGroupName]);
@@ -55,18 +84,15 @@ class ListItemSelectType extends AbstractType
 				'The option "group" set in "configs" key(' . $listGroupName . ') is not an existing list name.'
 			);
 		}
-		$required = $listGroup->isRequired();
-		$label = $hidden ? false : $listGroup->getLabel();
-		$attr = $hidden ? ['style'=>'display:none'] : [];
 
-		$view->vars = array_replace(
-			$view->vars, [
-				'required' => $required,
-				'label' => $label,
-				'attr' => $attr,
-				'empty_value' => $listGroup->getEmptyValue()
-			]
-		);
+		$vars = [
+			'required' => $listGroup->isRequired(),
+			'label' => $hidden ? false : $listGroup->getLabel(),
+			'attr' => $hidden ? ['style' => 'display:none'] : [],
+			'empty_value' => $listGroup->getEmptyValue()
+		];
+
+		$view->vars = array_replace($view->vars, $vars);
 	}
 
 
@@ -79,11 +105,11 @@ class ListItemSelectType extends AbstractType
 		];
 
 		$resolver->setDefaults(
-				[
-					'class' => 'MekitListBundle:ListItem',
-					'configs' => $defaultConfig
-				]
-			);
+			[
+				'class' => 'MekitListBundle:ListItem',
+				'configs' => $defaultConfig
+			]
+		);
 
 		$this->setConfigsNormalizer($resolver, $defaultConfig);
 	}
@@ -118,14 +144,15 @@ class ListItemSelectType extends AbstractType
 				'constraints' => function (Options $options) {
 					$configs = $options->get("configs");
 					$listGroupName = $configs['group'];
-					/** @var EntityRepository $listGroupRepo */
+					/** @var ListGroupRepository $listGroupRepo */
 					$listGroupRepo = $this->entityManager->getRepository('MekitListBundle:ListGroup');
 					/** @var ListGroup $listGroup */
 					$listGroup = $listGroupRepo->findOneBy(["name" => $listGroupName]);
 
 					if (!$listGroup instanceof ListGroup) {
 						throw new InvalidConfigurationException(
-							'The option "group" set in "configs" key(' . $listGroupName . ') is not an existing list name.'
+							'The option "group" set in "configs" key(' . $listGroupName
+							. ') is not an existing list name.'
 						);
 					}
 
@@ -137,14 +164,7 @@ class ListItemSelectType extends AbstractType
 					}
 
 					return $constraints;
-				},
-			    'data' => function(Options $options) {
-				    $configs = $options->get("configs");
-				    $listGroupName = $configs['group'];
-				    /** @var ListItemRepository $listItemRepo */
-				    $listItemRepo = $this->entityManager->getRepository('MekitListBundle:ListItem');
-				    return $listItemRepo->getDefaultItemForGroup($listGroupName);
-			    }
+				}
 			]
 		);
 	}
