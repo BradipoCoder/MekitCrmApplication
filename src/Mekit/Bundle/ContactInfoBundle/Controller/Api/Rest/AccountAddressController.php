@@ -30,7 +30,7 @@ class AccountAddressController extends RestController implements ClassResourceIn
 	 *      description="Get account address",
 	 *      resource=true
 	 * )
-	 * @AclAncestor("mekit_account_view")
+	 * @AclAncestor("mekit_account_account_view")
 	 * @return Response
 	 */
 	public function getAction($accountId, $addressId) {
@@ -55,7 +55,7 @@ class AccountAddressController extends RestController implements ClassResourceIn
 	 *      description="Get all address items",
 	 *      resource=true
 	 * )
-	 * @AclAncestor("mekit_account_view")
+	 * @AclAncestor("mekit_account_account_view")
 	 * @param int $accountId
 	 *
 	 * @return JsonResponse
@@ -86,7 +86,7 @@ class AccountAddressController extends RestController implements ClassResourceIn
 	 *      description="Delete address items",
 	 *      resource=true
 	 * )
-	 * @AclAncestor("mekit_account_delete")
+	 * @AclAncestor("mekit_account_account_delete")
 	 * @param     $accountId
 	 * @param int $addressId
 	 *
@@ -117,7 +117,7 @@ class AccountAddressController extends RestController implements ClassResourceIn
 	 *      description="Get account address by type",
 	 *      resource=true
 	 * )
-	 * @AclAncestor("mekit_account_view")
+	 * @AclAncestor("mekit_account_account_view")
 	 * @return Response
 	 */
 	public function getByTypeAction($accountId, $typeName) {
@@ -144,7 +144,7 @@ class AccountAddressController extends RestController implements ClassResourceIn
 	 *      description="Get account primary address",
 	 *      resource=true
 	 * )
-	 * @AclAncestor("mekit_account_view")
+	 * @AclAncestor("mekit_account_account_view")
 	 * @return Response
 	 */
 	public function getPrimaryAction($accountId) {

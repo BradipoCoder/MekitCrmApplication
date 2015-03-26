@@ -18,12 +18,12 @@ class AccountAddressController extends Controller {
 	/**
 	 * @Route("/account-address-book/{id}", name="mekit_account_address_book", requirements={"id"="\d+"})
 	 * @Template(template="MekitContactInfoBundle:AccountAddress/widget:addressBook.html.twig")
-	 * @AclAncestor("mekit_account_view")
+	 * @AclAncestor("mekit_account_account_view")
 	 */
 	public function addressBookAction(Account $account) {
 		return array(
 			'entity' => $account,
-			'address_edit_acl_resource' => 'mekit_account_update'
+			'address_edit_acl_resource' => 'mekit_account_account_update'
 		);
 	}
 
@@ -33,8 +33,8 @@ class AccountAddressController extends Controller {
 	 *      name="mekit_account_address_create",
 	 *      requirements={"accountId"="\d+"}
 	 * )
-	 * @Template("MekitContactInfoBundle:AccountAddress:update.html.twig")
-	 * @AclAncestor("mekit_account_create")
+	 * @Template(template="MekitContactInfoBundle:AccountAddress:update.html.twig")
+	 * @AclAncestor("mekit_account_account_create")
 	 * @ParamConverter("account", options={"id" = "accountId"})
 	 */
 	public function createAction(Account $account) {
@@ -45,10 +45,11 @@ class AccountAddressController extends Controller {
 	 * @Route(
 	 *      "/{accountId}/account-address-update/{id}",
 	 *      name="mekit_account_address_update",
-	 *      requirements={"accountId"="\d+","id"="\d+"}, defaults={"id"=0}
+	 *      requirements={"accountId"="\d+","id"="\d+"}, defaults={"id"=0},
+	 *      options={"expose"="true"}
 	 * )
-	 * @Template("MekitContactInfoBundle:AccountAddress:update.html.twig")
-	 * @AclAncestor("mekit_account_update")
+	 * @Template(template="MekitContactInfoBundle:AccountAddress:update.html.twig")
+	 * @AclAncestor("mekit_account_account_update")
 	 * @ParamConverter("account", options={"id" = "accountId"})
 	 */
 	public function updateAction(Account $account, Address $address) {
@@ -68,8 +69,6 @@ class AccountAddressController extends Controller {
 		);
 
 		if ($this->getRequest()->getMethod() == 'GET' && !$address->getId()) {
-			$address->setFirstName($account->getFirstName());
-			$address->setLastName($account->getLastName());
 			if (!$account->getAddresses()->count()) {
 				$address->setPrimary(true);
 			}
@@ -84,16 +83,15 @@ class AccountAddressController extends Controller {
 		// Update accounts's modification date when an address is changed
 		$account->setUpdatedAt(new \DateTime('now', new \DateTimeZone('UTC')));
 
-		//todo: define and make it work
-		/*
-		if ($this->get('orocrm_contact.form.handler.contact_address')->process($address)) {
+
+		if ($this->get('mekit_contact_info.form.handler.address')->process($address)) {
 			$this->getDoctrine()->getManager()->flush();
 			$responseData['entity'] = $address;
 			$responseData['saved'] = true;
 		}
 
-		$responseData['form'] = $this->get('orocrm_contact.contact_address.form')->createView();
-		*/
+		$responseData['form'] = $this->get('mekit_contact_info.form.address')->createView();
+
 		return $responseData;
 	}
 

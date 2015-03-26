@@ -46,6 +46,7 @@
 
 	{% set addressBookWidget %}
         {{ oro_widget_render({
+	        'title': '',
             'widgetType': 'block',
             'contentClasses': [],
             'url': path('mekit_account_address_book', {id: entity.id})
