@@ -12,11 +12,14 @@ use Mekit\Bundle\ContactInfoBundle\Entity\Address;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 
+/**
+ * @ORM\MappedSuperclass
+ */
 class Addresses extends ListItems {
 	/**
 	 * @var Collection
 	 *
-	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ContactInfoBundle\Entity\Address", mappedBy="owner_contact", cascade={"all"})
+	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\ContactInfoBundle\Entity\Address", mappedBy="owner_contact", cascade={"all"}, orphanRemoval=true)
 	 * @ORM\OrderBy({"primary" = "DESC"})
 	 * @Soap\ComplexType("Mekit\Bundle\ContactInfoBundle\Entity\Address[]", nillable=true)
 	 * @ConfigField(
