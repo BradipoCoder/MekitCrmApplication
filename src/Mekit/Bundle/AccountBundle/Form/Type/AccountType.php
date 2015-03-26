@@ -110,8 +110,8 @@ class AccountType extends AbstractType {
 			'oro_address_collection',
 			array(
 				'label' => '',
-				'type' => 'oro_typed_address',
-				'required' => true,
+				'type' => 'mekit_typed_address',
+				'required' => false,
 				'options' => array('data_class' => 'Mekit\Bundle\ContactInfoBundle\Entity\Address')
 			)
 		);

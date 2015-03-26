@@ -107,7 +107,7 @@ class ContactType extends AbstractType {
 			'oro_address_collection',
 			array(
 				'label' => '',
-				'type' => 'oro_typed_address',
+				'type' => 'mekit_typed_address',
 				'required' => false,
 				'options' => array('data_class' => 'Mekit\Bundle\ContactInfoBundle\Entity\Address')
 			)

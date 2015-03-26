@@ -1,6 +1,8 @@
 parameters:
     mekit_contact_info.address.manager.api.class:            Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
 
+    mekit_contact_info.type.typed_address.class:             Mekit\Bundle\ContactInfoBundle\Form\Type\TypedAddressType
+
     mekit_contact_info.address.entity.class:                 Mekit\Bundle\ContactInfoBundle\Entity\Address
     mekit_contact_info.email.entity.class:                   Mekit\Bundle\ContactInfoBundle\Entity\Email
     mekit_contact_info.phone.entity.class:                   Mekit\Bundle\ContactInfoBundle\Entity\Phone
@@ -13,3 +15,9 @@ services:
         arguments:
             - %mekit_contact_info.address.entity.class%
             - @doctrine.orm.entity_manager
+
+    mekit_contact_info.form.type.typed_address:
+        class: %mekit_contact_info.type.typed_address.class%
+        arguments:
+        tags:
+            - { name: form.type, alias: mekit_typed_address }
