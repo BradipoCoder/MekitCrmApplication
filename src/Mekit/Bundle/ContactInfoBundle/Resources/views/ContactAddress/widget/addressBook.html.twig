@@ -21,11 +21,10 @@
                 addressCreateUrl: {{ path('mekit_contact_address_create', {'contactId': entity.id})|json_encode|raw }},
                 addressUpdateUrl: function() {
                     var address = arguments[0];
-                    return routing.generate(
-                        'mekit_contact_address_update',
+                    return routing.generate('mekit_contact_address_update',
                         {
-                            'contactId': {{ entity.id|json_encode|raw }},
-                            'id': address.get('id')
+                            contactId: {{ entity.id|json_encode|raw }},
+                            id: address.get('id')
                         }
                     )
                 }

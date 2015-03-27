@@ -1,5 +1,4 @@
 <?php
-
 namespace Mekit\Bundle\ContactInfoBundle\Controller;
 
 use Mekit\Bundle\AccountBundle\Entity\Account;
@@ -11,9 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-/**
- * Class AccountAddressController
- */
+
 class AccountAddressController extends Controller {
 	/**
 	 * @Route("/account-address-book/{id}", name="mekit_account_address_book", requirements={"id"="\d+"})
@@ -33,7 +30,7 @@ class AccountAddressController extends Controller {
 	 *      name="mekit_account_address_create",
 	 *      requirements={"accountId"="\d+"}
 	 * )
-	 * @Template(template="MekitContactInfoBundle:AccountAddress:update.html.twig")
+	 * @Template(template="MekitContactInfoBundle:AccountAddress/widget:update.html.twig")
 	 * @AclAncestor("mekit_account_account_create")
 	 * @ParamConverter("account", options={"id" = "accountId"})
 	 */
@@ -48,7 +45,7 @@ class AccountAddressController extends Controller {
 	 *      requirements={"accountId"="\d+","id"="\d+"}, defaults={"id"=0},
 	 *      options={"expose"="true"}
 	 * )
-	 * @Template(template="MekitContactInfoBundle:AccountAddress:update.html.twig")
+	 * @Template(template="MekitContactInfoBundle:AccountAddress/widget:update.html.twig")
 	 * @AclAncestor("mekit_account_account_update")
 	 * @ParamConverter("account", options={"id" = "accountId"})
 	 */

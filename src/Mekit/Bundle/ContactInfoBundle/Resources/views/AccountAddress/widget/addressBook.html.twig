@@ -20,7 +20,6 @@
                 addressListUrl: {{ path('mekit_api_get_account_addresses', {'accountId': entity.id})|json_encode|raw }},
                 addressCreateUrl: {{ path('mekit_account_address_create', {'accountId': entity.id})|json_encode|raw }},
                 addressUpdateUrl: function() {
-	                /*@todo: this does not work - does not find route*/
                     var address = arguments[0];
                     return routing.generate('mekit_account_address_update',
                         {

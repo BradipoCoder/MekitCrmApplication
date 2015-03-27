@@ -34,7 +34,8 @@ use Oro\Bundle\FormBundle\Entity\PrimaryItem;
  *      }
  * )
  */
-class Address extends AbstractAddress implements PrimaryItem {
+class Address extends AbstractAddress implements PrimaryItem
+{
 	/**
 	 * @var Account
 	 *
@@ -185,6 +186,7 @@ class Address extends AbstractAddress implements PrimaryItem {
 	 * )
 	 */
 	protected $organization;
+
 	/* End of override */
 
 	public function __construct() {
@@ -192,14 +194,51 @@ class Address extends AbstractAddress implements PrimaryItem {
 	}
 
 	/**
-	 * Set Account as owner.
-	 *
-	 * @param Account $owner
+	 * @return bool
+	 */
+	public function isPrimary() {
+		return (bool)$this->primary;
+	}
+
+	/**
+	 * @param bool $primary
 	 * @return $this
 	 */
-	public function setOwnerAccount(Account $owner = null) {
-		$this->owner_account = $owner;
+	public function setPrimary($primary) {
+		if ($primary) {
+			$owner = $this->getAddressOwner();
+			if($owner) {
+				$addresses = $owner->getAddresses();
+				/** @var Address $address */
+				foreach ($addresses as $address) {
+					$address->setPrimary(false);
+				}
+			}
+		}
+		$this->primary = (bool)$primary;
+
 		return $this;
+	}
+
+	/**
+	 * Returns entity which owns this Address
+	 * @return Account|Contact|null
+	 */
+	public function getAddressOwner() {
+		if ($this->isAccountAddress()) {
+			return $this->getOwnerAccount();
+		} else if ($this->isContactAddress()) {
+			return $this->getOwnerContact();
+		}
+
+		return null;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isAccountAddress() {
+		return (!is_null($this->owner_account));
 	}
 
 	/**
@@ -212,21 +251,22 @@ class Address extends AbstractAddress implements PrimaryItem {
 	}
 
 	/**
-	 * @return bool
+	 * Set Account as owner.
+	 *
+	 * @param Account $owner
+	 * @return $this
 	 */
-	public function isAccountAddress() {
-		return (!is_null($this->owner_account));
+	public function setOwnerAccount(Account $owner = null) {
+		$this->owner_account = $owner;
+
+		return $this;
 	}
 
 	/**
-	 * Set Contact as owner.
-	 *
-	 * @param Contact $owner
-	 * @return $this
+	 * @return bool
 	 */
-	public function setOwnerContact(Contact $owner = null) {
-		$this->owner_contact = $owner;
-		return $this;
+	public function isContactAddress() {
+		return (!is_null($this->owner_contact));
 	}
 
 	/**
@@ -239,40 +279,15 @@ class Address extends AbstractAddress implements PrimaryItem {
 	}
 
 	/**
-	 * @return bool
-	 */
-	public function isContactAddress() {
-		return (!is_null($this->owner_contact));
-	}
-
-
-	/**
-	 * Returns entity which owns this Address
-	 * @return Account|Contact|null
-	 */
-	public function getAddressOwner() {
-		if ($this->isAccountAddress()) {
-			return $this->getOwnerAccount();
-		} else if ($this->isContactAddress()) {
-			return $this->getOwnerContact();
-		}
-		return null;
-	}
-
-	/**
-	 * @param bool $primary
+	 * Set Contact as owner.
+	 *
+	 * @param Contact $owner
 	 * @return $this
 	 */
-	public function setPrimary($primary) {
-		$this->primary = (bool)$primary;
-		return $this;
-	}
+	public function setOwnerContact(Contact $owner = null) {
+		$this->owner_contact = $owner;
 
-	/**
-	 * @return bool
-	 */
-	public function isPrimary() {
-		return (bool)$this->primary;
+		return $this;
 	}
 
 	/**
@@ -290,13 +305,12 @@ class Address extends AbstractAddress implements PrimaryItem {
 	}
 
 
-
 	/**
 	 * {@inheritdoc}
 	 */
 	public function isEmpty() {
 		return parent::isEmpty()
-		&& !$this->primary;
+		       && !$this->primary;
 	}
 
 	/**
@@ -327,15 +341,6 @@ class Address extends AbstractAddress implements PrimaryItem {
 	 */
 
 	/**
-	 * @return AddressType
-	 */
-	public function getTypes() {
-		$types = new ArrayCollection();
-		$types->add(new AddressType($this->type));
-		return $types;
-	}
-
-	/**
 	 * @param Collection $types
 	 * @return $this
 	 */
@@ -343,6 +348,7 @@ class Address extends AbstractAddress implements PrimaryItem {
 		/** @var AddressType $type */
 		$type = $types->first();
 		$this->type = $type->getName();
+
 		return $this;
 	}
 
@@ -356,6 +362,16 @@ class Address extends AbstractAddress implements PrimaryItem {
 	}
 
 	/**
+	 * Checks if address has type with specified name
+	 *
+	 * @param string $typeName
+	 * @return bool
+	 */
+	public function hasTypeWithName($typeName) {
+		return null !== $this->getTypeByName($typeName);
+	}
+
+	/**
 	 * Gets instance of address type entity by it's name if it exist.
 	 *
 	 * @param string $typeName
@@ -365,17 +381,18 @@ class Address extends AbstractAddress implements PrimaryItem {
 		if ($this->type === $typeName) {
 			return $this->getTypes();
 		}
+
 		return null;
 	}
 
 	/**
-	 * Checks if address has type with specified name
-	 *
-	 * @param string $typeName
-	 * @return bool
+	 * @return AddressType
 	 */
-	public function hasTypeWithName($typeName) {
-		return null !== $this->getTypeByName($typeName);
+	public function getTypes() {
+		$types = new ArrayCollection();
+		$types->add(new AddressType($this->type));
+
+		return $types;
 	}
 
 	/**
@@ -393,6 +410,7 @@ class Address extends AbstractAddress implements PrimaryItem {
 	 */
 	public function addType(AddressType $type) {
 		$this->type = $type->getName();
+
 		return $this;
 	}
 
@@ -402,6 +420,7 @@ class Address extends AbstractAddress implements PrimaryItem {
 	 */
 	public function removeType(AddressType $type) {
 		$this->type = null;
+
 		return $this;
 	}
 }

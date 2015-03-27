@@ -10,9 +10,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-/**
- * Class ContactAddressController
- */
 class ContactAddressController extends Controller {
 	/**
 	 * @Route("/contact-address-book/{id}", name="mekit_contact_address_book", requirements={"id"="\d+"})
@@ -32,7 +29,7 @@ class ContactAddressController extends Controller {
 	 *      name="mekit_contact_address_create",
 	 *      requirements={"contactId"="\d+"}
 	 * )
-	 * @Template("MekitContactInfoBundle:ContactAddress:update.html.twig")
+	 * @Template(template="MekitContactInfoBundle:ContactAddress/widget:update.html.twig")
 	 * @AclAncestor("mekit_contact_create")
 	 * @ParamConverter("contact", options={"id" = "contactId"})
 	 */
@@ -44,9 +41,10 @@ class ContactAddressController extends Controller {
 	 * @Route(
 	 *      "/{contactId}/contact-address-update/{id}",
 	 *      name="mekit_contact_address_update",
-	 *      requirements={"contactId"="\d+","id"="\d+"}, defaults={"id"=0}
+	 *      requirements={"contactId"="\d+","id"="\d+"}, defaults={"id"=0},
+	 *      options={"expose"="true"}
 	 * )
-	 * @Template("MekitContactInfoBundle:ContactAddress:update.html.twig")
+	 * @Template(template="MekitContactInfoBundle:ContactAddress/widget:update.html.twig")
 	 * @AclAncestor("mekit_contact_update")
 	 * @ParamConverter("contact", options={"id" = "contactId"})
 	 */
@@ -67,8 +65,6 @@ class ContactAddressController extends Controller {
 		);
 
 		if ($this->getRequest()->getMethod() == 'GET' && !$address->getId()) {
-			$address->setFirstName($contact->getFirstName());
-			$address->setLastName($contact->getLastName());
 			if (!$contact->getAddresses()->count()) {
 				$address->setPrimary(true);
 			}
@@ -83,16 +79,14 @@ class ContactAddressController extends Controller {
 		// Update contacts's modification date when an address is changed
 		$contact->setUpdatedAt(new \DateTime('now', new \DateTimeZone('UTC')));
 
-		//todo: define and make it work
-		/*
-		if ($this->get('orocrm_contact.form.handler.contact_address')->process($address)) {
+		if ($this->get('mekit_contact_info.form.handler.address')->process($address)) {
 			$this->getDoctrine()->getManager()->flush();
 			$responseData['entity'] = $address;
 			$responseData['saved'] = true;
 		}
 
-		$responseData['form'] = $this->get('orocrm_contact.contact_address.form')->createView();
-		*/
+		$responseData['form'] = $this->get('mekit_contact_info.form.address')->createView();
+
 		return $responseData;
 	}
 
