@@ -2,13 +2,11 @@ datagrid:
     events-grid:
         extended_entity_name: %mekit_event.event.entity.class%
         source:
-            type:           orm
+            type: orm
             query:
                 select:
                     - e.id
                     - e.type
-                    - e.endDate
-                    - eventPriority.label as priority
                     - >
                         CASE
                             WHEN evTask IS NOT NULL THEN evTask.id
@@ -23,7 +21,8 @@ datagrid:
                             WHEN evMeeting IS NOT NULL THEN evMeeting.name
                             ELSE ''
                             END as eventName
-
+                    - ((CASE WHEN e.endDate IS NULL THEN 50 ELSE 100+DATE_DIFF(CURRENT_DATE(), e.endDate) END) * (CASE WHEN eventPriority.name = 'EVENT_PRIORITY_LOW' THEN 1 WHEN eventPriority.name = 'EVENT_PRIORITY_NORMAL' THEN 2 WHEN eventPriority.name = 'EVENT_PRIORITY_HIGH' THEN 3 ELSE 1 END)) as urgency
+                    - (CASE WHEN e.endDate IS NULL THEN 'N/A' ELSE DATE_DIFF(e.endDate, CURRENT_DATE()) END) as dueInDays
                 from:
                     - { table: %mekit_event.event.entity.class%, alias: e }
                 join:
@@ -41,39 +40,25 @@ datagrid:
                     and:
                         - eventState.name = 'EVENT_STATE_ACTIVE'
                         - (taskUsers.id = @oro_security.security_facade->getLoggedUserId OR callUsers.id = @oro_security.security_facade->getLoggedUserId OR meetingUsers.id = @oro_security.security_facade->getLoggedUserId)
+
+                orderBy:
+                    - { column: urgency, dir: desc}
         columns:
-            type_icon:
+            linked_icon_name:
                 data_name:      type
-                label:          mekit.event.type.label
+                label:          false
                 type:           twig
                 frontend_type:  html
-                template:       MekitEventBundle:Event:Datagrid/Property/eventIcon.html.twig
-            linked_name:
-                data_name:      type
-                label:          mekit.task.name.label
-                type:           twig
-                frontend_type:  html
-                template:       MekitEventBundle:Event:Datagrid/Property/eventLink.html.twig
+                template:       MekitEventBundle:Event:Datagrid/Property/eventIconLink.html.twig
                 context:
                     config_route_key:     view_route_name
-            priority:
-                label:         mekit.event.priority.label
-            endDate:
-                label:         mekit.event.end_date.label
-                frontend_type: date
-        sorters:
-            columns:
-                priority:
-                    data_name: eventPriority.name
-                endDate:
-                    data_name: e.endDate
-            default:
-                endDate: %oro_datagrid.extension.orm_sorter.class%::DIRECTION_ASC
+            dueInDays:
+                label:          mekit.event.dashboard.my_active_events.column.due_in_days
 
         options:
             entityHint: event
             toolbarOptions:
                 hide: true
                 pageSize:
-                    items: [10]
-                    default_per_page: 10
+                    items: [5]
+                    default_per_page: 5

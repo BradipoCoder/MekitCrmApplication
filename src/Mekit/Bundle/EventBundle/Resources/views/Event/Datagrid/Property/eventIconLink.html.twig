@@ -1,0 +1,22 @@
+{#{{ record.getValue('id') }}#}
+{% set entity_config = mkt_ev_type_spec_cfg(value) %}
+{% set entityIcon = entity_config.get('icon') %}
+{% set entityLabel = entity_config.get('label')|trans %}
+
+{% set iconContent = null %}
+{% if entityIcon %}
+    {% set iconContent %}
+    <i class="{{ entityIcon }} hide-text" title="{{ entityLabel }}"></i>
+    {% endset %}
+{% endif %}
+
+{% if config_route_key is defined %}
+	{% set routeName = mkt_ev_type_spec_link(record.getValue('type'), config_route_key) %}
+	{% set linkUri = path(routeName, {'id': record.getValue('linkRefId') }) %}
+	<a href="{{ linkUri }}">{{ iconContent }}{{ record.getValue('eventName') }}</a>
+{% else %}
+	{{ iconContent }}{{ record.getValue('eventName') }}
+{% endif %}
+
+
+

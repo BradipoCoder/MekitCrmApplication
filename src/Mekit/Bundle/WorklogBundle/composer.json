@@ -1,0 +1,17 @@
+{
+    "name": "mekit/worklog-bundle",
+    "type": "symfony-bundle",
+    "description": "Mekit Worklog Bundle",
+    "license": "OSL-3.0",
+    "require": {},
+    "autoload": {
+        "psr-0": { "": "src/" }
+    },
+    "target-dir": "Mekit/Bundle/WorklogBundle",
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}

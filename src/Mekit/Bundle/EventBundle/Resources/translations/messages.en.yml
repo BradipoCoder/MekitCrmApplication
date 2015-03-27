@@ -19,6 +19,8 @@ mekit:
             my_active_events:
                 title:                My Active Events
                 description:          This widget displays all active events(tasks/calls/meetings) assigned to you.
+                column:
+                    due_in_days:      Days due
 
         #
         # Mekit/Bundle/EventBundle/Entity/Event
