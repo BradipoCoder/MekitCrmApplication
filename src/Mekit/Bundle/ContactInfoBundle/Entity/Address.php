@@ -544,45 +544,6 @@ class Address implements PrimaryItem, EmptyItem, AddressInterface
 	}
 
 	/**
-	 * Check if entity is empty.
-	 *
-	 * @return bool
-	 */
-	public function isEmpty() {
-		return empty($this->label)
-		       && empty($this->street)
-		       && empty($this->street2)
-		       && empty($this->city)
-		       && empty($this->region)
-		       && empty($this->regionText)
-		       && empty($this->country)
-		       && empty($this->postalCode);
-	}
-
-	/**
-	 * @param mixed $other
-	 * @return bool
-	 */
-	public function isEqual($other) {
-		$class = ClassUtils::getClass($this);
-
-		if (!$other instanceof $class) {
-			return false;
-		}
-
-		/** @var AbstractAddress $other */
-		if ($this->getId() && $other->getId()) {
-			return $this->getId() == $other->getId();
-		}
-
-		if ($this->getId() || $other->getId()) {
-			return false;
-		}
-
-		return $this === $other;
-	}
-
-	/**
 	 * @return int
 	 */
 	public function getId() {
@@ -597,30 +558,6 @@ class Address implements PrimaryItem, EmptyItem, AddressInterface
 		$this->id = $id;
 
 		return $this;
-	}
-
-	/**
-	 * Convert address to string
-	 *
-	 * @return string
-	 */
-	public function __toString() {
-		$data = array(
-			$this->getLabel(),
-			',',
-			$this->getStreet(),
-			$this->getStreet2(),
-			$this->getCity(),
-			$this->getUniversalRegion(),
-			',',
-			$this->getCountry(),
-			$this->getPostalCode(),
-		);
-
-		$str = implode(' ', $data);
-		$check = trim(str_replace(',', '', $str));
-
-		return empty($check) ? '' : $str;
 	}
 
 	/**
@@ -739,5 +676,87 @@ class Address implements PrimaryItem, EmptyItem, AddressInterface
 		$this->postalCode = $postalCode;
 
 		return $this;
+	}
+
+	/**
+	 * Check if entity is empty.
+	 *
+	 * @return bool
+	 */
+	public function isEmpty() {
+		return empty($this->label)
+		       && empty($this->street)
+		       && empty($this->street2)
+		       && empty($this->city)
+		       && empty($this->region)
+		       && empty($this->regionText)
+		       && empty($this->country)
+		       && empty($this->postalCode);
+	}
+
+	/**
+	 * @param mixed $other
+	 * @return bool
+	 */
+	public function isEqual($other) {
+		$class = ClassUtils::getClass($this);
+
+		if (!$other instanceof $class) {
+			return false;
+		}
+
+		/** @var AbstractAddress $other */
+		if ($this->getId() && $other->getId()) {
+			return $this->getId() == $other->getId();
+		}
+
+		if ($this->getId() || $other->getId()) {
+			return false;
+		}
+
+		return $this === $other;
+	}
+
+	/**
+	 * Convert address to string
+	 *
+	 * @return string
+	 */
+	public function __toString() {
+		$data = array(
+			$this->getLabel(),
+			',',
+			$this->getStreet(),
+			$this->getStreet2(),
+			$this->getCity(),
+			$this->getUniversalRegion(),
+			',',
+			$this->getCountry(),
+			$this->getPostalCode(),
+		);
+
+		$str = implode(' ', $data);
+		$check = trim(str_replace(',', '', $str));
+
+		return empty($check) ? '' : $str;
+	}
+
+	/**
+	 * Pre persist event listener
+	 *
+	 * @ORM\PrePersist
+	 */
+	public function doPrePersist() {
+		$this->created = new \DateTime('now', new \DateTimeZone('UTC'));
+		$this->updated = new \DateTime('now', new \DateTimeZone('UTC'));
+	}
+
+	/**
+	 * Pre update event handler
+	 *
+	 * @ORM\PreUpdate
+	 */
+	public function doPreUpdate() {
+		$this->updated = new \DateTime('now', new \DateTimeZone('UTC'));
 	}
 }

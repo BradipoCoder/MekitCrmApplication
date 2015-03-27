@@ -1,21 +1,16 @@
 <?php
-namespace Mekit\Bundle\AccountBundle\Migrations\Schema\v1_1;
+namespace Mekit\Bundle\ContactBundle\Migrations\Schema\v1_2;
 
 use Doctrine\DBAL\Schema\Schema;
-use Oro\Bundle\MigrationBundle\Migration\Migration;
-use Oro\Bundle\MigrationBundle\Migration\QueryBag;
-
-use Mekit\Bundle\AccountBundle\Migrations\Schema\v1_0\MekitAccountBundle as MigrationBase;
-
+use Mekit\Bundle\ContactBundle\Migrations\Schema\v1_0\MekitContactBundle as MigrationBase;
 use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtension;
 use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtensionAwareInterface;
 use Oro\Bundle\CommentBundle\Migration\Extension\CommentExtension;
 use Oro\Bundle\CommentBundle\Migration\Extension\CommentExtensionAwareInterface;
+use Oro\Bundle\MigrationBundle\Migration\Migration;
+use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
-/**
- * Class MekitAccountBundle
- */
-class MekitAccountBundle implements Migration, CommentExtensionAwareInterface, ActivityExtensionAwareInterface
+class MekitContactBundle implements Migration, CommentExtensionAwareInterface, ActivityExtensionAwareInterface
 {
 	/** @var CommentExtension */
 	protected $commentExtension;
@@ -38,7 +33,7 @@ class MekitAccountBundle implements Migration, CommentExtensionAwareInterface, A
 	}
 
 	/**
-	 * @param Schema $schema
+	 * @param Schema   $schema
 	 * @param QueryBag $queries
 	 */
 	public function up(Schema $schema, QueryBag $queries) {
@@ -53,7 +48,7 @@ class MekitAccountBundle implements Migration, CommentExtensionAwareInterface, A
 	 * @param CommentExtension $commentExtension
 	 */
 	public static function addCommentAssociations(Schema $schema, CommentExtension $commentExtension) {
-		$commentExtension->addCommentAssociation($schema, MigrationBase::$tableNameAccount);
+		$commentExtension->addCommentAssociation($schema, MigrationBase::$tableNameContact);
 	}
 
 	/**
@@ -63,6 +58,6 @@ class MekitAccountBundle implements Migration, CommentExtensionAwareInterface, A
 	 * @param ActivityExtension $activityExtension
 	 */
 	public static function addActivityAssociations(Schema $schema, ActivityExtension $activityExtension) {
-		$activityExtension->addActivityAssociation($schema, 'oro_email', MigrationBase::$tableNameAccount, true);
+		$activityExtension->addActivityAssociation($schema, 'oro_email', MigrationBase::$tableNameContact, true);
 	}
 }
