@@ -1,10 +1,10 @@
 <?php
 namespace Mekit\Bundle\ContactInfoBundle\Controller\Api\Rest;
 
-use FOS\RestBundle\Util\Codes;
 use FOS\RestBundle\Controller\Annotations\NamePrefix;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Routing\ClassResourceInterface;
+use FOS\RestBundle\Util\Codes;
 use Mekit\Bundle\ContactBundle\Entity\Contact;
 use Mekit\Bundle\ContactInfoBundle\Entity\Address;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -17,7 +17,8 @@ use Symfony\Component\HttpFoundation\Response;
  * @RouteResource("address")
  * @NamePrefix("mekit_api_")
  */
-class ContactAddressController extends RestController implements ClassResourceInterface {
+class ContactAddressController extends RestController implements ClassResourceInterface
+{
 
 	/**
 	 * REST GET address
@@ -44,7 +45,35 @@ class ContactAddressController extends RestController implements ClassResourceIn
 			$addressData = $this->getPreparedItem($address);
 		}
 		$responseData = $addressData ? json_encode($addressData) : '';
+
 		return new Response($responseData, $address ? Codes::HTTP_OK : Codes::HTTP_NOT_FOUND);
+	}
+
+	/**
+	 * @return \Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
+	 */
+	protected function getContactManager() {
+		return $this->get('mekit_contact.contact.manager.api');
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getManager() {
+		return $this->get('mekit_contact_info.address.manager.api');
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	protected function getPreparedItem($entity, $resultFields = []) {
+		$result = parent::getPreparedItem($entity);
+		$result['countryIso2'] = $entity->getCountry()->getIso2Code();
+		$result['countryIso3'] = $entity->getCountry()->getIso3Code();
+		$result['regionCode'] = $entity->getRegionCode();
+		unset($result['owner_contact']);
+
+		return $result;
 	}
 
 	/**
@@ -73,8 +102,7 @@ class ContactAddressController extends RestController implements ClassResourceIn
 		}
 
 		return new JsonResponse(
-			$result,
-			empty($contact) ? Codes::HTTP_NOT_FOUND : Codes::HTTP_OK
+			$result, empty($contact) ? Codes::HTTP_NOT_FOUND : Codes::HTTP_OK
 		);
 	}
 
@@ -100,38 +128,11 @@ class ContactAddressController extends RestController implements ClassResourceIn
 			$contact->removeAddress($address);
 			// Update contact's modification date when an address is removed
 			$contact->setUpdatedAt(new \DateTime('now', new \DateTimeZone('UTC')));
+
 			return $this->handleDeleteRequest($addressId);
 		} else {
 			return $this->handleView($this->view(null, Codes::HTTP_NOT_FOUND));
 		}
-	}
-
-	/**
-	 * REST GET address by type
-	 *
-	 * @param string $contactId
-	 * @param string $typeName
-	 *
-	 * @ApiDoc(
-	 *      description="Get contact address by type",
-	 *      resource=true
-	 * )
-	 * @AclAncestor("mekit_contact_view")
-	 * @return Response
-	 */
-	public function getByTypeAction($contactId, $typeName) {
-		/** @var Contact $contact */
-		$contact = $this->getContactManager()->find($contactId);
-
-		if ($contact) {
-			$address = $contact->getAddressByTypeName($typeName);
-		} else {
-			$address = null;
-		}
-
-		$responseData = $address ? json_encode($this->getPreparedItem($address)) : '';
-
-		return new Response($responseData, $address ? Codes::HTTP_OK : Codes::HTTP_NOT_FOUND);
 	}
 
 	/**
@@ -162,20 +163,6 @@ class ContactAddressController extends RestController implements ClassResourceIn
 	}
 
 	/**
-	 * @return \Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
-	 */
-	protected function getContactManager() {
-		return $this->get('mekit_contact.contact.manager.api');
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getManager() {
-		return $this->get('mekit_contact_info.address.manager.api');
-	}
-
-	/**
 	 * {@inheritdoc}
 	 */
 	public function getForm() {
@@ -187,28 +174,5 @@ class ContactAddressController extends RestController implements ClassResourceIn
 	 */
 	public function getFormHandler() {
 		throw new \BadMethodCallException('FormHandler is not available.');
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	protected function getPreparedItem($entity, $resultFields = []) {
-		// convert addresses to plain array
-		$addressTypesData = array();
-
-		/** @var $entity Address */
-		foreach ($entity->getTypes() as $addressType) {
-			$addressTypesData[] = parent::getPreparedItem($addressType);
-		}
-
-		$result = parent::getPreparedItem($entity);
-		$result['types'] = $addressTypesData;
-		$result['countryIso2'] = $entity->getCountry()->getIso2Code();
-		$result['countryIso3'] = $entity->getCountry()->getIso3Code();
-		$result['regionCode'] = $entity->getRegionCode();
-
-		unset($result['owner_contact']);
-
-		return $result;
 	}
 }

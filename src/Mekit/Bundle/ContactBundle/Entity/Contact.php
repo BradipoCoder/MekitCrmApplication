@@ -4,10 +4,8 @@ namespace Mekit\Bundle\ContactBundle\Entity;
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
-
 use Mekit\Bundle\ContactBundle\Model\ExtendContact;
-
+use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
 use Oro\Bundle\EmailBundle\Entity\EmailOwnerInterface;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
@@ -67,10 +65,8 @@ use Oro\Bundle\UserBundle\Entity\User;
  *      }
  * )
  */
-class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
-	/*
-	 * Fields have to be duplicated here to enable dataaudit and soap transformation only for contact
-	 */
+class Contact extends ExtendContact implements Taggable, EmailOwnerInterface
+{
 	/**
 	 * @var int
 	 *
@@ -222,6 +218,13 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	 * )
 	 */
 	protected $birthday;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="email", type="string", length=255, nullable=true)
+	 */
+	protected $email;
 
 	/**
 	 * @var string
@@ -419,11 +422,53 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	}
 
 	/**
-	 * @param string $description
+	 * @return string
+	 */
+	public function getGender() {
+		return $this->gender;
+	}
+
+	/**
+	 * @param string $gender
 	 * @return $this
 	 */
-	public function setDescription($description) {
-		$this->description = $description;
+	public function setGender($gender) {
+		$this->gender = $gender;
+
+		return $this;
+	}
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getBirthday() {
+		return $this->birthday;
+	}
+
+	/**
+	 * @param \DateTime $birthday
+	 * @return $this
+	 */
+	public function setBirthday($birthday) {
+		$this->birthday = $birthday;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getEmail() {
+		return $this->email;
+	}
+
+	/**
+	 * @param string $email
+	 * @return $this
+	 */
+	public function setEmail($email) {
+		$this->email = $email;
+
 		return $this;
 	}
 
@@ -435,11 +480,12 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	}
 
 	/**
-	 * @param string $skype
+	 * @param string $description
 	 * @return $this
 	 */
-	public function setSkype($skype) {
-		$this->skype = $skype;
+	public function setDescription($description) {
+		$this->description = $description;
+
 		return $this;
 	}
 
@@ -451,11 +497,12 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	}
 
 	/**
-	 * @param string $facebookUrl
+	 * @param string $skype
 	 * @return $this
 	 */
-	public function setFacebook($facebookUrl) {
-		$this->facebook = $facebookUrl;
+	public function setSkype($skype) {
+		$this->skype = $skype;
+
 		return $this;
 	}
 
@@ -467,11 +514,12 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	}
 
 	/**
-	 * @param string $googlePlusUrl
+	 * @param string $facebookUrl
 	 * @return $this
 	 */
-	public function setGooglePlus($googlePlusUrl) {
-		$this->googlePlus = $googlePlusUrl;
+	public function setFacebook($facebookUrl) {
+		$this->facebook = $facebookUrl;
+
 		return $this;
 	}
 
@@ -483,11 +531,12 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	}
 
 	/**
-	 * @param string $linkedInUrl
+	 * @param string $googlePlusUrl
 	 * @return $this
 	 */
-	public function setLinkedIn($linkedInUrl) {
-		$this->linkedIn = $linkedInUrl;
+	public function setGooglePlus($googlePlusUrl) {
+		$this->googlePlus = $googlePlusUrl;
+
 		return $this;
 	}
 
@@ -499,11 +548,12 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	}
 
 	/**
-	 * @param string $twitterUrl
+	 * @param string $linkedInUrl
 	 * @return $this
 	 */
-	public function setTwitter($twitterUrl) {
-		$this->twitter = $twitterUrl;
+	public function setLinkedIn($linkedInUrl) {
+		$this->linkedIn = $linkedInUrl;
+
 		return $this;
 	}
 
@@ -512,6 +562,16 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	 */
 	public function getTwitter() {
 		return $this->twitter;
+	}
+
+	/**
+	 * @param string $twitterUrl
+	 * @return $this
+	 */
+	public function setTwitter($twitterUrl) {
+		$this->twitter = $twitterUrl;
+
+		return $this;
 	}
 
 	/**
@@ -527,17 +587,7 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	 */
 	public function setOwner(User $owningUser) {
 		$this->owner = $owningUser;
-		return $this;
-	}
 
-	/**
-	 * Set organization
-	 *
-	 * @param Organization $organization
-	 * @return $this
-	 */
-	public function setOrganization(Organization $organization = null) {
-		$this->organization = $organization;
 		return $this;
 	}
 
@@ -551,6 +601,18 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	}
 
 	/**
+	 * Set organization
+	 *
+	 * @param Organization $organization
+	 * @return $this
+	 */
+	public function setOrganization(Organization $organization = null) {
+		$this->organization = $organization;
+
+		return $this;
+	}
+
+	/**
 	 * Taggable interface requirement
 	 * {@inheritdoc}
 	 */
@@ -559,10 +621,29 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	}
 
 	/**
+	 * @return int
+	 */
+	public function getId() {
+		return $this->id;
+	}
+
+	/**
+	 * @param int $id
+	 *
+	 * @return $this
+	 */
+	public function setId($id) {
+		$this->id = $id;
+
+		return $this;
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function getTags() {
 		$this->tags = $this->tags ?: new ArrayCollection();
+
 		return $this->tags;
 	}
 
@@ -572,6 +653,41 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	 */
 	public function setTags($tags) {
 		$this->tags = $tags;
+
+		return $this;
+	}
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getCreatedAt() {
+		return $this->createdAt;
+	}
+
+	/**
+	 * @param \DateTime $createdAt
+	 * @return $this
+	 */
+	public function setCreatedAt($createdAt) {
+		$this->createdAt = $createdAt;
+
+		return $this;
+	}
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getUpdatedAt() {
+		return $this->updatedAt;
+	}
+
+	/**
+	 * @param \DateTime $updatedAt
+	 * @return $this
+	 */
+	public function setUpdatedAt($updatedAt) {
+		$this->updatedAt = $updatedAt;
+
 		return $this;
 	}
 
@@ -596,21 +712,104 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface {
 	/**
 	 * @return string
 	 */
+	public function __toString() {
+		return $this->getFullName();
+	}
+
+	/**
+	 * @return string
+	 */
 	public function getFullName() {
-		$name = $this->getNamePrefix() . ' '
-			. $this->getFirstName() . ' '
-			. $this->getMiddleName() . ' '
-			. $this->getLastName() . ' '
-			. $this->getNameSuffix();
+		$name = $this->getNamePrefix() . ' ' . $this->getFirstName() . ' ' . $this->getMiddleName() . ' '
+		        . $this->getLastName() . ' ' . $this->getNameSuffix();
 		$name = preg_replace('/ +/', ' ', $name);
+
 		return (string)trim($name);
 	}
 
 	/**
 	 * @return string
 	 */
-	public function __toString() {
-		return $this->getFullName();
+	public function getNamePrefix() {
+		return $this->namePrefix;
+	}
+
+	/**
+	 * @param string $namePrefix
+	 * @return $this
+	 */
+	public function setNamePrefix($namePrefix) {
+		$this->namePrefix = $namePrefix;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getFirstName() {
+		return $this->firstName;
+	}
+
+	/**
+	 * @param string $firstName
+	 * @return $this
+	 */
+	public function setFirstName($firstName) {
+		$this->firstName = $firstName;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getMiddleName() {
+		return $this->middleName;
+	}
+
+	/**
+	 * @param string $middleName
+	 * @return $this
+	 */
+	public function setMiddleName($middleName) {
+		$this->middleName = $middleName;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLastName() {
+		return $this->lastName;
+	}
+
+	/**
+	 * @param string $lastName
+	 * @return $this
+	 */
+	public function setLastName($lastName) {
+		$this->lastName = $lastName;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getNameSuffix() {
+		return $this->nameSuffix;
+	}
+
+	/**
+	 * @param string $nameSuffix
+	 * @return $this
+	 */
+	public function setNameSuffix($nameSuffix) {
+		$this->nameSuffix = $nameSuffix;
+
+		return $this;
 	}
 
 	/**

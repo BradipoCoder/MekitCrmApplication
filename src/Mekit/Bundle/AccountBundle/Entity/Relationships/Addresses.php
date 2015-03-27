@@ -6,7 +6,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Mekit\Bundle\ContactInfoBundle\Entity\Address;
-use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 
@@ -40,10 +39,10 @@ class Addresses extends ListItems
 	/**
 	 * Remove address
 	 *
-	 * @param AbstractAddress $address
+	 * @param Address $address
 	 * @return $this
 	 */
-	public function removeAddress(AbstractAddress $address) {
+	public function removeAddress(Address $address) {
 		if ($this->addresses->contains($address)) {
 			$this->addresses->removeElement($address);
 		}
@@ -52,17 +51,52 @@ class Addresses extends ListItems
 	}
 
 	/**
-	 * @param AbstractAddress $address
-	 * @return bool
+	 * @param $addresses
+	 * @return $this
 	 */
-	public function hasAddress(AbstractAddress $address) {
-		return $this->getAddresses()->contains($address);
+	public function resetAddresses($addresses) {
+		return $this->setAddresses($addresses);
+	}
+
+	/**
+	 * Add address
+	 *
+	 * @param Address $address
+	 *
+	 * @return $this
+	 */
+	public function addAddress(Address $address) {
+		/** @var Address $address */
+		if (!$this->addresses->contains($address)) {
+			$this->addresses->add($address);
+			$address->setOwnerAccount($this);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Gets primary address if it's available.
+	 *
+	 * @return Address|null
+	 */
+	public function getPrimaryAddress() {
+		$result = null;
+		/** @var Address $address */
+		foreach ($this->getAddresses() as $address) {
+			if ($address->isPrimary()) {
+				$result = $address;
+				break;
+			}
+		}
+
+		return $result;
 	}
 
 	/**
 	 * Get addresses
 	 *
-	 * @return Collection|AbstractAddress[]
+	 * @return Collection|Address[]
 	 */
 	public function getAddresses() {
 		return $this->addresses;
@@ -71,7 +105,7 @@ class Addresses extends ListItems
 	/**
 	 * Set addresses.
 	 *
-	 * @param Collection|AbstractAddress[] $addresses
+	 * @param Collection|Address[] $addresses
 	 * @return $this
 	 */
 	public function setAddresses($addresses) {
@@ -85,19 +119,28 @@ class Addresses extends ListItems
 	}
 
 	/**
-	 * Add address
-	 *
-	 * @param AbstractAddress $address
-	 *
+	 * @param Address $address
 	 * @return $this
 	 */
-	public function addAddress(AbstractAddress $address) {
-		/** @var Address $address */
-		if (!$this->addresses->contains($address)) {
-			$this->addresses->add($address);
-			$address->setOwnerAccount($this);
+	public function setPrimaryAddress(Address $address) {
+		if ($this->hasAddress($address)) {
+			$address->setPrimary(true);
+			/** @var Address $otherAddress */
+			foreach ($this->getAddresses() as $otherAddress) {
+				if (!$address->isEqual($otherAddress)) {
+					$otherAddress->setPrimary(false);
+				}
+			}
 		}
 
 		return $this;
+	}
+
+	/**
+	 * @param Address $address
+	 * @return bool
+	 */
+	public function hasAddress(Address $address) {
+		return $this->getAddresses()->contains($address);
 	}
 }

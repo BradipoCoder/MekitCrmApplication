@@ -33,7 +33,6 @@ class MekitContactInfoBundle implements Migration {
 		$table->addColumn('contact_id', 'integer', ['notnull' => false]);
 		$table->addColumn('region_code', 'string', ['notnull' => false, 'length' => 16]);
 		$table->addColumn('country_code', 'string', ['notnull' => false, 'length' => 2]);
-		$table->addColumn('type', 'string', ['notnull' => false, 'length' => 16]);
 		$table->addColumn('is_primary', 'boolean', ['notnull' => false]);
 		$table->addColumn('label', 'string', ['notnull' => false, 'length' => 255]);
 		$table->addColumn('street', 'string', ['notnull' => false, 'length' => 500]);
@@ -42,11 +41,6 @@ class MekitContactInfoBundle implements Migration {
 		$table->addColumn('postal_code', 'string', ['notnull' => false, 'length' => 255]);
 		$table->addColumn('organization', 'string', ['notnull' => false, 'length' => 255]);
 		$table->addColumn('region_text', 'string', ['notnull' => false, 'length' => 255]);
-		$table->addColumn('name_prefix', 'string', ['notnull' => false, 'length' => 255]);
-		$table->addColumn('first_name', 'string', ['notnull' => false, 'length' => 255]);
-		$table->addColumn('middle_name', 'string', ['notnull' => false, 'length' => 255]);
-		$table->addColumn('last_name', 'string', ['notnull' => false, 'length' => 255]);
-		$table->addColumn('name_suffix', 'string', ['notnull' => false, 'length' => 255]);
 		$table->addColumn('created', 'datetime', []);
 		$table->addColumn('updated', 'datetime', []);
 

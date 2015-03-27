@@ -1,18 +1,17 @@
 <?php
 namespace Mekit\Bundle\ContactBundle\Entity\Relationships;
 
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
-
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 use Mekit\Bundle\MeetingBundle\Entity\Meeting;
-use Oro\Bundle\BusinessEntitiesBundle\Entity\BasePerson;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 
 /**
  * @ORM\MappedSuperclass
  */
-class RelatedMeetings extends BasePerson {
+class RelatedMeetings
+{
 	/**
 	 * @var ArrayCollection
 	 * @ORM\ManyToMany(targetEntity="Mekit\Bundle\MeetingBundle\Entity\Meeting", mappedBy="contacts")
@@ -28,8 +27,29 @@ class RelatedMeetings extends BasePerson {
 
 
 	public function __construct() {
-		parent::__construct();
+		//parent::__construct();
 		$this->meetings = new ArrayCollection();
+	}
+
+	/**
+	 * @param Meeting $meeting
+	 * @return $this
+	 */
+	public function removeMeeting(Meeting $meeting) {
+		if ($this->meetings->contains($meeting)) {
+			$this->meetings->removeElement($meeting);
+			$meeting->removeContact($this);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @param Meeting $meeting
+	 * @return bool
+	 */
+	public function hasMeeting(Meeting $meeting) {
+		return $this->getMeetings()->contains($meeting);
 	}
 
 	/**
@@ -48,6 +68,7 @@ class RelatedMeetings extends BasePerson {
 		foreach ($meetings as $meeting) {
 			$this->addMeeting($meeting);
 		}
+
 		return $this;
 	}
 
@@ -60,26 +81,7 @@ class RelatedMeetings extends BasePerson {
 			$this->meetings->add($meeting);
 			$meeting->addContact($this);
 		}
-		return $this;
-	}
 
-	/**
-	 * @param Meeting $meeting
-	 * @return $this
-	 */
-	public function removeMeeting(Meeting $meeting) {
-		if ($this->meetings->contains($meeting)) {
-			$this->meetings->removeElement($meeting);
-			$meeting->removeContact($this);
-		}
 		return $this;
-	}
-
-	/**
-	 * @param Meeting $meeting
-	 * @return bool
-	 */
-	public function hasMeeting(Meeting $meeting) {
-		return $this->getMeetings()->contains($meeting);
 	}
 }

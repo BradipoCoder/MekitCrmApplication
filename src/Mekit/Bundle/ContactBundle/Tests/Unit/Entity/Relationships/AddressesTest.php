@@ -65,42 +65,5 @@ class AddressesTest extends MekitUnitEntityTest {
 		$this->assertFalse($address->isPrimary());
 	}
 
-	public function testGetAddressByTypeName() {
-		$entity = new Contact();
-		$this->assertNull($entity->getAddressByTypeName('billing'));
 
-		$address = new Address();
-		$address->addType(new AddressType('billing'));
-		$entity->addAddress($address);
-
-		$this->assertSame($address, $entity->getAddressByTypeName('billing'));
-	}
-
-	public function testGetAddressByType() {
-		$address = new Address();
-		$addressType = new AddressType('billing');
-		$address->addType($addressType);
-
-		$entity = new Contact();
-		$this->assertNull($entity->getAddressByType($addressType));
-
-		$entity->addAddress($address);
-		$this->assertSame($address, $entity->getAddressByType($addressType));
-	}
-
-	public function testSetAddressType() {
-		$entity = new Contact();
-
-		$shippingType = new AddressType('shipping');
-		$addressOne = new Address();
-		$addressOne->addType($shippingType);
-		$entity->addAddress($addressOne);
-
-		$addressTwo = new Address();
-		$entity->addAddress($addressTwo);
-
-		$entity->setAddressType($addressTwo, $shippingType);
-		$this->assertFalse($addressOne->hasTypeWithName('shipping'));
-		$this->assertTrue($addressTwo->hasTypeWithName('shipping'));
-	}
 }

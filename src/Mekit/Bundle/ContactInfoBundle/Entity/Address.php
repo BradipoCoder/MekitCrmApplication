@@ -2,16 +2,18 @@
 namespace Mekit\Bundle\ContactInfoBundle\Entity;
 
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\Mapping as ORM;
 use Mekit\Bundle\AccountBundle\Entity\Account;
 use Mekit\Bundle\ContactBundle\Entity\Contact;
 use Oro\Bundle\AddressBundle\Entity\AbstractAddress;
-use Oro\Bundle\AddressBundle\Entity\AddressType;
+use Oro\Bundle\AddressBundle\Entity\Country;
+use Oro\Bundle\AddressBundle\Entity\Region;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+use Oro\Bundle\FormBundle\Entity\EmptyItem;
 use Oro\Bundle\FormBundle\Entity\PrimaryItem;
+use Oro\Bundle\LocaleBundle\Model\AddressInterface;
 
 /**
  * @ORM\Entity
@@ -34,8 +36,25 @@ use Oro\Bundle\FormBundle\Entity\PrimaryItem;
  *      }
  * )
  */
-class Address extends AbstractAddress implements PrimaryItem
+class Address implements PrimaryItem, EmptyItem, AddressInterface
 {
+	/**
+	 * @var integer
+	 *
+	 * @ORM\Column(name="id", type="integer")
+	 * @ORM\Id
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 * @Soap\ComplexType("int", nillable=true)
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "importexport"={
+	 *              "excluded"=true
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $id;
+
 	/**
 	 * @var Account
 	 *
@@ -67,21 +86,6 @@ class Address extends AbstractAddress implements PrimaryItem
 	protected $owner_contact;
 
 	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="type", type="string", length=16, nullable=true)
-	 * @Soap\ComplexType("string", nillable=true)
-	 * @ConfigField(
-	 *      defaultValues={
-	 *          "importexport"={
-	 *              "excluded"=true
-	 *          }
-	 *      }
-	 * )
-	 */
-	protected $type;
-
-	/**
 	 * @var boolean
 	 *
 	 * @ORM\Column(name="is_primary", type="boolean", nullable=true)
@@ -96,81 +100,134 @@ class Address extends AbstractAddress implements PrimaryItem
 	 */
 	protected $primary;
 
-	/* The attributes below are overridden here because we are excluding them from import/export */
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="name_prefix", type="string", length=255, nullable=true)
+	 * @ORM\Column(name="label", type="string", length=255, nullable=true)
 	 * @Soap\ComplexType("string", nillable=true)
 	 * @ConfigField(
 	 *      defaultValues={
 	 *          "importexport"={
-	 *              "excluded"=true
+	 *              "order"=10
 	 *          }
 	 *      }
 	 * )
 	 */
-	protected $namePrefix;
+	protected $label;
 
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="first_name", type="string", length=255, nullable=true)
+	 * @ORM\Column(name="street", type="string", length=500, nullable=true)
 	 * @Soap\ComplexType("string", nillable=true)
 	 * @ConfigField(
 	 *      defaultValues={
 	 *          "importexport"={
-	 *              "excluded"=true
+	 *              "order"=80,
+	 *              "identity"=true
 	 *          }
 	 *      }
 	 * )
 	 */
-	protected $firstName;
+	protected $street;
 
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="middle_name", type="string", length=255, nullable=true)
+	 * @ORM\Column(name="street2", type="string", length=500, nullable=true)
 	 * @Soap\ComplexType("string", nillable=true)
 	 * @ConfigField(
 	 *      defaultValues={
 	 *          "importexport"={
-	 *              "excluded"=true
+	 *              "order"=90
 	 *          }
 	 *      }
 	 * )
 	 */
-	protected $middleName;
+	protected $street2;
 
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="last_name", type="string", length=255, nullable=true)
+	 * @ORM\Column(name="city", type="string", length=255, nullable=true)
 	 * @Soap\ComplexType("string", nillable=true)
 	 * @ConfigField(
 	 *      defaultValues={
 	 *          "importexport"={
-	 *              "excluded"=true
+	 *              "order"=110,
+	 *              "identity"=true
 	 *          }
 	 *      }
 	 * )
 	 */
-	protected $lastName;
+	protected $city;
 
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="name_suffix", type="string", length=255, nullable=true)
+	 * @ORM\Column(name="postal_code", type="string", length=255, nullable=true)
 	 * @Soap\ComplexType("string", nillable=true)
 	 * @ConfigField(
 	 *      defaultValues={
 	 *          "importexport"={
-	 *              "excluded"=true
+	 *              "order"=100,
+	 *              "identity"=true
 	 *          }
 	 *      }
 	 * )
 	 */
-	protected $nameSuffix;
+	protected $postalCode;
+
+	/**
+	 * @var Country
+	 *
+	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\AddressBundle\Entity\Country")
+	 * @ORM\JoinColumn(name="country_code", referencedColumnName="iso2_code")
+	 * @Soap\ComplexType("string", nillable=false)
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "importexport"={
+	 *              "order"=140,
+	 *              "short"=true,
+	 *              "identity"=true
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $country;
+
+	/**
+	 * @var Region
+	 *
+	 * @ORM\ManyToOne(targetEntity="Oro\Bundle\AddressBundle\Entity\Region")
+	 * @ORM\JoinColumn(name="region_code", referencedColumnName="combined_code")
+	 * @Soap\ComplexType("string", nillable=true)
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "importexport"={
+	 *              "order"=130,
+	 *              "short"=true,
+	 *              "identity"=true
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $region;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="region_text", type="string", length=255, nullable=true)
+	 * @Soap\ComplexType("string", nillable=true)
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "importexport"={
+	 *              "order"=120
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $regionText;
 
 	/**
 	 * @var string
@@ -180,14 +237,47 @@ class Address extends AbstractAddress implements PrimaryItem
 	 * @ConfigField(
 	 *      defaultValues={
 	 *          "importexport"={
-	 *              "excluded"=true
+	 *              "order"=20
 	 *          }
 	 *      }
 	 * )
 	 */
 	protected $organization;
 
-	/* End of override */
+	/**
+	 * @var \DateTime $created
+	 *
+	 * @ORM\Column(type="datetime")
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "entity"={
+	 *              "label"="oro.ui.created_at"
+	 *          },
+	 *          "importexport"={
+	 *              "excluded"=true
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $created;
+
+	/**
+	 * @var \DateTime $updated
+	 *
+	 * @ORM\Column(type="datetime")
+	 * @ConfigField(
+	 *      defaultValues={
+	 *          "entity"={
+	 *              "label"="oro.ui.updated_at"
+	 *          },
+	 *          "importexport"={
+	 *              "excluded"=true
+	 *          }
+	 *      }
+	 * )
+	 */
+	protected $updated;
+
 
 	public function __construct() {
 		$this->primary = false;
@@ -291,31 +381,135 @@ class Address extends AbstractAddress implements PrimaryItem
 	}
 
 	/**
+	 * Get name of region
+	 *
 	 * @return string
 	 */
-	public function getType() {
-		return $this->type;
+	public function getRegionName() {
+		return $this->getRegion() ? $this->getRegion()->getName() : $this->getRegionText();
 	}
 
 	/**
-	 * @param string $type
-	 */
-	public function setType($type) {
-		$this->type = $type;
-	}
-
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function isEmpty() {
-		return parent::isEmpty()
-		       && !$this->primary;
-	}
-
-	/**
-	 * Get address created date/time
+	 * Get region
 	 *
+	 * @return Region
+	 */
+	public function getRegion() {
+		return $this->region;
+	}
+
+	/**
+	 * Set region
+	 *
+	 * @param Region $region
+	 * @return $this
+	 */
+	public function setRegion($region) {
+		$this->region = $region;
+
+		return $this;
+	}
+
+	/**
+	 * Get region test
+	 *
+	 * @return string
+	 */
+	public function getRegionText() {
+		return $this->regionText;
+	}
+
+	/**
+	 * Set region text
+	 *
+	 * @param string $regionText
+	 * @return $this
+	 */
+	public function setRegionText($regionText) {
+		$this->regionText = $regionText;
+
+		return $this;
+	}
+
+	/**
+	 * Get code of region
+	 *
+	 * @return string
+	 */
+	public function getRegionCode() {
+		return $this->getRegion() ? $this->getRegion()->getCode() : '';
+	}
+
+	/**
+	 * Get name of country
+	 *
+	 * @return string
+	 */
+	public function getCountryName() {
+		return $this->getCountry() ? $this->getCountry()->getName() : '';
+	}
+
+	/**
+	 * Get country
+	 *
+	 * @return Country
+	 */
+	public function getCountry() {
+		return $this->country;
+	}
+
+	/**
+	 * Set country
+	 *
+	 * @param Country $country
+	 * @return $this
+	 */
+	public function setCountry($country) {
+		$this->country = $country;
+
+		return $this;
+	}
+
+	/**
+	 * Get country ISO3 code
+	 *
+	 * @return string
+	 */
+	public function getCountryIso3() {
+		return $this->getCountry() ? $this->getCountry()->getIso3Code() : '';
+	}
+
+	/**
+	 * Get country ISO2 code
+	 *
+	 * @return string
+	 */
+	public function getCountryIso2() {
+		return $this->getCountry() ? $this->getCountry()->getIso2Code() : '';
+	}
+
+	/**
+	 * Get organization
+	 *
+	 * @return string
+	 */
+	public function getOrganization() {
+		return $this->organization;
+	}
+
+	/**
+	 * Sets organization
+	 *
+	 * @param string $organization
+	 * @return $this
+	 */
+	public function setOrganization($organization) {
+		$this->organization = $organization;
+
+		return $this;
+	}
+
+	/**
 	 * @return \DateTime
 	 */
 	public function getCreated() {
@@ -323,103 +517,226 @@ class Address extends AbstractAddress implements PrimaryItem
 	}
 
 	/**
-	 * Get address last update date/time
-	 *
+	 * @param \DateTime $created
+	 * @return $this
+	 */
+	public function setCreated($created) {
+		$this->created = $created;
+
+		return $this;
+	}
+
+	/**
 	 * @return \DateTime
 	 */
 	public function getUpdated() {
 		return $this->updated;
 	}
 
-
 	/**
-	 * TODO: ALL THIS(TYPE/TYPES) IS TO BE REMOVED
-	 * We will be using 'label' for addresses
-	 * We also need to create a custom "AbstractAddress" removing fields:
-	 * [$organization, $namePrefix, $firstName, $middleName, $lastName, $nameSuffix]
-	 * Also,
-	 */
-
-	/**
-	 * @param Collection $types
+	 * @param \DateTime $updated
 	 * @return $this
 	 */
-	public function setTypes(Collection $types) {
-		/** @var AddressType $type */
-		$type = $types->first();
-		$this->type = $type->getName();
+	public function setUpdated($updated) {
+		$this->updated = $updated;
 
 		return $this;
 	}
 
 	/**
-	 * Get list of address types names
+	 * Check if entity is empty.
 	 *
-	 * @return array
-	 */
-	public function getTypeNames() {
-		return [$this->type];
-	}
-
-	/**
-	 * Checks if address has type with specified name
-	 *
-	 * @param string $typeName
 	 * @return bool
 	 */
-	public function hasTypeWithName($typeName) {
-		return null !== $this->getTypeByName($typeName);
+	public function isEmpty() {
+		return empty($this->label)
+		       && empty($this->street)
+		       && empty($this->street2)
+		       && empty($this->city)
+		       && empty($this->region)
+		       && empty($this->regionText)
+		       && empty($this->country)
+		       && empty($this->postalCode);
 	}
 
 	/**
-	 * Gets instance of address type entity by it's name if it exist.
-	 *
-	 * @param string $typeName
-	 * @return AddressType|null
+	 * @param mixed $other
+	 * @return bool
 	 */
-	public function getTypeByName($typeName) {
-		if ($this->type === $typeName) {
-			return $this->getTypes();
+	public function isEqual($other) {
+		$class = ClassUtils::getClass($this);
+
+		if (!$other instanceof $class) {
+			return false;
 		}
 
-		return null;
+		/** @var AbstractAddress $other */
+		if ($this->getId() && $other->getId()) {
+			return $this->getId() == $other->getId();
+		}
+
+		if ($this->getId() || $other->getId()) {
+			return false;
+		}
+
+		return $this === $other;
 	}
 
 	/**
-	 * @return AddressType
+	 * @return int
 	 */
-	public function getTypes() {
-		$types = new ArrayCollection();
-		$types->add(new AddressType($this->type));
-
-		return $types;
+	public function getId() {
+		return $this->id;
 	}
 
 	/**
-	 * Get list of address types names(@todo: let's do something about this)
-	 *
-	 * @return array
-	 */
-	public function getTypeLabels() {
-		return [$this->type];
-	}
-
-	/**
-	 * @param AddressType $type
+	 * @param int $id
 	 * @return $this
 	 */
-	public function addType(AddressType $type) {
-		$this->type = $type->getName();
+	public function setId($id) {
+		$this->id = $id;
 
 		return $this;
 	}
 
 	/**
-	 * @param AddressType $type
+	 * Convert address to string
+	 *
+	 * @return string
+	 */
+	public function __toString() {
+		$data = array(
+			$this->getLabel(),
+			',',
+			$this->getStreet(),
+			$this->getStreet2(),
+			$this->getCity(),
+			$this->getUniversalRegion(),
+			',',
+			$this->getCountry(),
+			$this->getPostalCode(),
+		);
+
+		$str = implode(' ', $data);
+		$check = trim(str_replace(',', '', $str));
+
+		return empty($check) ? '' : $str;
+	}
+
+	/**
+	 * Get label
+	 *
+	 * @return string
+	 */
+	public function getLabel() {
+		return $this->label;
+	}
+
+	/**
+	 * Set label
+	 *
+	 * @param string $label
 	 * @return $this
 	 */
-	public function removeType(AddressType $type) {
-		$this->type = null;
+	public function setLabel($label) {
+		$this->label = $label;
+
+		return $this;
+	}
+
+	/**
+	 * Get street
+	 *
+	 * @return string
+	 */
+	public function getStreet() {
+		return $this->street;
+	}
+
+	/**
+	 * Set street
+	 *
+	 * @param string $street
+	 * @return $this
+	 */
+	public function setStreet($street) {
+		$this->street = $street;
+
+		return $this;
+	}
+
+	/**
+	 * Get street2
+	 *
+	 * @return string
+	 */
+	public function getStreet2() {
+		return $this->street2;
+	}
+
+	/**
+	 * Set street2
+	 *
+	 * @param string $street2
+	 * @return $this
+	 */
+	public function setStreet2($street2) {
+		$this->street2 = $street2;
+
+		return $this;
+	}
+
+	/**
+	 * Get city
+	 *
+	 * @return string
+	 */
+	public function getCity() {
+		return $this->city;
+	}
+
+	/**
+	 * Set city
+	 *
+	 * @param string $city
+	 * @return $this
+	 */
+	public function setCity($city) {
+		$this->city = $city;
+
+		return $this;
+	}
+
+	/**
+	 * Get region or region string
+	 *
+	 * @return Region|string
+	 */
+	public function getUniversalRegion() {
+		if (!empty($this->regionText)) {
+			return $this->regionText;
+		} else {
+			return $this->region;
+		}
+	}
+
+	/**
+	 * Get postal_code
+	 *
+	 * @return string
+	 */
+	public function getPostalCode() {
+		return $this->postalCode;
+	}
+
+	/**
+	 * Set postal_code
+	 *
+	 * @param string $postalCode
+	 * @return $this
+	 */
+	public function setPostalCode($postalCode) {
+		$this->postalCode = $postalCode;
 
 		return $this;
 	}
