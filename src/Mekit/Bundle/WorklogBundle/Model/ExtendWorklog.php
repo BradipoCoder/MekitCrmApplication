@@ -1,7 +1,7 @@
 <?php
-namespace Mekit\Bundle\TaskBundle\Model;
+namespace Mekit\Bundle\WorklogBundle\Model;
 
-use Mekit\Bundle\TaskBundle\Entity\Relationships\Worklog\RelatedTask;
+use Mekit\Bundle\WorklogBundle\Entity\Relationships\Worklog\RelatedTask;
 /**
  * Class ExtendTask
  */

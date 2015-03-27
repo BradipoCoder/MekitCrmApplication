@@ -1,11 +1,11 @@
 <?php
-namespace Mekit\Bundle\TaskBundle\Form\Handler;
+namespace Mekit\Bundle\WorklogBundle\Form\Handler;
 
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 
-use Mekit\Bundle\TaskBundle\Entity\Worklog;
+use Mekit\Bundle\WorklogBundle\Entity\Worklog;
 
 /**
  * Class WorklogHandler

@@ -1,16 +1,16 @@
 <?php
-namespace Mekit\Bundle\TaskBundle\Entity;
+namespace Mekit\Bundle\WorklogBundle\Entity;
 
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\ORM\Mapping as ORM;
-use Mekit\Bundle\TaskBundle\Model\ExtendWorklog;
+use Mekit\Bundle\WorklogBundle\Model\ExtendWorklog;
 use Oro\Bundle\DataAuditBundle\Metadata\Annotation as Oro;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\UserBundle\Entity\User;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Mekit\Bundle\WorklogBundle\Entity\Repository\WorklogRepository")
  * @ORM\Table(name="mekit_worklog", indexes={
  *      @ORM\Index(name="idx_worklog_exec_date", columns={"execution_date"})
  * })
@@ -103,7 +103,7 @@ class Worklog extends ExtendWorklog
 	 * Constructor
 	 */
 	public function __construct() {
-		//parent::__construct();
+		parent::__construct();
 	}
 
 	/**

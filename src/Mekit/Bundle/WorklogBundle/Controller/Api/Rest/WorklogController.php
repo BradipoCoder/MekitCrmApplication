@@ -1,5 +1,5 @@
 <?php
-namespace Mekit\Bundle\TaskBundle\Controller\Api\Rest;
+namespace Mekit\Bundle\WorklogBundle\Controller\Api\Rest;
 
 use FOS\RestBundle\Controller\Annotations\NamePrefix;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
@@ -39,7 +39,7 @@ class WorklogController extends RestController implements ClassResourceInterface
 	 *      description="Get all items",
 	 *      resource=true
 	 * )
-	 * @AclAncestor("mekit_task_worklog_view")
+	 * @AclAncestor("mekit_worklog_view")
 	 * @return Response
 	 */
 	public function cgetAction() {
@@ -56,10 +56,10 @@ class WorklogController extends RestController implements ClassResourceInterface
 	 *      resource=true
 	 * )
 	 * @Acl(
-	 *      id="mekit_task_worklog_view",
+	 *      id="mekit_worklog_view",
 	 *      type="entity",
 	 *      permission="VIEW",
-	 *      class="MekitTaskBundle:Worklog"
+	 *      class="MekitWorklogBundle:Worklog"
 	 * )
 	 * @return Response
 	 */
@@ -76,12 +76,7 @@ class WorklogController extends RestController implements ClassResourceInterface
 	 *      description="Update item",
 	 *      resource=true
 	 * )
-	 * @Acl(
-	 *      id="mekit_task_worklog_update",
-	 *      type="entity",
-	 *      permission="EDIT",
-	 *      class="MekitTaskBundle:Worklog"
-	 * )
+	 * @AclAncestor("mekit_worklog_update")
 	 * @return Response
 	 */
 	public function putAction($id) {
@@ -95,12 +90,7 @@ class WorklogController extends RestController implements ClassResourceInterface
 	 *      description="Create new item",
 	 *      resource=true
 	 * )
-	 * @Acl(
-	 *      id="mekit_task_worklog_create",
-	 *      type="entity",
-	 *      permission="CREATE",
-	 *      class="MekitTaskBundle:Worklog"
-	 * )
+	 * @AclAncestor("mekit_worklog_create")
 	 */
 	public function postAction() {
 		return $this->handleCreateRequest();
@@ -116,10 +106,10 @@ class WorklogController extends RestController implements ClassResourceInterface
 	 *      resource=true
 	 * )
 	 * @Acl(
-	 *      id="mekit_task_worklog_delete",
+	 *      id="mekit_worklog_delete",
 	 *      type="entity",
 	 *      permission="DELETE",
-	 *      class="MekitTaskBundle:Worklog"
+	 *      class="MekitWorklogBundle:Worklog"
 	 * )
 	 * @return Response
 	 */
@@ -133,20 +123,20 @@ class WorklogController extends RestController implements ClassResourceInterface
 	 * @return ApiEntityManager
 	 */
 	public function getManager() {
-		return $this->get('mekit_task.worklog.manager.api');
+		return $this->get('mekit_worklog.worklog.manager.api');
 	}
 
 	/**
 	 * @return FormInterface
 	 */
 	public function getForm() {
-		return $this->get('mekit_task.form.worklog.api');
+		return $this->get('mekit_worklog.form.worklog.api');
 	}
 
 	/**
 	 * @return ApiFormHandler
 	 */
 	public function getFormHandler() {
-		return $this->get('mekit_task.form.handler.worklog.api');
+		return $this->get('mekit_worklog.form.handler.worklog.api');
 	}
 }

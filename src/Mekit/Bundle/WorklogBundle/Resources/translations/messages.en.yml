@@ -1,0 +1,32 @@
+mekit:
+    worklog:
+        menu:
+            worklog_list.description:  List of work logs
+
+        widgets:
+            worklog_information:    Worklog Information
+            worklog_add.title:      Add Worklog
+
+        sections:
+            general:                General Information
+
+        controller:
+            saved.message:          Worklog saved
+
+        #
+        # Mekit/Bundle/TaskBundle/Entity/Worklog
+        #
+        entity_label:               Worklog
+        entity_plural_label:        Worklogs
+        entity_description:         Worklog
+
+        id.label:                   Id
+        execution_date.label:       Execution Date
+        duration.label:             Duration
+        description.label:          Description
+        owner.label:                Owner
+        created_at.label:           Created At
+        updated_at.label:           Updated At
+        task.label:                 Task
+
+

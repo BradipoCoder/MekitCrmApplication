@@ -7,7 +7,6 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
 class MekitTaskBundle implements Migration {
 	public static $tableNameTask = "mekit_task";
-	public static $tableNameWorklog = "mekit_worklog";
 
 	/**
 	 * @param Schema   $schema
@@ -16,7 +15,6 @@ class MekitTaskBundle implements Migration {
 	public function up(Schema $schema, QueryBag $queries) {
 		/** Tables and foreign keys generation **/
 		$this->createMekitTaskTable($schema);
-		$this->createMekitWorklogTable($schema);
 	}
 
 	/**
@@ -78,45 +76,6 @@ class MekitTaskBundle implements Migration {
 			['id'],
 			['onDelete' => 'CASCADE'],
 			'fk_task_project'
-		);
-	}
-
-	/**
-	 * Create mekit_worklog table
-	 *
-	 * @param Schema $schema
-	 */
-	protected function createMekitWorklogTable(Schema $schema) {
-		$table = $schema->createTable(self::$tableNameWorklog);
-		$table->addColumn('id', 'integer', ['autoincrement' => true]);
-		$table->addColumn('execution_date', 'datetime', []);
-		$table->addColumn('duration', 'integer', []);
-		$table->addColumn('description', 'text', []);
-		$table->addColumn('task_id', 'integer', []);
-		$table->addColumn('owner_id', 'integer', ['notnull' => false]);
-		$table->addColumn('createdAt', 'datetime', []);
-		$table->addColumn('updatedAt', 'datetime', ['notnull' => false]);
-
-		//INDEXES
-		$table->setPrimaryKey(['id']);
-		$table->addIndex(['execution_date'], 'idx_worklog_exec_date', []);
-		$table->addIndex(['task_id'], 'idx_worklog_task', []);
-		$table->addIndex(['owner_id'], 'idx_worklog_owner', []);
-
-		//FOREIGN KEYS
-		$table->addForeignKeyConstraint(
-			$schema->getTable('oro_user'),
-			['owner_id'],
-			['id'],
-			['onDelete' => 'SET NULL', 'onUpdate' => null],
-			'fk_worklog_owner'
-		);
-		$table->addForeignKeyConstraint(
-			$schema->getTable('mekit_task'),
-			['task_id'],
-			['id'],
-			['onDelete' => 'CASCADE', 'onUpdate' => null],
-			'fk_worklog_task'
 		);
 	}
 }

@@ -1,5 +1,5 @@
 <?php
-namespace Mekit\Bundle\TaskBundle\Form\Type;
+namespace Mekit\Bundle\WorklogBundle\Form\Type;
 
 use Doctrine\Common\Collections\Collection;
 
@@ -14,9 +14,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-
-use Mekit\Bundle\TaskBundle\Entity\Task;
-
 
 /**
  * Class WorklogType
@@ -43,10 +40,10 @@ class WorklogType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		// basic fields
 		$builder
-			->add('executionDate', 'oro_date', array('required' => true, 'label' => 'mekit.task.worklog.execution_date.label'))
-			->add('duration', 'text', array('required' => true, 'label' => 'mekit.task.worklog.duration.label'))
-			->add('description', 'textarea', array('required' => true, 'label' => 'mekit.task.worklog.description.label'))
-			->add('owner', 'oro_user_select', array('required' => true, 'label' => 'mekit.task.worklog.owner.label'));
+			->add('executionDate', 'oro_date', array('required' => true, 'label' => 'mekit.worklog.execution_date.label'))
+			->add('duration', 'text', array('required' => true, 'label' => 'mekit.worklog.duration.label'))
+			->add('description', 'textarea', array('required' => true, 'label' => 'mekit.worklog.description.label'))
+			->add('owner', 'oro_user_select', array('required' => true, 'label' => 'mekit.worklog.owner.label'));
 
 		//task
 		$builder->add(
@@ -54,7 +51,7 @@ class WorklogType extends AbstractType {
 			'oro_entity_select',
 			[
 				'required' => true,
-				'label' => 'mekit.task.worklog.task.label',
+				'label' => 'mekit.worklog.task.label',
 				'autocomplete_alias' => 'mekit_task',
 				'configs' => [
 				]
@@ -68,7 +65,7 @@ class WorklogType extends AbstractType {
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(
 			array(
-				'data_class' => 'Mekit\Bundle\TaskBundle\Entity\Worklog',
+				'data_class' => 'Mekit\Bundle\WorklogBundle\Entity\Worklog',
 				'intention' => 'worklog',
 				'extra_fields_message' => 'This form should not contain extra fields: "{{ extra_fields }}"',
 				'cascade_validation' => true

@@ -37,27 +37,3 @@ mekit:
         contacts.label:             Contacts
         calls.label:                Calls
         meetings.label:             Meetings
-
-
-        worklog:
-            widgets:
-                worklog_add.title:      Add Worklog
-
-            #
-            # Mekit/Bundle/TaskBundle/Entity/Worklog
-            #
-            entity_label:               Worklog
-            entity_plural_label:        Worklogs
-            entity_description:         Worklog
-
-            id.label:                   Id
-            execution_date.label:       Execution Date
-            duration.label:             Duration
-            description.label:          Description
-            owner.label:                Owner
-            created_at.label:           Created At
-            updated_at.label:           Updated At
-            task.label:                 Task
-
-
-

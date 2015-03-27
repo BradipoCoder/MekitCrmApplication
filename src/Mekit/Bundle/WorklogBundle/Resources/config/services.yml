@@ -1,0 +1,5 @@
+parameters:
+    mekit_worklog.worklog.entity.class:          Mekit\Bundle\WorklogBundle\Entity\Worklog
+
+services:
+

@@ -1,8 +1,9 @@
 <?php
-namespace Mekit\Bundle\TaskBundle\Controller;
+namespace Mekit\Bundle\WorklogBundle\Controller;
 
 use Mekit\Bundle\TaskBundle\Entity\Task;
-use Mekit\Bundle\TaskBundle\Entity\Worklog;
+use Mekit\Bundle\WorklogBundle\Entity\Worklog;
+use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -12,14 +13,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * Class WorklogController
- * @Route(path="worklog")
  */
 class WorklogController extends Controller
 {
 	/**
 	 * @Route("/create", name="mekit_worklog_create")
-	 * @AclAncestor("mekit_task_worklog_create")
-	 * @Template("MekitTaskBundle:Worklog:update.html.twig")
+	 * @Acl(
+	 *      id="mekit_worklog_create",
+	 *      type="entity",
+	 *      permission="CREATE",
+	 *      class="MekitWorklogBundle:Worklog"
+	 * )
+	 * @Template("MekitWorklogBundle:Worklog:update.html.twig")
 	 * @return array
 	 */
 	public function createAction() {
@@ -33,8 +38,13 @@ class WorklogController extends Controller
 
 	/**
 	 * @Route("/update/{id}", name="mekit_worklog_update", requirements={"id"="\w+"})
-	 * @AclAncestor("mekit_task_worklog_update")
-	 * @Template("MekitTaskBundle:Worklog:update.html.twig")
+	 * @Acl(
+	 *      id="mekit_worklog_update",
+	 *      type="entity",
+	 *      permission="EDIT",
+	 *      class="MekitWorklogBundle:Worklog"
+	 * )
+	 * @Template("MekitWorklogBundle:Worklog:update.html.twig")
 	 * @param Worklog $worklog
 	 * @return array
 	 */
@@ -61,7 +71,7 @@ class WorklogController extends Controller
 			['taskId' => $taskId]
 		));
 
-		if ($this->get('mekit_task.form.handler.worklog.api')->process($entity)) {
+		if ($this->get('mekit_worklog.form.handler.worklog.api')->process($entity)) {
 			$saved = true;
 		}
 
@@ -69,7 +79,7 @@ class WorklogController extends Controller
 			'entity' => $entity,
 			'formAction' => $formAction,
 			'saved' => $saved,
-			'form' => $this->get('mekit_task.form.worklog.api')->createView()
+			'form' => $this->get('mekit_worklog.form.worklog.api')->createView()
 		);
 	}
 
@@ -98,6 +108,6 @@ class WorklogController extends Controller
 	 * @return ApiEntityManager
 	 */
 	protected function getWorklogManager() {
-		return $this->get('mekit_task.worklog.manager.api');
+		return $this->get('mekit_worklog.worklog.manager.api');
 	}
 }

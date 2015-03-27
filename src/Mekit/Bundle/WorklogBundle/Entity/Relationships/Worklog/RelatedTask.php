@@ -1,5 +1,5 @@
 <?php
-namespace Mekit\Bundle\TaskBundle\Entity\Relationships\Worklog;
+namespace Mekit\Bundle\WorklogBundle\Entity\Relationships\Worklog;
 
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\ORM\Mapping as ORM;

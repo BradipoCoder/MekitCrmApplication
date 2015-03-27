@@ -1,12 +1,12 @@
 <?php
-namespace Mekit\Bundle\TaskBundle\DependencyInjection;
+namespace Mekit\Bundle\WorklogBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
-class MekitTaskExtension extends Extension
+class MekitWorklogExtension extends Extension
 {
     /**
      * {@inheritDoc}

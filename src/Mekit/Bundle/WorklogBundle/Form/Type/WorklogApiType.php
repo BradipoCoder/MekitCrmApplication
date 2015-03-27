@@ -1,5 +1,5 @@
 <?php
-namespace Mekit\Bundle\TaskBundle\Form\Type;
+namespace Mekit\Bundle\WorklogBundle\Form\Type;
 
 use Oro\Bundle\SoapBundle\Form\EventListener\PatchSubscriber;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,7 +20,7 @@ class WorklogApiType extends WorklogType
 	 */
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(array(
-			'data_class' => 'Mekit\Bundle\TaskBundle\Entity\Worklog',
+			'data_class' => 'Mekit\Bundle\WorklogBundle\Entity\Worklog',
 			'intention' => 'worklog',
 			'extra_fields_message' => 'This form should not contain extra fields: "{{ extra_fields }}"',
 			'csrf_protection' => false,

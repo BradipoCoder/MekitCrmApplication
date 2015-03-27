@@ -4,7 +4,7 @@ namespace Mekit\Bundle\TaskBundle\Entity\Relationships\Task;
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Mekit\Bundle\TaskBundle\Entity\Worklog;
+use Mekit\Bundle\WorklogBundle\Entity\Worklog;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 
 /**
@@ -14,7 +14,7 @@ class RelatedWorklogs
 {
 	/**
 	 * @var ArrayCollection
-	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\TaskBundle\Entity\Worklog", mappedBy="task")
+	 * @ORM\OneToMany(targetEntity="Mekit\Bundle\WorklogBundle\Entity\Worklog", mappedBy="task")
 	 * @ConfigField()
 	 */
 	protected $worklogs;

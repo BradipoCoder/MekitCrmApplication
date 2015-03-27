@@ -1,0 +1,37 @@
+parameters:
+    mekit_worklog.manager.api.class:                        Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
+
+    mekit_worklog.type.worklog.class:                       Mekit\Bundle\WorklogBundle\Form\Type\WorklogType
+    mekit_worklog.type.worklog.api.class:                   Mekit\Bundle\WorklogBundle\Form\Type\WorklogApiType
+
+    mekit_worklog.handler.worklog.class:                    Mekit\Bundle\WorklogBundle\Form\Handler\WorklogHandler
+
+services:
+    ### WORKLOG ###
+    mekit_worklog.worklog.manager.api:
+        class: %mekit_worklog.manager.api.class%
+        parent: oro_soap.manager.entity_manager.abstract
+        arguments:
+            - %mekit_worklog.worklog.entity.class%
+            - @doctrine.orm.entity_manager
+
+    mekit_worklog.form.handler.worklog.api:
+        class: %mekit_worklog.handler.worklog.class%
+        scope: request
+        arguments:
+            - @mekit_worklog.form.worklog.api
+            - @request
+            - @doctrine.orm.entity_manager
+
+    mekit_worklog.form.worklog.api:
+        class: Symfony\Component\Form\Form
+        factory_method: createNamed
+        factory_service: form.factory
+        arguments: ["mekit_worklog_api_form", "mekit_worklog_api", null]
+
+    mekit_worklog.form.type.worklog.api:
+        class: %mekit_worklog.type.worklog.api.class%
+        arguments:
+            - @router
+        tags:
+            - { name: form.type, alias: mekit_worklog_api }
