@@ -31,7 +31,8 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
  *      }
  * )
  */
-class Phone extends AbstractPhone {
+class Phone extends AbstractPhone
+{
 	/**
 	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\AccountBundle\Entity\Account", inversedBy="phones")
 	 * @ORM\JoinColumn(name="account_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
@@ -43,6 +44,27 @@ class Phone extends AbstractPhone {
 	 * @ORM\JoinColumn(name="contact_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
 	 */
 	protected $owner_contact;
+
+	/**
+	 * Returns entity which owns this Phone
+	 * @return Account|Contact|null
+	 */
+	public function getEmailOwner() {
+		if ($this->isAccountPhone()) {
+			return $this->getOwnerAccount();
+		} else if ($this->isContactPhone()) {
+			return $this->getOwnerContact();
+		}
+
+		return null;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isAccountPhone() {
+		return (!is_null($this->owner_account));
+	}
 
 	/**
 	 * @return Account
@@ -57,14 +79,15 @@ class Phone extends AbstractPhone {
 	 */
 	public function setOwnerAccount(Account $owner = null) {
 		$this->owner_account = $owner;
+
 		return $this;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function isAccountPhone() {
-		return (!is_null($this->owner_account));
+	public function isContactPhone() {
+		return (!is_null($this->owner_contact));
 	}
 
 	/**
@@ -80,27 +103,8 @@ class Phone extends AbstractPhone {
 	 */
 	public function setOwnerContact(Contact $owner = null) {
 		$this->owner_contact = $owner;
+
 		return $this;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function isContactPhone() {
-		return (!is_null($this->owner_contact));
-	}
-
-	/**
-	 * Returns entity which owns this Phone
-	 * @return Account|Contact|null
-	 */
-	public function getEmailOwner() {
-		if ($this->isAccountPhone()) {
-			return $this->getOwnerAccount();
-		} else if ($this->isContactPhone()) {
-			return $this->getOwnerContact();
-		}
-		return null;
 	}
 }
 

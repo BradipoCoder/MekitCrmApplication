@@ -1,14 +1,13 @@
 <?php
 namespace Mekit\Bundle\ContactInfoBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
+use Doctrine\ORM\Mapping as ORM;
+use Mekit\Bundle\AccountBundle\Entity\Account;
 use Mekit\Bundle\ContactBundle\Entity\Contact;
-use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\AddressBundle\Entity\AbstractEmail;
 use Oro\Bundle\EmailBundle\Entity\EmailInterface;
-
-use Mekit\Bundle\AccountBundle\Entity\Account;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 
 /**
  * @ORM\Entity
@@ -32,7 +31,8 @@ use Mekit\Bundle\AccountBundle\Entity\Account;
  *      }
  * )
  */
-class Email extends AbstractEmail implements EmailInterface {
+class Email extends AbstractEmail implements EmailInterface
+{
 	/**
 	 * @ORM\ManyToOne(targetEntity="Mekit\Bundle\AccountBundle\Entity\Account", inversedBy="emails")
 	 * @ORM\JoinColumn(name="account_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
@@ -44,6 +44,27 @@ class Email extends AbstractEmail implements EmailInterface {
 	 * @ORM\JoinColumn(name="contact_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
 	 */
 	protected $owner_contact;
+
+	/**
+	 * Returns entity which owns this Email
+	 * @return Account|Contact|null
+	 */
+	public function getEmailOwner() {
+		if ($this->isAccountEMail()) {
+			return $this->getOwnerAccount();
+		} else if ($this->isContactEmail()) {
+			return $this->getOwnerContact();
+		}
+
+		return null;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isAccountEMail() {
+		return (!is_null($this->owner_account));
+	}
 
 	/**
 	 * @return Account
@@ -58,14 +79,15 @@ class Email extends AbstractEmail implements EmailInterface {
 	 */
 	public function setOwnerAccount(Account $owner = null) {
 		$this->owner_account = $owner;
+
 		return $this;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function isAccountEMail() {
-		return (!is_null($this->owner_account));
+	public function isContactEmail() {
+		return (!is_null($this->owner_contact));
 	}
 
 	/**
@@ -81,27 +103,8 @@ class Email extends AbstractEmail implements EmailInterface {
 	 */
 	public function setOwnerContact(Contact $owner = null) {
 		$this->owner_contact = $owner;
+
 		return $this;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function isContactEmail() {
-		return (!is_null($this->owner_contact));
-	}
-
-	/**
-	 * Returns entity which owns this Email
-	 * @return Account|Contact|null
-	 */
-	public function getEmailOwner() {
-		if ($this->isAccountEMail()) {
-			return $this->getOwnerAccount();
-		} else if ($this->isContactEmail()) {
-			return $this->getOwnerContact();
-		}
-		return null;
 	}
 
 	/**

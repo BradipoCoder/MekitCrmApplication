@@ -28,8 +28,8 @@ class MekitOpportunityBundle implements Migration
 		$table->addColumn('id', 'integer', ['autoincrement' => true]);
 		$table->addColumn('name', 'string', ['length' => 255, 'notnull' => true]);
 		$table->addColumn('description', 'text', ['notnull' => false]);
-		$table->addColumn('amount', 'float', ['notnull' => false]);
-		$table->addColumn('probability', 'float', ['notnull' => false]);
+		$table->addColumn('amount', 'money', ['notnull' => false]);
+		$table->addColumn('probability', 'percent', ['notnull' => false]);
 		$table->addColumn('state', 'integer', ['notnull' => false]);
 		$table->addColumn('account_id', 'integer', ['notnull' => false]);
 		$table->addColumn('organization_id', 'integer', ['notnull' => false]);

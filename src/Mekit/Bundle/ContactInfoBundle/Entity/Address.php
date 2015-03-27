@@ -207,7 +207,7 @@ class Address extends AbstractAddress implements PrimaryItem
 	public function setPrimary($primary) {
 		if ($primary) {
 			$owner = $this->getAddressOwner();
-			if($owner) {
+			if ($owner) {
 				$addresses = $owner->getAddresses();
 				/** @var Address $address */
 				foreach ($addresses as $address) {
