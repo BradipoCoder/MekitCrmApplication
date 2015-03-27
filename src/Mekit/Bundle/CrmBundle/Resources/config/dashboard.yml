@@ -1,0 +1,6 @@
+oro_dashboard_config:
+    widgets:
+        quick_launchpad:
+            items:
+                settings:
+                    acl:        inexistent_so_it_will_not_show_up

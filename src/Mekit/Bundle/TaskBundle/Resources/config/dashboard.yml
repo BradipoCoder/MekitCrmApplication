@@ -1,0 +1,10 @@
+oro_dashboard_config:
+    widgets:
+        quick_launchpad:
+            items:
+                tasks:
+                    label:      mekit.task.entity_plural_label
+                    icon:       flag
+                    route:      mekit_task_index
+                    acl:        mekit_task_view
+                    position:   10

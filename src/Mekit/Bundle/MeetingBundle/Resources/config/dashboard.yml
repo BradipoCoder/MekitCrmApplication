@@ -1,0 +1,10 @@
+oro_dashboard_config:
+    widgets:
+        quick_launchpad:
+            items:
+                meetings:
+                    label:      mekit.meeting.entity_plural_label
+                    icon:       group
+                    route:      mekit_meeting_index
+                    acl:        mekit_meeting_view
+                    position:   30

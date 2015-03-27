@@ -1,0 +1,10 @@
+oro_dashboard_config:
+    widgets:
+        quick_launchpad:
+            items:
+                calls:
+                    label:      mekit.call.entity_plural_label
+                    icon:       phone
+                    route:      mekit_call_index
+                    acl:        mekit_call_view
+                    position:   20
