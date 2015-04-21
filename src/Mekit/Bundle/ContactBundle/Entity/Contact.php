@@ -459,7 +459,11 @@ class Contact extends ExtendContact implements Taggable, EmailOwnerInterface
 	 * @return string
 	 */
 	public function getEmail() {
-		return $this->email;
+		if($this->email) {
+			return $this->email;
+		} else {
+			return parent::getEmail();
+		}
 	}
 
 	/**

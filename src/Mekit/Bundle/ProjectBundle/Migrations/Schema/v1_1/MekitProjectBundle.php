@@ -5,41 +5,63 @@ use Doctrine\DBAL\Schema\Schema;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 use Mekit\Bundle\ProjectBundle\Migrations\Schema\v1_0\MekitProjectBundle as MigrationBase;
+use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtension;
+use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtensionAwareInterface;
+use Oro\Bundle\CommentBundle\Migration\Extension\CommentExtension;
+use Oro\Bundle\CommentBundle\Migration\Extension\CommentExtensionAwareInterface;
 
-use Oro\Bundle\NoteBundle\Migration\Extension\NoteExtension;
-use Oro\Bundle\NoteBundle\Migration\Extension\NoteExtensionAwareInterface;
 
 /**
  * Class MekitProjectBundle
  */
-class MekitProjectBundle implements Migration, NoteExtensionAwareInterface {
-	/**
-	 * @var NoteExtension
-	 */
-	protected $noteExtension;
+class MekitProjectBundle implements Migration, CommentExtensionAwareInterface, ActivityExtensionAwareInterface
+{
+	/** @var CommentExtension */
+	protected $commentExtension;
+
+	/** @var  ActivityExtension */
+	protected $activityExtension;
 
 	/**
-	 * @param NoteExtension $noteExtension
+	 * @param CommentExtension $commentExtension
 	 */
-	public function setNoteExtension(NoteExtension $noteExtension) {
-		$this->noteExtension = $noteExtension;
+	public function setCommentExtension(CommentExtension $commentExtension) {
+		$this->commentExtension = $commentExtension;
 	}
 
 	/**
-	 * @param Schema $schema
+	 * @param ActivityExtension $activityExtension
+	 */
+	public function setActivityExtension(ActivityExtension $activityExtension) {
+		$this->activityExtension = $activityExtension;
+	}
+
+	/**
+	 * @param Schema   $schema
 	 * @param QueryBag $queries
 	 */
 	public function up(Schema $schema, QueryBag $queries) {
-		self::addNoteAssociations($schema, $this->noteExtension);
+		self::addCommentAssociations($schema, $this->commentExtension);
+		self::addActivityAssociations($schema, $this->activityExtension);
 	}
 
 	/**
-	 * Enable notes for accounts
+	 * Enable comments for contacts
 	 *
-	 * @param Schema        $schema
-	 * @param NoteExtension $noteExtension
+	 * @param Schema           $schema
+	 * @param CommentExtension $commentExtension
 	 */
-	public static function addNoteAssociations(Schema $schema, NoteExtension $noteExtension) {
-		$noteExtension->addNoteAssociation($schema, MigrationBase::$tableNameProject);
+	public static function addCommentAssociations(Schema $schema, CommentExtension $commentExtension) {
+		$commentExtension->addCommentAssociation($schema, MigrationBase::$tableNameProject);
+	}
+
+	/**
+	 * Enable activities(email) for contacts
+	 *
+	 * @param Schema            $schema
+	 * @param ActivityExtension $activityExtension
+	 */
+	public static function addActivityAssociations(Schema $schema, ActivityExtension $activityExtension) {
+		$activityExtension->addActivityAssociation($schema, 'oro_email', MigrationBase::$tableNameProject, true);
 	}
 }

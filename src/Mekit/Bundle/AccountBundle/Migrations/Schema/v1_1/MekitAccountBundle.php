@@ -2,15 +2,13 @@
 namespace Mekit\Bundle\AccountBundle\Migrations\Schema\v1_1;
 
 use Doctrine\DBAL\Schema\Schema;
-use Oro\Bundle\MigrationBundle\Migration\Migration;
-use Oro\Bundle\MigrationBundle\Migration\QueryBag;
-
 use Mekit\Bundle\AccountBundle\Migrations\Schema\v1_0\MekitAccountBundle as MigrationBase;
-
 use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtension;
 use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtensionAwareInterface;
 use Oro\Bundle\CommentBundle\Migration\Extension\CommentExtension;
 use Oro\Bundle\CommentBundle\Migration\Extension\CommentExtensionAwareInterface;
+use Oro\Bundle\MigrationBundle\Migration\Migration;
+use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
 /**
  * Class MekitAccountBundle
@@ -38,7 +36,7 @@ class MekitAccountBundle implements Migration, CommentExtensionAwareInterface, A
 	}
 
 	/**
-	 * @param Schema $schema
+	 * @param Schema   $schema
 	 * @param QueryBag $queries
 	 */
 	public function up(Schema $schema, QueryBag $queries) {
