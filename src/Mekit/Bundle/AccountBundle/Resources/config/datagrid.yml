@@ -12,16 +12,16 @@ datagrid:
                     - accountState.label as state
                     - accountIndustry.label as industry
                     - accountSource.label as source
-                    - CONCAT(accountOwner.firstName, CONCAT(' ', accountOwner.lastName)) as ownerName
+                    - CONCAT(assignees.firstName, CONCAT(' ', assignees.lastName)) as assigneeFullName
                 from:
                     - { table: %mekit_account.account.entity.class%, alias: a }
                 join:
                     left:
-                        - { join: a.owner, alias: accountOwner }
                         - { join: a.type, alias: accountType }
                         - { join: a.state, alias: accountState }
                         - { join: a.industry, alias: accountIndustry }
                         - { join: a.source, alias: accountSource }
+                        - { join: a.users, alias: assignees }
 
         columns:
             name:
@@ -34,6 +34,8 @@ datagrid:
                 label:         mekit.account.industry.label
             source:
                 label:         mekit.account.source.label
+            assigneeFullName:
+                label:         mekit.account.users.label
 
         sorters:
             columns:
@@ -98,6 +100,15 @@ datagrid:
                         attr:
                             group_name: 'ACCOUNT_SOURCE'
                         multiple: true
+#                users:
+#                    type:      entity
+#                    data_name: assignees.id
+#                    options:
+#                        field_options:
+#                            class:     OroUserBundle:User
+#                            property:  assignees.lastName
+#                            #query_builder: @mekit_crm.datagrid_helper->getUserList
+#                            multiple: true
 
         properties:
             id: ~
