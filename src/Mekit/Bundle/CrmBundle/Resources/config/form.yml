@@ -1,5 +1,6 @@
 parameters:
     mekit_crm.type.entity_multi_select.class:              Mekit\Bundle\CrmBundle\Form\Type\EntityMultiSelectType
+    mekit_crm.type.filter.assignee.class:                  Mekit\Bundle\CrmBundle\Form\Type\Filter\AssigneeFilterType
 
 services:
     mekit_crm.form.type.entity_multi_select:
@@ -11,3 +12,10 @@ services:
         tags:
             - { name: form.type, alias: mekit_entity_multi_select }
 
+    mekit_crm.form.type.filter.assignee:
+        class: %mekit_crm.type.filter.assignee.class%
+        arguments:
+            - @doctrine.orm.entity_manager
+            - @translator
+        tags:
+            - { name: form.type, alias: mekit_type_assignee_filter }

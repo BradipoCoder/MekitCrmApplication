@@ -1,6 +1,6 @@
 parameters:
-    mekit_crm.relationship.manager.class:      Mekit\Bundle\CrmBundle\Relationship\RelationshipManager
-#    mekit_crm.datagrid_helper.class:           Mekit\Bundle\CrmBundle\Datagrid\UserDatagridHelper
+    mekit_crm.relationship.manager.class:       Mekit\Bundle\CrmBundle\Relationship\RelationshipManager
+    mekit_crm.filter.assignee.class:            Mekit\Bundle\CrmBundle\Filter\AssigneeFilter
 
 services:
     mekit_crm.relationship.manager:
@@ -9,15 +9,10 @@ services:
             - @doctrine.orm.entity_manager
             - @oro_entity.doctrine_helper
 
-#    mekit_crm.datagrid_helper:
-#            class: %mekit_crm.datagrid_helper.class%
-#            arguments:
-#                - @mekit_crm.user_repository
-#
-#    mekit_crm.user_repository:
-#        class: Doctrine\ORM\EntityRepository
-#        factory_service: doctrine.orm.entity_manager
-#        factory_method: getRepository
-#        arguments:
-#            - 'OroUserBundle:User'
-#
+    mekit_crm.filter.assignee:
+        class: %mekit_crm.filter.assignee.class%
+        arguments:
+            - @form.factory
+            - @oro_filter.filter_utility
+        tags:
+            - { name: oro_filter.extension.orm_filter.filter, type: assignee }

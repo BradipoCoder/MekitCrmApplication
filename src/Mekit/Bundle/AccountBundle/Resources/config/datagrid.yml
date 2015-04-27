@@ -100,15 +100,9 @@ datagrid:
                         attr:
                             group_name: 'ACCOUNT_SOURCE'
                         multiple: true
-#                users:
-#                    type:      entity
-#                    data_name: assignees.id
-#                    options:
-#                        field_options:
-#                            class:     OroUserBundle:User
-#                            property:  assignees.lastName
-#                            #query_builder: @mekit_crm.datagrid_helper->getUserList
-#                            multiple: true
+                assigneeFullName:
+                    type:      assignee
+                    data_name: assignees.id
 
         properties:
             id: ~
