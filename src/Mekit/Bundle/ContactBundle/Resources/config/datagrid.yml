@@ -9,12 +9,12 @@ datagrid:
                     - c.id
                     - c.firstName
                     - c.lastName
-                    - CONCAT(Owner.firstName, CONCAT(' ', Owner.lastName)) as ownerName
+                    - CONCAT(assignees.firstName, CONCAT(' ', assignees.lastName)) as assigneeFullName
                 from:
                     - { table: %mekit_contact.contact.entity.class%, alias: c }
                 join:
                     left:
-                        - { join: c.owner, alias: Owner }
+                        - { join: c.users, alias: assignees }
                 groupBy: c.id
 
         columns:
@@ -22,6 +22,8 @@ datagrid:
                 label:         mekit.contact.last_name.label
             firstName:
                 label:         mekit.contact.first_name.label
+            assigneeFullName:
+                label:         mekit.contact.users.label
 
         sorters:
             columns:
@@ -40,6 +42,9 @@ datagrid:
                 lastName:
                     type: string
                     data_name: c.lastName
+                assigneeFullName:
+                    type:      assignee
+                    data_name: assignees.id
 
         properties:
             id: ~

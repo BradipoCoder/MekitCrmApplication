@@ -60,46 +60,46 @@ datagrid:
                     type:      entity
                     data_name: accountType.id
                     options:
-                      field_options:
-                        class:     MekitListBundle:ListItem
-                        property:  label
-                        query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilderForGroup
-                        attr:
-                            group_name: 'ACCOUNT_TYPE'
-                        multiple: true
+                        field_options:
+                            class:     MekitListBundle:ListItem
+                            property:  label
+                            query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilderForGroup
+                            attr:
+                                group_name: 'ACCOUNT_TYPE'
+                            multiple: true
                 state:
                     type:      entity
                     data_name: accountState.id
                     options:
-                      field_options:
-                        class:     MekitListBundle:ListItem
-                        property:  label
-                        query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilderForGroup
-                        attr:
-                            group_name: 'ACCOUNT_STATE'
-                        multiple: true
+                        field_options:
+                            class:     MekitListBundle:ListItem
+                            property:  label
+                            query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilderForGroup
+                            attr:
+                                group_name: 'ACCOUNT_STATE'
+                            multiple: true
                 industry:
                     type:      entity
                     data_name: accountIndustry.id
                     options:
-                      field_options:
-                        class:     MekitListBundle:ListItem
-                        property:  label
-                        query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilderForGroup
-                        attr:
-                            group_name: 'ACCOUNT_INDUSTRY'
-                        multiple: true
+                        field_options:
+                            class:     MekitListBundle:ListItem
+                            property:  label
+                            query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilderForGroup
+                            attr:
+                                group_name: 'ACCOUNT_INDUSTRY'
+                            multiple: true
                 source:
                     type:      entity
                     data_name: accountSource.id
                     options:
-                      field_options:
-                        class:     MekitListBundle:ListItem
-                        property:  label
-                        query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilderForGroup
-                        attr:
-                            group_name: 'ACCOUNT_SOURCE'
-                        multiple: true
+                        field_options:
+                            class:     MekitListBundle:ListItem
+                            property:  label
+                            query_builder: @mekit_list.datagrid_helper->getListItemQueryBuilderForGroup
+                            attr:
+                                group_name: 'ACCOUNT_SOURCE'
+                            multiple: true
                 assigneeFullName:
                     type:      assignee
                     data_name: assignees.id
