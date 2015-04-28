@@ -14,22 +14,19 @@ datagrid:
                     - eventState.label as state
                     - eventPriority.label as priority
                     - p.name as projectName
+                    - GROUP_CONCAT(assignees.firstName, ' ', assignees.lastName) AS assigneesFullName
                 from:
                     - { table: %mekit_task.task.entity.class%, alias: t }
                 join:
-                    left:
+                    inner:
                         - { join: t.event, alias: e }
-                        - { join: t.project, alias: p }
                         - { join: e.state, alias: eventState }
                         - { join: e.priority, alias: eventPriority }
-
+                    left:
+                        - { join: t.project, alias: p }
+                        - { join: t.users, alias: assignees }
+                groupBy: t.id
         columns:
-            type_icon:
-                data_name:      type
-                label:          mekit.event.type.label
-                type:           twig
-                frontend_type:  html
-                template:       MekitEventBundle:Event:Datagrid/Property/eventIcon.html.twig
             name:
                 label:          mekit.task.name.label
             projectName:
@@ -41,6 +38,8 @@ datagrid:
                 label:         mekit.event.priority.label
             state:
                 label:          mekit.event.state.label
+            assigneesFullName:
+                label:          mekit.task.users.label
 
         properties:
             id:             ~
@@ -125,6 +124,9 @@ datagrid:
                             attr:
                                 group_name: 'EVENT_PRIORITY'
                             multiple: true
+                assigneesFullName:
+                    type:      assignee
+                    data_name: assignees.id
 
 
 

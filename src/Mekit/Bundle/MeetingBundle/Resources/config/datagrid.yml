@@ -14,21 +14,18 @@ datagrid:
                     - e.duration
                     - eventState.label as state
                     - eventPriority.label as priority
+                    - GROUP_CONCAT(assignees.firstName, ' ', assignees.lastName) AS assigneesFullName
                 from:
                     - { table: %mekit_meeting.meeting.entity.class%, alias: m }
                 join:
-                    left:
+                    inner:
                         - { join: m.event, alias: e }
                         - { join: e.state, alias: eventState }
                         - { join: e.priority, alias: eventPriority }
-
+                    left:
+                        - { join: m.users, alias: assignees }
+                groupBy: m.id
         columns:
-            type_icon:
-                data_name:      type
-                label:          mekit.event.type.label
-                type:           twig
-                frontend_type:  html
-                template:       MekitEventBundle:Event:Datagrid/Property/eventIcon.html.twig
             name:
                 label:          mekit.meeting.name.label
             state:
@@ -43,7 +40,8 @@ datagrid:
                 label:         mekit.event.duration.label
             priority:
                 label:         mekit.event.priority.label
-
+            assigneesFullName:
+                label:         mekit.call.users.label
         properties:
             id:             ~
             view_link:
@@ -58,7 +56,6 @@ datagrid:
                 type:       url
                 route:      mekit_api_delete_meeting
                 params:     [ id ]
-
         actions:
             view:
                 type:          navigate
@@ -79,7 +76,6 @@ datagrid:
                 label:         oro.grid.action.delete
                 icon:          trash
                 link:          delete_link
-
         sorters:
             columns:
                 name:
@@ -94,7 +90,6 @@ datagrid:
                     data_name: e.duration
                 priority:
                     data_name: eventPriority.label
-
         filters:
             columns:
                 name:
@@ -122,6 +117,9 @@ datagrid:
                         attr:
                             group_name: 'EVENT_PRIORITY'
                         multiple: true
+                assigneesFullName:
+                    type:      assignee
+                    data_name: assignees.id
 
     # 1) Extending datagrid MUST declare the FROM table with alias "baseEntity" which MUST have "meetings" relationship
     # 2) parameter "ref_id" identifying the "baseEntity" must be defined

@@ -16,22 +16,19 @@ datagrid:
                     - e.duration
                     - eventState.label as state
                     - eventPriority.label as priority
+                    - GROUP_CONCAT(assignees.firstName, ' ', assignees.lastName) AS assigneesFullName
                 from:
                     - { table: %mekit_call.call.entity.class%, alias: c }
                 join:
-                    left:
+                    inner:
                         - { join: c.event, alias: e }
-                        - { join: c.outcome, alias: callOutcome }
                         - { join: e.state, alias: eventState }
                         - { join: e.priority, alias: eventPriority }
-
+                    left:
+                        - { join: c.outcome, alias: callOutcome }
+                        - { join: c.users, alias: assignees }
+                groupBy: c.id
         columns:
-            type_icon:
-                data_name:      type
-                label:          mekit.event.type.label
-                type:           twig
-                frontend_type:  html
-                template:       MekitEventBundle:Event:Datagrid/Property/eventIcon.html.twig
             direction:
                 data_name:      direction
                 label:          mekit.call.direction.label
@@ -54,6 +51,8 @@ datagrid:
                 label:         mekit.event.duration.label
             priority:
                 label:         mekit.event.priority.label
+            assigneesFullName:
+                label:         mekit.call.users.label
 
         properties:
             id:             ~
@@ -156,6 +155,9 @@ datagrid:
                           attr:
                               group_name: 'CALL_OUTCOME'
                           multiple: true
+                assigneesFullName:
+                    type:      assignee
+                    data_name: assignees.id
 
     # 1) Extending datagrid MUST declare the FROM table with alias "baseEntity" which MUST have "calls" relationship
     # 2) parameter "ref_id" identifying the "baseEntity" must be defined
