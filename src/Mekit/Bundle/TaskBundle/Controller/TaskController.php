@@ -152,7 +152,12 @@ class TaskController extends Controller
 
 
 	/**
-	 * @Route("/widget/info/{id}", name="mekit_task_widget_info", requirements={"id"="\d+"})
+	 * @Route(
+	 *      "/widget/info/{id}",
+	 *      name="mekit_task_widget_info",
+	 *      requirements={"id"="\d+"},
+	 *      options={"expose"="true"}
+	 * )
 	 * @AclAncestor("mekit_task_view")
 	 * @Template(template="MekitTaskBundle:Task/widget:info.html.twig")
 	 * @param Task $entity

@@ -1,7 +1,9 @@
 parameters:
     mekit_meeting.meeting.entity.class:           Mekit\Bundle\MeetingBundle\Entity\Meeting
-
     mekit_meeting.placeholder.filter.class:       Mekit\Bundle\MeetingBundle\Placeholder\PlaceholderFilter
+
+    mekit_meeting.provider.calendar.class:        Mekit\Bundle\MeetingBundle\Provider\MeetingCalendarProvider
+    mekit_meeting.provider.normalizer.class:      Mekit\Bundle\MeetingBundle\Provider\MeetingCalendarNormalizer
 
 services:
     mekit_meeting.autocomplete.meeting.search_handler:
@@ -16,3 +18,18 @@ services:
         class: %mekit_meeting.placeholder.filter.class%
         arguments:
             - @mekit_crm.relationship.manager
+
+    mekit_meeting.provider.calendar:
+        class: %mekit_meeting.provider.calendar.class%
+        arguments:
+            - @oro_entity.doctrine_helper
+            - @oro_security.acl_helper
+            - @mekit_meeting.provider.normalizer
+            - @translator
+        tags:
+            - { name: oro_calendar.calendar_provider, alias: meetings }
+
+    mekit_meeting.provider.normalizer:
+        class: %mekit_meeting.provider.normalizer.class%
+        arguments:
+            - @oro_reminder.entity.manager

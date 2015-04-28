@@ -2,6 +2,7 @@ mekit:
     task:
         menu:
             task_list.description:  List of tasks
+            my_tasks:               My Tasks
 
         widgets:
             task_information:       Task Information

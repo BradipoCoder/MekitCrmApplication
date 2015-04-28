@@ -2,6 +2,7 @@ mekit:
     call:
         menu:
             call_list.description:  List of calls
+            my_calls:               My Calls
 
         widgets:
             call_information:       Call Information

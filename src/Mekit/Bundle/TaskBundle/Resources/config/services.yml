@@ -1,7 +1,9 @@
 parameters:
     mekit_task.task.entity.class:             Mekit\Bundle\TaskBundle\Entity\Task
-
     mekit_task.placeholder.filter.class:      Mekit\Bundle\TaskBundle\Placeholder\PlaceholderFilter
+
+    mekit_task.provider.calendar.class:       Mekit\Bundle\TaskBundle\Provider\TaskCalendarProvider
+    mekit_task.provider.normalizer.class:     Mekit\Bundle\TaskBundle\Provider\TaskCalendarNormalizer
 
 services:
     mekit_task.autocomplete.task.search_handler:
@@ -17,3 +19,17 @@ services:
         arguments:
             - @mekit_crm.relationship.manager
 
+    mekit_task.provider.calendar:
+        class: %mekit_task.provider.calendar.class%
+        arguments:
+            - @oro_entity.doctrine_helper
+            - @oro_security.acl_helper
+            - @mekit_task.provider.normalizer
+            - @translator
+        tags:
+            - { name: oro_calendar.calendar_provider, alias: tasks }
+
+    mekit_task.provider.normalizer:
+        class: %mekit_task.provider.normalizer.class%
+        arguments:
+            - @oro_reminder.entity.manager

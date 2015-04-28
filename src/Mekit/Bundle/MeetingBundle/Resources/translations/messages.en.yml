@@ -2,6 +2,7 @@ mekit:
     meeting:
         menu:
             meeting_list.description:  List of meetings
+            my_meetings:               My Meetings
 
         widgets:
             meeting_information:    Meeting Information

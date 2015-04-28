@@ -133,9 +133,6 @@ class MeetingController extends Controller
 	 * @return Meeting
 	 */
 	protected function initMeetingEntity() {
-		/** @var ListItemRepository $listItemRepo */
-		$listItemRepo = $this->getDoctrine()->getRepository('MekitListBundle:ListItem');
-
 		/** @var Event $event */
 		$event = $this->getEventManager()->createEntity();
 		$event->setStartDate(new \DateTime());
@@ -153,7 +150,12 @@ class MeetingController extends Controller
 	}
 
 	/**
-	 * @Route("/widget/info/{id}", name="mekit_meeting_widget_info", requirements={"id"="\d+"})
+	 * @Route(
+	 *      "/widget/info/{id}",
+	 *      name="mekit_meeting_widget_info",
+	 *      requirements={"id"="\d+"},
+	 *      options={"expose"="true"}
+	 * )
 	 * @AclAncestor("mekit_meeting_view")
 	 * @Template(template="MekitMeetingBundle:Meeting/widget:info.html.twig")
 	 * @param Meeting $entity

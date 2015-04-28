@@ -151,7 +151,12 @@ class CallController extends Controller
 	}
 
 	/**
-	 * @Route("/widget/info/{id}", name="mekit_call_widget_info", requirements={"id"="\d+"})
+	 * @Route(
+	 *      "/widget/info/{id}",
+	 *      name="mekit_call_widget_info",
+	 *      requirements={"id"="\d+"},
+	 *      options={"expose"="true"}
+	 * )
 	 * @AclAncestor("mekit_call_view")
 	 * @Template(template="MekitCallBundle:Call/widget:info.html.twig")
 	 * @param Call $entity

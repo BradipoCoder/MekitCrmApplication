@@ -1,7 +1,10 @@
 parameters:
     mekit_call.call.entity.class:                 Mekit\Bundle\CallBundle\Entity\Call
-
     mekit_call.placeholder.filter.class:          Mekit\Bundle\CallBundle\Placeholder\PlaceholderFilter
+
+    mekit_call.provider.calendar.class:           Mekit\Bundle\CallBundle\Provider\CallCalendarProvider
+    mekit_call.provider.normalizer.class:         Mekit\Bundle\CallBundle\Provider\CallCalendarNormalizer
+
 
 services:
     mekit_call.autocomplete.call.search_handler:
@@ -16,3 +19,18 @@ services:
         class: %mekit_call.placeholder.filter.class%
         arguments:
             - @mekit_crm.relationship.manager
+
+    mekit_call.provider.calendar:
+        class: %mekit_call.provider.calendar.class%
+        arguments:
+            - @oro_entity.doctrine_helper
+            - @oro_security.acl_helper
+            - @mekit_call.provider.normalizer
+            - @translator
+        tags:
+            - { name: oro_calendar.calendar_provider, alias: calls }
+
+    mekit_call.provider.normalizer:
+        class: %mekit_call.provider.normalizer.class%
+        arguments:
+            - @oro_reminder.entity.manager
