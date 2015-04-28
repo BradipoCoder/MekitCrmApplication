@@ -9,7 +9,7 @@ datagrid:
                     - p.id
                     - p.name
                     - Account.name as accountName
-                    - CONCAT(assignees.firstName, ' ', assignees.lastName) as assigneeFullName
+                    - GROUP_CONCAT(assignees.firstName, ' ', assignees.lastName) AS assigneesFullName
                 from:
                     - { table: %mekit_project.project.entity.class%, alias: p }
                 join:
@@ -17,18 +17,13 @@ datagrid:
                         - { join: p.account, alias: Account }
                     left:
                         - { join: p.users, alias: assignees }
-#                groupBy: p.id
-
         columns:
             name:
                 label:          mekit.project.name.label
             accountName:
                 label:          mekit.project.account.label
-#            assigneeFullName:
-#                label:          mekit.project.users.label
-#                type:           twig
-#                frontend_type:  html
-#                template:       MekitCrmBundle:Crm:Datagrid/Property/users.html.twig
+            assigneesFullName:
+                label:          mekit.project.users.label
 
         sorters:
             columns:
