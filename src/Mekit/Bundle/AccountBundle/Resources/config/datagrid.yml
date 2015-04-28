@@ -12,7 +12,7 @@ datagrid:
                     - accountState.label as state
                     - accountIndustry.label as industry
                     - accountSource.label as source
-                    - CONCAT(assignees.firstName, CONCAT(' ', assignees.lastName)) as assigneeFullName
+                    - GROUP_CONCAT(assignees.firstName, ' ', assignees.lastName) AS assigneesFullName
                 from:
                     - { table: %mekit_account.account.entity.class%, alias: a }
                 join:
@@ -22,7 +22,7 @@ datagrid:
                         - { join: a.industry, alias: accountIndustry }
                         - { join: a.source, alias: accountSource }
                         - { join: a.users, alias: assignees }
-
+                groupBy: a.id
         columns:
             name:
                 label:         mekit.account.name.label
@@ -34,7 +34,7 @@ datagrid:
                 label:         mekit.account.industry.label
             source:
                 label:         mekit.account.source.label
-            assigneeFullName:
+            assigneesFullName:
                 label:         mekit.account.users.label
 
         sorters:
@@ -100,7 +100,7 @@ datagrid:
                             attr:
                                 group_name: 'ACCOUNT_SOURCE'
                             multiple: true
-                assigneeFullName:
+                assigneesFullName:
                     type:      assignee
                     data_name: assignees.id
 

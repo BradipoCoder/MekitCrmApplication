@@ -17,6 +17,7 @@ datagrid:
                         - { join: p.account, alias: Account }
                     left:
                         - { join: p.users, alias: assignees }
+                groupBy: p.id
         columns:
             name:
                 label:          mekit.project.name.label
@@ -42,7 +43,7 @@ datagrid:
                 accountName:
                     type: string
                     data_name: Account.name
-                assigneeFullName:
+                assigneesFullName:
                     type:      assignee
                     data_name: assignees.id
 

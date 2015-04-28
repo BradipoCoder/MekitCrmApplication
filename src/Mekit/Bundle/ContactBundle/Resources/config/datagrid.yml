@@ -9,7 +9,7 @@ datagrid:
                     - c.id
                     - c.firstName
                     - c.lastName
-                    - CONCAT(assignees.firstName, CONCAT(' ', assignees.lastName)) as assigneeFullName
+                    - GROUP_CONCAT(assignees.firstName, ' ', assignees.lastName) AS assigneesFullName
                 from:
                     - { table: %mekit_contact.contact.entity.class%, alias: c }
                 join:
@@ -22,7 +22,7 @@ datagrid:
                 label:         mekit.contact.last_name.label
             firstName:
                 label:         mekit.contact.first_name.label
-            assigneeFullName:
+            assigneesFullName:
                 label:         mekit.contact.users.label
 
         sorters:
@@ -42,7 +42,7 @@ datagrid:
                 lastName:
                     type: string
                     data_name: c.lastName
-                assigneeFullName:
+                assigneesFullName:
                     type:      assignee
                     data_name: assignees.id
 
