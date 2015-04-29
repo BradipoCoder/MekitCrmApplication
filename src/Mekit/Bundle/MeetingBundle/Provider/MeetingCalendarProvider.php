@@ -1,6 +1,8 @@
 <?php
 namespace Mekit\Bundle\MeetingBundle\Provider;
 
+use Oro\Bundle\CalendarBundle\Entity\Repository\CalendarPropertyRepository;
+use Oro\Bundle\CalendarBundle\Entity\Repository\CalendarRepository;
 use Symfony\Component\Translation\TranslatorInterface;
 use Oro\Bundle\CalendarBundle\Provider\CalendarProviderInterface;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
@@ -27,10 +29,29 @@ class MeetingCalendarProvider implements CalendarProviderInterface
 	/** @var bool */
 	protected $myMeetingsEnabled;
 
-	/** @var  bool */
+	/** @var bool */
 	protected $calendarLabels = [
 		self::MY_MEETING_CALENDAR_ID => 'mekit.meeting.menu.my_meetings'
 	];
+
+	/**
+	 *
+		...
+		[0] => Array
+		(
+			[id] => 1
+			[calendarAlias] => user
+			[calendar] => 1
+			[position] => 0
+			[visible] => 1
+			[backgroundColor] => #4986E7
+			[owner] => 1
+		)
+		...
+	 *
+	 * @var Array
+	 */
+	protected $userCalendarProps;
 
 	/**
 	 * @param DoctrineHelper         $doctrineHelper
@@ -98,15 +119,86 @@ class MeetingCalendarProvider implements CalendarProviderInterface
 		}
 
 		if ($this->isCalendarVisible($connections, self::MY_MEETING_CALENDAR_ID)) {
+
+			$this->userCalendarProps = $this->getListOfVisibleUserCalendars($calendarId);
+			$uid = $this->getUserIdListFromUserCalendarProps();
+
 			/** @var MeetingRepository $repo */
 			$repo  = $this->doctrineHelper->getEntityRepository('MekitMeetingBundle:Meeting');
-			$qb    = $repo->getMeetingListByTimeIntervalQueryBuilder($userId, $start, $end, $extraFields);
+			$qb    = $repo->getMeetingListByTimeIntervalQueryBuilder($uid, $start, $end, $extraFields);
 			$query = $this->aclHelper->apply($qb);
 
 			return $this->meetingCalendarNormalizer->getMeetings(self::MY_MEETING_CALENDAR_ID, $query);
 		}
 
 		return [];
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function getUserIdListFromUserCalendarProps() {
+		$uid = [];
+		if(count($this->userCalendarProps)) {
+			foreach($this->userCalendarProps as $userCalendarsProperty) {
+				$uid[] = $userCalendarsProperty["owner"];
+			}
+		}
+		return $uid;
+	}
+
+	/**
+	 * Builds and returns an array of user calendar properties + user ids
+	 *
+	 * @param $calendarId
+	 * @return Array
+	 */
+	protected function getListOfVisibleUserCalendars($calendarId)
+	{
+		/** @var CalendarPropertyRepository $calendarPropertyRepo */
+		$calendarPropertyRepo = $this->doctrineHelper->getEntityRepository('OroCalendarBundle:CalendarProperty');
+		/** @var CalendarRepository $calendarRepo */
+		$calendarRepo = $this->doctrineHelper->getEntityRepository('OroCalendarBundle:Calendar');
+
+		/* get list of visible user calendars connected to this calendar*/
+		$qb = $calendarPropertyRepo->createQueryBuilder("cp")
+			->where('cp.targetCalendar = :targetCalendarId')
+			->andWhere('cp.calendarAlias = :alias')
+			->andWhere('cp.visible = true')
+			->setParameter('targetCalendarId', $calendarId)
+			->setParameter('alias', "user");
+		$userCalendarsProperties = $qb->getQuery()->getArrayResult();
+
+		if(!$userCalendarsProperties) {
+			return [];
+		}
+
+		$cid = [];
+		if ($userCalendarsProperties) {
+			foreach($userCalendarsProperties as $userCalendarsProperty) {
+				$cid[] = $userCalendarsProperty["calendar"];
+			}
+		}
+
+		/* get user ids from calendars */
+		$qb = $calendarRepo->createQueryBuilder("c")
+			->select("c.id AS cid", "o.id as uid")
+			->innerJoin("c.owner", "o")
+			->where($qb->expr()->in('c.id', $cid));
+		$calendarUserIds = $qb->getQuery()->getArrayResult();
+
+		if ($calendarUserIds) {
+			foreach($calendarUserIds as $calendarUserId) {
+				foreach($userCalendarsProperties as &$userCalendarsProperty) {
+					if($userCalendarsProperty["calendar"] == $calendarUserId["cid"]) {
+						$userCalendarsProperty["owner"] = $calendarUserId["uid"];
+						break;
+					}
+				}
+			}
+		}
+
+		return $userCalendarsProperties;
 	}
 
 	/**

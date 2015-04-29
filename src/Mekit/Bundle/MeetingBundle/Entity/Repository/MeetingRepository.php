@@ -10,24 +10,28 @@ class MeetingRepository extends EntityRepository
 	/**
 	 * Returns a query builder which can be used to get a list of meetings filtered by start and end dates
 	 *
-	 * @param int       $userId
-	 * @param \DateTime $startDate
-	 * @param \DateTime $endDate
-	 * @param string[]  $extraFields
+	 * @param Array         $uid            - Array of user id
+	 * @param \DateTime     $startDate
+	 * @param \DateTime     $endDate
+	 * @param string[]      $extraFields
 	 *
 	 * @return QueryBuilder
 	 */
-	public function getMeetingListByTimeIntervalQueryBuilder($userId, $startDate, $endDate, $extraFields = [])
+	public function getMeetingListByTimeIntervalQueryBuilder($uid, $startDate, $endDate, $extraFields = [])
 	{
-		$qb = $this->createQueryBuilder('m')
-			->select('m.id, m.name, e.description, e.startDate, e.endDate, e.createdAt, e.updatedAt')
+		$qb = $this->createQueryBuilder('m');
+		$qb->select('m.id, m.name, e.description, e.startDate, e.endDate, e.createdAt, e.updatedAt')
 			->innerJoin('m.event', 'e')
-			->leftJoin("m.users","assignees")
-			->where('assignees.id = :assignedTo AND e.startDate >= :start AND e.endDate <= :end')
+			->leftJoin("m.users", "assignees")
+			->where('e.startDate >= :start AND e.endDate <= :end')
 			->groupBy("m.id")
-			->setParameter('assignedTo', $userId)
 			->setParameter('start', $startDate)
 			->setParameter('end', $endDate);
+		if(count($uid)) {
+			$qb->andWhere($qb->expr()->in('assignees.id', $uid));
+		} else {
+			$qb->andWhere('assignees.id = 0');
+		}
 		if ($extraFields) {
 			foreach ($extraFields as $field) {
 				$qb->addSelect($field);
