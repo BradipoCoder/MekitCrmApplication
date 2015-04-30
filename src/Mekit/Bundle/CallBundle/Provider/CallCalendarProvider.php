@@ -5,24 +5,16 @@ use Symfony\Component\Translation\TranslatorInterface;
 use Oro\Bundle\CalendarBundle\Provider\CalendarProviderInterface;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
+use Mekit\Bundle\CrmBundle\Provider\CalendarProvider;
 use Mekit\Bundle\CallBundle\Entity\Repository\CallRepository;
 
-class CallCalendarProvider implements CalendarProviderInterface
+class CallCalendarProvider extends CalendarProvider implements CalendarProviderInterface
 {
 	const ALIAS = 'calls';
 	const MY_CALL_CALENDAR_ID = 1002;
 
-	/** @var DoctrineHelper */
-	protected $doctrineHelper;
-
-	/** @var AclHelper */
-	protected $aclHelper;
-
 	/** @var CallCalendarNormalizer */
 	protected $callCalendarNormalizer;
-
-	/** @var TranslatorInterface */
-	protected $translator;
 
 	/** @var bool */
 	protected $myCallsEnabled;
@@ -98,28 +90,18 @@ class CallCalendarProvider implements CalendarProviderInterface
 		}
 
 		if ($this->isCalendarVisible($connections, self::MY_CALL_CALENDAR_ID)) {
+
+			$this->userCalendarProps = $this->getListOfVisibleUserCalendars($calendarId);
+			$uid = $this->getUserIdListFromUserCalendarProps();
+
 			/** @var CallRepository $repo */
 			$repo  = $this->doctrineHelper->getEntityRepository('MekitCallBundle:Call');
-			$qb    = $repo->getCallListByTimeIntervalQueryBuilder($userId, $start, $end, $extraFields);
+			$qb    = $repo->getCallListByTimeIntervalQueryBuilder($uid, $start, $end, $extraFields);
 			$query = $this->aclHelper->apply($qb);
 
 			return $this->callCalendarNormalizer->getCalls(self::MY_CALL_CALENDAR_ID, $query);
 		}
 
 		return [];
-	}
-
-	/**
-	 * @param array $connections
-	 * @param int   $calendarId
-	 * @param bool  $default
-	 *
-	 * @return bool
-	 */
-	protected function isCalendarVisible($connections, $calendarId, $default = true)
-	{
-		return isset($connections[$calendarId])
-			? $connections[$calendarId]
-			: $default;
 	}
 }

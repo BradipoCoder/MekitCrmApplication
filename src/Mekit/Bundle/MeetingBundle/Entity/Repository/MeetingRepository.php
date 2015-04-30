@@ -10,7 +10,7 @@ class MeetingRepository extends EntityRepository
 	/**
 	 * Returns a query builder which can be used to get a list of meetings filtered by start and end dates
 	 *
-	 * @param Array         $uid            - Array of user id
+	 * @param Array         $uid            - Array of user ids
 	 * @param \DateTime     $startDate
 	 * @param \DateTime     $endDate
 	 * @param string[]      $extraFields

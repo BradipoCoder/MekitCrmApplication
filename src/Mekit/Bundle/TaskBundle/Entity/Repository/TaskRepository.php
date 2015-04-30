@@ -10,24 +10,28 @@ class TaskRepository extends EntityRepository
 	/**
 	 * Returns a query builder which can be used to get a list of tasks filtered by start and end dates
 	 *
-	 * @param int       $userId
-	 * @param \DateTime $startDate
-	 * @param \DateTime $endDate
-	 * @param string[]  $extraFields
+	 * @param Array         $uid            - Array of user ids
+	 * @param \DateTime     $startDate
+	 * @param \DateTime     $endDate
+	 * @param string[]      $extraFields
 	 *
 	 * @return QueryBuilder
 	 */
-	public function getTaskListByTimeIntervalQueryBuilder($userId, $startDate, $endDate, $extraFields = [])
+	public function getTaskListByTimeIntervalQueryBuilder($uid, $startDate, $endDate, $extraFields = [])
 	{
-		$qb = $this->createQueryBuilder('t')
-			->select('t.id, t.name, e.description, e.startDate, e.endDate, e.createdAt, e.updatedAt')
+		$qb = $this->createQueryBuilder('t');
+		$qb->select('t.id, t.name, e.description, e.startDate, e.endDate, e.createdAt, e.updatedAt')
 			->innerJoin('t.event', 'e')
-			->leftJoin("t.users","assignees")
-			->where('assignees.id = :assignedTo AND e.startDate >= :start AND e.endDate <= :end')
+			->leftJoin("t.users", "assignees")
+			->where('e.startDate >= :start AND e.endDate <= :end')
 			->groupBy("t.id")
-			->setParameter('assignedTo', $userId)
 			->setParameter('start', $startDate)
 			->setParameter('end', $endDate);
+		if(count($uid)) {
+			$qb->andWhere($qb->expr()->in('assignees.id', $uid));
+		} else {
+			$qb->andWhere('assignees.id = 0');
+		}
 		if ($extraFields) {
 			foreach ($extraFields as $field) {
 				$qb->addSelect($field);

@@ -5,24 +5,16 @@ use Symfony\Component\Translation\TranslatorInterface;
 use Oro\Bundle\CalendarBundle\Provider\CalendarProviderInterface;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
+use Mekit\Bundle\CrmBundle\Provider\CalendarProvider;
 use Mekit\Bundle\TaskBundle\Entity\Repository\TaskRepository;
 
-class TaskCalendarProvider implements CalendarProviderInterface
+class TaskCalendarProvider extends CalendarProvider implements CalendarProviderInterface
 {
 	const ALIAS = 'tasks';
 	const MY_TASK_CALENDAR_ID = 1001;
 
-	/** @var DoctrineHelper */
-	protected $doctrineHelper;
-
-	/** @var AclHelper */
-	protected $aclHelper;
-
 	/** @var TaskCalendarNormalizer */
 	protected $taskCalendarNormalizer;
-
-	/** @var TranslatorInterface */
-	protected $translator;
 
 	/** @var bool */
 	protected $myTasksEnabled;
@@ -98,28 +90,18 @@ class TaskCalendarProvider implements CalendarProviderInterface
 		}
 
 		if ($this->isCalendarVisible($connections, self::MY_TASK_CALENDAR_ID)) {
+
+			$this->userCalendarProps = $this->getListOfVisibleUserCalendars($calendarId);
+			$uid = $this->getUserIdListFromUserCalendarProps();
+
 			/** @var TaskRepository $repo */
 			$repo  = $this->doctrineHelper->getEntityRepository('MekitTaskBundle:Task');
-			$qb    = $repo->getTaskListByTimeIntervalQueryBuilder($userId, $start, $end, $extraFields);
+			$qb    = $repo->getTaskListByTimeIntervalQueryBuilder($uid, $start, $end, $extraFields);
 			$query = $this->aclHelper->apply($qb);
 
 			return $this->taskCalendarNormalizer->getTasks(self::MY_TASK_CALENDAR_ID, $query);
 		}
 
 		return [];
-	}
-
-	/**
-	 * @param array $connections
-	 * @param int   $calendarId
-	 * @param bool  $default
-	 *
-	 * @return bool
-	 */
-	protected function isCalendarVisible($connections, $calendarId, $default = true)
-	{
-		return isset($connections[$calendarId])
-			? $connections[$calendarId]
-			: $default;
 	}
 }
